@@ -1,0 +1,327 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Scala Milano IR 44100 NEW_data" version="1.3.0" audacityversion="1.3.12-beta" sel0="0.0000000000" sel1="0.0000000000" vpos="1536" h="0.0000000000" zoom="375.9971579958" rate="44100">
+	<tags>
+		<tag name="id3v2" value="1"/>
+	</tags>
+	<wavetrack name="IR-em32-mic07-44 1" channel="0" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000cf1.au" len="132301" min="-0.504503" max="0.656303" rms="0.003527"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 2" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000c33.au" len="132301" min="-0.706881" max="0.809728" rms="0.004305"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 3" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000eb9.au" len="132301" min="-0.573681" max="0.785002" rms="0.00401"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 4" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000022f.au" len="132301" min="-0.448847" max="0.737505" rms="0.003659"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 5" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000021b.au" len="132301" min="-0.419217" max="0.566825" rms="0.002902"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 6" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000e35.au" len="132301" min="-0.475354" max="0.566503" rms="0.0035"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 7" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000052a.au" len="132301" min="-0.595803" max="0.650788" rms="0.003774"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 8" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e00009b4.au" len="132301" min="-0.523306" max="0.70687" rms="0.003661"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 9" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000b27.au" len="132301" min="-0.545472" max="0.712195" rms="0.003887"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 10" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e00003ba.au" len="132301" min="-0.393748" max="0.543383" rms="0.003169"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 11" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e00000ca.au" len="132301" min="-0.422407" max="0.540793" rms="0.002916"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 12" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000cde.au" len="132301" min="-0.435614" max="0.600353" rms="0.003171"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 13" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000470.au" len="132301" min="-0.273543" max="0.417656" rms="0.00241"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 14" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000cf8.au" len="132301" min="-0.308123" max="0.370762" rms="0.00239"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 15" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000089e.au" len="132301" min="-0.4115" max="0.563544" rms="0.003073"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 16" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e00001ef.au" len="132301" min="-0.420264" max="0.566976" rms="0.003213"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 17" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000906.au" len="132301" min="-0.296007" max="0.2913" rms="0.002316"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 18" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000037d.au" len="132301" min="-0.185799" max="0.246902" rms="0.001983"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 19" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000400.au" len="132301" min="-0.194487" max="0.247825" rms="0.002096"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 20" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e00003de.au" len="132301" min="-0.209672" max="0.285074" rms="0.002053"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 21" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e00003ac.au" len="132301" min="-0.197256" max="0.243145" rms="0.001916"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 22" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000534.au" len="132301" min="-0.151135" max="0.24435" rms="0.001754"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 23" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000517.au" len="132301" min="-0.226841" max="0.385999" rms="0.002286"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 24" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000005e.au" len="132301" min="-0.158265" max="0.285644" rms="0.001896"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 25" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000a7e.au" len="132301" min="-0.234492" max="0.359964" rms="0.002414"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 26" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000336.au" len="132301" min="-0.238047" max="0.31664" rms="0.002268"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 27" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000019.au" len="132301" min="-0.324781" max="0.418197" rms="0.002493"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 28" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000052b.au" len="132301" min="-0.190528" max="0.269411" rms="0.00188"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 29" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000c5d.au" len="132301" min="-0.240411" max="0.36537" rms="0.002299"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 30" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000215.au" len="132301" min="-0.258313" max="0.362481" rms="0.00202"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 31" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e000015e.au" len="132301" min="-0.265162" max="0.4377" rms="0.002522"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="IR-em32-mic07-44 32" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" rate="44100" gain="1" pan="0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="132301">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000b17.au" len="132301" min="-0.338289" max="0.497762" rms="0.002747"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>

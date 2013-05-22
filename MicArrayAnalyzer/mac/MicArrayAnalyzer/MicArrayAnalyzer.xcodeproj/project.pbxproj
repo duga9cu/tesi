@@ -1,0 +1,525 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */ = {isa = PBXBuildFile; fileRef = B4752AD1174CB72100F2A556 /* LoadModules.h */; };
+		FC0125A114FBDA3700531590 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = FC01259F14FBDA3700531590 /* map.h */; };
+		FC0125A214FBDA3700531590 /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0125A014FBDA3700531590 /* map.cpp */; };
+		FC0125D714FE2BD000531590 /* benchmrk.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0125D514FE2BD000531590 /* benchmrk.h */; };
+		FC0125D814FE2BD000531590 /* benchmrk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0125D614FE2BD000531590 /* benchmrk.cpp */; };
+		FC0416D714F39D0B00AD323A /* afaudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416C914F39D0B00AD323A /* afaudio.cpp */; };
+		FC0416D814F39D0B00AD323A /* convolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416CA14F39D0B00AD323A /* convolver.cpp */; };
+		FC0416D914F39D0B00AD323A /* del_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416CB14F39D0B00AD323A /* del_impl.cpp */; };
+		FC0416DA14F39D0B00AD323A /* dialogs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416CC14F39D0B00AD323A /* dialogs.cpp */; };
+		FC0416DB14F39D0B00AD323A /* gtprogind.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416CD14F39D0B00AD323A /* gtprogind.cpp */; };
+		FC0416DC14F39D0B00AD323A /* micarrayanalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */; };
+		FC0416DD14F39D0B00AD323A /* module.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416CF14F39D0B00AD323A /* module.cpp */; };
+		FC0416DE14F39D0B00AD323A /* multivolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */; };
+		FC0416DF14F39D0B00AD323A /* myartprovider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D114F39D0B00AD323A /* myartprovider.cpp */; };
+		FC0416E014F39D0B00AD323A /* reviver_assert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D214F39D0B00AD323A /* reviver_assert.cpp */; };
+		FC0416E114F39D0B00AD323A /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D314F39D0B00AD323A /* tinyxml.cpp */; };
+		FC0416E214F39D0B00AD323A /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D414F39D0B00AD323A /* tinyxmlerror.cpp */; };
+		FC0416E314F39D0B00AD323A /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D514F39D0B00AD323A /* tinyxmlparser.cpp */; };
+		FC0416E414F39D0B00AD323A /* trprop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0416D614F39D0B00AD323A /* trprop.cpp */; };
+		FC0416FE14F39D4400AD323A /* afaudio.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416E614F39D4400AD323A /* afaudio.h */; };
+		FC0416FF14F39D4400AD323A /* audtypes.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416E714F39D4400AD323A /* audtypes.h */; };
+		FC04170014F39D4400AD323A /* commdefs.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416E814F39D4400AD323A /* commdefs.h */; };
+		FC04170114F39D4400AD323A /* convolver.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416E914F39D4400AD323A /* convolver.h */; };
+		FC04170214F39D4400AD323A /* del_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416EA14F39D4400AD323A /* del_interface.h */; };
+		FC04170314F39D4400AD323A /* dialogs.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416EB14F39D4400AD323A /* dialogs.h */; };
+		FC04170414F39D4400AD323A /* dpoint.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416EC14F39D4400AD323A /* dpoint.h */; };
+		FC04170514F39D4400AD323A /* gtprogind.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416ED14F39D4400AD323A /* gtprogind.h */; };
+		FC04170614F39D4400AD323A /* gui.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416EE14F39D4400AD323A /* gui.h */; };
+		FC04170714F39D4400AD323A /* icons.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416EF14F39D4400AD323A /* icons.h */; };
+		FC04170814F39D4400AD323A /* images.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F014F39D4400AD323A /* images.h */; };
+		FC04170914F39D4400AD323A /* meshandinterpol.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F114F39D4400AD323A /* meshandinterpol.h */; };
+		FC04170A14F39D4400AD323A /* micarrayanalyzer.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F214F39D4400AD323A /* micarrayanalyzer.h */; };
+		FC04170B14F39D4400AD323A /* module.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F314F39D4400AD323A /* module.h */; };
+		FC04170C14F39D4400AD323A /* multivolver.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F414F39D4400AD323A /* multivolver.h */; };
+		FC04170D14F39D4400AD323A /* myartprovider.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F514F39D4400AD323A /* myartprovider.h */; };
+		FC04170E14F39D4400AD323A /* reviver_assert.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F614F39D4400AD323A /* reviver_assert.h */; };
+		FC04170F14F39D4400AD323A /* tinystr.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F714F39D4400AD323A /* tinystr.h */; };
+		FC04171014F39D4400AD323A /* tinyxml.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F814F39D4400AD323A /* tinyxml.h */; };
+		FC04171114F39D4400AD323A /* triangle_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416F914F39D4400AD323A /* triangle_impl.h */; };
+		FC04171214F39D4400AD323A /* triangle.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416FA14F39D4400AD323A /* triangle.h */; };
+		FC04171314F39D4400AD323A /* trprop.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416FB14F39D4400AD323A /* trprop.h */; };
+		FC04171414F39D4400AD323A /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416FC14F39D4400AD323A /* version.h */; };
+		FC04171514F39D4400AD323A /* virtualmikes.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0416FD14F39D4400AD323A /* virtualmikes.h */; };
+		FC04171814F39D6000AD323A /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC04171614F39D6000AD323A /* gui.cpp */; };
+		FC04171914F39D6000AD323A /* tinystr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC04171714F39D6000AD323A /* tinystr.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		32BAE0B70371A74B00C91783 /* MicArrayAnalyzer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicArrayAnalyzer_Prefix.pch; sourceTree = "<group>"; };
+		5073E0C609E734A800EC74B6 /* MicArrayAnalyzerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerProj.xcconfig; sourceTree = "<group>"; };
+		5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerTarget.xcconfig; sourceTree = "<group>"; };
+		B4752AD1174CB72100F2A556 /* LoadModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadModules.h; path = "../../../../../../src/audacity-src-2.0.0/src/LoadModules.h"; sourceTree = SOURCE_ROOT; };
+		B4CBEFD01732C01E00073390 /* LoadModules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadModules.cpp; path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/LoadModules.cpp"; sourceTree = "<absolute>"; };
+		D2AAC09D05546B4700DB518D /* MicArrayAnalyzerd.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = MicArrayAnalyzerd.so; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC01259F14FBDA3700531590 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = map.h; path = ../../src/map.h; sourceTree = SOURCE_ROOT; };
+		FC0125A014FBDA3700531590 /* map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = map.cpp; path = ../../src/map.cpp; sourceTree = SOURCE_ROOT; };
+		FC0125D514FE2BD000531590 /* benchmrk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = benchmrk.h; path = ../../src/benchmrk.h; sourceTree = SOURCE_ROOT; };
+		FC0125D614FE2BD000531590 /* benchmrk.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = benchmrk.cpp; path = ../../src/benchmrk.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416C914F39D0B00AD323A /* afaudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = afaudio.cpp; path = ../../src/afaudio.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416CA14F39D0B00AD323A /* convolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = convolver.cpp; path = ../../src/convolver.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416CB14F39D0B00AD323A /* del_impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = del_impl.cpp; path = ../../src/del_impl.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416CC14F39D0B00AD323A /* dialogs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dialogs.cpp; path = ../../src/dialogs.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416CD14F39D0B00AD323A /* gtprogind.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gtprogind.cpp; path = ../../src/gtprogind.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = micarrayanalyzer.cpp; path = ../../src/micarrayanalyzer.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416CF14F39D0B00AD323A /* module.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = module.cpp; path = ../../src/module.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D014F39D0B00AD323A /* multivolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = multivolver.cpp; path = ../../src/multivolver.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D114F39D0B00AD323A /* myartprovider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = myartprovider.cpp; path = ../../src/myartprovider.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D214F39D0B00AD323A /* reviver_assert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = reviver_assert.cpp; path = ../../src/reviver_assert.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D314F39D0B00AD323A /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxml.cpp; path = ../../src/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D414F39D0B00AD323A /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlerror.cpp; path = ../../src/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D514F39D0B00AD323A /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinyxmlparser.cpp; path = ../../src/tinyxmlparser.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416D614F39D0B00AD323A /* trprop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = trprop.cpp; path = ../../src/trprop.cpp; sourceTree = SOURCE_ROOT; };
+		FC0416E614F39D4400AD323A /* afaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = afaudio.h; path = ../../src/afaudio.h; sourceTree = SOURCE_ROOT; };
+		FC0416E714F39D4400AD323A /* audtypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = audtypes.h; path = ../../src/audtypes.h; sourceTree = SOURCE_ROOT; };
+		FC0416E814F39D4400AD323A /* commdefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = commdefs.h; path = ../../src/commdefs.h; sourceTree = SOURCE_ROOT; };
+		FC0416E914F39D4400AD323A /* convolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = convolver.h; path = ../../src/convolver.h; sourceTree = SOURCE_ROOT; };
+		FC0416EA14F39D4400AD323A /* del_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = del_interface.h; path = ../../src/del_interface.h; sourceTree = SOURCE_ROOT; };
+		FC0416EB14F39D4400AD323A /* dialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dialogs.h; path = ../../src/dialogs.h; sourceTree = SOURCE_ROOT; };
+		FC0416EC14F39D4400AD323A /* dpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dpoint.h; path = ../../src/dpoint.h; sourceTree = SOURCE_ROOT; };
+		FC0416ED14F39D4400AD323A /* gtprogind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gtprogind.h; path = ../../src/gtprogind.h; sourceTree = SOURCE_ROOT; };
+		FC0416EE14F39D4400AD323A /* gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gui.h; path = ../../src/gui.h; sourceTree = SOURCE_ROOT; };
+		FC0416EF14F39D4400AD323A /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = icons.h; path = ../../src/icons.h; sourceTree = SOURCE_ROOT; };
+		FC0416F014F39D4400AD323A /* images.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = images.h; path = ../../src/images.h; sourceTree = SOURCE_ROOT; };
+		FC0416F114F39D4400AD323A /* meshandinterpol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = meshandinterpol.h; path = ../../src/meshandinterpol.h; sourceTree = SOURCE_ROOT; };
+		FC0416F214F39D4400AD323A /* micarrayanalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = micarrayanalyzer.h; path = ../../src/micarrayanalyzer.h; sourceTree = SOURCE_ROOT; };
+		FC0416F314F39D4400AD323A /* module.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = module.h; path = ../../src/module.h; sourceTree = SOURCE_ROOT; };
+		FC0416F414F39D4400AD323A /* multivolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = multivolver.h; path = ../../src/multivolver.h; sourceTree = SOURCE_ROOT; };
+		FC0416F514F39D4400AD323A /* myartprovider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = myartprovider.h; path = ../../src/myartprovider.h; sourceTree = SOURCE_ROOT; };
+		FC0416F614F39D4400AD323A /* reviver_assert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reviver_assert.h; path = ../../src/reviver_assert.h; sourceTree = SOURCE_ROOT; };
+		FC0416F714F39D4400AD323A /* tinystr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinystr.h; path = ../../src/tinystr.h; sourceTree = SOURCE_ROOT; };
+		FC0416F814F39D4400AD323A /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tinyxml.h; path = ../../src/tinyxml.h; sourceTree = SOURCE_ROOT; };
+		FC0416F914F39D4400AD323A /* triangle_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = triangle_impl.h; path = ../../src/triangle_impl.h; sourceTree = SOURCE_ROOT; };
+		FC0416FA14F39D4400AD323A /* triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = triangle.h; path = ../../src/triangle.h; sourceTree = SOURCE_ROOT; };
+		FC0416FB14F39D4400AD323A /* trprop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = trprop.h; path = ../../src/trprop.h; sourceTree = SOURCE_ROOT; };
+		FC0416FC14F39D4400AD323A /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../../src/version.h; sourceTree = SOURCE_ROOT; };
+		FC0416FD14F39D4400AD323A /* virtualmikes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = virtualmikes.h; path = ../../src/virtualmikes.h; sourceTree = SOURCE_ROOT; };
+		FC04171614F39D6000AD323A /* gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gui.cpp; path = ../../src/gui.cpp; sourceTree = SOURCE_ROOT; };
+		FC04171714F39D6000AD323A /* tinystr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tinystr.cpp; path = ../../src/tinystr.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D2AAC09B05546B4700DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC09D05546B4700DB518D /* MicArrayAnalyzerd.so */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* MicArrayAnalyzer */ = {
+			isa = PBXGroup;
+			children = (
+				B4CBEFCF1732BFEA00073390 /* Audacity */,
+				08FB77ACFE841707C02AAC07 /* Source */,
+				FC0416E514F39D1200AD323A /* Headers */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = MicArrayAnalyzer;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		08FB77ACFE841707C02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				FC04171614F39D6000AD323A /* gui.cpp */,
+				FC04171714F39D6000AD323A /* tinystr.cpp */,
+				FC0416C914F39D0B00AD323A /* afaudio.cpp */,
+				FC0416CA14F39D0B00AD323A /* convolver.cpp */,
+				FC0416CB14F39D0B00AD323A /* del_impl.cpp */,
+				FC0416CC14F39D0B00AD323A /* dialogs.cpp */,
+				FC0416CD14F39D0B00AD323A /* gtprogind.cpp */,
+				FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */,
+				FC0416CF14F39D0B00AD323A /* module.cpp */,
+				FC0416D014F39D0B00AD323A /* multivolver.cpp */,
+				FC0416D114F39D0B00AD323A /* myartprovider.cpp */,
+				FC0416D214F39D0B00AD323A /* reviver_assert.cpp */,
+				FC0416D314F39D0B00AD323A /* tinyxml.cpp */,
+				FC0416D414F39D0B00AD323A /* tinyxmlerror.cpp */,
+				FC0416D514F39D0B00AD323A /* tinyxmlparser.cpp */,
+				FC0416D614F39D0B00AD323A /* trprop.cpp */,
+				32BAE0B70371A74B00C91783 /* MicArrayAnalyzer_Prefix.pch */,
+				FC0125A014FBDA3700531590 /* map.cpp */,
+				FC0125D514FE2BD000531590 /* benchmrk.h */,
+				FC0125D614FE2BD000531590 /* benchmrk.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+				5073E0C609E734A800EC74B6 /* MicArrayAnalyzerProj.xcconfig */,
+				5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */,
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+		B4CBEFCF1732BFEA00073390 /* Audacity */ = {
+			isa = PBXGroup;
+			children = (
+				B4752AD1174CB72100F2A556 /* LoadModules.h */,
+				B4CBEFD01732C01E00073390 /* LoadModules.cpp */,
+			);
+			name = Audacity;
+			sourceTree = "<group>";
+		};
+		FC0416E514F39D1200AD323A /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				FC01259F14FBDA3700531590 /* map.h */,
+				FC0416E614F39D4400AD323A /* afaudio.h */,
+				FC0416E714F39D4400AD323A /* audtypes.h */,
+				FC0416E814F39D4400AD323A /* commdefs.h */,
+				FC0416E914F39D4400AD323A /* convolver.h */,
+				FC0416EA14F39D4400AD323A /* del_interface.h */,
+				FC0416EB14F39D4400AD323A /* dialogs.h */,
+				FC0416EC14F39D4400AD323A /* dpoint.h */,
+				FC0416ED14F39D4400AD323A /* gtprogind.h */,
+				FC0416EE14F39D4400AD323A /* gui.h */,
+				FC0416EF14F39D4400AD323A /* icons.h */,
+				FC0416F014F39D4400AD323A /* images.h */,
+				FC0416F114F39D4400AD323A /* meshandinterpol.h */,
+				FC0416F214F39D4400AD323A /* micarrayanalyzer.h */,
+				FC0416F314F39D4400AD323A /* module.h */,
+				FC0416F414F39D4400AD323A /* multivolver.h */,
+				FC0416F514F39D4400AD323A /* myartprovider.h */,
+				FC0416F614F39D4400AD323A /* reviver_assert.h */,
+				FC0416F714F39D4400AD323A /* tinystr.h */,
+				FC0416F814F39D4400AD323A /* tinyxml.h */,
+				FC0416F914F39D4400AD323A /* triangle_impl.h */,
+				FC0416FA14F39D4400AD323A /* triangle.h */,
+				FC0416FB14F39D4400AD323A /* trprop.h */,
+				FC0416FC14F39D4400AD323A /* version.h */,
+				FC0416FD14F39D4400AD323A /* virtualmikes.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D2AAC09905546B4700DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC0416FE14F39D4400AD323A /* afaudio.h in Headers */,
+				FC0416FF14F39D4400AD323A /* audtypes.h in Headers */,
+				FC04170014F39D4400AD323A /* commdefs.h in Headers */,
+				FC04170114F39D4400AD323A /* convolver.h in Headers */,
+				FC04170214F39D4400AD323A /* del_interface.h in Headers */,
+				FC04170314F39D4400AD323A /* dialogs.h in Headers */,
+				FC04170414F39D4400AD323A /* dpoint.h in Headers */,
+				FC04170514F39D4400AD323A /* gtprogind.h in Headers */,
+				FC04170614F39D4400AD323A /* gui.h in Headers */,
+				FC04170714F39D4400AD323A /* icons.h in Headers */,
+				FC04170814F39D4400AD323A /* images.h in Headers */,
+				FC04170914F39D4400AD323A /* meshandinterpol.h in Headers */,
+				FC04170A14F39D4400AD323A /* micarrayanalyzer.h in Headers */,
+				FC04170B14F39D4400AD323A /* module.h in Headers */,
+				FC04170C14F39D4400AD323A /* multivolver.h in Headers */,
+				FC04170D14F39D4400AD323A /* myartprovider.h in Headers */,
+				FC04170E14F39D4400AD323A /* reviver_assert.h in Headers */,
+				FC04170F14F39D4400AD323A /* tinystr.h in Headers */,
+				FC04171014F39D4400AD323A /* tinyxml.h in Headers */,
+				FC04171114F39D4400AD323A /* triangle_impl.h in Headers */,
+				FC04171214F39D4400AD323A /* triangle.h in Headers */,
+				FC04171314F39D4400AD323A /* trprop.h in Headers */,
+				FC04171414F39D4400AD323A /* version.h in Headers */,
+				FC04171514F39D4400AD323A /* virtualmikes.h in Headers */,
+				FC0125A114FBDA3700531590 /* map.h in Headers */,
+				FC0125D714FE2BD000531590 /* benchmrk.h in Headers */,
+				B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D2AAC09C05546B4700DB518D /* MicArrayAnalyzer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "MicArrayAnalyzer" */;
+			buildPhases = (
+				D2AAC09905546B4700DB518D /* Headers */,
+				D2AAC09B05546B4700DB518D /* Frameworks */,
+				D2AAC09A05546B4700DB518D /* Sources */,
+				FC04171F14F3A5F500AD323A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MicArrayAnalyzer;
+			productName = libMicArrayAnalyzer;
+			productReference = D2AAC09D05546B4700DB518D /* MicArrayAnalyzerd.so */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MicArrayAnalyzer" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 0867D691FE84028FC02AAC07 /* MicArrayAnalyzer */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC09C05546B4700DB518D /* MicArrayAnalyzer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FC04171F14F3A5F500AD323A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "CURRENT_DIR=`pwd`\n\nMODULE_NAME=${TARGET_NAME}.${EXECUTABLE_EXTENSION}\n\nRELEASE_SS=\"Release\"\nDEBUG_SS=\"Debug\"\n\nif [[ \"$CONFIGURATION\" =~ \"${DEBUG_SS}\" ]]\nthen\n    echo \"Debug configuration.\"\nelif [[ \"$CONFIGURATION\" =~ \"${RELEASE_SS}\" ]]\nthen\n    cd \"${BUILD_DIR}/${CONFIGURATION}\"\n    echo \"Copying ${MODULE_NAME} to ${AUDACITY_MODULES_PATH}\"\n    cp  \"${MODULE_NAME}\" \"${AUDACITY_MODULES_PATH}\"\n    cd ${CURRENT_DIR}\nfi\n\nexit 0";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D2AAC09A05546B4700DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC0416D714F39D0B00AD323A /* afaudio.cpp in Sources */,
+				FC0416D814F39D0B00AD323A /* convolver.cpp in Sources */,
+				FC0416D914F39D0B00AD323A /* del_impl.cpp in Sources */,
+				FC0416DA14F39D0B00AD323A /* dialogs.cpp in Sources */,
+				FC0416DB14F39D0B00AD323A /* gtprogind.cpp in Sources */,
+				FC0416DC14F39D0B00AD323A /* micarrayanalyzer.cpp in Sources */,
+				FC0416DD14F39D0B00AD323A /* module.cpp in Sources */,
+				FC0416DE14F39D0B00AD323A /* multivolver.cpp in Sources */,
+				FC0416DF14F39D0B00AD323A /* myartprovider.cpp in Sources */,
+				FC0416E014F39D0B00AD323A /* reviver_assert.cpp in Sources */,
+				FC0416E114F39D0B00AD323A /* tinyxml.cpp in Sources */,
+				FC0416E214F39D0B00AD323A /* tinyxmlerror.cpp in Sources */,
+				FC0416E314F39D0B00AD323A /* tinyxmlparser.cpp in Sources */,
+				FC0416E414F39D0B00AD323A /* trprop.cpp in Sources */,
+				FC04171814F39D6000AD323A /* gui.cpp in Sources */,
+				FC04171914F39D6000AD323A /* tinystr.cpp in Sources */,
+				FC0125A214FBDA3700531590 /* map.cpp in Sources */,
+				FC0125D814FE2BD000531590 /* benchmrk.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB916108733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MicArrayAnalyzer_Prefix.pch;
+				MACH_O_TYPE = mh_bundle;
+				PRODUCT_NAME = MicArrayAnalyzerd;
+			};
+			name = Debug;
+		};
+		1DEB916208733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = "";
+				DYLIB_CURRENT_VERSION = "";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = MicArrayAnalyzer_Prefix.pch;
+				MACH_O_TYPE = mh_bundle;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* MicArrayAnalyzerProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				AUDACITY_BINARY = "$(AUDACITY_BUNDLE_PATH)/Audacity.app/Contents/MacOS/Audacity";
+				AUDACITY_BINARY_PATH = /Application/Audacity;
+				AUDACITY_BUNDLE_PATH = "$(AUDACITY_SRC_PREFIX)/mac/Build/Debug Static";
+				AUDACITY_LIB_PREFIX = "$(AUDACITY_SRC_PREFIX)/lib-src";
+				AUDACITY_MODULES_PATH = "$(AUDACITY_BUNDLE_PATH)/modules";
+				AUDACITY_SRC_PATH = "$(AUDACITY_SRC_PREFIX)/src";
+				AUDACITY_SRC_PREFIX = "/Users/LeopardOS/src/audacity-src-2.0.0";
+				EXECUTABLE_EXTENSION = so;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__WXDEBUG__,
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					__WXMAC__,
+					__AUDEBUG__,
+				);
+				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(WX_PREFIX)/include",
+					"$(AUDACITY_LIB_PREFIX)/libsndfile/src",
+					"$(AUDACITY_LIB_PREFIX)/lib-widget-extra",
+					"$(AUDACITY_LIB_PREFIX)/portsmf",
+					"$(AUDACITY_LIB_PREFIX)/portmixer/include",
+					"$(AUDACITY_LIB_PREFIX)/portaudio-v19/include",
+					"$(AUDACITY_SRC_PATH)",
+					"$(WX_PREFIX)/lib/wx/include/mac-unicode-release-$(WX_VERSION)",
+					"$(WX_PREFIX)/include/wx-$(WX_VERSION)",
+				);
+				INSTALL_PATH = "$(AUDACITY_MODULES_PATH)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(WX_PREFIX)/lib/i386",
+					"$(WX_PREFIX)/lib",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-bundle_loader",
+					"\"$(AUDACITY_BINARY)\"",
+					"-fPIC",
+					"-undefined",
+					dynamic_lookup,
+				);
+				PREBINDING = NO;
+				SDKROOT = macosx10.4;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				WX_PREFIX = /opt/local;
+				WX_VERSION = 2.8;
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5073E0C609E734A800EC74B6 /* MicArrayAnalyzerProj.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				AUDACITY_BINARY = "$(AUDACITY_BINARY_PATH)/Audacity.app/Contents/MacOS/Audacity";
+				AUDACITY_BINARY_PATH = /Applications/Audacity;
+				AUDACITY_BUNDLE_PATH = "$(AUDACITY_SRC_PREFIX)/mac/build/Release Static";
+				AUDACITY_LIB_PREFIX = "$(AUDACITY_SRC_PREFIX)/lib-src";
+				AUDACITY_MODULES_PATH = "$(AUDACITY_BINARY_PATH)/modules";
+				AUDACITY_SRC_PATH = "$(AUDACITY_SRC_PREFIX)/src";
+				AUDACITY_SRC_PREFIX = "/Users/simone/src/audacity-src-2.0.0";
+				EXECUTABLE_EXTENSION = so;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					AURORA_RELEASE,
+					NDEBUG,
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					__WXMAC__,
+				);
+				GCC_VERSION = 4.0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(WX_PREFIX)/include",
+					"$(AUDACITY_LIB_PREFIX)/lib-widget-extra",
+					"$(AUDACITY_LIB_PREFIX)/portsmf",
+					"$(AUDACITY_LIB_PREFIX)/portmixer/include",
+					"$(AUDACITY_LIB_PREFIX)/portaudio-v19/include",
+					"$(AUDACITY_SRC_PATH)",
+					"$(WX_PREFIX)/lib/wx/include/mac-unicode-release-$(WX_VERSION)",
+					"$(WX_PREFIX)/include/wx-$(WX_VERSION)",
+				);
+				INSTALL_PATH = "$(AUDACITY_MODULES_PATH)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(WX_PREFIX)/lib/i386",
+					"$(WX_PREFIX)/lib",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-bundle_loader",
+					"$(AUDACITY_BINARY)",
+					"-fPIC",
+					"-undefined",
+					dynamic_lookup,
+				);
+				PREBINDING = NO;
+				SDKROOT = macosx10.4;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				WX_PREFIX = /opt/local;
+				WX_VERSION = 2.8;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "MicArrayAnalyzer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916108733D950010E9CD /* Debug */,
+				1DEB916208733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "MicArrayAnalyzer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

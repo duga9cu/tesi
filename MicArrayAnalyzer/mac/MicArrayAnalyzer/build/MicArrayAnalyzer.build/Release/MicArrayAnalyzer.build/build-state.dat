@@ -1,0 +1,1344 @@
+TMicArrayAnalyzer
+v7
+r0
+t358179033.100695
+cCheck dependencies
+cProcessPCH++ /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch.gch MicArrayAnalyzer_Prefix.pch normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/afaudio.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/convolver.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/del_impl.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/dialogs.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gtprogind.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/micarrayanalyzer.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/multivolver.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/myartprovider.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/reviver_assert.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxml.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlerror.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlparser.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/trprop.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gui.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinystr.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/map.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/benchmrk.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+cLd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so normal i386
+cGenerateDSYMFile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so.dSYM /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so
+cPhaseScriptExecution "Run Script" /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Script-FC04171F14F3A5F500AD323A.sh
+
+N/Developer/SDKs/MacOSX10.4u.sdk
+c000000004E6DE1270000000000000110
+t1315823911
+s272
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/fftw3.h
+c000000004E7B49210000000000003EFB
+t1316702497
+s16123
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/sndfile.h
+c000000004F2319530000000000004E69
+t1327700307
+s20073
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/arrimpl.cpp
+c000000004D888F2500000000000021B5
+t1300795173
+s8629
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/arrstr.h
+c000000004D888F210000000000003831
+t1300795169
+s14385
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/artprov.h
+c000000004D888F210000000000002372
+t1300795169
+s9074
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/bitmap.h
+c000000004D888F210000000000001F89
+t1300795169
+s8073
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/button.h
+c000000004D888F210000000000000CE7
+t1300795169
+s3303
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/checkbox.h
+c000000004D888F210000000000001074
+t1300795169
+s4212
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/choice.h
+c000000004D888F210000000000000BAC
+t1300795169
+s2988
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/clipbrd.h
+c000000004D888F2100000000000011B0
+t1300795169
+s4528
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/colour.h
+c000000004D888F210000000000001296
+t1300795169
+s4758
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/config.h
+c000000004D888F21000000000000034F
+t1300795169
+s847
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/dcbuffer.h
+c000000004D888F2200000000000020A5
+t1300795170
+s8357
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/dcclient.h
+c000000004D888F22000000000000047A
+t1300795170
+s1146
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/defs.h
+c000000004D888F22000000000001848B
+t1300795170
+s99467
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/dialog.h
+c000000004D888F22000000000000157D
+t1300795170
+s5501
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/dnd.h
+c000000004D888F2200000000000026C4
+t1300795170
+s9924
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/dynarray.h
+c000000004D888F22000000000000F1E1
+t1300795170
+s61921
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/dynlib.h
+c000000004D888F2200000000000030ED
+t1300795170
+s12525
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/event.h
+c000000004D888F22000000000001BFFB
+t1300795170
+s114683
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/ffile.h
+c000000004D888F220000000000000F67
+t1300795170
+s3943
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/fileconf.h
+c000000004D888F22000000000000250C
+t1300795170
+s9484
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/filename.h
+c000000004D888F2200000000000051EF
+t1300795170
+s20975
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/font.h
+c000000004D888F220000000000002412
+t1300795170
+s9234
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/gauge.h
+c000000004D888F220000000000000DF8
+t1300795170
+s3576
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/gdicmn.h
+c000000004D888F2200000000000062D7
+t1300795170
+s25303
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/grid.h
+c000000004D888F230000000000000202
+t1300795171
+s514
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/icon.h
+c000000004D888F2300000000000005C0
+t1300795171
+s1472
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/image.h
+c000000004D888F23000000000000452A
+t1300795171
+s17706
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/intl.h
+c000000004D888F230000000000005061
+t1300795171
+s20577
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/list.h
+c000000004D888F230000000000011AD8
+t1300795171
+s72408
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/listctrl.h
+c000000004D888F230000000000000D4F
+t1300795171
+s3407
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/longlong.h
+c000000004D888F230000000000008647
+t1300795171
+s34375
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/module.h
+c000000004D888F230000000000000CA1
+t1300795171
+s3233
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/msgdlg.h
+c000000004D888F230000000000000973
+t1300795171
+s2419
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/mstream.h
+c000000004D888F230000000000000ABC
+t1300795171
+s2748
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/panel.h
+c000000004D888F24000000000000020D
+t1300795172
+s525
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/radiobox.h
+c000000004D888F240000000000001818
+t1300795172
+s6168
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/scrolbar.h
+c000000004D888F240000000000000945
+t1300795172
+s2373
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/settings.h
+c000000004D888F2400000000000018F8
+t1300795172
+s6392
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/sizer.h
+c000000004D888F240000000000007E6F
+t1300795172
+s32367
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/spinctrl.h
+c000000004D888F2400000000000009EC
+t1300795172
+s2540
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/statbmp.h
+c000000004D888F2400000000000007DF
+t1300795172
+s2015
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/statbox.h
+c000000004D888F24000000000000085F
+t1300795172
+s2143
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/statline.h
+c000000004D888F240000000000000C0C
+t1300795172
+s3084
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/stattext.h
+c000000004D888F240000000000000794
+t1300795172
+s1940
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/string.h
+c000000004D888F24000000000000FC55
+t1300795172
+s64597
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/textctrl.h
+c000000004D888F2400000000000054C7
+t1300795172
+s21703
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/thread.h
+c000000004D888F250000000000006A7A
+t1300795173
+s27258
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/utils.h
+c000000004D888F2500000000000068D1
+t1300795173
+s26833
+
+N/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8/wx/wx.h
+c000000004D888F2500000000000009BF
+t1300795173
+s2495
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/assert.h
+c00000000463BAA5A0000000000000DD6
+t1178315354
+s3542
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/ctype.h
+c00000000463BAA5B0000000000002627
+t1178315355
+s9767
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/math.h
+c00000000462E7AF500000000000004B7
+t1177451253
+s1207
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/pthread.h
+c00000000463BAA5A00000000000038D4
+t1178315354
+s14548
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdio.h
+c00000000463BAA5A0000000000003B7F
+t1178315354
+s15231
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/stdlib.h
+c00000000463BAA5A0000000000002647
+t1178315354
+s9799
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/string.h
+c00000000463BAA5A00000000000014D3
+t1178315354
+s5331
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/sys/time.h
+c0000000046F235150000000000001FA5
+t1190278421
+s8101
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/include/time.h
+c00000000463BAA5A00000000000016DC
+t1178315354
+s5852
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin10/4.0.1/include/float.h
+c000000004A119235000000000000153C
+t1242665525
+s5436
+
+N/Developer/SDKs/MacOSX10.4u.sdk/usr/lib/gcc/i686-apple-darwin10/4.0.1/include/stddef.h
+c000000004A1192350000000000003193
+t1242665525
+s12691
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp
+c000000004F43B0F70000000000003B02
+t1329836279
+s15106
+i<math.h>
+i<stdio.h>
+i<string.h>
+i"afaudio.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp
+c000000004F4F907C00000000000005E3
+t1330614396
+s1507
+i"benchmrk.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp
+c000000004F43B0F7000000000000300C
+t1329836279
+s12300
+i"convolver.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp
+c000000004F43B0F70000000000003F5F
+t1329836279
+s16223
+i<iostream>
+i"triangle_impl.h"
+i"del_interface.h"
+i<new>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp
+c000000004F4F54B00000000000009BEC
+t1330599088
+s39916
+i"dialogs.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp
+c000000004F43B0F70000000000000EB6
+t1329836279
+s3766
+i"gtprogind.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp
+c000000004F4F907C00000000000059C7
+t1330614396
+s22983
+i<wx/wx.h>
+i<Audacity.h>
+i<SampleFormat.h>
+i<Sequence.h>
+i<wx/filename.h>
+i"gui.h"
+i"myartprovider.h"
+i<wx/dcclient.h>
+i<math.h>
+i<stdlib.h>
+i<wx/dcbuffer.h>
+i<wx/clipbrd.h>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp
+c000000004F4F967D000000000000876C
+t1330615933
+s34668
+i<wx/clipbrd.h>
+i<wx/dcbuffer.h>
+i"myartprovider.h"
+i"micarrayanalyzer.h"
+i"map.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp
+c000000004F450641000000000000792C
+t1329923649
+s31020
+i"micarrayanalyzer.h"
+i"tinyxml.h"
+i<sstream>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp
+c000000004F4506D600000000000021A3
+t1329923798
+s8611
+i<effects/EffectManager.h>
+i<LoadModules.h>
+i<Prefs.h>
+i"gui.h"
+i"module.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp
+c000000004F43B0F80000000000003602
+t1329836280
+s13826
+i"multivolver.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp
+c000000004F43B0F8000000000000067F
+t1329836280
+s1663
+i"myartprovider.h"
+i"icons.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp
+c000000004F43B0F8000000000000022C
+t1329836280
+s556
+i<iostream>
+i<stdlib.h>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp
+c000000004F43B0F800000000000009CB
+t1329836280
+s2507
+i"tinystr.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp
+c000000004F43B0F800000000000092D7
+t1329836280
+s37591
+i<ctype.h>
+i<sstream>
+i<iostream>
+i"tinyxml.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp
+c000000004F43B0F800000000000006FF
+t1329836280
+s1791
+i"tinyxml.h"
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp
+c000000004F43B0F8000000000000917A
+t1329836280
+s37242
+i<ctype.h>
+i<stddef.h>
+i"tinyxml.h"
+i<windows.h>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp
+c000000004F43B0F8000000000000064A
+t1329836280
+s1610
+i"trprop.h"
+i<wx/arrimpl.cpp>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/MicArrayAnalyzer_Prefix.pch
+c000000004F4364D60000000000000086
+t1329816790
+s134
+i<iostream>
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/afaudio.o
+t1336486220
+s126924
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/benchmrk.o
+t1336486230
+s17432
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/convolver.o
+t1336486220
+s125420
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/del_impl.o
+t1336486222
+s285924
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/dialogs.o
+t1336486223
+s477408
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gtprogind.o
+t1336486223
+s205660
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gui.o
+t1336486230
+s264904
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/libMicArrayAnalyzer.LinkFileList
+c000000004FA928FA0000000000000A65
+t1336486138
+s2661
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/map.o
+t1336486231
+s261476
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/micarrayanalyzer.o
+t1336486225
+s284880
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o
+t1336486225
+s201604
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/multivolver.o
+t1336486227
+s142296
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/myartprovider.o
+t1336486227
+s123836
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/reviver_assert.o
+t1336486227
+s16784
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinystr.o
+t1336486229
+s26408
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxml.o
+t1336486228
+s179928
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlerror.o
+t1336486227
+s20600
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlparser.o
+t1336486227
+s91432
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/trprop.o
+t1336486229
+s125488
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Script-FC04171F14F3A5F500AD323A.sh
+c000000004FA928FA00000000000001B6
+t1336486138
+s438
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so
+t1336486232
+s525948
+
+N/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so.dSYM
+t1336486232
+s102
+
+N/Users/simone/src/MicArrayAnalyzer/src/afaudio.h
+c000000004F43B0F70000000000001516
+t1329836279
+s5398
+i"audtypes.h"
+i"commdefs.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/audtypes.h
+c000000004F43B0F70000000000000690
+t1329836279
+s1680
+i<Audacity.h>
+i<SampleFormat.h>
+i<Sequence.h>
+i<fftw3.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/benchmrk.h
+c000000004F4F907C0000000000000303
+t1330614396
+s771
+i<time.h>
+i<windows.h>
+i<sys/time.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/commdefs.h
+c000000004F43B0F700000000000009BE
+t1329836279
+s2494
+i<wx/wx.h>
+i"audtypes.h"
+i"version.h"
+i<assert.h>
+i<math.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/convolver.h
+c000000004F43B0F70000000000001E27
+t1329836279
+s7719
+i"commdefs.h"
+i<fftw3.h>
+i<string.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/del_interface.h
+c000000004F43B0F700000000000036B1
+t1329836279
+s14001
+i"dpoint.h"
+i<vector>
+i<string>
+
+N/Users/simone/src/MicArrayAnalyzer/src/dialogs.h
+c000000004F4F54B00000000000001D58
+t1330599088
+s7512
+i<wx/intl.h>
+i"map.h"
+i<wx/gdicmn.h>
+i<wx/font.h>
+i<wx/colour.h>
+i<wx/settings.h>
+i<wx/string.h>
+i<wx/sizer.h>
+i<wx/button.h>
+i<wx/panel.h>
+i<wx/radiobox.h>
+i<wx/stattext.h>
+i<wx/choice.h>
+i<wx/spinctrl.h>
+i<wx/statbox.h>
+i<wx/checkbox.h>
+i<wx/textctrl.h>
+i<wx/dialog.h>
+i<wx/bitmap.h>
+i<wx/image.h>
+i<wx/icon.h>
+i<wx/statbmp.h>
+i<wx/statline.h>
+i<wx/listctrl.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/dpoint.h
+c000000004F43B0F70000000000004017
+t1329836279
+s16407
+i"reviver_assert.h"
+i<iostream>
+i<valarray>
+i<stdio.h>
+i<limits>
+
+N/Users/simone/src/MicArrayAnalyzer/src/gtprogind.h
+c000000004F43B0F700000000000003BA
+t1329836279
+s954
+i"commdefs.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/gui.h
+c000000004F4F907C0000000000000FC9
+t1330614396
+s4041
+i<wx/wx.h>
+i"micarrayanalyzer.h"
+i"dialogs.h"
+i"trprop.h"
+i"module.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/icons.h
+c000000004F43B0F700000000000121BE
+t1329836279
+s74174
+
+N/Users/simone/src/MicArrayAnalyzer/src/images.h
+c000000004F43B0F70000000000001EC1
+t1329836279
+s7873
+
+N/Users/simone/src/MicArrayAnalyzer/src/map.h
+c000000004F4F95460000000000002848
+t1330615622
+s10312
+i<wx/wx.h>
+i"micarrayanalyzer.h"
+i"benchmrk.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/meshandinterpol.h
+c000000004F43B0F70000000000000D35
+t1329836279
+s3381
+i<math.h>
+i<vector>
+i"del_interface.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/micarrayanalyzer.h
+c000000004F4F912100000000000021C4
+t1330614561
+s8644
+i<wx/wx.h>
+i<wx/filename.h>
+i<sndfile.h>
+i<string>
+i<stdlib.h>
+i<Audacity.h>
+i<SampleFormat.h>
+i<Sequence.h>
+i<widgets/ProgressDialog.h>
+i"virtualmikes.h"
+i"meshandinterpol.h"
+i"multivolver.h"
+i"afaudio.h"
+i"commdefs.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/module.h
+c000000004F43B0F800000000000007A6
+t1329836280
+s1958
+i<Audacity.h>
+i<effects/Effect.h>
+i<WaveTrack.h>
+i<SampleFormat.h>
+i<Sequence.h>
+i"micarrayanalyzer.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/multivolver.h
+c000000004F43B0F800000000000020B4
+t1329836280
+s8372
+i"convolver.h"
+i"gtprogind.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/myartprovider.h
+c000000004F43B0F800000000000004FA
+t1329836280
+s1274
+i<wx/wx.h>
+i<wx/dnd.h>
+i<wx/artprov.h>
+i<wx/mstream.h>
+i"icons.h"
+i"images.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/reviver_assert.h
+c000000004F43B0F80000000000000206
+t1329836280
+s518
+
+N/Users/simone/src/MicArrayAnalyzer/src/tinystr.h
+c000000004F43B0F80000000000002006
+t1329836280
+s8198
+i<assert.h>
+i<string.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/tinyxml.h
+c000000004F43B0F8000000000000FD42
+t1329836280
+s64834
+i<ctype.h>
+i<stdio.h>
+i<stdlib.h>
+i<string.h>
+i<assert.h>
+i<string>
+i<iostream>
+i<sstream>
+i"tinystr.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/triangle.h
+c000000004F43B0F80000000000005655
+t1329836280
+s22101
+
+N/Users/simone/src/MicArrayAnalyzer/src/triangle_impl.h
+c000000004F43B0F8000000000009F56A
+t1329836280
+s652650
+i"dpoint.h"
+i<iostream>
+i<algorithm>
+i<stdio.h>
+i<stdlib.h>
+i<string.h>
+i<math.h>
+i<sys/time.h>
+i<float.h>
+i<fpu_control.h>
+i"triangle.h"
+
+N/Users/simone/src/MicArrayAnalyzer/src/trprop.h
+c000000004F43B0F80000000000000E40
+t1329836280
+s3648
+i<wx/wx.h>
+i<wx/dynarray.h>
+i<wx/string.h>
+
+N/Users/simone/src/MicArrayAnalyzer/src/version.h
+c000000004F43B0F80000000000000324
+t1329836280
+s804
+
+N/Users/simone/src/MicArrayAnalyzer/src/virtualmikes.h
+c000000004F43B0F7000000000000078C
+t1329836279
+s1932
+
+N/Users/simone/src/audacity-src-2.0.0/src/Audacity.h
+c000000004F5AF2CC0000000000001699
+t1331360460
+s5785
+i"configmac.h"
+i"configunix.h"
+i"configunix.h"
+i"configwin.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/Experimental.h
+c000000004F5AF2CC00000000000015BD
+t1331360460
+s5565
+i"widgets/GuiFactory.h"
+i"widgets/APanel.h"
+i"NyquistAdapter.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/Internat.h
+c000000004F5AF2CC0000000000000FA3
+t1331360460
+s4003
+i<wx/arrstr.h>
+i<wx/string.h>
+i<wx/longlong.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/LoadModules.h
+c000000004F5AF2CC00000000000006DC
+t1331360460
+s1756
+i<wx/dynlib.h>
+i<wx/module.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/Prefs.h
+c000000004F5AF2CC000000000000060D
+t1331360460
+s1549
+i"Audacity.h"
+i<wx/config.h>
+i<wx/fileconf.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/RealFFTf.h
+c000000004F5AF2CC000000000000020D
+t1331360460
+s525
+
+N/Users/simone/src/audacity-src-2.0.0/src/SampleFormat.h
+c000000004F5AF2CC000000000000082B
+t1331360460
+s2091
+i"Audacity.h"
+i<wx/defs.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/Sequence.h
+c000000004F5AF2CC0000000000001B12
+t1331360460
+s6930
+i<wx/string.h>
+i<wx/dynarray.h>
+i"SampleFormat.h"
+i"xml/XMLTagHandler.h"
+i"xml/XMLWriter.h"
+i"ondemand/ODTaskThread.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/Shuttle.h
+c000000004F5AF2CC00000000000008F2
+t1331360460
+s2290
+
+N/Users/simone/src/audacity-src-2.0.0/src/ShuttleGui.h
+c000000004F5AF2CC000000000000378B
+t1331360460
+s14219
+i"Audacity.h"
+i<wx/grid.h>
+i<wx/string.h>
+i"WrappedType.h"
+i<wx/scrolbar.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/Track.h
+c000000004F5AF2CC0000000000003212
+t1331360460
+s12818
+i"Audacity.h"
+i<wx/dynarray.h>
+i<wx/event.h>
+i<wx/gdicmn.h>
+i<wx/longlong.h>
+i<wx/string.h>
+i"Experimental.h"
+i"SampleFormat.h"
+i"xml/XMLTagHandler.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/WaveClip.h
+c000000004F5AF2CC0000000000002421
+t1331360460
+s9249
+i"Audacity.h"
+i"SampleFormat.h"
+i"Sequence.h"
+i"widgets/ProgressDialog.h"
+i"ondemand/ODTaskThread.h"
+i"xml/XMLTagHandler.h"
+i"Experimental.h"
+i"RealFFTf.h"
+i<wx/gdicmn.h>
+i<wx/longlong.h>
+i<wx/list.h>
+i<wx/msgdlg.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/WaveTrack.h
+c000000004F5AF2CC0000000000003490
+t1331360460
+s13456
+i"Track.h"
+i"SampleFormat.h"
+i"Sequence.h"
+i"WaveClip.h"
+i"Experimental.h"
+i"widgets/ProgressDialog.h"
+i<wx/gdicmn.h>
+i<wx/longlong.h>
+i<wx/thread.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/WrappedType.h
+c000000004F5AF2CC00000000000006C9
+t1331360460
+s1737
+i"Audacity.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/configmac.h
+c000000004F6AE54C000000000000013D
+t1332405580
+s317
+i<wx/defs.h>
+i"configunix.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/configunix.h
+c000000004F69F6B0000000000000103B
+t1332344496
+s4155
+
+N/Users/simone/src/audacity-src-2.0.0/src/effects/Effect.h
+c000000004F5AF2CC00000000000028D3
+t1331360460
+s10451
+i<set>
+i<wx/dynarray.h>
+i<wx/intl.h>
+i<wx/string.h>
+i"../WaveTrack.h"
+i"../Shuttle.h"
+i"../ShuttleGui.h"
+i"../Internat.h"
+i"../widgets/ProgressDialog.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/effects/EffectCategory.h
+c000000004F5AF2CC00000000000014C8
+t1331360460
+s5320
+i<set>
+i<wx/string.h>
+i"Effect.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/effects/EffectManager.h
+c000000004F5AF2CC0000000000001035
+t1331360460
+s4149
+i<map>
+i"Effect.h"
+i"EffectCategory.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/ondemand/ODTaskThread.h
+c000000004F5AF2CC0000000000000D15
+t1331360460
+s3349
+i<wx/thread.h>
+i"../Audacity.h"
+i<pthread.h>
+i<time.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/widgets/ProgressDialog.h
+c000000004F5AF2CC0000000000000E1A
+t1331360460
+s3610
+i"../Audacity.h"
+i<wx/defs.h>
+i<wx/dialog.h>
+i<wx/gauge.h>
+i<wx/stattext.h>
+i<wx/utils.h>
+
+N/Users/simone/src/audacity-src-2.0.0/src/xml/XMLTagHandler.h
+c000000004F5AF2CC0000000000000EA3
+t1331360460
+s3747
+i"../Audacity.h"
+i<wx/string.h>
+i<stdio.h>
+i"XMLWriter.h"
+
+N/Users/simone/src/audacity-src-2.0.0/src/xml/XMLWriter.h
+c000000004F5AF2CC0000000000000D96
+t1331360460
+s3478
+i<wx/ffile.h>
+i<wx/dynarray.h>
+
+N/var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch.gch
+t1336486218
+s12283500
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies358179017#358179017#0(0"0(0#1#0"8611528896#0"0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/afaudio.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179018.636048
+e358179020.182424
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/afaudio.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@85"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp358179018#358179020#0(0"0(0#0#77"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp8610977888#2436"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/afaudio.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/afaudio.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/benchmrk.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179030.532310
+e358179030.608432
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/benchmrk.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@86"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp358179030#358179030#0(0"0(0#0#78"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp8610327488#2438"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/benchmrk.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/benchmrk.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/convolver.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179018.637844
+e358179020.059056
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/convolver.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@87"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp358179018#358179020#0(0"0(0#0#79"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp8610883328#2440"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/convolver.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/convolver.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/del_impl.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179020.059328
+e358179022.248542
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/del_impl.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@86"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp358179020#358179022#0(0"0(0#0#78"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp8607201664#2438"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/del_impl.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/del_impl.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/dialogs.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179020.182538
+e358179023.632005
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/dialogs.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@85"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp358179020#358179023#0(0"0(0#0#77"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp8606292960#2436"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/dialogs.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/dialogs.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gtprogind.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179022.248728
+e358179023.786669
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gtprogind.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@87"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp358179022#358179023#0(0"0(0#0#79"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp8610696960#2440"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gtprogind.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gtprogind.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gui.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179028.216191
+e358179030.532199
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gui.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:4: warning: 'stop_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:147: warning: 'speedup_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:311: warning: 'slowdown_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:473: warning: 'rulers_menu_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:502: warning: 'play_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:658: warning: 'pause_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:813: warning: 'check_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:894: warning: 'cross_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:976: warning: 'warning_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:4: warning: 'yruler_bgnd_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:67: warning: 'xruler_bgnd_png' defined but not used
+lSLF07#2@81"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp358179028#358179030#0(1396"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:4: warning: 'stop_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:147: warning: 'speedup_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:311: warning: 'slowdown_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:473: warning: 'rulers_menu_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:502: warning: 'play_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:658: warning: 'pause_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:813: warning: 'check_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:894: warning: 'cross_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:976: warning: 'warning_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:4: warning: 'yruler_bgnd_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:67: warning: 'xruler_bgnd_png' defined but not used11(22@36"'stop_icon_png' defined but not used358179030#0#123#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#4#0#4#0#24"'*' defined but not used0(22@39"'speedup_icon_png' defined but not used358179030#123#128#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#147#0#147#0#24"'*' defined but not used0(22@40"'slowdown_icon_png' defined but not used358179030#251#129#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#311#0#311#0#24"'*' defined but not used0(22@43"'rulers_menu_icon_png' defined but not used358179030#380#132#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#473#0#473#0#24"'*' defined but not used0(22@36"'play_icon_png' defined but not used358179030#512#125#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#502#0#502#0#24"'*' defined but not used0(22@37"'pause_icon_png' defined but not used358179030#637#126#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#658#0#658#0#24"'*' defined but not used0(22@37"'check_icon_png' defined but not used358179030#763#126#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#813#0#813#0#24"'*' defined but not used0(22@37"'cross_icon_png' defined but not used358179030#889#126#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#894#0#894#0#24"'*' defined but not used0(22@39"'warning_icon_png' defined but not used358179030#1015#128#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#976#0#976#0#24"'*' defined but not used0(22@38"'yruler_bgnd_png' defined but not used358179030#1143#126#0(6@74"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h351529079#4#0#4#0#24"'*' defined but not used0(22@38"'xruler_bgnd_png' defined but not used358179030#1269#127#0(6@74"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h351529079#67#0#67#0#24"'*' defined but not used0(0#0#73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp8611074368#2428"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/gui.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/map.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179029.431249
+e358179031.471838
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/map.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:4: warning: 'stop_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:147: warning: 'speedup_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:311: warning: 'slowdown_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:473: warning: 'rulers_menu_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:502: warning: 'play_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:658: warning: 'pause_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:813: warning: 'check_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:894: warning: 'cross_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:976: warning: 'warning_icon_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:4: warning: 'yruler_bgnd_png' defined but not used
+o/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:67: warning: 'xruler_bgnd_png' defined but not used
+lSLF07#2@81"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp358179029#358179031#0(1396"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:4: warning: 'stop_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:147: warning: 'speedup_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:311: warning: 'slowdown_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:473: warning: 'rulers_menu_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:502: warning: 'play_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:658: warning: 'pause_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:813: warning: 'check_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:894: warning: 'cross_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:976: warning: 'warning_icon_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:4: warning: 'yruler_bgnd_png' defined but not used/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:67: warning: 'xruler_bgnd_png' defined but not used11(22@36"'stop_icon_png' defined but not used358179031#0#123#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#4#0#4#0#24"'*' defined but not used0(22@39"'speedup_icon_png' defined but not used358179031#123#128#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#147#0#147#0#24"'*' defined but not used0(22@40"'slowdown_icon_png' defined but not used358179031#251#129#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#311#0#311#0#24"'*' defined but not used0(22@43"'rulers_menu_icon_png' defined but not used358179031#380#132#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#473#0#473#0#24"'*' defined but not used0(22@36"'play_icon_png' defined but not used358179031#512#125#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#502#0#502#0#24"'*' defined but not used0(22@37"'pause_icon_png' defined but not used358179031#637#126#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#658#0#658#0#24"'*' defined but not used0(22@37"'check_icon_png' defined but not used358179031#763#126#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#813#0#813#0#24"'*' defined but not used0(22@37"'cross_icon_png' defined but not used358179031#889#126#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#894#0#894#0#24"'*' defined but not used0(22@39"'warning_icon_png' defined but not used358179031#1015#128#0(6@73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h351529079#976#0#976#0#24"'*' defined but not used0(22@38"'yruler_bgnd_png' defined but not used358179031#1143#126#0(6@74"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h351529079#4#0#4#0#24"'*' defined but not used0(22@38"'xruler_bgnd_png' defined but not used358179031#1269#127#0(6@74"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h351529079#67#0#67#0#24"'*' defined but not used0(0#0#73"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp8610298016#2428"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/map.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/map.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/micarrayanalyzer.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179023.632122
+e358179025.805776
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/micarrayanalyzer.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@94"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp358179023#358179025#0(0"0(0#0#86"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp8611412000#2454"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/micarrayanalyzer.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/micarrayanalyzer.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179023.786853
+e358179025.959890
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@84"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp358179023#358179025#0(0"0(0#0#76"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp8604328928#2434"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/module.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/multivolver.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179025.805950
+e358179027.294075
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/multivolver.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@89"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp358179025#358179027#0(0"0(0#0#81"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp8606454688#2444"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/multivolver.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/multivolver.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/myartprovider.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179025.960004
+e358179027.279150
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/myartprovider.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@91"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp358179025#358179027#0(0"0(0#0#83"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp8611463648#2448"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/myartprovider.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/myartprovider.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/reviver_assert.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179027.279266
+e358179027.386903
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/reviver_assert.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@92"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp358179027#358179027#0(0"0(0#0#84"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp8606939808#2450"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/reviver_assert.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/reviver_assert.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinystr.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179029.319664
+e358179029.431130
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinystr.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@85"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp358179029#358179029#0(0"0(0#0#77"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp8611194080#2436"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinystr.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinystr.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxml.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179027.294195
+e358179028.216078
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxml.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@85"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp358179027#358179028#0(0"0(0#0#77"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp8606887328#2436"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxml.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxml.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlerror.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179027.387085
+e358179027.488040
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlerror.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@90"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp358179027#358179027#0(0"0(0#0#82"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp8610285024#2446"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlerror.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlerror.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlparser.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179027.488160
+e358179027.992981
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlparser.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@91"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp358179027#358179027#0(0"0(0#0#83"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp8611353248#2448"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/tinyxmlparser.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/tinyxmlparser.o0#
+
+CCompileC build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/trprop.o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp normal i386 c++ com.apple.compilers.gcc.4_0
+s358179027.993091
+e358179029.319506
+r1
+xCompileC
+xbuild/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/trprop.o
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@84"Compile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp358179027#358179029#0(0"0(0#0#76"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp8603396544#2434"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++ -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -include /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/trprop.cpp -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/trprop.o0#
+
+CGenerateDSYMFile /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so.dSYM /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so
+s358179032.684039
+e358179033.078820
+r1
+xGenerateDSYMFile
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so.dSYM
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so
+owarning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_byte_size attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.
+owarning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_decl_file attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.
+owarning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_decl_line attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.
+lSLF07#2@95"GenerateDSYMFile build/Release/libMicArrayAnalyzer.so.dSYM build/Release/libMicArrayAnalyzer.so358179032#358179033#0(762"warning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_byte_size attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.warning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_decl_file attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.warning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_decl_line attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.3(22@253"warning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_byte_size attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.358179033#18446744073709551615#0#0(6@0"358179033#0#0#0#0#0"0(22@253"warning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_decl_file attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.358179033#18446744073709551615#0#0(6@0"358179033#0#0#0#0#0"0(22@253"warning: invalid DWARF generated by the compiler: DIE 0x00000af1 has multiple  AT_decl_line attributes in '/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/module.o'.358179033#18446744073709551615#0#0(6@0"358179033#0#0#0#0#0"0(0#0#92"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so8606929120#289"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    /Developer/usr/bin/dsymutil /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so.dSYM0#
+
+CLd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so normal i386
+s358179031.472010
+e358179032.683931
+r1
+xLd
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so
+xnormal
+xi386
+lSLF07#2@97"Link /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so358179031#358179032#0(0"0(0#0#0"8610695424#864"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv MACOSX_DEPLOYMENT_TARGET 10.4    /Developer/usr/bin/g++-4.0 -arch i386 -bundle -isysroot /Developer/SDKs/MacOSX10.4u.sdk -L/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -L/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/i386 -L/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -filelist /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/libMicArrayAnalyzer.LinkFileList -mmacosx-version-min=10.4 -bundle_loader /Applications/Audacity/Audacity.app/Contents/MacOS/Audacity -fPIC -undefined dynamic_lookup -single_module -o /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so0#
+
+CPhaseScriptExecution "Run Script" /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Script-FC04171F14F3A5F500AD323A.sh
+s358179033.079044
+e358179033.100625
+r1
+xPhaseScriptExecution
+xRun Script
+x/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Script-FC04171F14F3A5F500AD323A.sh
+oCopying MicArrayAnalyzer.so to /Applications/Audacity/modules
+ocp: MicArrayAnalyzer.so: No such file or directory
+lSLF07#2@36"Run custom shell script 'Run Script'358179033#358179033#0(113"Copying MicArrayAnalyzer.so to /Applications/Audacity/modulescp: MicArrayAnalyzer.so: No such file or directory2(13@62"Copying MicArrayAnalyzer.so to /Applications/Audacity/modules358179033#0#62#0(1@0"0(4@50"Cp: MicArrayAnalyzer.so: No such file or directory358179033#62#51#0(1@0"0(0#0#0"8610848576#17771"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv ACTION build    setenv ALTERNATE_GROUP simone    setenv ALTERNATE_MODE u+w,go-w,a+rX    setenv ALTERNATE_OWNER simone    setenv ALWAYS_SEARCH_USER_PATHS NO    setenv APPLE_INTERNAL_DEVELOPER_DIR /AppleInternal/Developer    setenv APPLE_INTERNAL_DIR /AppleInternal    setenv APPLE_INTERNAL_DOCUMENTATION_DIR /AppleInternal/Documentation    setenv APPLE_INTERNAL_LIBRARY_DIR /AppleInternal/Library    setenv APPLE_INTERNAL_TOOLS /AppleInternal/Developer/Tools    setenv APPLY_RULES_IN_COPY_FILES NO    setenv ARCHS i386    setenv ARCHS_STANDARD_32_64_BIT "x86_64 i386"    setenv ARCHS_STANDARD_32_BIT i386    setenv ARCHS_STANDARD_64_BIT x86_64    setenv AUDACITY_BINARY /Applications/Audacity/Audacity.app/Contents/MacOS/Audacity    setenv AUDACITY_BINARY_PATH /Applications/Audacity    setenv AUDACITY_BUNDLE_PATH "/Users/simone/src/audacity-src-2.0.0/mac/build/Release Static"    setenv AUDACITY_LIB_PREFIX /Users/simone/src/audacity-src-2.0.0/lib-src    setenv AUDACITY_MODULES_PATH /Applications/Audacity/modules    setenv AUDACITY_SRC_PATH /Users/simone/src/audacity-src-2.0.0/src    setenv AUDACITY_SRC_PREFIX /Users/simone/src/audacity-src-2.0.0    setenv BUILD_COMPONENTS "headers build"    setenv BUILD_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build    setenv BUILD_ROOT /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build    setenv BUILD_STYLE Release    setenv BUILD_VARIANTS normal    setenv BUILT_PRODUCTS_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release    setenv CACHE_ROOT /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501    setenv CCHROOT /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501    setenv CHMOD /bin/chmod    setenv CHOWN /usr/sbin/chown    setenv CLASS_FILE_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/JavaClasses    setenv CLEAN_PRECOMPS YES    setenv CLONE_HEADERS NO    setenv CODESIGNING_FOLDER_PATH /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/libMicArrayAnalyzer.so    setenv CODE_SIGNING_ALLOWED YES    setenv COMMAND_MODE legacy    setenv COMPOSITE_SDK_DIRS /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/CompositeSDKs    setenv CONFIGURATION Release    setenv CONFIGURATION_BUILD_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release    setenv CONFIGURATION_TEMP_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release    setenv COPYING_PRESERVES_HFS_DATA NO    setenv COPY_PHASE_STRIP YES    setenv COPY_RESOURCES_FROM_STATIC_FRAMEWORKS YES    setenv CP /bin/cp    setenv CURRENT_ARCH i386    setenv CURRENT_VARIANT normal    setenv DEAD_CODE_STRIPPING NO    setenv DEBUGGING_SYMBOLS YES    setenv DEBUG_INFORMATION_FORMAT dwarf-with-dsym    setenv DEPLOYMENT_LOCATION NO    setenv DEPLOYMENT_POSTPROCESSING NO    setenv DERIVED_FILES_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources    setenv DERIVED_FILE_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources    setenv DERIVED_SOURCES_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources    setenv DEVELOPER_APPLICATIONS_DIR /Developer/Applications    setenv DEVELOPER_BIN_DIR /Developer/usr/bin    setenv DEVELOPER_DIR /Developer    setenv DEVELOPER_FRAMEWORKS_DIR /Developer/Library/Frameworks    setenv DEVELOPER_FRAMEWORKS_DIR_QUOTED "\"/Developer/Library/Frameworks\""    setenv DEVELOPER_LIBRARY_DIR /Developer/Library    setenv DEVELOPER_SDK_DIR /Developer/SDKs    setenv DEVELOPER_TOOLS_DIR /Developer/Tools    setenv DEVELOPER_USR_DIR /Developer/usr    setenv DEVELOPMENT_LANGUAGE English    setenv DO_HEADER_SCANNING_IN_JAM NO    setenv DSTROOT /tmp/MicArrayAnalyzer.dst    setenv DWARF_DSYM_FILE_NAME libMicArrayAnalyzer.so.dSYM    setenv DWARF_DSYM_FOLDER_PATH /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release    setenv DYLIB_INSTALL_NAME_BASE /usr/local/lib    setenv ENABLE_HEADER_DEPENDENCIES YES    setenv ENABLE_OPENMP_SUPPORT NO    setenv EXCLUDED_INSTALLSRC_SUBDIRECTORY_PATTERNS ".svn .git CVS"    setenv EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES "*.nib *.lproj *.framework *.gch (*) CVS .svn .git *.xcodeproj *.xcode *.pbproj *.pbxproj"    setenv EXECUTABLE_EXTENSION so    setenv EXECUTABLE_NAME libMicArrayAnalyzer.so    setenv EXECUTABLE_PATH libMicArrayAnalyzer.so    setenv EXECUTABLE_SUFFIX .so    setenv FILE_LIST /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects/LinkFileList    setenv FIXED_FILES_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/FixedFiles    setenv FRAMEWORK_FLAG_PREFIX -framework    setenv FRAMEWORK_SEARCH_PATHS "\"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release\" "    setenv FRAMEWORK_VERSION A    setenv FULL_PRODUCT_NAME libMicArrayAnalyzer.so    setenv GCC3_VERSION 3.3    setenv GCC_C_LANGUAGE_STANDARD gnu99    setenv GCC_ENABLE_CPP_EXCEPTIONS YES    setenv GCC_ENABLE_CPP_RTTI YES    setenv GCC_GENERATE_DEBUGGING_SYMBOLS YES    setenv GCC_INCREASE_PRECOMPILED_HEADER_SHARING YES    setenv GCC_INLINES_ARE_PRIVATE_EXTERN YES    setenv GCC_MODEL_TUNING G5    setenv GCC_PFE_FILE_C_DIALECTS "c objective-c c++ objective-c++"    setenv GCC_PRECOMPILE_PREFIX_HEADER YES    setenv GCC_PREFIX_HEADER MicArrayAnalyzer_Prefix.pch    setenv GCC_PREPROCESSOR_DEFINITIONS "AURORA_RELEASE NDEBUG _FILE_OFFSET_BITS=64 _LARGE_FILES __WXMAC__"    setenv GCC_SYMBOLS_PRIVATE_EXTERN YES    setenv GCC_TREAT_WARNINGS_AS_ERRORS NO    setenv GCC_VERSION 4.0    setenv GCC_VERSION_IDENTIFIER __0    setenv GCC_WARN_ABOUT_RETURN_TYPE YES    setenv GCC_WARN_UNUSED_VARIABLE YES    setenv GENERATE_MASTER_OBJECT_FILE NO    setenv GENERATE_PKGINFO_FILE NO    setenv GENERATE_PROFILING_CODE NO    setenv GID 501    setenv GROUP simone    setenv HEADERMAP_INCLUDES_FLAT_ENTRIES_FOR_TARGET_BEING_BUILT YES    setenv HEADERMAP_INCLUDES_FRAMEWORK_ENTRIES_FOR_ALL_PRODUCT_TYPES YES    setenv HEADERMAP_INCLUDES_NONPUBLIC_NONPRIVATE_HEADERS YES    setenv HEADERMAP_INCLUDES_PROJECT_HEADERS YES    setenv HEADER_SEARCH_PATHS "/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include /Developer/SDKs/MacOSX10.4u.sdk/opt/local/include /Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra /Users/simone/src/audacity-src-2.0.0/lib-src/portsmf /Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include /Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include /Users/simone/src/audacity-src-2.0.0/src /Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 /Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8"    setenv ICONV /usr/bin/iconv    setenv INFOPLIST_EXPAND_BUILD_SETTINGS YES    setenv INFOPLIST_OUTPUT_FORMAT same-as-input    setenv INFOPLIST_PREPROCESS NO    setenv INSTALL_DIR /tmp/MicArrayAnalyzer.dst/usr/local/lib    setenv INSTALL_GROUP simone    setenv INSTALL_MODE_FLAG u+w,go-w,a+rX    setenv INSTALL_OWNER simone    setenv INSTALL_PATH /usr/local/lib    setenv INSTALL_ROOT /tmp/MicArrayAnalyzer.dst    setenv JAVAC_DEFAULT_FLAGS "-J-Xms64m -J-XX:NewSize=4M -J-Dfile.encoding=UTF8"    setenv JAVA_APP_STUB /System/Library/Frameworks/JavaVM.framework/Resources/MacOS/JavaApplicationStub    setenv JAVA_ARCHIVE_CLASSES YES    setenv JAVA_ARCHIVE_TYPE JAR    setenv JAVA_COMPILER /usr/bin/javac    setenv JAVA_FRAMEWORK_RESOURCES_DIRS Resources    setenv JAVA_JAR_FLAGS cv    setenv JAVA_SOURCE_SUBDIR .    setenv JAVA_USE_DEPENDENCIES YES    setenv JAVA_ZIP_FLAGS -urg    setenv JIKES_DEFAULT_FLAGS "+E +OLDCSO"    setenv KEEP_PRIVATE_EXTERNS NO    setenv LD_DYLIB_INSTALL_NAME /usr/local/lib/libMicArrayAnalyzer.so    setenv LD_GENERATE_MAP_FILE NO    setenv LD_MAP_FILE_PATH /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-LinkMap-normal-i386.txt    setenv LD_OPENMP_FLAGS -fopenmp    setenv LEX /Developer/usr/bin/lex    setenv LIBRARY_FLAG_NOSPACE YES    setenv LIBRARY_FLAG_PREFIX -l    setenv LIBRARY_SEARCH_PATHS "/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release /Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/i386 /Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib"    setenv LINKER_DISPLAYS_MANGLED_NAMES NO    setenv LINK_FILE_LIST_normal_i386 /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal/i386/libMicArrayAnalyzer.LinkFileList    setenv LINK_WITH_STANDARD_LIBRARIES YES    setenv LOCAL_ADMIN_APPS_DIR /Applications/Utilities    setenv LOCAL_APPS_DIR /Applications    setenv LOCAL_DEVELOPER_DIR /Library/Developer    setenv LOCAL_LIBRARY_DIR /Library    setenv MACH_O_TYPE mh_bundle    setenv MACOSX_DEPLOYMENT_TARGET 10.4    setenv MAC_OS_X_PRODUCT_BUILD_VERSION 10K549    setenv MAC_OS_X_VERSION_ACTUAL 1068    setenv MAC_OS_X_VERSION_MAJOR 1060    setenv MAC_OS_X_VERSION_MINOR 0608    setenv NATIVE_ARCH i386    setenv NATIVE_ARCH_32_BIT i386    setenv NATIVE_ARCH_64_BIT x86_64    setenv NATIVE_ARCH_ACTUAL x86_64    setenv NO_COMMON YES    setenv OBJECT_FILE_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects    setenv OBJECT_FILE_DIR_normal /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Objects-normal    setenv OBJROOT /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build    setenv ONLY_ACTIVE_ARCH YES    setenv OPTIMIZATION_LEVEL 0    setenv OS MACOS    setenv OSAC /usr/bin/osacompile    setenv OTHER_LDFLAGS "-bundle_loader /Applications/Audacity/Audacity.app/Contents/MacOS/Audacity -fPIC -undefined dynamic_lookup"    setenv PACKAGE_TYPE com.apple.package-type.mach-o-dylib    setenv PASCAL_STRINGS YES    setenv PATH_PREFIXES_EXCLUDED_FROM_HEADER_DEPENDENCIES "/usr/include /usr/local/include /System/Library/Frameworks /System/Library/PrivateFrameworks /Developer/Headers /Developer/SDKs /Developer/Platforms"    setenv PFE_FILE_C_DIALECTS c++    setenv PKGINFO_FILE_PATH /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/PkgInfo    setenv PLATFORM_DEVELOPER_APPLICATIONS_DIR /Developer/Applications    setenv PLATFORM_DEVELOPER_BIN_DIR /Developer/usr/bin    setenv PLATFORM_DEVELOPER_LIBRARY_DIR /Developer/Library    setenv PLATFORM_DEVELOPER_SDK_DIR /Developer/SDKs    setenv PLATFORM_DEVELOPER_TOOLS_DIR /Developer/Tools    setenv PLATFORM_DEVELOPER_USR_DIR /Developer/usr    setenv PLATFORM_NAME macosx    setenv PLATFORM_PRODUCT_BUILD_VERSION 10M2518    setenv PLIST_FILE_OUTPUT_FORMAT same-as-input    setenv PREBINDING NO    setenv PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR YES    setenv PRECOMP_DESTINATION_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/PrefixHeaders    setenv PRESERVE_DEAD_CODE_INITS_AND_TERMS NO    setenv PRIVATE_HEADERS_FOLDER_PATH /usr/local/include    setenv PRODUCT_NAME libMicArrayAnalyzer    setenv PRODUCT_SETTINGS_PATH     setenv PRODUCT_TYPE com.apple.product-type.library.dynamic    setenv PROFILING_CODE NO    setenv PROJECT MicArrayAnalyzer    setenv PROJECT_DERIVED_FILE_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/DerivedSources    setenv PROJECT_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv PROJECT_FILE_PATH /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/MicArrayAnalyzer.xcodeproj    setenv PROJECT_NAME MicArrayAnalyzer    setenv PROJECT_TEMP_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build    setenv PUBLIC_HEADERS_FOLDER_PATH /usr/local/include    setenv RECURSIVE_SEARCH_PATHS_FOLLOW_SYMLINKS YES    setenv REMOVE_CVS_FROM_RESOURCES YES    setenv REMOVE_GIT_FROM_RESOURCES YES    setenv REMOVE_SVN_FROM_RESOURCES YES    setenv REZ_COLLECTOR_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/ResourceManagerResources    setenv REZ_EXECUTABLE YES    setenv REZ_OBJECTS_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/ResourceManagerResources/Objects    setenv REZ_SEARCH_PATHS "\"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release\" "    setenv RUN_CLANG_STATIC_ANALYZER NO    setenv SCAN_ALL_SOURCE_FILES_FOR_INCLUDES NO    setenv SCRIPT_INPUT_FILE_COUNT 0    setenv SCRIPT_OUTPUT_FILE_COUNT 0    setenv SDKROOT /Developer/SDKs/MacOSX10.4u.sdk    setenv SDK_DIR /Developer/SDKs/MacOSX10.4u.sdk    setenv SDK_NAME macosx10.4    setenv SDK_PRODUCT_BUILD_VERSION 8S2167    setenv SED /usr/bin/sed    setenv SEPARATE_STRIP NO    setenv SEPARATE_SYMBOL_EDIT NO    setenv SET_DIR_MODE_OWNER_GROUP YES    setenv SET_FILE_MODE_OWNER_GROUP NO    setenv SHARED_DERIVED_FILE_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/DerivedSources    setenv SHARED_PRECOMPS_DIR /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders    setenv SKIP_INSTALL NO    setenv SOURCE_ROOT /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv SRCROOT /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv STANDARD_C_PLUS_PLUS_LIBRARY_TYPE Dynamic    setenv STRINGS_FILE_OUTPUT_ENCODING UTF-8    setenv STRIP_INSTALLED_PRODUCT YES    setenv STRIP_STYLE non-global    setenv SYMBOL_REPOSITORY_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/SymbolRepositories    setenv SYMROOT /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build    setenv SYSTEM_ADMIN_APPS_DIR /Applications/Utilities    setenv SYSTEM_APPS_DIR /Applications    setenv SYSTEM_CORE_SERVICES_DIR /System/Library/CoreServices    setenv SYSTEM_DEMOS_DIR /Applications/Extras    setenv SYSTEM_DEVELOPER_APPS_DIR /Developer/Applications    setenv SYSTEM_DEVELOPER_BIN_DIR /Developer/usr/bin    setenv SYSTEM_DEVELOPER_DEMOS_DIR "/Developer/Applications/Utilities/Built Examples"    setenv SYSTEM_DEVELOPER_DIR /Developer    setenv SYSTEM_DEVELOPER_DOC_DIR "/Developer/ADC Reference Library"    setenv SYSTEM_DEVELOPER_GRAPHICS_TOOLS_DIR "/Developer/Applications/Graphics Tools"    setenv SYSTEM_DEVELOPER_JAVA_TOOLS_DIR "/Developer/Applications/Java Tools"    setenv SYSTEM_DEVELOPER_PERFORMANCE_TOOLS_DIR "/Developer/Applications/Performance Tools"    setenv SYSTEM_DEVELOPER_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes"    setenv SYSTEM_DEVELOPER_TOOLS /Developer/Tools    setenv SYSTEM_DEVELOPER_TOOLS_DOC_DIR "/Developer/ADC Reference Library/documentation/DeveloperTools"    setenv SYSTEM_DEVELOPER_TOOLS_RELEASENOTES_DIR "/Developer/ADC Reference Library/releasenotes/DeveloperTools"    setenv SYSTEM_DEVELOPER_USR_DIR /Developer/usr    setenv SYSTEM_DEVELOPER_UTILITIES_DIR /Developer/Applications/Utilities    setenv SYSTEM_DOCUMENTATION_DIR /Library/Documentation    setenv SYSTEM_LIBRARY_DIR /System/Library    setenv TARGETNAME MicArrayAnalyzer    setenv TARGET_BUILD_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release    setenv TARGET_NAME MicArrayAnalyzer    setenv TARGET_TEMP_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build    setenv TEMP_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build    setenv TEMP_FILES_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build    setenv TEMP_FILE_DIR /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build    setenv TEMP_ROOT /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build    setenv UID 501    setenv UNSTRIPPED_PRODUCT NO    setenv USER simone    setenv USER_APPS_DIR /Users/simone/Applications    setenv USER_LIBRARY_DIR /Users/simone/Library    setenv USE_DYNAMIC_NO_PIC YES    setenv USE_HEADERMAP YES    setenv USE_HEADER_SYMLINKS NO    setenv VALIDATE_PRODUCT NO    setenv VALID_ARCHS "i386 ppc ppc64 ppc7400 ppc970 x86_64"    setenv VERBOSE_PBXCP NO    setenv VERSION_INFO_BUILDER simone    setenv VERSION_INFO_FILE libMicArrayAnalyzer_vers.c    setenv VERSION_INFO_STRING "\"@(#)PROGRAM:libMicArrayAnalyzer  PROJECT:MicArrayAnalyzer-\""    setenv WX_PREFIX /opt/local    setenv WX_VERSION 2.8    setenv XCODE_APP_SUPPORT_DIR /Developer/Library/Xcode    setenv XCODE_PRODUCT_BUILD_VERSION 10M2518    setenv XCODE_VERSION_ACTUAL 0400    setenv XCODE_VERSION_MAJOR 0400    setenv XCODE_VERSION_MINOR 0400    setenv YACC /Developer/usr/bin/yacc    setenv _REAL_SDKROOT macosx10.4    /bin/sh -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/Script-FC04171F14F3A5F500AD323A.sh0#
+
+CProcessPCH++ /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch.gch MicArrayAnalyzer_Prefix.pch normal i386 c++ com.apple.compilers.gcc.4_0
+s358179017.765900
+e358179018.635820
+r1
+xProcessPCH++
+x/var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch.gch
+xMicArrayAnalyzer_Prefix.pch
+xnormal
+xi386
+xc++
+xcom.apple.compilers.gcc.4_0
+lSLF07#2@38"Precompile MicArrayAnalyzer_Prefix.pch358179017#358179018#0(0"0(0#0#83"/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/MicArrayAnalyzer_Prefix.pch8610329504#2298"    cd /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.0 -x c++-header -arch i386 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -Os -Wreturn-type -Wunused-variable -DAURORA_RELEASE -DNDEBUG -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXMAC__ -isysroot /Developer/SDKs/MacOSX10.4u.sdk -fvisibility=hidden -fvisibility-inlines-hidden -mmacosx-version-min=10.4 -gdwarf-2 -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-generated-files.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-own-target-headers.hmap -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-all-target-headers.hmap -iquote /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/libMicArrayAnalyzer-project-headers.hmap -F/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/Release/include -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/lib-widget-extra -I/Users/simone/src/audacity-src-2.0.0/lib-src/portsmf -I/Users/simone/src/audacity-src-2.0.0/lib-src/portmixer/include -I/Users/simone/src/audacity-src-2.0.0/lib-src/portaudio-v19/include -I/Users/simone/src/audacity-src-2.0.0/src -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/lib/wx/include/mac-unicode-release-2.8 -I/Developer/SDKs/MacOSX10.4u.sdk/opt/local/include/wx-2.8 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources/i386 -I/Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/build/MicArrayAnalyzer.build/Release/MicArrayAnalyzer.build/DerivedSources -c /Users/simone/src/MicArrayAnalyzer/mac/MicArrayAnalyzer/MicArrayAnalyzer_Prefix.pch -o /var/folders/6n/6nJ1vFCQHXmhYKbcryBuBU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/MicArrayAnalyzer_Prefix-cwditqrjhaexbzfppxzutcmocorf/MicArrayAnalyzer_Prefix.pch.gch0#
+

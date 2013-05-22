@@ -1,0 +1,6 @@
+//
+// Prefix header for all source files of the 'MicArrayAnalyzer' target in the 'MicArrayAnalyzer' project.
+//
+
+
+#include <iostream>
