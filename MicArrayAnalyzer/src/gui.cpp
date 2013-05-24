@@ -33,7 +33,7 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
    wxString buffer;
    buffer.Printf(_("%d"),(int)mMAA->GetProjSampleRate());   //Retrieving Project Sample Rate
    m_wxstProjRate->SetLabel(buffer);
-   buffer.Printf(_("%d"),(int)mMAA->GetProjNumTracks());   //Retrieving Project Sample Rate
+   buffer.Printf(_("%d"),(int)mMAA->GetProjNumTracks());   //Retrieving Project Number of Traks
    m_wxstProjChannels->SetLabel(buffer);
    
    switch (mMAA->GetProjSampleFormat()) //see SampleFormat.h to understand cases.
@@ -630,7 +630,48 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
     m_wxtcYPos->SetValue(szY);
     m_wxtcLevel->SetValue(szZ);
 }
-   
+
+// --------------------
+//	PLAYER VIDEO
+//--------------------
+
+
+void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
+	
+}
+
+void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
+	
+}
+
+void MicArrayAnalyzerDlg::OnSliderScroll(wxCommandEvent& event)  {
+	
+}
+
+void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
+	
+}
+
+void MicArrayAnalyzerDlg::OnPAUSEBtn(wxCommandEvent& event)  {
+	
+}
+
+void MicArrayAnalyzerDlg::OnPLAYBtn(wxCommandEvent& event)  {
+	
+}
+
+void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
+	
+}
+
+
+
+
+
+
+
+
+
 
 // Indentation settings for Vim and Emacs and unique identifier for Arch, a
 // version control system. Please do not modify past this point.

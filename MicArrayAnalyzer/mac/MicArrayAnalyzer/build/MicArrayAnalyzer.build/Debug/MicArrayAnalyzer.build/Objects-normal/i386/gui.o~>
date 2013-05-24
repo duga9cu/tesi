@@ -1,3 +1,10 @@
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:639: error: no 'void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:643: error: no 'void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:647: error: no 'void MicArrayAnalyzerDlg::OnSliderScroll(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:651: error: no 'void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:655: error: no 'void MicArrayAnalyzerDlg::OnPAUSEBtn(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:659: error: no 'void MicArrayAnalyzerDlg::OnPLAYBtn(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:663: error: no 'void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent&)' member function declared in class 'MicArrayAnalyzerDlg'
 /Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:4: warning: 'stop_icon_png' defined but not used
 /Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:147: warning: 'speedup_icon_png' defined but not used
 /Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:311: warning: 'slowdown_icon_png' defined but not used

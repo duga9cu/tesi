@@ -90,7 +90,13 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
       void OnTransparency(wxSpinEvent& event);
       void OnBandAnalysis(wxCommandEvent& event);
       void OnMouseOverMap(wxCommandEvent& event);
-       
+	   void OnSpinCurFrame(wxCommandEvent& event) ;
+	   void OnSpinCtrlTxt(wxCommandEvent& event) ;
+	   void OnSliderScroll(wxCommandEvent& event) ;
+	   void OnSTOPBtn(wxCommandEvent& event) ;
+	   void OnPAUSEBtn(wxCommandEvent& event) ;
+	   void OnPLAYBtn(wxCommandEvent& event) ;
+	   void OnChoiceFrameRate(wxCommandEvent& event) ;
    public:
       MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer* maa);
       ~MicArrayAnalyzerDlg();
