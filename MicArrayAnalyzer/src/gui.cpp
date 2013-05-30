@@ -245,7 +245,12 @@ void MicArrayAnalyzerConfDlg::OnHelp( wxCommandEvent& event )
 
 void MicArrayAnalyzerConfDlg::IsAllOKCheck()
 {
-	if (bBgndImage && bHeaders && bLength && bVirtMikes && bProjChannels && bProjRate && bProjBits) m_wxbOk->Enable();
+	if (bBgndImage && bHeaders && bLength && bVirtMikes && bProjChannels && bProjRate && bProjBits)
+	{
+		m_wxbOk->Enable();
+		m_wxbOk->SetDefault();
+//		m_wxbOk->SetFocus();
+	}
 	else m_wxbOk->Enable(false);
 }
 
@@ -253,68 +258,68 @@ void MicArrayAnalyzerConfDlg::IsAllOKCheck()
 void MicArrayAnalyzerConfDlg::Render(wxDC& dc)
 {
 	// **** HERE IS THE CODE THAT PLOT MY CUSTOM CONTROL GRID ****
-//	dc.SetPen(*wxGREY_PEN);
-//	
-//	int x1,y1,x2,y2,w,h,max_w = 0;
-//	
-//	//Finding the longer label of the right column
-//	m_wxstTotalLengthLabel->GetSize(&w,&h);
-//	if (w >= max_w) max_w = w;
-//	m_wxstWAVChannelsLabel->GetSize(&w,&h);
-//	if (w >= max_w) max_w = w;
-//	m_wxstProjChannelsLabel->GetSize(&w,&h);
-//	if (w >= max_w) max_w = w;
-//	m_wxstProjRateLabel->GetSize(&w,&h);
-//	if (w >= max_w) max_w = w;
-//	m_wxstProjSampleFormatLabel->GetSize(&w,&h);
-//	if (w >= max_w) max_w = w;
-//	
-//	//Drawing horizontal lines
-//	m_wxstDeconvIRsLengthLabel->GetPosition(&x1,&y1);
-//	m_wxstTotalLengthLabel->GetPosition(&x2,&y2);
-//	dc.DrawLine(x1,y1-4,x2+max_w,y1-4);
-//	
-//	m_wxstNumOfCapsulesLabel->GetPosition(&x1,&y1);
-//	m_wxstNumOfCapsulesLabel->GetSize(&w,&h);
-//	dc.DrawLine(x1,y1+h+1,x2+max_w,y1+h+1);
-//	
-//	m_wxstNumOfVirtMikesLabel->GetPosition(&x1,&y1);
-//	m_wxstNumOfVirtMikesLabel->GetSize(&w,&h);
-//	dc.DrawLine(x1,y1+h+2,x2+max_w,y1+h+2); 
-//	
-//	m_wxstNumOfCapsulesLabel2->GetPosition(&x1,&y1);
-//	m_wxstNumOfCapsulesLabel2->GetSize(&w,&h);
-//	dc.DrawLine(x1,y1-4,x2+max_w,y1-4);
-//	dc.DrawLine(x1,y1+h+2,x2+max_w,y1+h+2);
-//	
-//	m_wxstSamplingRateLabel->GetPosition(&x1,&y1);
-//	m_wxstSamplingRateLabel->GetSize(&w,&h);
-//	dc.DrawLine(x1,y1-4,x2+max_w,y1-4);
-//	dc.DrawLine(x1,y1+h+2,x2+max_w,y1+h+2);
-//	
-//	//Drawing vertical lines
-//	wxPoint wxpSizerPos;
-//	
-//	//First vert line (left line of XML column)
-//	m_wxstXMLLabel->GetPosition(&x1,&y1);
-//	wxpSizerPos = m_wxstXMLLength->GetPosition();
-//	m_wxstWAVFormat->GetPosition(&x2,&y2);
-//	m_wxstWAVFormat->GetSize(&w,&h);
-//	dc.DrawLine(wxpSizerPos.x+4,y1,wxpSizerPos.x+4,y2+h);
-//	
-//	//Next vert line (right line of XML column)
-//	wxSize wxsSizerSize;
-//	wxsSizerSize = m_wxstXMLLabel->GetSize();
-//	dc.DrawLine((wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y1,(wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y2+h); 
-//	
-//	//Next vert line (left line of WAV column)
-//	m_wxstWAVLabel->GetPosition(&x1,&y1);
-//	wxpSizerPos = m_wxstWAVLabel->GetPosition();
-//	dc.DrawLine(wxpSizerPos.x+4,y1,wxpSizerPos.x+4,y2+h);
-//	
-//	//Next (and last) vert line.
-//	wxsSizerSize = m_wxstWAVLabel->GetSize();
-//	dc.DrawLine((wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y1,(wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y2+h);
+	//	dc.SetPen(*wxGREY_PEN);
+	//	
+	//	int x1,y1,x2,y2,w,h,max_w = 0;
+	//	
+	//	//Finding the longer label of the right column
+	//	m_wxstTotalLengthLabel->GetSize(&w,&h);
+	//	if (w >= max_w) max_w = w;
+	//	m_wxstWAVChannelsLabel->GetSize(&w,&h);
+	//	if (w >= max_w) max_w = w;
+	//	m_wxstProjChannelsLabel->GetSize(&w,&h);
+	//	if (w >= max_w) max_w = w;
+	//	m_wxstProjRateLabel->GetSize(&w,&h);
+	//	if (w >= max_w) max_w = w;
+	//	m_wxstProjSampleFormatLabel->GetSize(&w,&h);
+	//	if (w >= max_w) max_w = w;
+	//	
+	//	//Drawing horizontal lines
+	//	m_wxstDeconvIRsLengthLabel->GetPosition(&x1,&y1);
+	//	m_wxstTotalLengthLabel->GetPosition(&x2,&y2);
+	//	dc.DrawLine(x1,y1-4,x2+max_w,y1-4);
+	//	
+	//	m_wxstNumOfCapsulesLabel->GetPosition(&x1,&y1);
+	//	m_wxstNumOfCapsulesLabel->GetSize(&w,&h);
+	//	dc.DrawLine(x1,y1+h+1,x2+max_w,y1+h+1);
+	//	
+	//	m_wxstNumOfVirtMikesLabel->GetPosition(&x1,&y1);
+	//	m_wxstNumOfVirtMikesLabel->GetSize(&w,&h);
+	//	dc.DrawLine(x1,y1+h+2,x2+max_w,y1+h+2); 
+	//	
+	//	m_wxstNumOfCapsulesLabel2->GetPosition(&x1,&y1);
+	//	m_wxstNumOfCapsulesLabel2->GetSize(&w,&h);
+	//	dc.DrawLine(x1,y1-4,x2+max_w,y1-4);
+	//	dc.DrawLine(x1,y1+h+2,x2+max_w,y1+h+2);
+	//	
+	//	m_wxstSamplingRateLabel->GetPosition(&x1,&y1);
+	//	m_wxstSamplingRateLabel->GetSize(&w,&h);
+	//	dc.DrawLine(x1,y1-4,x2+max_w,y1-4);
+	//	dc.DrawLine(x1,y1+h+2,x2+max_w,y1+h+2);
+	//	
+	//	//Drawing vertical lines
+	//	wxPoint wxpSizerPos;
+	//	
+	//	//First vert line (left line of XML column)
+	//	m_wxstXMLLabel->GetPosition(&x1,&y1);
+	//	wxpSizerPos = m_wxstXMLLength->GetPosition();
+	//	m_wxstWAVFormat->GetPosition(&x2,&y2);
+	//	m_wxstWAVFormat->GetSize(&w,&h);
+	//	dc.DrawLine(wxpSizerPos.x+4,y1,wxpSizerPos.x+4,y2+h);
+	//	
+	//	//Next vert line (right line of XML column)
+	//	wxSize wxsSizerSize;
+	//	wxsSizerSize = m_wxstXMLLabel->GetSize();
+	//	dc.DrawLine((wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y1,(wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y2+h); 
+	//	
+	//	//Next vert line (left line of WAV column)
+	//	m_wxstWAVLabel->GetPosition(&x1,&y1);
+	//	wxpSizerPos = m_wxstWAVLabel->GetPosition();
+	//	dc.DrawLine(wxpSizerPos.x+4,y1,wxpSizerPos.x+4,y2+h);
+	//	
+	//	//Next (and last) vert line.
+	//	wxsSizerSize = m_wxstWAVLabel->GetSize();
+	//	dc.DrawLine((wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y1,(wxpSizerPos.x + wxsSizerSize.GetWidth() + 5),y2+h);
 }
 
 
@@ -365,7 +370,7 @@ void MicArrayAnalyzerConfDlg::SetHeadersCheckIcon(const wxChar* icon)
 	m_wxstHeadersCheck->GetSize(&w,&h);
 	if (bHeaders) delete wxsbHeadersCheck;
 	wxsbHeadersCheck = new wxStaticBitmap(m_wxpTable,wxID_ANY,wxNullBitmap,wxPoint(x+w+4,y),wxSize(15,15));
-//	m_wxbsHeadersCheck->Add(wxsbHeadersCheck);
+	//	m_wxbsHeadersCheck->Add(wxsbHeadersCheck);
 	wxsbHeadersCheck->SetBitmap(wxArtProvider::GetBitmap(icon));
 }
 
@@ -487,6 +492,16 @@ m_iCurrRulersFormat(MyRuler::RF_DEGREES)
     
     // Connect events
     Connect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
+//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
+	
+	//default values
+	curFrame = 1;
+	updating = false;
+	frameLength = FRAMELENGTH; //ms
+	numOfFrames = maa->GetWAVLength() / maa->GetProjSampleRate() * 1000 / frameLength; 
+	
+	
+	
 }
 
 MicArrayAnalyzerDlg::~MicArrayAnalyzerDlg()
@@ -635,18 +650,42 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //	PLAYER VIDEO
 //--------------------
 
+void MicArrayAnalyzerDlg::UpdateFrameControls(){
+	// update the slider, spin control, ..
+	m_sliderVideoFrame->SetValue(curFrame);
+	m_spinCtrlCurFrame->SetValue(curFrame);
+}
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
-	
+	if (!updating) { 
+		int frame = event.GetInt();
+		if (frame < 1) curFrame = 1;
+		else if (frame>numOfFrames) curFrame = numOfFrames;
+		else curFrame = frame;
+		UpdateFrameControls();
+		updating = true;
+	} else updating = false;
 }
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
-	
-}
+	if (!updating) {
+	int frame = event.GetInt();
+	if (frame < 1) curFrame = 1;
+	else if (frame>numOfFrames) curFrame = numOfFrames;
+	else curFrame = frame;	
+		UpdateFrameControls();
+		updating = true;
+	} else updating = false;}
 
-void MicArrayAnalyzerDlg::OnSliderScroll(wxCommandEvent& event)  {
-	
-}
+void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
+	if (!updating) {
+	int frame = m_sliderVideoFrame->GetValue();
+	if (frame < 1) curFrame = 1;
+	else if (frame>numOfFrames) curFrame = numOfFrames;
+	else curFrame = frame;
+		UpdateFrameControls();
+		updating = true;
+	} else updating = false;}
 
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
 	playing = false;
@@ -663,18 +702,23 @@ void MicArrayAnalyzerDlg::OnPLAYBtn(wxCommandEvent& event)  {
 
 void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 	switch (event.GetInt()) {
-		case 0: // 1x
-			frameRateCoeff=1;
-			break;
-		case 1: // 0.5x
-			frameRateCoeff=0.5;
-			break;
-		case 2: // 0.2x
+			
+		case 0: // 0.1x
+			frameRateCoeff=0.1;
+			break;		
+			
+		case 1: // 0.2x
 			frameRateCoeff=0.2;
 			break;
-		case 3: // 0.1x
-			frameRateCoeff=0.1;
+			
+		case 2: // 0.5x
+			frameRateCoeff=0.5;
 			break;
+			
+		case 3: // 1x
+			frameRateCoeff=1;
+			break;
+			
 		default:
 			break;
 	}	

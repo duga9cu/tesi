@@ -23,6 +23,7 @@
 
 // Some consts to define Main Dialog aspect
 const int DEFAULT_RULER_FORMAT = 0;          //0 = deg, 1 = pixel
+const int FRAMELENGTH = 8;					// ms of audio to chunck for one video frame
 /*const int RULERS_FONT_SIZE = 7;              
  const wxCoord RULERS_MAIN_NOTCHES = 10;      //Length of main notches
  const wxCoord RULERS_SEC_NOTCHES = 5;        //Length of secondary notches
@@ -78,8 +79,8 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		
 		int m_iCurrRulersFormat; // used for toggling...
 		
-		int curFrame;
-		bool playing;
+		int curFrame , frameLength;
+		bool playing, updating;
 		float frameRateCoeff;
 		int numOfFrames;
 		
@@ -97,11 +98,12 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnMouseOverMap(wxCommandEvent& event);
 		void OnSpinCurFrame(wxCommandEvent& event) ;
 		void OnSpinCtrlTxt(wxCommandEvent& event) ;
-		void OnSliderScroll(wxCommandEvent& event) ;
+		void OnSliderScroll( wxScrollEvent& event ) ;
 		void OnSTOPBtn(wxCommandEvent& event) ;
 		void OnPAUSEBtn(wxCommandEvent& event) ;
 		void OnPLAYBtn(wxCommandEvent& event) ;
 		void OnChoiceFrameRate(wxCommandEvent& event) ;
+		void UpdateFrameControls();
 	public:
 		MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer* maa);
 		~MicArrayAnalyzerDlg();
