@@ -190,6 +190,7 @@ class MicArrayAnalyzer
       int GetNumOfMeshes() { return iNTriangles; }
       int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
       TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
+	   int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
             
       // Setters
       void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
