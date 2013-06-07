@@ -249,7 +249,7 @@ void MicArrayAnalyzerConfDlg::IsAllOKCheck()
 	{
 		m_wxbOk->Enable();
 		m_wxbOk->SetDefault();
-//		m_wxbOk->SetFocus();
+		//		m_wxbOk->SetFocus();
 	}
 	else m_wxbOk->Enable(false);
 }
@@ -492,15 +492,17 @@ m_iCurrRulersFormat(MyRuler::RF_DEGREES)
     
     // Connect events
     Connect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
-//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
+	//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
 	
 	//default values
 	curFrame = 1;
 	updating = false;
+	playing = false;
 	frameLength = FRAMELENGTH; //ms
-	numOfFrames = maa->GetWAVLength() / maa->GetProjSampleRate() * 1000 / frameLength; 
+	numOfFrames = maa->GetAudioTrackLength() / maa->GetProjSampleRate() *1000 / frameLength;  
 	
-	
+	m_sliderVideoFrame->SetMax(numOfFrames);
+	m_spinCtrlCurFrame->SetRange(1, numOfFrames);
 	
 }
 
@@ -650,42 +652,42 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //	PLAYER VIDEO
 //--------------------
 
-void MicArrayAnalyzerDlg::UpdateFrameControls(){
-	// update the slider, spin control, ..
-	m_sliderVideoFrame->SetValue(curFrame);
-	m_spinCtrlCurFrame->SetValue(curFrame);
-}
+
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
-	if (!updating) { 
-		int frame = event.GetInt();
-		if (frame < 1) curFrame = 1;
-		else if (frame>numOfFrames) curFrame = numOfFrames;
-		else curFrame = frame;
-		UpdateFrameControls();
-		updating = true;
-	} else updating = false;
+	//if (!updating) { 
+//		int frame = event.GetInt();
+//		if (frame < 1) curFrame = 1;
+//		else if (frame>numOfFrames) curFrame = numOfFrames;
+//		else curFrame = frame;
+//		updating = true;
+//		m_sliderVideoFrame->SetValue(curFrame);
+//	} else updating = false;
 }
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
-	if (!updating) {
+		if (!updating) {
 	int frame = event.GetInt();
 	if (frame < 1) curFrame = 1;
 	else if (frame>numOfFrames) curFrame = numOfFrames;
 	else curFrame = frame;	
-		UpdateFrameControls();
-		updating = true;
-	} else updating = false;}
+	m_sliderVideoFrame->SetValue(curFrame);
+		} else updating = false;
+}
 
 void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
-	if (!updating) {
-	int frame = m_sliderVideoFrame->GetValue();
+	//	if (!updating) {
+	int frame = event.GetInt(); //m_sliderVideoFrame->GetValue();
 	if (frame < 1) curFrame = 1;
 	else if (frame>numOfFrames) curFrame = numOfFrames;
 	else curFrame = frame;
-		UpdateFrameControls();
+//	updating = true;
+	if (!updating) {
 		updating = true;
-	} else updating = false;}
+		m_spinCtrlCurFrame->SetValue(curFrame);
+	}
+	//	} else updating = false;
+}
 
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
 	playing = false;
