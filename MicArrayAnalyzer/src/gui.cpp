@@ -652,42 +652,43 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //	PLAYER VIDEO
 //--------------------
 
-
+void MicArrayAnalyzerDlg::UpdateFrameControls(){
+	// update the slider, spin control, ..
+	//	updating = true;
+	m_sliderVideoFrame->SetValue(curFrame);
+	m_spinCtrlCurFrame->SetValue(curFrame);
+}
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
-	//if (!updating) { 
-//		int frame = event.GetInt();
-//		if (frame < 1) curFrame = 1;
-//		else if (frame>numOfFrames) curFrame = numOfFrames;
-//		else curFrame = frame;
-//		updating = true;
-//		m_sliderVideoFrame->SetValue(curFrame);
-//	} else updating = false;
+	if (!updating) { 
+		int frame = event.GetInt();
+		if (frame < 1) curFrame = 1;
+		else if (frame>numOfFrames) curFrame = numOfFrames;
+		else curFrame = frame;
+		UpdateFrameControls();
+		updating = true;
+	} else updating = false;
 }
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
-		if (!updating) {
-	int frame = event.GetInt();
-	if (frame < 1) curFrame = 1;
-	else if (frame>numOfFrames) curFrame = numOfFrames;
-	else curFrame = frame;	
-	m_sliderVideoFrame->SetValue(curFrame);
-		} else updating = false;
-}
+	if (!updating) {
+		int frame = event.GetInt();
+		if (frame < 1) curFrame = 1;
+		else if (frame>numOfFrames) curFrame = numOfFrames;
+		else curFrame = frame;	
+		updating = true;
+		UpdateFrameControls();
+	} else updating = false;}
 
 void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
-	//	if (!updating) {
-	int frame = event.GetInt(); //m_sliderVideoFrame->GetValue();
-	if (frame < 1) curFrame = 1;
-	else if (frame>numOfFrames) curFrame = numOfFrames;
-	else curFrame = frame;
-//	updating = true;
+	int frame = m_sliderVideoFrame->GetValue();
 	if (!updating) {
+		if (frame < 1) curFrame = 1;
+		else if (frame>numOfFrames) curFrame = numOfFrames;
+		else curFrame = frame;
+		UpdateFrameControls();
 		updating = true;
-		m_spinCtrlCurFrame->SetValue(curFrame);
-	}
-	//	} else updating = false;
-}
+	} else updating = false;}
 
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
 	playing = false;

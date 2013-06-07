@@ -1,0 +1,12 @@
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/gui.cpp:655: error: no 'void MicArrayAnalyzerDlg::UpdateFrameControls()' member function declared in class 'MicArrayAnalyzerDlg'
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:4: warning: 'stop_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:147: warning: 'speedup_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:311: warning: 'slowdown_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:473: warning: 'rulers_menu_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:502: warning: 'play_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:658: warning: 'pause_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:813: warning: 'check_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:894: warning: 'cross_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/icons.h:976: warning: 'warning_icon_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:4: warning: 'yruler_bgnd_png' defined but not used
+/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/../../src/images.h:67: warning: 'xruler_bgnd_png' defined but not used
