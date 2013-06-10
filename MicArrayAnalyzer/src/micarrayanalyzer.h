@@ -151,6 +151,10 @@ class MicArrayAnalyzer
       bool bWatchpointsAlloc;          //false = watchpoints not yet defined.
    
       bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
+	   
+	   int curFrame,frameLength, numOfFrames;
+
+
 
    protected:
       void InitProgressMeter(const wxString& operation);
@@ -191,6 +195,9 @@ class MicArrayAnalyzer
       int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
       TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
 	   int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
+	   int GetNumOfFrames() {return numOfFrames;}
+	   int GetCurFrame() {return curFrame;}
+	   int GetFrameLength() {return frameLength;}
             
       // Setters
       void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
@@ -204,7 +211,11 @@ class MicArrayAnalyzer
       bool SetBgndImage(const wxString& str);
       void SetFSLevel(double value) { dFSLevel = value; }
       void SetMinSPLTreshold(double value) { dMinSPLTreshold = value; }
+	   void SetNumOfFrames(int value) {numOfFrames = value; }
+	   void SetCurFrame(int value) {curFrame = value; }
+	   void SetFrameLength(int value) {frameLength = value; }
 
+	   
       void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
       void CalculateFSScalingFactor();
       bool Calculate(); // This function does the hard work!

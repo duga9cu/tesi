@@ -79,10 +79,9 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		
 		int m_iCurrRulersFormat; // used for toggling...
 		
-		int curFrame , frameLength;
 		bool playing, updating;
 		float frameRateCoeff;
-		int numOfFrames;
+	
 		
 	protected:
 		void OnOk(wxCommandEvent& event);
