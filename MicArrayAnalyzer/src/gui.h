@@ -23,7 +23,6 @@
 
 // Some consts to define Main Dialog aspect
 const int DEFAULT_RULER_FORMAT = 0;          //0 = deg, 1 = pixel
-const int FRAMELENGTH = 8;					// ms of audio to chunck for one video frame
 /*const int RULERS_FONT_SIZE = 7;              
  const wxCoord RULERS_MAIN_NOTCHES = 10;      //Length of main notches
  const wxCoord RULERS_SEC_NOTCHES = 5;        //Length of secondary notches

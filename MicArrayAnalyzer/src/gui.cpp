@@ -495,13 +495,12 @@ m_iCurrRulersFormat(MyRuler::RF_DEGREES)
 	//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
 	
 	//default values
-//	curFrame = 1;
-	mMAA->SetCurFrame(1);
+	mMAA->SetCurFrame(1); //useless
 	updating = false;
 	playing = false;
-//	frameLength = FRAMELENGTH; //ms
-	mMAA->SetFrameLength(FRAMELENGTH);
-	 int numOfFrames = maa->GetAudioTrackLength() / maa->GetProjSampleRate() *1000 / FRAMELENGTH;  
+	sampleCount atl= mMAA->GetAudioTrackLength();
+	sampleCount fls =  mMAA->GetFrameLengthSmpl();
+	 int numOfFrames = atl / fls;  
 	mMAA->SetNumOfFrames(numOfFrames);
 	
 	m_sliderVideoFrame->SetMax(numOfFrames);
