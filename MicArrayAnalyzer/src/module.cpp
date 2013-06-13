@@ -51,7 +51,6 @@ bool EffectMicArrayAnalyzer::Init()
 	
 	ntracks = GetNumWaveTracks();
 	trackFormat = waveTrack->GetSampleFormat();  //Assuming first track as a reference for track format!
-//	mMAA->SetFrameLengthSmpl(waveTrack->TimeToLongSamples(mMAA->GetFrameLength()));   //something better has to be done
 	
 #ifdef __AUDEBUG__
 	int debug = 0;

@@ -81,7 +81,7 @@ bool MicArrayAnalyzer::Calculate()
 	for (int i=0; i<iProjectNumTracks; i++) {
 		//		   for (int j=0	; j<iAudioTrackLength; j++) {
 		for (int j=startFrameSmpl; j<endFrameSmpl; j++) {    //controllare out-of-bound!
-			ActualFrameAudioData[i][j] = ppfAudioData[i][j];
+			ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
 		}
 	}
 	

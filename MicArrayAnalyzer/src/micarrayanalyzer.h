@@ -215,9 +215,9 @@ class MicArrayAnalyzer
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLTreshold(double value) { dMinSPLTreshold = value; }
 		void SetNumOfFrames(int value) {numOfFrames = value; }
-		void SetCurFrame(int value) {curFrame = value; }
-		void SetFrameLength(float value);
-		void SetFrameLengthSmpl(sampleCount valueSmpl);
+		void SetCurFrame(int value) {curFrame = value; Calculate();}
+		void SetFrameLength(float value) {frameLength = value;}
+		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
 		
 		
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }

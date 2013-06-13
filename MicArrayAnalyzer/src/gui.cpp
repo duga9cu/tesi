@@ -659,6 +659,8 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 	//	updating = true;
 	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
 	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
+	m_pMap->Refresh();
+
 }
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
@@ -695,6 +697,9 @@ void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
 	playing = false;
 	mMAA->SetCurFrame(1);
+	UpdateFrameControls();
+	m_pMap->Refresh();
+
 }
 
 void MicArrayAnalyzerDlg::OnPAUSEBtn(wxCommandEvent& event)  {
