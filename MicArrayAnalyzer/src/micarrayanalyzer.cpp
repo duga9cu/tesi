@@ -20,7 +20,8 @@
 #define __AUDEBUG__
 #endif
 
-#define FRAMELENGTH 0.008					// seconds of audio to chunck for one video frame
+#define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046)
+#define FRAMEOVERLAP 0.9					// percentage of frame overlapping
 
 
 using std::vector;
@@ -47,6 +48,7 @@ bWatchpointsAlloc(false),
 iWatchpoints(0),
 mProgress(0),
 frameLength(FRAMELENGTH),
+frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1)
 {}
 
@@ -73,17 +75,41 @@ bool MicArrayAnalyzer::Calculate()
 	printf("MicArrayAnalyzer::Calculate(): copying ppfAudioData into ActualFrameAudioData\n");
 	fflush(stdout);
 #endif
-	sampleCount startFrameSmpl = curFrame*frameLengthSmpl - frameLengthSmpl; // curFrame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
-	sampleCount endFrameSmpl = startFrameSmpl + frameLengthSmpl;
-	if (startFrameSmpl < 0 ) startFrameSmpl = 0;
-	if (endFrameSmpl > iAudioTrackLength) endFrameSmpl = iAudioTrackLength;
+	sampleCount startFrameSmpl = (curFrame-1)*(frameLengthSmpl) - frameLengthSmpl*frameOverlapRatio; // curFrame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
+	sampleCount endFrameSmpl = startFrameSmpl + frameLengthSmpl + frameLengthSmpl*frameOverlapRatio;
+	sampleCount RShift=0;	
+	sampleCount LShift=0;
+	if (startFrameSmpl < 0 ) { //on the first frame
+		//TODO zero padding invece di shift
+		
+		RShift = -startFrameSmpl;
+		startFrameSmpl += RShift;
+		endFrameSmpl += RShift;
+	} else	if (endFrameSmpl > iAudioTrackLength) { //on the last frame
+		LShift = endFrameSmpl - iAudioTrackLength;
+		startFrameSmpl += LShift;
+		endFrameSmpl += LShift;
+	}
 	
-	for (int i=0; i<iProjectNumTracks; i++) {
-		//		   for (int j=0	; j<iAudioTrackLength; j++) {
-		for (int j=startFrameSmpl; j<endFrameSmpl; j++) {    //controllare out-of-bound!
+	for (int i=0; i<iProjectNumTracks; i++) {  //copy data of actual frame
+		for (int j=startFrameSmpl; j<endFrameSmpl; j++) {    
 			ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
 		}
 	}
+	
+#ifdef __AUDEBUG__
+	printf("printing ACTUALFRAMEAUDIODATA MATRIX\n");
+	
+	for (int i=0; i<iProjectNumTracks; i++) {  
+		for (int j=0; j<GetFrameTotLengthSmpl(); j++) {    
+			printf ("%d ", ppfAudioData[i][j]);
+		}
+		printf("\n");
+	}
+	
+	fflush(stdout);
+#endif
+	
 	
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
@@ -275,7 +301,7 @@ bool MicArrayAnalyzer::Calculate()
 		UpdateProgressMeter(i,iVirtualMikes);
 		//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
 		//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
-		apOutputData->SetTrack(i,ActualFrameAudioData[i],iAudioTrackLength,true); //***DEBUG*** BYPASSING CONVOLUTION!
+		apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameTotLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
 	}
 	DestroyProgressMeter();
 	
@@ -335,7 +361,8 @@ bool MicArrayAnalyzer::AudioTrackInit(int i, int length)
 	else
 	{
 		ppfAudioData[i] = new float [length];
-		ActualFrameAudioData[i] = new float [frameLengthSmpl];
+		int ActualFrameLengthSmpl = GetFrameTotLengthSmpl();
+		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 		return true;
 	}
 }

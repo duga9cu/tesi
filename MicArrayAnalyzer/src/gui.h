@@ -78,9 +78,11 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		
 		int m_iCurrRulersFormat; // used for toggling...
 		
-		bool playing, updating;
+		bool  updating;
 		float frameRateCoeff;
-	
+		wxTimer	m_timer;
+		enum { ID_MM_TIMER = 2013 };
+
 		
 	protected:
 		void OnOk(wxCommandEvent& event);
@@ -94,6 +96,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnTransparency(wxSpinEvent& event);
 		void OnBandAnalysis(wxCommandEvent& event);
 		void OnMouseOverMap(wxCommandEvent& event);
+		//ellerre
 		void OnSpinCurFrame(wxCommandEvent& event) ;
 		void OnSpinCtrlTxt(wxCommandEvent& event) ;
 		void OnSliderScroll( wxScrollEvent& event ) ;
@@ -102,6 +105,8 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnPLAYBtn(wxCommandEvent& event) ;
 		void OnChoiceFrameRate(wxCommandEvent& event) ;
 		void UpdateFrameControls();
+		void OnTimer(wxTimerEvent& event); 
+
 	public:
 		MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer* maa);
 		~MicArrayAnalyzerDlg();

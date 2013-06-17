@@ -448,7 +448,8 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 MicArrayAnalyzerDlg::MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer *maa) 
 : MyModuleDlg(parent),
 mMAA(maa), 
-m_iCurrRulersFormat(MyRuler::RF_DEGREES)
+m_iCurrRulersFormat(MyRuler::RF_DEGREES),
+m_timer(this, ID_MM_TIMER)
 {
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzerDlg: Class INIT\n");
@@ -493,11 +494,11 @@ m_iCurrRulersFormat(MyRuler::RF_DEGREES)
     // Connect events
     Connect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
 	//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
-	
+	Connect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
+
 	//default values
-	mMAA->SetCurFrame(1); //useless
 	updating = false;
-	playing = false;
+	mMAA->SetPlaying(false);
 	sampleCount atl= mMAA->GetAudioTrackLength();
 	sampleCount fls =  mMAA->GetFrameLengthSmpl();
 	 int numOfFrames = atl / fls;  
@@ -511,6 +512,8 @@ m_iCurrRulersFormat(MyRuler::RF_DEGREES)
 MicArrayAnalyzerDlg::~MicArrayAnalyzerDlg()
 {
 	Disconnect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
+	Disconnect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
+
 }
 
 void MicArrayAnalyzerDlg::OnOk(wxCommandEvent& event)
@@ -643,7 +646,8 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
             szZ.Printf(wxT("%.1f"), c->z);
         else 
             szZ.Printf(wxT("%.1E"), c->z);        
-    }
+    }      
+
 	
     m_wxtcXPos->SetValue(szX);
     m_wxtcYPos->SetValue(szY);
@@ -695,19 +699,19 @@ void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
 	} else updating = false;}
 
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
-	playing = false;
+	mMAA->SetPlaying(false);
 	mMAA->SetCurFrame(1);
 	UpdateFrameControls();
-	m_pMap->Refresh();
-
 }
 
 void MicArrayAnalyzerDlg::OnPAUSEBtn(wxCommandEvent& event)  {
-	playing=false;
+	mMAA->SetPlaying(false);
 }
 
 void MicArrayAnalyzerDlg::OnPLAYBtn(wxCommandEvent& event)  {
-	playing=true;
+	mMAA->SetPlaying(true);
+	int millitimer = mMAA->GetFrameLength()*1000; 
+	m_timer.Start(millitimer, true);
 }
 
 void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
@@ -734,7 +738,21 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 	}	
 }
 
-
+void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
+{
+	if(mMAA->GetCurFrame() < mMAA->GetNumOfFrames())
+		mMAA->NextFrame();
+	else {
+		mMAA->SetPlaying(false);
+	}
+	UpdateFrameControls();
+//	m_pMap->Refresh(); è già nell'updateframecontrols
+	
+	if (mMAA->Playing()) {
+		int millitimer = mMAA->GetFrameLength()*1000; 
+		m_timer.Start(millitimer, true);
+	}
+}
 
 
 

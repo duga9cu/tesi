@@ -113,7 +113,8 @@ bool EffectMicArrayAnalyzer::LoadTrackData(WaveTrack *wt, int id)
 		mMAA->SetLocalMinMax(id,local_min,local_max);
 		mMAA->SetAbsoluteMinMax(id,absolute_min,absolute_max);
 		
-		if(mMAA->SetAudioTrackLength(end-start)) mMAA->AudioTrackInit(id,end-start); //Memory allocation
+		if(mMAA->SetAudioTrackLength(end-start)) 
+			mMAA->AudioTrackInit(id,end-start); //Memory allocation
 		wt->Get((samplePtr)mMAA->GetAudioDataTrack(id),floatSample,start,end-start);
 	}
 	return true;
@@ -195,6 +196,14 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 	printf("This is PROCESS\n");
 	fflush(stdout);
 #endif
+	
+	//check if framelenght is suffiiciently short
+	sampleCount totalFrameLenghtSmpl = mMAA->GetFrameLengthSmpl() + mMAA->GetFrameOverlapSmpl();
+	if(totalFrameLenghtSmpl > mMAA->GetAudioTrackLength() ) {
+		printf("Process: redefining frame lenght because audio track to analyze is too short");
+		mMAA->SetFrameLength(mMAA->GetFrameLength() / 10);
+		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
+	}
 	
 	if(mMAA->Calculate())
 	{

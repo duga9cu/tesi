@@ -155,6 +155,8 @@ class MicArrayAnalyzer
 		int curFrame, numOfFrames;
 		float frameLength;
 		sampleCount frameLengthSmpl;
+		float frameOverlapRatio;
+		bool playing;
 		
 		
 		
@@ -170,6 +172,7 @@ class MicArrayAnalyzer
 		void AudioDataInit();                     //Init of the whole audio data space.
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
+		void NextFrame() {curFrame++; Calculate();}
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
@@ -201,6 +204,9 @@ class MicArrayAnalyzer
 		int GetCurFrame() {return curFrame;}
 		float GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
+		sampleCount GetFrameOverlapSmpl() {return 2*frameOverlapRatio*frameLengthSmpl;}
+		sampleCount GetFrameTotLengthSmpl() {return GetFrameLengthSmpl() + GetFrameOverlapSmpl();}
+		bool Playing() {return playing;}
 		
 		// Setters
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
@@ -215,9 +221,10 @@ class MicArrayAnalyzer
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLTreshold(double value) { dMinSPLTreshold = value; }
 		void SetNumOfFrames(int value) {numOfFrames = value; }
-		void SetCurFrame(int value) {curFrame = value; Calculate();}
+		void SetCurFrame(int value) {curFrame = value; if(!playing) Calculate();}
 		void SetFrameLength(float value) {frameLength = value;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
+		void SetPlaying(bool value) {playing = value;}
 		
 		
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
