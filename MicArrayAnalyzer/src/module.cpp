@@ -197,7 +197,7 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 	fflush(stdout);
 #endif
 	
-	//check if framelenght is suffiiciently short
+	//check if framelenght is sufficiently short
 	sampleCount totalFrameLenghtSmpl = mMAA->GetFrameLengthSmpl() + mMAA->GetFrameOverlapSmpl();
 	if(totalFrameLenghtSmpl > mMAA->GetAudioTrackLength() ) {
 		printf("Process: redefining frame lenght because audio track to analyze is too short");

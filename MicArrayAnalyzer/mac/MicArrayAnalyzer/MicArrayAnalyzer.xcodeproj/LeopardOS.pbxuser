@@ -13,7 +13,6 @@
 			B474AEDC174CFCE20090C626 /* module.cpp:26 */,
 			B474AEEA174CFF250090C626 /* module.cpp:274 */,
 			B474AF20174D06F70090C626 /* micarrayanalyzer.cpp:72 */,
-			B43B84B9174D247200104BB3 /* micarrayanalyzer.cpp:337 */,
 			B47346C2174F54D7007D7F86 /* gui.cpp:448 */,
 			B48F6DBB1750F12600B34DDE /* gui.cpp:661 */,
 			B48F6DBD1750F12700B34DDE /* gui.cpp:661 */,
@@ -29,6 +28,10 @@
 			B489CA821765D3D0001AB624 /* gui.cpp:681 */,
 			B489CA841765D3D3001AB624 /* gui.cpp:691 */,
 			B479998D176CC49E00E0F8A5 /* gui.cpp:741 */,
+			B4EBEA64177B44AF002D5DB9 /* multivolver.cpp:141 */,
+			B47A79E5177B4B3700223AB8 /* multivolver.cpp:172 */,
+			B47A7A4B177B632100223AB8 /* micarrayanalyzer.cpp:305 */,
+			B47A7A4D177B632E00223AB8 /* micarrayanalyzer.cpp:244 */,
 		);
 		codeSenseManager = B4CBEF731732B9AC00073390 /* Code sense */;
 		executables = (
@@ -65,7 +68,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					22,
 					300,
-					721,
+					704,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXExecutablesDataSource_ActiveFlagID,
@@ -78,7 +81,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					857,
+					816,
 					20,
 					48,
 					43,
@@ -95,35 +98,54 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 393199723;
-			PBXWorkspaceStateSaveDate = 393199723;
+			PBXPerProjectTemplateStateSaveDate = 394013646;
+			PBXWorkspaceStateSaveDate = 394013646;
 		};
 		perUserProjectItems = {
-			B472A58B176FC68B008CED65 /* PBXTextBookmark */ = B472A58B176FC68B008CED65 /* PBXTextBookmark */;
-			B472A58C176FC68B008CED65 /* PBXTextBookmark */ = B472A58C176FC68B008CED65 /* PBXTextBookmark */;
-			B472A58E176FC68B008CED65 /* PBXTextBookmark */ = B472A58E176FC68B008CED65 /* PBXTextBookmark */;
-			B472A58F176FC68B008CED65 /* PBXTextBookmark */ = B472A58F176FC68B008CED65 /* PBXTextBookmark */;
-			B472A593176FC6FD008CED65 /* PBXTextBookmark */ = B472A593176FC6FD008CED65 /* PBXTextBookmark */;
-			B472A594176FC6FD008CED65 /* PBXTextBookmark */ = B472A594176FC6FD008CED65 /* PBXTextBookmark */;
-			B472A597176FC6FD008CED65 /* PBXTextBookmark */ = B472A597176FC6FD008CED65 /* PBXTextBookmark */;
-			B472A599176FC70D008CED65 /* PBXTextBookmark */ = B472A599176FC70D008CED65 /* PBXTextBookmark */;
-			B472A59A176FC70D008CED65 /* PBXTextBookmark */ = B472A59A176FC70D008CED65 /* PBXTextBookmark */;
-			B472A59B176FC70D008CED65 /* PBXTextBookmark */ = B472A59B176FC70D008CED65 /* PBXTextBookmark */;
-			B472A59C176FC70D008CED65 /* PBXTextBookmark */ = B472A59C176FC70D008CED65 /* PBXTextBookmark */;
-			B472A59D176FC70D008CED65 /* PBXTextBookmark */ = B472A59D176FC70D008CED65 /* PBXTextBookmark */;
-			B472A59E176FC70D008CED65 /* PBXTextBookmark */ = B472A59E176FC70D008CED65 /* PBXTextBookmark */;
-			B472A59F176FC70D008CED65 /* PBXTextBookmark */ = B472A59F176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A0176FC70D008CED65 /* PBXTextBookmark */ = B472A5A0176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A1176FC70D008CED65 /* PBXTextBookmark */ = B472A5A1176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A2176FC70D008CED65 /* PBXTextBookmark */ = B472A5A2176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A3176FC70D008CED65 /* PBXTextBookmark */ = B472A5A3176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A4176FC70D008CED65 /* PBXTextBookmark */ = B472A5A4176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A5176FC70D008CED65 /* PBXTextBookmark */ = B472A5A5176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A6176FC70D008CED65 /* PBXTextBookmark */ = B472A5A6176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A7176FC70D008CED65 /* PBXTextBookmark */ = B472A5A7176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5A8176FC70D008CED65 /* PBXTextBookmark */ = B472A5A8176FC70D008CED65 /* PBXTextBookmark */;
-			B472A5B6176FC840008CED65 /* PBXTextBookmark */ = B472A5B6176FC840008CED65 /* PBXTextBookmark */;
-			B472A5B7176FC840008CED65 /* PBXTextBookmark */ = B472A5B7176FC840008CED65 /* PBXTextBookmark */;
+			B47A79EB177B4D1600223AB8 = B47A79EB177B4D1600223AB8 /* PBXTextBookmark */;
+			B47A79EC177B4D1600223AB8 = B47A79EC177B4D1600223AB8 /* PBXTextBookmark */;
+			B47A79ED177B4D1600223AB8 = B47A79ED177B4D1600223AB8 /* PBXTextBookmark */;
+			B47A79EE177B4D1600223AB8 = B47A79EE177B4D1600223AB8 /* PBXTextBookmark */;
+			B47A79F4177B4D1600223AB8 = B47A79F4177B4D1600223AB8 /* PBXTextBookmark */;
+			B47A7A22177B62DF00223AB8 = B47A7A22177B62DF00223AB8 /* PBXTextBookmark */;
+			B47A7A27177B62DF00223AB8 = B47A7A27177B62DF00223AB8 /* PBXTextBookmark */;
+			B47A7A4F177B634C00223AB8 = B47A7A4F177B634C00223AB8 /* PBXTextBookmark */;
+			B47A7A61177B658800223AB8 = B47A7A61177B658800223AB8 /* PBXTextBookmark */;
+			B47A7A62177B658800223AB8 = B47A7A62177B658800223AB8 /* PBXTextBookmark */;
+			B47A7A65177B658800223AB8 = B47A7A65177B658800223AB8 /* PBXTextBookmark */;
+			B47A7A7C177B66D800223AB8 = B47A7A7C177B66D800223AB8 /* PBXTextBookmark */;
+			B47A7A7D177B66D800223AB8 = B47A7A7D177B66D800223AB8 /* PBXTextBookmark */;
+			B47A7A7E177B66D800223AB8 = B47A7A7E177B66D800223AB8 /* PBXTextBookmark */;
+			B47A7A80177B66D800223AB8 = B47A7A80177B66D800223AB8 /* PBXTextBookmark */;
+			B47A7A81177B66D800223AB8 = B47A7A81177B66D800223AB8 /* PBXTextBookmark */;
+			B47A7A82177B66D800223AB8 = B47A7A82177B66D800223AB8 /* PBXTextBookmark */;
+			B47C87811779AE2200CD0C7F = B47C87811779AE2200CD0C7F /* PBXTextBookmark */;
+			B47C87B21779B69900CD0C7F = B47C87B21779B69900CD0C7F /* PBXTextBookmark */;
+			B47C87B71779B69900CD0C7F = B47C87B71779B69900CD0C7F /* PBXTextBookmark */;
+			B47C87D71779D17000CD0C7F = B47C87D71779D17000CD0C7F /* PBXTextBookmark */;
+			B47C87DC1779D17000CD0C7F = B47C87DC1779D17000CD0C7F /* PBXTextBookmark */;
+			B47C87FB1779EDFA00CD0C7F = B47C87FB1779EDFA00CD0C7F /* PBXTextBookmark */;
+			B47C87FD1779EDFA00CD0C7F = B47C87FD1779EDFA00CD0C7F /* PBXTextBookmark */;
+			B47C87FF1779EDFA00CD0C7F = B47C87FF1779EDFA00CD0C7F /* PBXTextBookmark */;
+			B47C88011779EDFA00CD0C7F = B47C88011779EDFA00CD0C7F /* PBXTextBookmark */;
+			B47C88061779EDFA00CD0C7F = B47C88061779EDFA00CD0C7F /* PBXTextBookmark */;
+			B47C88081779EDFA00CD0C7F = B47C88081779EDFA00CD0C7F /* PBXTextBookmark */;
+			B47C880A1779EDFA00CD0C7F = B47C880A1779EDFA00CD0C7F /* PBXTextBookmark */;
+			B484F961177C2DE500EFA9E1 /* PBXTextBookmark */ = B484F961177C2DE500EFA9E1 /* PBXTextBookmark */;
+			B484F962177C2DE500EFA9E1 /* PBXTextBookmark */ = B484F962177C2DE500EFA9E1 /* PBXTextBookmark */;
+			B484F963177C2DE500EFA9E1 /* PBXTextBookmark */ = B484F963177C2DE500EFA9E1 /* PBXTextBookmark */;
+			B484F964177C2DE500EFA9E1 /* PBXTextBookmark */ = B484F964177C2DE500EFA9E1 /* PBXTextBookmark */;
+			B484F965177C2DE500EFA9E1 /* PBXTextBookmark */ = B484F965177C2DE500EFA9E1 /* PBXTextBookmark */;
+			B484F968177C2DE500EFA9E1 /* PBXTextBookmark */ = B484F968177C2DE500EFA9E1 /* PBXTextBookmark */;
+			B484F970177C2E5600EFA9E1 /* PBXTextBookmark */ = B484F970177C2E5600EFA9E1 /* PBXTextBookmark */;
+			B484F971177C2E5600EFA9E1 /* PBXTextBookmark */ = B484F971177C2E5600EFA9E1 /* PBXTextBookmark */;
+			B48C61D3177C2A2B0003974A = B48C61D3177C2A2B0003974A /* PBXTextBookmark */;
+			B48C61D4177C2A2B0003974A = B48C61D4177C2A2B0003974A /* PBXTextBookmark */;
+			B4926026177C23D6000FB267 = B4926026177C23D6000FB267 /* PBXTextBookmark */;
+			B4926027177C23D6000FB267 = B4926027177C23D6000FB267 /* PBXTextBookmark */;
+			B492603E177C266B000FB267 = B492603E177C266B000FB267 /* PBXTextBookmark */;
+			B492603F177C266B000FB267 = B492603F177C266B000FB267 /* PBXTextBookmark */;
+			B4DFC3A4177B468D000B2F9F = B4DFC3A4177B468D000B2F9F /* PBXTextBookmark */;
 		};
 		sourceControlManager = B4CBEF721732B9AC00073390 /* Source Control */;
 		userBuildSettings = {
@@ -136,278 +158,12 @@
 			sepNavVisRange = "{0, 134}";
 		};
 	};
-	B43B84B9174D247200104BB3 /* micarrayanalyzer.cpp:337 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 337;
-		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201418.928597;
-		state = 1;
-	};
-	B472A58B176FC68B008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		name = "micarrayanalyzer.cpp: 644";
-		rLen = 9;
-		rLoc = 22300;
-		rType = 0;
-		vrLen = 722;
-		vrLoc = 22261;
-	};
-	B472A58C176FC68B008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		rLen = 9;
-		rLoc = 16344;
-		rType = 0;
-	};
-	B472A58D176FC68B008CED65 /* gui.cpp */ = {
+	B42E589C177B472C00CDCFF8 /* module.cpp */ = {
 		isa = PBXFileReference;
 		lastKnownFileType = sourcecode.cpp.cpp;
-		name = gui.cpp;
-		path = "/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/src/gui.cpp";
+		name = module.cpp;
+		path = "/Users/LeopardOS/src/wxWidgets-2.8.12/build-debug-static/../src/common/module.cpp";
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1554, 10990}}";
-			sepNavSelRange = "{16344, 9}";
-			sepNavVisRange = "{15821, 1341}";
-		};
-	};
-	B472A58E176FC68B008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		name = "micarrayanalyzer.cpp: 644";
-		rLen = 9;
-		rLoc = 22300;
-		rType = 0;
-		vrLen = 722;
-		vrLoc = 22261;
-	};
-	B472A58F176FC68B008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC04171614F39D6000AD323A /* gui.cpp */;
-		name = "gui.cpp: 482";
-		rLen = 9;
-		rLoc = 16344;
-		rType = 0;
-		vrLen = 1342;
-		vrLoc = 15821;
-	};
-	B472A593176FC6FD008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		comments = "error: 'SetPlaying' was not declared in this scope";
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		rLen = 1;
-		rLoc = 745;
-		rType = 1;
-	};
-	B472A594176FC6FD008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		name = "gui.cpp: 746";
-		rLen = 0;
-		rLoc = 24010;
-		rType = 0;
-		vrLen = 224;
-		vrLoc = 23805;
-	};
-	B472A597176FC6FD008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		name = "gui.cpp: 482";
-		rLen = 9;
-		rLoc = 16344;
-		rType = 0;
-		vrLen = 1342;
-		vrLoc = 15821;
-	};
-	B472A599176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC04171714F39D6000AD323A /* tinystr.cpp */;
-		name = "tinystr.cpp: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1145;
-		vrLoc = 0;
-	};
-	B472A59A176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
-		name = "module.cpp: 118";
-		rLen = 17;
-		rLoc = 3222;
-		rType = 0;
-		vrLen = 1183;
-		vrLoc = 2332;
-	};
-	B472A59B176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416C914F39D0B00AD323A /* afaudio.cpp */;
-		name = "afaudio.cpp: 109";
-		rLen = 0;
-		rLoc = 3777;
-		rType = 0;
-		vrLen = 1843;
-		vrLoc = 2581;
-	};
-	B472A59C176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416E614F39D4400AD323A /* afaudio.h */;
-		name = "afaudio.h: 33";
-		rLen = 39;
-		rLoc = 829;
-		rType = 0;
-		vrLen = 1029;
-		vrLoc = 408;
-	};
-	B472A59D176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416F214F39D4400AD323A /* micarrayanalyzer.h */;
-		name = "micarrayanalyzer.h: 55";
-		rLen = 38;
-		rLoc = 1798;
-		rType = 0;
-		vrLen = 1621;
-		vrLoc = 1091;
-	};
-	B472A59E176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		name = "micarrayanalyzer.cpp: 105";
-		rLen = 0;
-		rLoc = 3111;
-		rType = 0;
-		vrLen = 1043;
-		vrLoc = 2461;
-	};
-	B472A59F176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC04171714F39D6000AD323A /* tinystr.cpp */;
-		name = "tinystr.cpp: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1145;
-		vrLoc = 0;
-	};
-	B472A5A0176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC04171614F39D6000AD323A /* gui.cpp */;
-		name = "gui.cpp: 746";
-		rLen = 0;
-		rLoc = 24002;
-		rType = 0;
-		vrLen = 597;
-		vrLoc = 23622;
-	};
-	B472A5A1176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
-		name = "module.cpp: 118";
-		rLen = 17;
-		rLoc = 3222;
-		rType = 0;
-		vrLen = 1183;
-		vrLoc = 2332;
-	};
-	B472A5A2176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		name = "micarrayanalyzer.cpp: 769";
-		rLen = 0;
-		rLoc = 25407;
-		rType = 0;
-		vrLen = 1203;
-		vrLoc = 24739;
-	};
-	B472A5A3176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416C914F39D0B00AD323A /* afaudio.cpp */;
-		name = "afaudio.cpp: 109";
-		rLen = 0;
-		rLoc = 3777;
-		rType = 0;
-		vrLen = 1843;
-		vrLoc = 2581;
-	};
-	B472A5A4176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416E614F39D4400AD323A /* afaudio.h */;
-		name = "afaudio.h: 33";
-		rLen = 39;
-		rLoc = 829;
-		rType = 0;
-		vrLen = 1029;
-		vrLoc = 408;
-	};
-	B472A5A5176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		name = "micarrayanalyzer.cpp: 769";
-		rLen = 0;
-		rLoc = 25407;
-		rType = 0;
-		vrLen = 1203;
-		vrLoc = 24739;
-	};
-	B472A5A6176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416F214F39D4400AD323A /* micarrayanalyzer.h */;
-		name = "micarrayanalyzer.h: 55";
-		rLen = 38;
-		rLoc = 1798;
-		rType = 0;
-		vrLen = 1621;
-		vrLoc = 1091;
-	};
-	B472A5A7176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		name = "micarrayanalyzer.cpp: 105";
-		rLen = 0;
-		rLoc = 3111;
-		rType = 0;
-		vrLen = 1043;
-		vrLoc = 2461;
-	};
-	B472A5A8176FC70D008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		name = "gui.cpp: 746";
-		rLen = 0;
-		rLoc = 24010;
-		rType = 0;
-		vrLen = 620;
-		vrLoc = 23436;
-	};
-	B472A5B6176FC840008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		name = "gui.cpp: 746";
-		rLen = 0;
-		rLoc = 24010;
-		rType = 0;
-		vrLen = 197;
-		vrLoc = 23805;
-	};
-	B472A5B7176FC840008CED65 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = B472A58D176FC68B008CED65 /* gui.cpp */;
-		name = "gui.cpp: 482";
-		rLen = 9;
-		rLoc = 16344;
-		rType = 0;
-		vrLen = 1341;
-		vrLoc = 15821;
 	};
 	B47346C2174F54D7007D7F86 /* gui.cpp:448 */ = {
 		isa = PBXFileBreakpoint;
@@ -423,7 +179,7 @@
 		ignoreCount = 0;
 		lineNumber = 448;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.005865;
+		modificationTime = 394011837.153442;
 		state = 1;
 	};
 	B47393EE174CC941000F3171 /* gui.cpp:90 */ = {
@@ -439,7 +195,7 @@
 		ignoreCount = 0;
 		lineNumber = 90;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201409.357377;
+		modificationTime = 394011778.784937;
 		state = 2;
 	};
 	B47393F0174CC964000F3171 /* gui.cpp:223 */ = {
@@ -455,7 +211,7 @@
 		ignoreCount = 0;
 		lineNumber = 223;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201409.357637;
+		modificationTime = 394011778.784962;
 		state = 2;
 	};
 	B474AEDC174CFCE20090C626 /* module.cpp:26 */ = {
@@ -471,7 +227,7 @@
 		ignoreCount = 0;
 		lineNumber = 26;
 		location = Audacity;
-		modificationTime = 393201409.357798;
+		modificationTime = 394011778.784973;
 		state = 1;
 	};
 	B474AEEA174CFF250090C626 /* module.cpp:274 */ = {
@@ -486,7 +242,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 274;
-		modificationTime = 393201409.357819;
+		modificationTime = 394011778.7849849;
 		state = 1;
 	};
 	B474AF20174D06F70090C626 /* micarrayanalyzer.cpp:72 */ = {
@@ -498,11 +254,11 @@
 		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 72;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201497.252934;
+		modificationTime = 394011837.0606;
 		state = 1;
 	};
 	B4752AD1174CB72100F2A556 /* LoadModules.h */ = {
@@ -521,12 +277,486 @@
 		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = FC04171614F39D6000AD323A /* gui.cpp */;
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 741;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201479.762118;
+		modificationTime = 394011837.738537;
 		state = 1;
+	};
+	B47A79E5177B4B3700223AB8 /* multivolver.cpp:172 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		functionName = "AFMultivolver::Process()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 172;
+		location = MicArrayAnalyzerd.so;
+		modificationTime = 394011837.824075;
+		state = 1;
+	};
+	B47A79EB177B4D1600223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B42E589C177B472C00CDCFF8 /* module.cpp */;
+		name = "module.cpp: 194";
+		rLen = 0;
+		rLoc = 5726;
+		rType = 0;
+		vrLen = 1447;
+		vrLoc = 4502;
+	};
+	B47A79EC177B4D1600223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416F214F39D4400AD323A /* micarrayanalyzer.h */;
+		name = "micarrayanalyzer.h: 146";
+		rLen = 0;
+		rLoc = 4649;
+		rType = 0;
+		vrLen = 1545;
+		vrLoc = 3801;
+	};
+	B47A79ED177B4D1600223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0125A014FBDA3700531590 /* map.cpp */;
+		name = "map.cpp: 832";
+		rLen = 0;
+		rLoc = 28323;
+		rType = 0;
+		vrLen = 1183;
+		vrLoc = 27610;
+	};
+	B47A79EE177B4D1600223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
+		name = "module.cpp: 208";
+		rLen = 0;
+		rLoc = 5745;
+		rType = 0;
+		vrLen = 1100;
+		vrLoc = 4999;
+	};
+	B47A79F4177B4D1600223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
+		name = "module.cpp: 208";
+		rLen = 0;
+		rLoc = 5745;
+		rType = 0;
+		vrLen = 1100;
+		vrLoc = 4999;
+	};
+	B47A7A22177B62DF00223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416F914F39D4400AD323A /* triangle_impl.h */;
+		name = "triangle_impl.h: 342";
+		rLen = 5;
+		rLoc = 22501;
+		rType = 0;
+		vrLen = 1383;
+		vrLoc = 21854;
+	};
+	B47A7A27177B62DF00223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416F914F39D4400AD323A /* triangle_impl.h */;
+		name = "triangle_impl.h: 342";
+		rLen = 5;
+		rLoc = 22501;
+		rType = 0;
+		vrLen = 1383;
+		vrLoc = 21854;
+	};
+	B47A7A2A177B62DF00223AB8 /* iostream */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.h;
+		name = iostream;
+		path = "/Developer/SDKs/MacOSX10.4u.sdk/usr/include/c++/4.0.0/iostream";
+		sourceTree = "<absolute>";
+	};
+	B47A7A4B177B632100223AB8 /* micarrayanalyzer.cpp:305 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		functionName = "MicArrayAnalyzer::Calculate()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 305;
+		location = MicArrayAnalyzerd.so;
+		modificationTime = 394011837.8627679;
+		state = 1;
+	};
+	B47A7A4D177B632E00223AB8 /* micarrayanalyzer.cpp:244 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		functionName = "MicArrayAnalyzer::Calculate()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 244;
+		location = MicArrayAnalyzerd.so;
+		modificationTime = 394011837.934549;
+		state = 1;
+	};
+	B47A7A4F177B634C00223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47A7A2A177B62DF00223AB8 /* iostream */;
+		name = "iostream: 76";
+		rLen = 0;
+		rLoc = 2873;
+		rType = 0;
+		vrLen = 1390;
+		vrLoc = 1568;
+	};
+	B47A7A61177B658800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416F414F39D4400AD323A /* multivolver.h */;
+		name = "multivolver.h: 31";
+		rLen = 0;
+		rLoc = 2012;
+		rType = 0;
+		vrLen = 1037;
+		vrLoc = 1980;
+	};
+	B47A7A62177B658800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416E914F39D4400AD323A /* convolver.h */;
+		name = "convolver.h: 119";
+		rLen = 0;
+		rLoc = 4593;
+		rType = 0;
+		vrLen = 2316;
+		vrLoc = 0;
+	};
+	B47A7A65177B658800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416F414F39D4400AD323A /* multivolver.h */;
+		name = "multivolver.h: 31";
+		rLen = 0;
+		rLoc = 2012;
+		rType = 0;
+		vrLen = 1037;
+		vrLoc = 1980;
+	};
+	B47A7A7C177B66D800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 143";
+		rLen = 0;
+		rLoc = 4377;
+		rType = 0;
+		vrLen = 1317;
+		vrLoc = 4636;
+	};
+	B47A7A7D177B66D800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CA14F39D0B00AD323A /* convolver.cpp */;
+		name = "convolver.cpp: 30";
+		rLen = 0;
+		rLoc = 1371;
+		rType = 0;
+		vrLen = 1575;
+		vrLoc = 1271;
+	};
+	B47A7A7E177B66D800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47A7A2A177B62DF00223AB8 /* iostream */;
+		name = "iostream: 76";
+		rLen = 0;
+		rLoc = 2881;
+		rType = 0;
+		vrLen = 1651;
+		vrLoc = 0;
+	};
+	B47A7A80177B66D800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 305";
+		rLen = 0;
+		rLoc = 10921;
+		rType = 0;
+		vrLen = 1987;
+		vrLoc = 7020;
+	};
+	B47A7A81177B66D800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 143";
+		rLen = 0;
+		rLoc = 4377;
+		rType = 0;
+		vrLen = 1317;
+		vrLoc = 4636;
+	};
+	B47A7A82177B66D800223AB8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CA14F39D0B00AD323A /* convolver.cpp */;
+		name = "convolver.cpp: 30";
+		rLen = 0;
+		rLoc = 1371;
+		rType = 0;
+		vrLen = 1575;
+		vrLoc = 1271;
+	};
+	B47C87811779AE2200CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416C914F39D0B00AD323A /* afaudio.cpp */;
+		name = "afaudio.cpp: 33";
+		rLen = 12;
+		rLoc = 895;
+		rType = 0;
+		vrLen = 1770;
+		vrLoc = 0;
+	};
+	B47C87B21779B69900CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416E614F39D4400AD323A /* afaudio.h */;
+		name = "afaudio.h: 35";
+		rLen = 9;
+		rLoc = 889;
+		rType = 0;
+		vrLen = 1587;
+		vrLoc = 209;
+	};
+	B47C87B51779B69900CD0C7F /* micarrayanalyzer.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = micarrayanalyzer.cpp;
+		path = "/Users/LeopardOS/Documents/Xcode/tesi-repo copy 2/MicArrayAnalyzer/src/micarrayanalyzer.cpp";
+		sourceTree = "<absolute>";
+	};
+	B47C87B71779B69900CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416E614F39D4400AD323A /* afaudio.h */;
+		name = "afaudio.h: 35";
+		rLen = 9;
+		rLoc = 889;
+		rType = 0;
+		vrLen = 1587;
+		vrLoc = 209;
+	};
+	B47C87D71779D17000CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C87B51779B69900CD0C7F /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 287";
+		rLen = 0;
+		rLoc = 10171;
+		rType = 0;
+		vrLen = 2560;
+		vrLoc = 8697;
+	};
+	B47C87DC1779D17000CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C87B51779B69900CD0C7F /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 287";
+		rLen = 0;
+		rLoc = 10171;
+		rType = 0;
+		vrLen = 2560;
+		vrLoc = 8697;
+	};
+	B47C87FB1779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C87FC1779EDFA00CD0C7F /* WaveTrack.h */;
+		name = "WaveTrack.h: 222";
+		rLen = 42;
+		rLoc = 6883;
+		rType = 0;
+		vrLen = 2232;
+		vrLoc = 5961;
+	};
+	B47C87FC1779EDFA00CD0C7F /* WaveTrack.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = WaveTrack.h;
+		path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/WaveTrack.h";
+		sourceTree = "<absolute>";
+	};
+	B47C87FD1779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C87FE1779EDFA00CD0C7F /* WaveTrack.cpp */;
+		name = "WaveTrack.cpp: 1544";
+		rLen = 0;
+		rLoc = 45968;
+		rType = 0;
+		vrLen = 1287;
+		vrLoc = 45368;
+	};
+	B47C87FE1779EDFA00CD0C7F /* WaveTrack.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = WaveTrack.cpp;
+		path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/WaveTrack.cpp";
+		sourceTree = "<absolute>";
+	};
+	B47C87FF1779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C88001779EDFA00CD0C7F /* Effect.cpp */;
+		name = "Effect.cpp: 134";
+		rLen = 0;
+		rLoc = 3062;
+		rType = 0;
+		vrLen = 1408;
+		vrLoc = 2370;
+	};
+	B47C88001779EDFA00CD0C7F /* Effect.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = Effect.cpp;
+		path = "/Users/LeopardOS/src/audacity-src-2.0.0/mac/../src/effects/Effect.cpp";
+		sourceTree = "<absolute>";
+	};
+	B47C88011779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416EA14F39D4400AD323A /* del_interface.h */;
+		name = "del_interface.h: 143";
+		rLen = 45;
+		rLoc = 3934;
+		rType = 0;
+		vrLen = 1518;
+		vrLoc = 3664;
+	};
+	B47C88061779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C88071779EDFA00CD0C7F /* WaveTrack.h */;
+		name = "WaveTrack.h: 222";
+		rLen = 42;
+		rLoc = 6883;
+		rType = 0;
+		vrLen = 2232;
+		vrLoc = 5961;
+	};
+	B47C88071779EDFA00CD0C7F /* WaveTrack.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = WaveTrack.h;
+		path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/WaveTrack.h";
+		sourceTree = "<absolute>";
+	};
+	B47C88081779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C88091779EDFA00CD0C7F /* WaveTrack.cpp */;
+		name = "WaveTrack.cpp: 1544";
+		rLen = 0;
+		rLoc = 45968;
+		rType = 0;
+		vrLen = 1287;
+		vrLoc = 45368;
+	};
+	B47C88091779EDFA00CD0C7F /* WaveTrack.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = WaveTrack.cpp;
+		path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/WaveTrack.cpp";
+		sourceTree = "<absolute>";
+	};
+	B47C880A1779EDFA00CD0C7F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = B47C880B1779EDFA00CD0C7F /* Effect.cpp */;
+		name = "Effect.cpp: 134";
+		rLen = 0;
+		rLoc = 3062;
+		rType = 0;
+		vrLen = 1408;
+		vrLoc = 2370;
+	};
+	B47C880B1779EDFA00CD0C7F /* Effect.cpp */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.cpp.cpp;
+		name = Effect.cpp;
+		path = "/Users/LeopardOS/src/audacity-src-2.0.0/mac/../src/effects/Effect.cpp";
+		sourceTree = "<absolute>";
+	};
+	B484F961177C2DE500EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 292";
+		rLen = 0;
+		rLoc = 9908;
+		rType = 0;
+		vrLen = 1940;
+		vrLoc = 8465;
+	};
+	B484F962177C2DE500EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 143";
+		rLen = 0;
+		rLoc = 4377;
+		rType = 0;
+		vrLen = 1317;
+		vrLoc = 4636;
+	};
+	B484F963177C2DE500EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 292";
+		rLen = 0;
+		rLoc = 9908;
+		rType = 0;
+		vrLen = 1940;
+		vrLoc = 8465;
+	};
+	B484F964177C2DE500EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 143";
+		rLen = 0;
+		rLoc = 4377;
+		rType = 0;
+		vrLen = 1317;
+		vrLoc = 4636;
+	};
+	B484F965177C2DE500EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
+		name = "module.cpp: 200";
+		rLen = 0;
+		rLoc = 5342;
+		rType = 0;
+		vrLen = 1005;
+		vrLoc = 5093;
+	};
+	B484F968177C2DE500EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 345";
+		rLen = 0;
+		rLoc = 9628;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 8967;
+	};
+	B484F970177C2E5600EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
+		rLen = 9;
+		rLoc = 5739;
+		rType = 0;
+	};
+	B484F971177C2E5600EFA9E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CF14F39D0B00AD323A /* module.cpp */;
+		name = "module.cpp: 208";
+		rLen = 9;
+		rLoc = 5739;
+		rType = 0;
+		vrLen = 814;
+		vrLoc = 5285;
 	};
 	B489CA361765D294001AB624 /* module.cpp:123 */ = {
 		isa = PBXFileBreakpoint;
@@ -541,7 +771,7 @@
 		ignoreCount = 0;
 		lineNumber = 123;
 		location = Audacity;
-		modificationTime = 393201409.359188;
+		modificationTime = 394011778.7851911;
 		state = 1;
 	};
 	B489CA381765D298001AB624 /* module.cpp:193 */ = {
@@ -557,7 +787,7 @@
 		ignoreCount = 0;
 		lineNumber = 193;
 		location = Audacity;
-		modificationTime = 393201409.359208;
+		modificationTime = 394011778.785203;
 		state = 1;
 	};
 	B489CA781765D3A2001AB624 /* gui.cpp:512 */ = {
@@ -574,7 +804,7 @@
 		ignoreCount = 0;
 		lineNumber = 512;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.593155;
+		modificationTime = 394011837.5684611;
 		state = 1;
 	};
 	B489CA801765D3CE001AB624 /* gui.cpp:670 */ = {
@@ -590,7 +820,7 @@
 		ignoreCount = 0;
 		lineNumber = 670;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.619665;
+		modificationTime = 394011837.624174;
 		state = 1;
 	};
 	B489CA821765D3D0001AB624 /* gui.cpp:681 */ = {
@@ -606,7 +836,7 @@
 		ignoreCount = 0;
 		lineNumber = 681;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.674498;
+		modificationTime = 394011837.652079;
 		state = 1;
 	};
 	B489CA841765D3D3001AB624 /* gui.cpp:691 */ = {
@@ -622,8 +852,28 @@
 		ignoreCount = 0;
 		lineNumber = 691;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.772131;
+		modificationTime = 394011837.710412;
 		state = 1;
+	};
+	B48C61D3177C2A2B0003974A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 305";
+		rLen = 0;
+		rLoc = 10906;
+		rType = 0;
+		vrLen = 1958;
+		vrLoc = 8593;
+	};
+	B48C61D4177C2A2B0003974A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 345";
+		rLen = 0;
+		rLoc = 9628;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 8967;
 	};
 	B48F6DBB1750F12600B34DDE /* gui.cpp:661 */ = {
 		isa = PBXFileBreakpoint;
@@ -634,11 +884,11 @@
 		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = FC04171614F39D6000AD323A /* gui.cpp */;
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 661;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201604.592049;
+		modificationTime = 394011837.202168;
 		state = 1;
 	};
 	B48F6DBD1750F12700B34DDE /* gui.cpp:661 */ = {
@@ -654,7 +904,7 @@
 		ignoreCount = 0;
 		lineNumber = 661;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.112225;
+		modificationTime = 394011837.237314;
 		state = 1;
 	};
 	B48F6DBF1750F12800B34DDE /* gui.cpp:661 */ = {
@@ -671,7 +921,7 @@
 		ignoreCount = 0;
 		lineNumber = 661;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.189844;
+		modificationTime = 394011837.288815;
 		state = 1;
 	};
 	B48F6DC11750F12900B34DDE /* gui.cpp:701 */ = {
@@ -688,7 +938,7 @@
 		ignoreCount = 0;
 		lineNumber = 701;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.216223;
+		modificationTime = 394011837.3166771;
 		state = 1;
 	};
 	B48F6DC31750F12B00B34DDE /* gui.cpp:707 */ = {
@@ -705,7 +955,7 @@
 		ignoreCount = 0;
 		lineNumber = 707;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.288997;
+		modificationTime = 394011837.374839;
 		state = 1;
 	};
 	B48F6DC51750F12C00B34DDE /* gui.cpp:711 */ = {
@@ -718,11 +968,11 @@
 		delayBeforeContinue = 0;
 		fileReference = FC04171614F39D6000AD323A /* gui.cpp */;
 		functionName = "";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 711;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201468.309879;
+		modificationTime = 394011837.4029601;
 		state = 1;
 	};
 	B48F6DC91750F12F00B34DDE /* gui.cpp:717 */ = {
@@ -739,8 +989,48 @@
 		ignoreCount = 0;
 		lineNumber = 717;
 		location = MicArrayAnalyzerd.so;
-		modificationTime = 393201419.377435;
+		modificationTime = 394011837.462549;
 		state = 1;
+	};
+	B4926026177C23D6000FB267 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC04171614F39D6000AD323A /* gui.cpp */;
+		name = "gui.cpp: 482";
+		rLen = 9;
+		rLoc = 16344;
+		rType = 0;
+		vrLen = 1586;
+		vrLoc = 165;
+	};
+	B4926027177C23D6000FB267 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC04171614F39D6000AD323A /* gui.cpp */;
+		name = "gui.cpp: 482";
+		rLen = 9;
+		rLoc = 16344;
+		rType = 0;
+		vrLen = 1586;
+		vrLoc = 165;
+	};
+	B492603E177C266B000FB267 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */;
+		name = "micarrayanalyzer.cpp: 305";
+		rLen = 0;
+		rLoc = 10906;
+		rType = 0;
+		vrLen = 2016;
+		vrLoc = 7292;
+	};
+	B492603F177C266B000FB267 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		name = "multivolver.cpp: 345";
+		rLen = 0;
+		rLoc = 9628;
+		rType = 0;
+		vrLen = 657;
+		vrLoc = 8967;
 	};
 	B4CBEF721732B9AC00073390 /* Source Control */ = {
 		isa = PBXSourceControlManager;
@@ -761,7 +1051,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 			"PBXLSLaunchAction-0" = {
 				PBXLSLaunchAction = 0;
@@ -785,6 +1075,11 @@
 		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
+			{
+				active = NO;
+				name = NSZombieEnabled;
+				value = YES;
+			},
 		);
 		executableSystemSymbolLevel = 0;
 		executableUserSymbolLevel = 0;
@@ -840,6 +1135,32 @@
 			sepNavVisRange = "{2714, 1316}";
 		};
 	};
+	B4DFC3A4177B468D000B2F9F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = FC0416C914F39D0B00AD323A /* afaudio.cpp */;
+		name = "afaudio.cpp: 90";
+		rLen = 0;
+		rLoc = 2708;
+		rType = 0;
+		vrLen = 2157;
+		vrLoc = 2006;
+	};
+	B4EBEA64177B44AF002D5DB9 /* multivolver.cpp:141 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = FC0416D014F39D0B00AD323A /* multivolver.cpp */;
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 141;
+		location = MicArrayAnalyzerd.so;
+		modificationTime = 394011837.7958909;
+		state = 1;
+	};
 	D2AAC09C05546B4700DB518D /* MicArrayAnalyzer */ = {
 		activeExec = 0;
 	};
@@ -853,23 +1174,24 @@
 	};
 	FC0125A014FBDA3700531590 /* map.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1011, 15386}}";
-			sepNavSelRange = "{28223, 0}";
-			sepNavVisRange = "{27698, 755}";
+			sepNavIntBoundsRect = "{{0, 0}, {994, 15344}}";
+			sepNavSelRange = "{28323, 0}";
+			sepNavVisRange = "{27610, 1183}";
 		};
 	};
 	FC0416C914F39D0B00AD323A /* afaudio.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1164, 7168}}";
-			sepNavSelRange = "{3777, 0}";
-			sepNavVisRange = "{2581, 1843}";
+			sepNavIntBoundsRect = "{{0, 0}, {1164, 7098}}";
+			sepNavSelRange = "{2708, 0}";
+			sepNavVisRange = "{2006, 2157}";
 		};
 	};
 	FC0416CA14F39D0B00AD323A /* convolver.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1011, 5726}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1619}";
+			sepNavIntBoundsRect = "{{0, 0}, {618, 5726}}";
+			sepNavSelRange = "{2123, 0}";
+			sepNavVisRange = "{1910, 935}";
+			sepNavWindowFrame = "{{640, 56}, {640, 722}}";
 		};
 	};
 	FC0416CB14F39D0B00AD323A /* del_impl.cpp */ = {
@@ -896,25 +1218,26 @@
 	};
 	FC0416CE14F39D0B00AD323A /* micarrayanalyzer.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1272, 13286}}";
-			sepNavSelRange = "{1902, 0}";
-			sepNavVisRange = "{2011, 1167}";
+			sepNavIntBoundsRect = "{{0, 0}, {1272, 13342}}";
+			sepNavSelRange = "{2395, 0}";
+			sepNavVisRange = "{1426, 1622}";
 			sepNavWindowFrame = "{{70, -25}, {1280, 722}}";
 		};
 	};
 	FC0416CF14F39D0B00AD323A /* module.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1035, 4480}}";
-			sepNavSelRange = "{3222, 17}";
-			sepNavVisRange = "{2332, 1183}";
+			sepNavIntBoundsRect = "{{0, 0}, {994, 4760}}";
+			sepNavSelRange = "{5744, 0}";
+			sepNavVisRange = "{5093, 1005}";
 			sepNavWindowFrame = "{{240, 191}, {750, 558}}";
 		};
 	};
 	FC0416D014F39D0B00AD323A /* multivolver.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1219, 6902}}";
-			sepNavSelRange = "{3273, 0}";
-			sepNavVisRange = "{2981, 766}";
+			sepNavIntBoundsRect = "{{0, 0}, {709, 7084}}";
+			sepNavSelRange = "{9628, 0}";
+			sepNavVisRange = "{8967, 657}";
+			sepNavWindowFrame = "{{1536, 616}, {768, 480}}";
 		};
 	};
 	FC0416D114F39D0B00AD323A /* myartprovider.cpp */ = {
@@ -933,23 +1256,30 @@
 	};
 	FC0416E614F39D4400AD323A /* afaudio.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1038, 1806}}";
-			sepNavSelRange = "{829, 39}";
-			sepNavVisRange = "{408, 1029}";
+			sepNavIntBoundsRect = "{{0, 0}, {1359, 2100}}";
+			sepNavSelRange = "{889, 9}";
+			sepNavVisRange = "{209, 1587}";
+		};
+	};
+	FC0416E714F39D4400AD323A /* audtypes.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1219, 924}}";
+			sepNavSelRange = "{773, 41}";
+			sepNavVisRange = "{412, 702}";
 		};
 	};
 	FC0416E914F39D4400AD323A /* convolver.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {900, 2520}}";
-			sepNavSelRange = "{6163, 5}";
-			sepNavVisRange = "{5842, 862}";
+			sepNavIntBoundsRect = "{{0, 0}, {994, 2842}}";
+			sepNavSelRange = "{4593, 0}";
+			sepNavVisRange = "{0, 2316}";
 		};
 	};
 	FC0416EA14F39D4400AD323A /* del_interface.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1011, 7056}}";
-			sepNavSelRange = "{3465, 17}";
-			sepNavVisRange = "{2924, 1010}";
+			sepNavIntBoundsRect = "{{0, 0}, {1359, 7098}}";
+			sepNavSelRange = "{3934, 45}";
+			sepNavVisRange = "{3664, 1518}";
 		};
 	};
 	FC0416EB14F39D4400AD323A /* dialogs.h */ = {
@@ -991,9 +1321,9 @@
 	};
 	FC0416F214F39D4400AD323A /* micarrayanalyzer.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1035, 3360}}";
-			sepNavSelRange = "{1798, 38}";
-			sepNavVisRange = "{1091, 1621}";
+			sepNavIntBoundsRect = "{{0, 0}, {994, 3682}}";
+			sepNavSelRange = "{4649, 0}";
+			sepNavVisRange = "{3801, 1545}";
 		};
 	};
 	FC0416F314F39D4400AD323A /* module.h */ = {
@@ -1005,24 +1335,24 @@
 	};
 	FC0416F414F39D4400AD323A /* multivolver.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1219, 2562}}";
-			sepNavSelRange = "{2623, 34}";
-			sepNavVisRange = "{2156, 828}";
+			sepNavIntBoundsRect = "{{0, 0}, {994, 2716}}";
+			sepNavSelRange = "{2012, 0}";
+			sepNavVisRange = "{1980, 1037}";
 		};
 	};
 	FC0416F914F39D4400AD323A /* triangle_impl.h */ = {
 		uiCtxt = {
 			sepNavFolds = "{\n    c =     (\n                {\n            l = \" of vertices> <dimension (must be 2)> <# of attributes>\\\\n\\\"\\n);\\n  printf(\\n\\\"                                           <# of boundary markers (0 or 1)>\\\\n\\\"\\n);\\n  printf(\\n\\\"    Remaining lines:  <vertex \";\n            r = \"{107428, 200}\";\n            s = 1;\n        },\n                {\n            l = \" of triangles> <nodes per triangle> <# of attributes>\\\\n\\\");\\n  printf(\\n\\\"    Remaining lines:  <triangle \";\n            r = \"{108719, 106}\";\n            s = 1;\n        },\n                {\n            l = \" of vertices> <dimension (must be 2)> <# of attributes>\\\\n\\\"\\n);\\n  printf(\\n\\\"                                           <# of boundary markers (0 or 1)>\\\\n\\\"\\n);\\n  printf(\\n\\\"    Following lines:  <vertex \";\n            r = \"{110305, 200}\";\n            s = 1;\n        },\n                {\n            l = \" of segments> <# of boundary markers (0 or 1)>\\\\n\\\");\\n  printf(\\n\\\"    Following lines:  <segment \";\n            r = \"{110575, 98}\";\n            s = 1;\n        },\n                {\n            l = \" of holes>\\\\n\\\");\\n  printf(\\\"    Following lines:  <hole \";\n            r = \"{110744, 58}\";\n            s = 1;\n        },\n                {\n            l = \" of regional attributes and/or area constraints>\\\\n\\\");\\n  printf(\\n\\\"    Optional following lines:  <region \";\n            r = \"{110847, 108}\";\n            s = 1;\n        },\n                {\n            l = \" of vertices> may be set to zero to indicate\\\\n\\\"\\n);\\n  printf(\\n\\\"    that the vertices are listed in a separate .node file; .poly files\\\\n\\\");\\n  printf(\\n\\\"    produced by Triangle always have this format.  A vertex set represented\\\\n\\\"\\n);\\n  printf(\\n\\\"    this way has the advantage that it may easily be triangulated with or\\\\n\\\");\\n  printf(\\n\\\"    without segments (depending on whether the -p switch is invoked).\\\\n\\\");\\n  printf(\\\"\\\\n\\\");\\n  printf(\\n\\\"    The second section lists the segments.  Segments are edges whose\\\\n\\\");\\n  printf(\\n\\\"    presence in the triangulation is enforced.  (Depending on the choice of\\\\n\\\"\\n);\\n  printf(\\n\\\"    switches, segment might be subdivided into smaller edges).  Each\\\\n\\\");\\n  printf(\\n\\\"    segment is specified by listing the indices of its two endpoints.  This\\\\n\\\"\\n);\\n  printf(\\n\\\"    means that you must include its endpoints in the vertex list.  Each\\\\n\\\");\\n  printf(\\\"    segment, like each point, may have a boundary marker.\\\\n\\\\n\\\");\\n  printf(\\n\\\"    If -q, -a, -u, and -s are not selected, Triangle produces a constrained\\\\n\\\"\\n);\\n  printf(\\n\\\"    Delaunay triangulation (CDT), in which each segment appears as a single\\\\n\\\"\\n);\\n  printf(\\n\\\"    edge in the triangulation.  If -q, -a, -u, or -s is selected, Triangle\\\\n\\\"\\n);\\n  printf(\\n\\\"    produces a conforming constrained Delaunay triangulation (CCDT), in\\\\n\\\");\\n  printf(\\n\\\"    which segments may be subdivided into smaller edges.  If -D is\\\\n\\\");\\n  printf(\\n\\\"    selected, Triangle produces a conforming Delaunay triangulation, so\\\\n\\\");\\n  printf(\\n\\\"    that every triangle is Delaunay, and not just constrained Delaunay.\\\\n\\\");\\n  printf(\\\"\\\\n\\\");\\n  printf(\\n\\\"    The third section lists holes (and concavities, if -c is selected) in\\\\n\\\");\\n  printf(\\n\\\"    the triangulation.  Holes are specified by identifying a point inside\\\\n\\\");\\n  printf(\\n\\\"    each hole.  After the triangulation is formed, Triangle creates holes\\\\n\\\");\\n  printf(\\n\\\"    by eating triangles, spreading out from each hole point until its\\\\n\\\");\\n  printf(\\n\\\"    progress is blocked by segments in the PSLG.  You must be careful to\\\\n\\\");\\n  printf(\\n\\\"    enclose each hole in segments, or your whole triangulation might be\\\\n\\\");\\n  printf(\\n\\\"    eaten away.  If the two triangles abutting a segment are eaten, the\\\\n\\\");\\n  printf(\\n\\\"    segment itself is also eaten.  Do not place a hole directly on a\\\\n\\\");\\n  printf(\\\"    segment; if you do, Triangle chooses one side of the segment\\\\n\\\");\\n  printf(\\\"    arbitrarily.\\\\n\\\\n\\\");\\n  printf(\\n\\\"    The optional fourth section lists regional attributes (to be assigned\\\\n\\\");\\n  printf(\\n\\\"    to all triangles in a region) and regional constraints on the maximum\\\\n\\\");\\n  printf(\\n\\\"    triangle area.  Triangle reads this section only if the -A switch is\\\\n\\\");\\n  printf(\\n\\\"    used or the -a switch is used without a number following it, and the -r\\\\n\\\"\\n);\\n  printf(\\n\\\"    switch is not used.  Regional attributes and area constraints are\\\\n\\\");\\n  printf(\\n\\\"    propagated in the same manner as holes:  you specify a point for each\\\\n\\\");\\n  printf(\\n\\\"    attribute and/or constraint, and the attribute and/or constraint\\\\n\\\");\\n  printf(\\n\\\"    affects the whole region (bounded by segments) containing the point.\\\\n\\\");\\n  printf(\\n\\\"    If two values are written on a line after the x and y coordinate, the\\\\n\\\");\\n  printf(\\n\\\"    first such value is assumed to be a regional attribute (but is only\\\\n\\\");\\n  printf(\\n\\\"    applied if the -A switch is selected), and the second value is assumed\\\\n\\\"\\n);\\n  printf(\\n\\\"    to be a regional area constraint (but is only applied if the -a switch\\\\n\\\"\\n);\\n  printf(\\n\\\"    is selected).  You may specify just one value after the coordinates,\\\\n\\\");\\n  printf(\\n\\\"    which can serve as both an attribute and an area constraint, depending\\\\n\\\"\\n);\\n  printf(\\n\\\"    on the choice of switches.  If you are using the -A and -a switches\\\\n\\\");\\n  printf(\\n\\\"    simultaneously and wish to assign an attribute to some region without\\\\n\\\");\\n  printf(\\\"    imposing an area constraint, use a negative maximum area.\\\\n\\\\n\\\");\\n  printf(\\n\\\"    When a triangulation is created from a .poly file, you must either\\\\n\\\");\\n  printf(\\n\\\"    enclose the entire region to be triangulated in PSLG segments, or\\\\n\\\");\\n  printf(\\n\\\"    use the -c switch, which automatically creates extra segments that\\\\n\\\");\\n  printf(\\n\\\"    enclose the convex hull of the PSLG.  If you do not use the -c switch,\\\\n\\\"\\n);\\n  printf(\\n\\\"    Triangle eats all triangles that are not enclosed by segments; if you\\\\n\\\");\\n  printf(\\n\\\"    are not careful, your whole triangulation may be eaten away.  If you do\\\\n\\\"\\n);\\n  printf(\\n\\\"    use the -c switch, you can still produce concavities by the appropriate\\\\n\\\"\\n);\\n  printf(\\n\\\"    placement of holes just inside the boundary of the convex hull.\\\\n\\\");\\n  printf(\\\"\\\\n\\\");\\n  printf(\\n\\\"    An ideal PSLG has no intersecting segments, nor any vertices that lie\\\\n\\\");\\n  printf(\\n\\\"    upon segments (except, of course, the endpoints of each segment).  You\\\\n\\\"\\n);\\n  printf(\\n\\\"    aren't required to make your .poly files ideal, but you should be aware\\\\n\\\"\\n);\\n  printf(\\n\\\"    of what can go wrong.  Segment intersections are relatively safe--\\\\n\\\");\\n  printf(\\n\\\"    Triangle calculates the intersection points for you and adds them to\\\\n\\\");\\n  printf(\\n\\\"    the triangulation--as long as your machine's floating-point precision\\\\n\\\");\\n  printf(\\n\\\"    doesn't become a problem.  You are tempting the fates if you have three\\\\n\\\"\\n);\\n  printf(\\n\\\"    segments that cross at the same location, and expect Triangle to figure\\\\n\\\"\\n);\\n  printf(\\n\\\"    out where the intersection point is.  Thanks to floating-point roundoff\\\\n\\\"\\n);\\n  printf(\\n\\\"    error, Triangle will probably decide that the three segments intersect\\\\n\\\"\\n);\\n  printf(\\n\\\"    at three different points, and you will find a minuscule triangle in\\\\n\\\");\\n  printf(\\n\\\"    your output--unless Triangle tries to refine the tiny triangle, uses\\\\n\\\");\\n  printf(\\n\\\"    up the last bit of machine precision, and fails to terminate at all.\\\\n\\\");\\n  printf(\\n\\\"    You're better off putting the intersection point in the input files,\\\\n\\\");\\n  printf(\\n\\\"    and manually breaking up each segment into two.  Similarly, if you\\\\n\\\");\\n  printf(\\n\\\"    place a vertex at the middle of a segment, and hope that Triangle will\\\\n\\\"\\n);\\n  printf(\\n\\\"    break up the segment at that vertex, you might get lucky.  On the other\\\\n\\\"\\n);\\n  printf(\\n\\\"    hand, Triangle might decide that the vertex doesn't lie precisely on\\\\n\\\");\\n  printf(\\n\\\"    the segment, and you'll have a needle-sharp triangle in your output--or\\\\n\\\"\\n);\\n  printf(\\\"    a lot of tiny triangles if you're generating a quality mesh.\\\\n\\\");\\n  printf(\\\"\\\\n\\\");\\n  printf(\\n\\\"    When Triangle reads a .poly file, it also writes a .poly file, which\\\\n\\\");\\n  printf(\\n\\\"    includes all the subsegments--the edges that are parts of input\\\\n\\\");\\n  printf(\\n\\\"    segments.  If the -c switch is used, the output .poly file also\\\\n\\\");\\n  printf(\\n\\\"    includes all of the edges on the convex hull.  Hence, the output .poly\\\\n\\\"\\n);\\n  printf(\\n\\\"    file is useful for finding edges associated with input segments and for\\\\n\\\"\\n);\\n  printf(\\n\\\"    setting boundary conditions in finite element simulations.  Moreover,\\\\n\\\");\\n  printf(\\n\\\"    you will need the output .poly file if you plan to refine the output\\\\n\\\");\\n  printf(\\n\\\"    mesh, and don't want segments to be missing in later triangulations.\\\\n\\\");\\n  printf(\\\"\\\\n\\\");\\n  printf(\\\"  .area files:\\\\n\\\");\\n  printf(\\\"    First line:  <# of triangles>\\\\n\\\");\\n  printf(\\\"    Following lines:  <triangle \";\n            r = \"{111226, 7312}\";\n            s = 1;\n        },\n                {\n            l = \" of edges> <# of boundary markers (0 or 1)>\\\\n\\\");\\n  printf(\\n\\\"    Following lines:  <edge \";\n            r = \"{119021, 92}\";\n            s = 1;\n        },\n                {\n            l = \" of triangles> <# of neighbors per triangle (always 3)>\\\\n\\\"\\n);\\n  printf(\\n\\\"    Following lines:  <triangle \";\n            r = \"{119943, 109}\";\n            s = 1;\n        }\n    );\n    r = \"{0, 652650}\";\n    s = 0;\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {720, 225834}}";
-			sepNavSelRange = "{634859, 5}";
-			sepNavVisRange = "{634623, 506}";
+			sepNavIntBoundsRect = "{{0, 0}, {994, 225274}}";
+			sepNavSelRange = "{22501, 5}";
+			sepNavVisRange = "{21854, 1383}";
 		};
 	};
 	FC04171614F39D6000AD323A /* gui.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1554, 11004}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1554, 10696}}";
 			sepNavSelRange = "{16344, 9}";
-			sepNavVisRange = "{15821, 1342}";
+			sepNavVisRange = "{165, 1586}";
 			sepNavWindowFrame = "{{1298, 328}, {750, 768}}";
 		};
 	};

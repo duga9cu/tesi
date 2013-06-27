@@ -91,24 +91,24 @@ bool MicArrayAnalyzer::Calculate()
 		endFrameSmpl += LShift;
 	}
 	
-	for (int i=0; i<iProjectNumTracks; i++) {  //copy data of actual frame
+	for (int i=0; i<iProjectNumTracks; i++) {  //copy data into actual frame
 		for (int j=startFrameSmpl; j<endFrameSmpl; j++) {    
 			ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
 		}
 	}
-	
-#ifdef __AUDEBUG__
-	printf("printing ACTUALFRAMEAUDIODATA MATRIX\n");
-	
-	for (int i=0; i<iProjectNumTracks; i++) {  
-		for (int j=0; j<GetFrameTotLengthSmpl(); j++) {    
-			printf ("%d ", ppfAudioData[i][j]);
-		}
-		printf("\n");
-	}
-	
-	fflush(stdout);
-#endif
+//	
+//#ifdef __AUDEBUG__
+//	printf("printing ACTUALFRAMEAUDIODATA MATRIX\n");
+//	
+//	for (int i=0; i<iProjectNumTracks; i++) {  
+//		for (int j=0; j<GetFrameTotLengthSmpl(); j++) {    
+//			printf ("%d ", ppfAudioData[i][j]);
+//		}
+//		printf("\n");
+//	}
+//	
+//	fflush(stdout);
+//#endif
 	
 	
 #ifdef __AUDEBUG__
@@ -237,10 +237,11 @@ bool MicArrayAnalyzer::Calculate()
 	
 	//Setting up convolution class
 #ifdef __AUDEBUG__
-	printf("DONE\nMicArrayAnalyzer::Calculate(): Setting up colvolution class.\n");
+	printf("DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
 	fflush(stdout);
 #endif
-	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
+    afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
+	//afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameTotLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
 	afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
 	afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
 	afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
@@ -276,17 +277,17 @@ bool MicArrayAnalyzer::Calculate()
 	 where i = (# of rows) = (# of virtual microphones) and j = (# of audacity project tracks) = (# of array capsules).
 	 "Obviously" yk = ir(k,1) * x1 + ir(k,2) * x2 + ... + ir(k,j) * xj , where * stands for convolution, not a simple product :)
 	 AFMatrixvolver class does the summation too!
-	 
-	 #ifdef __AUDEBUG__
-	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
-	 fflush(stdout);
-	 #endif
-	 afmvConvolver->Process();
-	 #ifdef __AUDEBUG__
-	 printf("DONE\n");
-	 fflush(stdout);
-	 #endif
 	 */
+//	 #ifdef __AUDEBUG__
+//	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
+//	 fflush(stdout);
+//	 #endif
+//	 afmvConvolver->Process();
+//	 #ifdef __AUDEBUG__
+//	 printf("DONE\n");
+//	 fflush(stdout);
+//	 #endif
+	 
 	
 	//Retrieving Convolution Output Data
 	InitProgressMeter(_("Retrieving convolution results from convolver object..."));
