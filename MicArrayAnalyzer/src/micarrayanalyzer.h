@@ -18,6 +18,7 @@
 #include <wx/filename.h>   //Needed to use wxFileName class
 #include <sndfile.h>       //Needed to read WAV files
 #include <string>
+#include <map>
 #include <stdlib.h>
 #include <Audacity.h>
 #include <SampleFormat.h>
@@ -27,6 +28,7 @@
 #include "meshandinterpol.h"
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
+
 
 #include "commdefs.h"
 
@@ -73,11 +75,15 @@ class AudioPool : public AFAudioTrack
 		double FindOverallMax();            //Find max abs value for the whole audio pool.
 		bool ApplyOverallGain(double gain); //Applying gain to each sample of each track of the pool.
 		double GetResultsMatrixCell(int row, int col) { return ppdResultsMatrix[row][col]; }
+		double** GetResultsMatrix() {return ppdResultsMatrix;}
 		double GetMaxResultInTheMatrix();
 		double GetMinResultInTheMatrix();
 		double GetMaxResultInTheBand(int col); //Returns MAX level inside the choosen ppdResultsMatrix column.
 		double GetMinResultInTheBand(int col); //Returns MIN level inside the choosen ppdResultsMatrix column.
 		bool FillResultsMatrix();  //Hard working function!
+		
+		bool SetResultsMatrix(double** ppd) {ppdResultsMatrix = ppd;} //errelle 
+		
 		//Constructor/Destructor
 		AudioPool(const int nTracks, double dBFullScale, double Fs);
 		~AudioPool();
@@ -130,6 +136,7 @@ class MicArrayAnalyzer
 		int iNTriangles;                    //# of stored triangular meshes
 		
 		float **ppfAudioData, **ActualFrameAudioData;
+		map<int, double**> resultCube;
 		bool bAudioDataAlloc;
 		float *pfLocalMin;      //Four arrays of local/absolute min/max for each audio track. Used to apply correctly FS scaling!
 		float *pfLocalMax;
@@ -172,7 +179,7 @@ class MicArrayAnalyzer
 		void AudioDataInit();                     //Init of the whole audio data space.
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
-		void NextFrame() {curFrame++; Calculate();}
+		void NextFrame() {curFrame++; apOutputData->SetResultsMatrix(resultCube[curFrame]); }
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
@@ -221,7 +228,7 @@ class MicArrayAnalyzer
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLTreshold(double value) { dMinSPLTreshold = value; }
 		void SetNumOfFrames(int value) {numOfFrames = value; }
-		void SetCurFrame(int value) {curFrame = value; if(!playing) Calculate();}
+		void SetCurFrame(int value) {curFrame = value; apOutputData->SetResultsMatrix(resultCube[curFrame]);  }
 		void SetFrameLength(float value) {frameLength = value;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
 		void SetPlaying(bool value) {playing = value;}
@@ -229,7 +236,7 @@ class MicArrayAnalyzer
 		
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
-		bool Calculate(); // This function does the hard work!
+		bool Calculate(sampleCount f); // This function does the hard work!
 		MicArrayAnalyzer();
 		~MicArrayAnalyzer();
 	};

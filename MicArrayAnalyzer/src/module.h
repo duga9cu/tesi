@@ -55,6 +55,10 @@ class EffectMicArrayAnalyzer: public Effect
 
    protected:
       virtual bool Process();
+	   
+	   void InitVideoProgressMeter(const wxString& operation);
+	   bool UpdateVideoProgressMeter(int step,int total);
+	   void DestroyVideoProgressMeter();
 
  
    public:     

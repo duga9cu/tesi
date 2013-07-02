@@ -187,6 +187,12 @@ bool EffectMicArrayAnalyzer::PromptUser()
 		return false;
 	}
 	
+	//---------------- Even more set up ----------------
+	sampleCount atl= mMAA->GetAudioTrackLength();
+	sampleCount fls =  mMAA->GetFrameLengthSmpl();
+	int numOfFrames = atl / fls;  
+	mMAA->SetNumOfFrames(numOfFrames);	
+	
 	return true;
 }
 
@@ -205,24 +211,34 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
 	}
 	
-	if(mMAA->Calculate())
-	{
-		MicArrayAnalyzerDlg dlog_1(mParent, mMAA);
+	InitVideoProgressMeter(_("Calculating video frame for each band..."));
+	
+	for (sampleCount frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) {
 		
-		dlog_1.CenterOnParent();
-		if(dlog_1.ShowModal())
+		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
+
+		if(mMAA->Calculate(frame))
 		{
-			//m_bProcess = true;
+			printf("Process: calculate(%d)\n",frame);
+		}
+		else
+		{
+			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+			//		 delete mAp; mAp = 0;
+			return false;
 		}
 	}
-	else
+	
+	DestroyVideoProgressMeter();
+	
+	MicArrayAnalyzerDlg dlog_1(mParent, mMAA);
+	
+	dlog_1.CenterOnParent();
+	if(dlog_1.ShowModal())
 	{
-		/*
-		 wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-		 delete mAp; mAp = 0;
-		 return false;
-		 */
+		//m_bProcess = true;
 	}
+	
     return true;
 }
 
@@ -232,6 +248,24 @@ void EffectMicArrayAnalyzer::End()
 	delete mMAA;
 	mMAA = 0;
 }
+
+void EffectMicArrayAnalyzer::InitVideoProgressMeter(const wxString& operation)
+{
+	mProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
+}
+
+bool EffectMicArrayAnalyzer::UpdateVideoProgressMeter(int step,int total)
+{
+	return bool(mProgress->Update(step, total) == eProgressSuccess); // [esseci] 
+}
+
+void EffectMicArrayAnalyzer::DestroyVideoProgressMeter()
+{
+	if(mProgress) delete mProgress;
+	mProgress = 0;
+}
+
+
 
 EffectMicArrayAnalyzer::EffectMicArrayAnalyzer()
 : mMAA(0)

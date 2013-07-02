@@ -69,13 +69,13 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 	if(bWatchpointsAlloc) delete [] piWatchpoints;
 }
 
-bool MicArrayAnalyzer::Calculate()
+bool MicArrayAnalyzer::Calculate(sampleCount frame)
 {
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer::Calculate(): copying ppfAudioData into ActualFrameAudioData\n");
 	fflush(stdout);
 #endif
-	sampleCount startFrameSmpl = (curFrame-1)*(frameLengthSmpl) - frameLengthSmpl*frameOverlapRatio; // curFrame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
+	sampleCount startFrameSmpl = (frame-1)*(frameLengthSmpl) - frameLengthSmpl*frameOverlapRatio; // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
 	sampleCount endFrameSmpl = startFrameSmpl + frameLengthSmpl + frameLengthSmpl*frameOverlapRatio;
 	sampleCount RShift=0;	
 	sampleCount LShift=0;
@@ -96,19 +96,6 @@ bool MicArrayAnalyzer::Calculate()
 			ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
 		}
 	}
-//	
-//#ifdef __AUDEBUG__
-//	printf("printing ACTUALFRAMEAUDIODATA MATRIX\n");
-//	
-//	for (int i=0; i<iProjectNumTracks; i++) {  
-//		for (int j=0; j<GetFrameTotLengthSmpl(); j++) {    
-//			printf ("%d ", ppfAudioData[i][j]);
-//		}
-//		printf("\n");
-//	}
-//	
-//	fflush(stdout);
-//#endif
 	
 	
 #ifdef __AUDEBUG__
@@ -240,8 +227,8 @@ bool MicArrayAnalyzer::Calculate()
 	printf("DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
 	fflush(stdout);
 #endif
-    afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
-	//afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameTotLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
+    //afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
+	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameTotLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
 	afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
 	afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
 	afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
@@ -328,8 +315,12 @@ bool MicArrayAnalyzer::Calculate()
 	DestroyProgressMeter();
 	
 	//Calculating Results
-	if (apOutputData->FillResultsMatrix()) { bResultsAvail = true; }
+	if (apOutputData->FillResultsMatrix()) {
+		resultCube[frame]=apOutputData->GetResultsMatrix(); 
+		bResultsAvail = true; 
+	}
 	else { bResultsAvail = false; }
+	
 	
 	//THE END!
 	return true;

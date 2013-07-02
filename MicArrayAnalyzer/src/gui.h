@@ -106,6 +106,11 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnChoiceFrameRate(wxCommandEvent& event) ;
 		void UpdateFrameControls();
 		void OnTimer(wxTimerEvent& event); 
+		void RestartTimer() {	
+			//	int millitimer = mMAA->GetFrameLength()*1000; 
+			//	int millitimer = (mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate() ) / mMAA->GetNumOfFrames();
+			int millitimer = 1; //prova a andare a cannone!
+			m_timer.Start(millitimer, true);}
 
 	public:
 		MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer* maa);
