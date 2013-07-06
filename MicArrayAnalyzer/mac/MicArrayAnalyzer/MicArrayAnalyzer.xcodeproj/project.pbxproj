@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */ = {isa = PBXBuildFile; fileRef = B4752AD1174CB72100F2A556 /* LoadModules.h */; };
+		B4789A7D17888F400069709B /* video.h in Headers */ = {isa = PBXBuildFile; fileRef = B4789A7C17888F400069709B /* video.h */; };
 		FC0125A114FBDA3700531590 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = FC01259F14FBDA3700531590 /* map.h */; };
 		FC0125A214FBDA3700531590 /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0125A014FBDA3700531590 /* map.cpp */; };
 		FC0125D714FE2BD000531590 /* benchmrk.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0125D514FE2BD000531590 /* benchmrk.h */; };
@@ -59,6 +60,7 @@
 		5073E0C609E734A800EC74B6 /* MicArrayAnalyzerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerTarget.xcconfig; sourceTree = "<group>"; };
 		B4752AD1174CB72100F2A556 /* LoadModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadModules.h; path = "../../../../../../src/audacity-src-2.0.0/src/LoadModules.h"; sourceTree = SOURCE_ROOT; };
+		B4789A7C17888F400069709B /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = video.h; sourceTree = "<group>"; };
 		B4CBEFD01732C01E00073390 /* LoadModules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadModules.cpp; path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/LoadModules.cpp"; sourceTree = "<absolute>"; };
 		D2AAC09D05546B4700DB518D /* MicArrayAnalyzerd.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = MicArrayAnalyzerd.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC01259F14FBDA3700531590 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = map.h; path = ../../src/map.h; sourceTree = SOURCE_ROOT; };
@@ -194,6 +196,7 @@
 		FC0416E514F39D1200AD323A /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				B4789A7C17888F400069709B /* video.h */,
 				FC01259F14FBDA3700531590 /* map.h */,
 				FC0416E614F39D4400AD323A /* afaudio.h */,
 				FC0416E714F39D4400AD323A /* audtypes.h */,
@@ -257,6 +260,7 @@
 				FC0125A114FBDA3700531590 /* map.h in Headers */,
 				FC0125D714FE2BD000531590 /* benchmrk.h in Headers */,
 				B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */,
+				B4789A7D17888F400069709B /* video.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

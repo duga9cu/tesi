@@ -29,6 +29,8 @@ class EffectMicArrayAnalyzer: public Effect
    {
    private:
       MicArrayAnalyzer *mMAA;
+	   ProgressDialog  *m_frameProgress;
+
       bool LoadTrackData(WaveTrack *wt, int id);
       void SelectTracks(bool status);
       void SelectAllTracks();

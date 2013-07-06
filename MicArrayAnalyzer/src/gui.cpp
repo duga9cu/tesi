@@ -657,6 +657,10 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 
 void MicArrayAnalyzerDlg::UpdateFrameControls(){
 	// update the slider, spin control, and colormap..
+	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+									   m_wxrbBandSelection->GetSelection()),
+					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+									  m_wxrbBandSelection->GetSelection()) );
 	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
 	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 	m_pMap->Refresh();
@@ -738,10 +742,6 @@ void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 	if (mMAA->Playing()) {
 		if(mMAA->GetCurFrame() < mMAA->GetNumOfFrames()) {
 			mMAA->NextFrame();
-			m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-											   m_wxrbBandSelection->GetSelection()),
-							   mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-											  m_wxrbBandSelection->GetSelection()) );
 		}
 		else {
 			mMAA->SetPlaying(false);

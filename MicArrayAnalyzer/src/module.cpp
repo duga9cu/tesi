@@ -190,13 +190,14 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	//---------------- Even more set up ----------------
 	sampleCount atl= mMAA->GetAudioTrackLength();
 	sampleCount fls =  mMAA->GetFrameLengthSmpl();
-	int numOfFrames = atl / fls;  
+	sampleCount ovlps = mMAA->GetFrameOverlapSmpl();
+	int numOfFrames = atl / (fls-ovlps) +1;  
 	mMAA->SetNumOfFrames(numOfFrames);	
 	
 	return true;
 }
 
-bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
+bool EffectMicArrayAnalyzer::Process()  
 {
 #ifdef __AUDEBUG__
 	printf("This is PROCESS\n");
@@ -204,12 +205,18 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 #endif
 	
 	//check if framelenght is sufficiently short
-	sampleCount totalFrameLenghtSmpl = mMAA->GetFrameLengthSmpl() + mMAA->GetFrameOverlapSmpl();
-	if(totalFrameLenghtSmpl > mMAA->GetAudioTrackLength() ) {
+	if(mMAA->GetFrameLength() > mMAA->GetAudioTrackLength() ) {
 		printf("Process: redefining frame lenght because audio track to analyze is too short");
-		mMAA->SetFrameLength(mMAA->GetFrameLength() / 10);
-		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
+		mMAA->SetFrameLengthSmpl(mMAA->GetAudioTrackLength() / 10);
+		mMAA->SetFrameLength(mMAA->GetFrameLengthSmpl() * mMAA->GetProjSampleRate());
+
 	}
+	//check if framelength is sufficiently long (convolution matrix)
+	if(mMAA->GetFrameLengthSmpl() < mMAA->GetDeconvIRsLength() / mMAA->GetProjSampleRate() ) {
+		mMAA->SetFrameLengthSmpl(mMAA->GetDeconvIRsLength() / mMAA->GetProjSampleRate()); //CONTROLLAAREEEEEEEEE
+		mMAA->SetFrameLength(mMAA->GetFrameLengthSmpl() * mMAA->GetProjSampleRate());
+	}
+	
 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	
@@ -251,18 +258,18 @@ void EffectMicArrayAnalyzer::End()
 
 void EffectMicArrayAnalyzer::InitVideoProgressMeter(const wxString& operation)
 {
-	mProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
+	m_frameProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
 }
 
 bool EffectMicArrayAnalyzer::UpdateVideoProgressMeter(int step,int total)
 {
-	return bool(mProgress->Update(step, total) == eProgressSuccess); // [esseci] 
+	return bool(m_frameProgress->Update(step, total) == eProgressSuccess); // [esseci] 
 }
 
 void EffectMicArrayAnalyzer::DestroyVideoProgressMeter()
 {
-	if(mProgress) delete mProgress;
-	mProgress = 0;
+	if(m_frameProgress) delete m_frameProgress;
+	m_frameProgress = 0;
 }
 
 

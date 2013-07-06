@@ -209,10 +209,9 @@ class MicArrayAnalyzer
 		int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
 		int GetNumOfFrames() {return numOfFrames;}
 		int GetCurFrame() {return curFrame;}
-		float GetFrameLength() {return frameLength;}
+		float GetFrameLength() {return frameLength;} //seconds
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
-		sampleCount GetFrameOverlapSmpl() {return 2*frameOverlapRatio*frameLengthSmpl;}
-		sampleCount GetFrameTotLengthSmpl() {return GetFrameLengthSmpl() + GetFrameOverlapSmpl();}
+		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
 		bool Playing() {return playing;}
 		
 		// Setters
