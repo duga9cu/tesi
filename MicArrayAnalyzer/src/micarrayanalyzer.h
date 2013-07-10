@@ -28,6 +28,7 @@
 #include "meshandinterpol.h"
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
+#include "video.h"
 
 
 #include "commdefs.h"
@@ -48,6 +49,7 @@ const double p0              = 0.000020;  //Sound Level Reference, in Pascal.
 
 /// Conversion from C-string to wxString
 #define         cs2ws(s)   (wxString(s,wxConvUTF8))
+
 
 // -------------------------
 // AudioPool Class Header
@@ -136,7 +138,10 @@ class MicArrayAnalyzer
 		int iNTriangles;                    //# of stored triangular meshes
 		
 		float **ppfAudioData, **ActualFrameAudioData;
-		map<int, double**> resultCube;
+		/*********************************************/
+//		map<int, double**> resultCube;
+		Video *outputFrames;
+		/*********************************************/
 		bool bAudioDataAlloc;
 		float *pfLocalMin;      //Four arrays of local/absolute min/max for each audio track. Used to apply correctly FS scaling!
 		float *pfLocalMax;
@@ -159,7 +164,7 @@ class MicArrayAnalyzer
 		
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
 		
-		int curFrame, numOfFrames;
+		int curFrame;
 		float frameLength;
 		sampleCount frameLengthSmpl;
 		float frameOverlapRatio;
@@ -179,7 +184,11 @@ class MicArrayAnalyzer
 		void AudioDataInit();                     //Init of the whole audio data space.
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
-		void NextFrame() {curFrame++; apOutputData->SetResultsMatrix(resultCube[curFrame]); }
+		void NextFrame() {
+			curFrame++; 
+//							apOutputData->SetResultsMatrix(resultCube[curFrame]);
+			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
+		}
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
@@ -207,7 +216,7 @@ class MicArrayAnalyzer
 		int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
 		TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
 		int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
-		int GetNumOfFrames() {return numOfFrames;}
+		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
 		int GetCurFrame() {return curFrame;}
 		float GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
@@ -227,8 +236,13 @@ class MicArrayAnalyzer
 		bool SetBgndImage(const wxString& str);
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLTreshold(double value) { dMinSPLTreshold = value; }
-		void SetNumOfFrames(int value) {numOfFrames = value; }
-		void SetCurFrame(int value) {curFrame = value; apOutputData->SetResultsMatrix(resultCube[curFrame]);  }
+		void SetNumOfFrames(int value) {outputFrames->SetNumOfFrames(value); }
+		void SetCurFrame(int value) {
+			curFrame = value; 
+//			apOutputData->SetResultsMatrix(resultCube[curFrame]);  
+			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
+
+		}
 		void SetFrameLength(float value) {frameLength = value;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
 		void SetPlaying(bool value) {playing = value;}

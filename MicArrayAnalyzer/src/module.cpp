@@ -191,7 +191,8 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	sampleCount atl= mMAA->GetAudioTrackLength();
 	sampleCount fls =  mMAA->GetFrameLengthSmpl();
 	int numOfFrames = atl / fls;  
-	mMAA->SetNumOfFrames(numOfFrames);	
+	mMAA->SetNumOfFrames(numOfFrames);
+	
 	
 	return true;
 }

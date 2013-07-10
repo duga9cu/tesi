@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4141DED178D7C2900E1FF1C /* video.h in Headers */ = {isa = PBXBuildFile; fileRef = B4141DEC178D7C2900E1FF1C /* video.h */; };
+		B4141DEF178D7CB300E1FF1C /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4141DEE178D7CB300E1FF1C /* video.cpp */; };
 		B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */ = {isa = PBXBuildFile; fileRef = B4752AD1174CB72100F2A556 /* LoadModules.h */; };
 		FC0125A114FBDA3700531590 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = FC01259F14FBDA3700531590 /* map.h */; };
 		FC0125A214FBDA3700531590 /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0125A014FBDA3700531590 /* map.cpp */; };
@@ -58,6 +60,8 @@
 		32BAE0B70371A74B00C91783 /* MicArrayAnalyzer_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicArrayAnalyzer_Prefix.pch; sourceTree = "<group>"; };
 		5073E0C609E734A800EC74B6 /* MicArrayAnalyzerProj.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerProj.xcconfig; sourceTree = "<group>"; };
 		5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerTarget.xcconfig; sourceTree = "<group>"; };
+		B4141DEC178D7C2900E1FF1C /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = ../../src/video.h; sourceTree = SOURCE_ROOT; };
+		B4141DEE178D7CB300E1FF1C /* video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video.cpp; path = ../../src/video.cpp; sourceTree = SOURCE_ROOT; };
 		B4752AD1174CB72100F2A556 /* LoadModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadModules.h; path = "../../../../../../src/audacity-src-2.0.0/src/LoadModules.h"; sourceTree = SOURCE_ROOT; };
 		B4CBEFD01732C01E00073390 /* LoadModules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadModules.cpp; path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/LoadModules.cpp"; sourceTree = "<absolute>"; };
 		D2AAC09D05546B4700DB518D /* MicArrayAnalyzerd.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = MicArrayAnalyzerd.so; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +171,7 @@
 				FC0416D614F39D0B00AD323A /* trprop.cpp */,
 				32BAE0B70371A74B00C91783 /* MicArrayAnalyzer_Prefix.pch */,
 				FC0125A014FBDA3700531590 /* map.cpp */,
+				B4141DEE178D7CB300E1FF1C /* video.cpp */,
 				FC0125D514FE2BD000531590 /* benchmrk.h */,
 				FC0125D614FE2BD000531590 /* benchmrk.cpp */,
 			);
@@ -195,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				FC01259F14FBDA3700531590 /* map.h */,
+				B4141DEC178D7C2900E1FF1C /* video.h */,
 				FC0416E614F39D4400AD323A /* afaudio.h */,
 				FC0416E714F39D4400AD323A /* audtypes.h */,
 				FC0416E814F39D4400AD323A /* commdefs.h */,
@@ -257,6 +263,7 @@
 				FC0125A114FBDA3700531590 /* map.h in Headers */,
 				FC0125D714FE2BD000531590 /* benchmrk.h in Headers */,
 				B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */,
+				B4141DED178D7C2900E1FF1C /* video.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +351,7 @@
 				FC04171914F39D6000AD323A /* tinystr.cpp in Sources */,
 				FC0125A214FBDA3700531590 /* map.cpp in Sources */,
 				FC0125D814FE2BD000531590 /* benchmrk.cpp in Sources */,
+				B4141DEF178D7CB300E1FF1C /* video.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
