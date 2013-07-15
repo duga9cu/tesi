@@ -20,8 +20,6 @@
 #define __AUDEBUG__
 #endif
 
-#define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046)
-#define FRAMEOVERLAP 0.9					// percentage of frame overlapping
 
 
 using std::vector;

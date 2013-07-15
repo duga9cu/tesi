@@ -186,9 +186,8 @@ class MicArrayAnalyzer
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
 		void NextFrame() {
-			curFrame++; 
+			SetCurFrame(++curFrame); 
 //							apOutputData->SetResultsMatrix(resultCube[curFrame]);
-			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
 		}
 		void PrintResults();
 		void PrintResult(int frame);
@@ -244,7 +243,7 @@ class MicArrayAnalyzer
 			curFrame = value; 
 //			apOutputData->SetResultsMatrix(resultCube[curFrame]);  
 			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
-
+			PrintResult(curFrame);
 		}
 		void SetFrameLength(float value) {frameLength = value;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }

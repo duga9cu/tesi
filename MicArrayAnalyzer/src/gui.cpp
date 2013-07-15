@@ -700,7 +700,7 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 						  
 						  }
 #ifdef __AUDEBUG__
-	mMAA->PrintResults();
+//	mMAA->PrintResults();
 #endif
 	m_pMap->Refresh();
 	
