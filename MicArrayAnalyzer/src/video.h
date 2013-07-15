@@ -20,7 +20,7 @@ class VideoFrame
 		double overallMax, overallMin;
 		double maxInTheBand[12];		
 		double minInTheBand[12];
-		bool frameMatrixInit(int channels);
+		bool frameMatrixInit(int channels, double** fM);
 		bool bframeMatrixAlloc;
 	public:
 		
@@ -28,13 +28,11 @@ class VideoFrame
 		int GetFrameNum() {return frameNum;}
 		double GetOverallMax() {return overallMax;}
 		double GetOverallMin() {return overallMin;}
-		double GetMaxintheBand(int band) {return maxInTheBand[band];}
-		double GetMinintheBand(int band) {return minInTheBand[band];}
+		double GetMaxInTheBand(int band) {return maxInTheBand[band];}
+		double GetMinInTheBand(int band) {return minInTheBand[band];}
 		
-		void SetFrameMatrix(double** p,int channels) {frameMatrix = p;}	
-		void SetFrameNumber (int frame) {frameNum=frame;}
-		void SetOverallMax(double ovrllM) {overallMax=ovrllM;}
-		void SetOverallMin(double ovrllm) {overallMin=ovrllm;}
+		void SetMaxInTheBand(double max , int band) {maxInTheBand[band]=max;}
+		void SetMinInTheBand(double min , int band) {minInTheBand[band]=min;}
 		
 		// 'ctors
 		VideoFrame(double **fM, int channels, int fn, double ovrllMax, double ovrllmin);
@@ -46,8 +44,9 @@ class Video
 		std::map<int,VideoFrame*> resultCube;
 		int numOfFrames;
 		double overallMax, overallMin;
-		void SetOverallMax() ;
-		void SetOverallMin() ;
+		double overallBandMax[12];
+		double overallBandMin[12];
+		void SetMinsAndMaxs();
 		
 		
 	public:
@@ -55,6 +54,10 @@ class Video
 		
 		double** GetFrameMatrix(int frameNum) {return resultCube[frameNum]->GetFrameMatrix();}
 		int GetNumOfFrames() {return numOfFrames;}
+		double GetOverallMax() {return overallMax;}
+		double GetOverallMin() {return overallMin;}
+		double GetOverallBandMax(int band) {return overallBandMax[band];}
+		double GetOverallBandMin(int band) {return overallBandMin[band];}
 		
 		void SetNumOfFrames(int n) {numOfFrames=n ;}
 		

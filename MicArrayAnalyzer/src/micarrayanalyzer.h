@@ -140,7 +140,6 @@ class MicArrayAnalyzer
 		float **ppfAudioData, **ActualFrameAudioData;
 		/*********************************************/
 //		map<int, double**> resultCube;
-		Video *outputFrames;
 		/*********************************************/
 		bool bAudioDataAlloc;
 		float *pfLocalMin;      //Four arrays of local/absolute min/max for each audio track. Used to apply correctly FS scaling!
@@ -177,7 +176,9 @@ class MicArrayAnalyzer
 		bool UpdateProgressMeter(int step,int total);
 		void DestroyProgressMeter();
 		
-	public:       
+	public:     
+		Video *outputFrames;
+
 		bool ReadXMLData();
 		bool BadXML();
 		bool BadWAV();
@@ -189,6 +190,8 @@ class MicArrayAnalyzer
 //							apOutputData->SetResultsMatrix(resultCube[curFrame]);
 			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
 		}
+		void PrintResults();
+		void PrintResult(int frame);
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }

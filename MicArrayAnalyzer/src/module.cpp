@@ -214,13 +214,13 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	
-	for (sampleCount frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) {
-		
+	for (sampleCount frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) 
+	{
 		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
 
 		if(mMAA->Calculate(frame))
 		{
-			printf("Process: calculate(%d)\n",frame);
+			printf("Process: calculate(%d)\n",frame+1);
 		}
 		else
 		{
@@ -229,7 +229,9 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 			return false;
 		}
 	}
-	
+#ifdef __AUDEBUG__
+	mMAA->PrintResults();
+#endif
 	DestroyVideoProgressMeter();
 	
 	MicArrayAnalyzerDlg dlog_1(mParent, mMAA);

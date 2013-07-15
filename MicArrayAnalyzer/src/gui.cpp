@@ -479,10 +479,20 @@ m_timer(this, ID_MM_TIMER)
 	m_pMap->SetBand(m_wxrbBandSelection->GetSelection());
 	m_pMap->SetStyle(m_wxcScaleStyle->GetSelection());
 	
-	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-									   m_wxrbBandSelection->GetSelection()),
-                      mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-                                      m_wxrbBandSelection->GetSelection()) );
+//	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//									   m_wxrbBandSelection->GetSelection()),
+//                      mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//                                      m_wxrbBandSelection->GetSelection()) );
+	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
+						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
+	} else {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
+						  mMAA->outputFrames->GetOverallMin());
+
+	}
+	
+	
 	
 	m_pMap->SetTransparency(m_wxscTransparency->GetValue());
 	
@@ -570,11 +580,20 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 
 void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 {   
-    m_pMap->SetMaxMin( mMAA->GetMaxSPL(event.IsChecked(),
-                                       m_wxrbBandSelection->GetSelection()),
-					  mMAA->GetMinSPL(event.IsChecked(),
-									  m_wxrbBandSelection->GetSelection()) );
-    m_pMap->Refresh();
+   // m_pMap->SetMaxMin( mMAA->GetMaxSPL(event.IsChecked(),
+//                                       m_wxrbBandSelection->GetSelection()),
+//					  mMAA->GetMinSPL(event.IsChecked(),
+//									  m_wxrbBandSelection->GetSelection()) );
+   	if(event.IsChecked()) {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
+						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
+	} else {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
+						  mMAA->outputFrames->GetOverallMin());
+		
+	}
+	
+	m_pMap->Refresh();
 }   
 
 void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event)  // ???
@@ -605,10 +624,19 @@ void MicArrayAnalyzerDlg::OnBandAnalysis(wxCommandEvent& event)
 {
     int band = event.GetSelection();
     m_pMap->SetBand(band);
-    m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-                                       band),
-					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-									  band) );
+   // m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//                                       band),
+//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//									  band) );
+	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax( band), 
+						  mMAA->outputFrames->GetOverallBandMin(  band ));
+	} else {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
+						  mMAA->outputFrames->GetOverallMin());
+		
+	}
+	
     m_pMap->Refresh();
 }
 
@@ -659,10 +687,21 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 	// update the slider, spin control, and colormap..
 	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
 	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
-	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-									   m_wxrbBandSelection->GetSelection()),
-					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-									  m_wxrbBandSelection->GetSelection()) );
+	//m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//									   m_wxrbBandSelection->GetSelection()),
+//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//									  m_wxrbBandSelection->GetSelection()) );
+						  if(m_wxcbSeparateBandAutoscale->IsChecked()) {
+						  m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
+											mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()) );
+						  } else {
+						  m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
+											mMAA->outputFrames->GetOverallMin());
+						  
+						  }
+#ifdef __AUDEBUG__
+	mMAA->PrintResults();
+#endif
 	m_pMap->Refresh();
 	
 }
@@ -746,9 +785,7 @@ void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 		else {
 			mMAA->SetPlaying(false);
 		}
-		UpdateFrameControls();
-		//	m_pMap->Refresh(); è già nell'updateframecontrols
-		
+		UpdateFrameControls();		
 		RestartTimer();
 	}
 }
