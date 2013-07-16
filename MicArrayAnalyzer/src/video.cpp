@@ -49,7 +49,7 @@ void Video::SetMinsAndMaxs()
 	for(int i=1;i<=numOfFrames;i++) {
 		//overallmax
 		double valmax = resultCube[i]->GetOverallMax() ;
-		if(valmax> max)	max=valmax;
+		if(valmax > max)	max=valmax;
 		
 		//overallmin
 		double valmin = resultCube[i]->GetOverallMin() ;

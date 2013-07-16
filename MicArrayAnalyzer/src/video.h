@@ -11,8 +11,8 @@
 
 #include <map>
 
-#define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046)
-#define FRAMEOVERLAP 0.5					// percentage of frame overlapping
+#define FRAMELENGTH 0.1					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046)
+#define FRAMEOVERLAP 0.1					// percentage of frame overlapping
 
 class AudioPool;
 

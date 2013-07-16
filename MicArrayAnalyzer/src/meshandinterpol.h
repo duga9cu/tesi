@@ -59,11 +59,13 @@ class TriangularMesh
       bool SetLevelsAtVertexes(double z[3])
          {
          //Computing interpolation coeffs
-         for (int k = 0; k < 3; k++)
-            {
-            printf("TriangleMesh Class: Setting levels on vert (%d;%d), Mic[%d], Level = %f\n",x[k],y[k],mic[k],z[k]);
-            fflush(stdout);
-            }
+#ifdef __AUDEBUG__
+//         for (int k = 0; k < 3; k++)
+//            {
+//            printf("TriangleMesh Class: Setting levels on vert (%d;%d), Mic[%d], Level = %f\n",x[k],y[k],mic[k],z[k]);
+//            fflush(stdout);
+//            }
+#endif
          det = x[0]*(y[1]-y[2]) - x[1]*(y[0]-y[2]) + x[2]*(y[0]-y[1]);
          A = (z[0]*(y[1]-y[2]) + z[1]*(y[2]-y[0]) + z[2]*(y[0]-y[1])) / det;
          B = (z[0]*(x[2]-x[1]) + z[1]*(x[0]-x[2]) + z[2]*(x[1]-x[0])) / det;

@@ -82,6 +82,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		float frameRateCoeff;
 		wxTimer	m_timer;
 		enum { ID_MM_TIMER = 2013 };
+		TimeBenchmark m_benchTime;
 
 		
 	protected:

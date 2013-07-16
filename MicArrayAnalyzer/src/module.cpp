@@ -18,9 +18,9 @@
 #include "gui.h"
 #include "module.h"
 
-#ifndef __AUDEBUG__  //FORCING DEBUG MODE
-#define __AUDEBUG__
-#endif
+//#ifndef __AUDEBUG__  //FORCING DEBUG MODE
+//#define __AUDEBUG__
+//#endif
 
 
 bool EffectMicArrayAnalyzer::Init()
@@ -190,7 +190,8 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	//---------------- Even more set up ----------------
 	sampleCount atl= mMAA->GetAudioTrackLength();
 	sampleCount fls =  mMAA->GetFrameLengthSmpl();
-	int numOfFrames = atl / fls;  
+	sampleCount ovlp = mMAA->GetFrameOverlapSmpl();
+	int numOfFrames = atl / (fls-ovlp);  
 	mMAA->SetNumOfFrames(numOfFrames);
 	
 	
@@ -220,7 +221,7 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 
 		if(mMAA->Calculate(frame))
 		{
-			printf("Process: calculate(%d)\n",frame+1);
+			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
 		}
 		else
 		{

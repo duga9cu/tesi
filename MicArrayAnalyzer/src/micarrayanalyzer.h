@@ -222,8 +222,7 @@ class MicArrayAnalyzer
 		int GetCurFrame() {return curFrame;}
 		float GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
-		sampleCount GetFrameOverlapSmpl() {return 2*frameOverlapRatio*frameLengthSmpl;}
-		sampleCount GetFrameTotLengthSmpl() {return GetFrameLengthSmpl() + GetFrameOverlapSmpl();}
+		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
 		bool Playing() {return playing;}
 		
 		// Setters
@@ -243,7 +242,9 @@ class MicArrayAnalyzer
 			curFrame = value; 
 //			apOutputData->SetResultsMatrix(resultCube[curFrame]);  
 			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
-			PrintResult(curFrame);
+#ifdef __AUDEBUG__
+//			PrintResult(curFrame);
+#endif
 		}
 		void SetFrameLength(float value) {frameLength = value;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }

@@ -449,6 +449,7 @@ MicArrayAnalyzerDlg::MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer *maa
 : MyModuleDlg(parent),
 mMAA(maa), 
 m_iCurrRulersFormat(MyRuler::RF_DEGREES),
+m_benchTime(),
 m_timer(this, ID_MM_TIMER)
 {
 #ifdef __AUDEBUG__
@@ -778,6 +779,12 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 
 void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 {
+	
+	m_benchTime.Stop();
+	printf("onTimer!!! curFrame = [%d], timing: %.1f ms\n",mMAA->GetCurFrame(), m_benchTime.GetElapsedTime());
+	m_benchTime.Start();
+	
+	
 	if (mMAA->Playing()) {
 		if(mMAA->GetCurFrame() < mMAA->GetNumOfFrames()) {
 			mMAA->NextFrame();

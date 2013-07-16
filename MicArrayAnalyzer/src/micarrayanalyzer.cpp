@@ -16,9 +16,9 @@
 #include "tinyxml.h"       //Needed to read XML files
 #include <sstream>
 
-#ifndef __AUDEBUG__  //FORCING DEBUG MODE
-#define __AUDEBUG__
-#endif
+//#ifndef __AUDEBUG__  //FORCING DEBUG MODE
+//#define __AUDEBUG__
+//#endif
 
 
 
@@ -79,7 +79,7 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 	int zeropadding=0;
 	if (endFrameSmpl >= iAudioTrackLength) { //on the last frame, cut!
 		zeropadding=endFrameSmpl-iAudioTrackLength;
-		endFrameSmpl = iAudioTrackLength-1;
+		endFrameSmpl = iAudioTrackLength;
 		lastframe=true;
 
 	}
@@ -229,7 +229,7 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 	fflush(stdout);
 #endif
     //afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
-	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameTotLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
+	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
 	afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
 	afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
 	afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
@@ -290,7 +290,7 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 		//		UpdateProgressMeter(i,iVirtualMikes);
 		//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
 		//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
-		apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameTotLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
+		apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
 	}
 	//	DestroyProgressMeter();
 	
@@ -317,7 +317,8 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 	
 	//Calculating Results
 	if (apOutputData->FillResultsMatrix()) {
-		//		resultCube[frame]=apOutputData->GetResultsMatrix(); 
+//		resultCube[frame]=apOutputData->GetResultsMatrix(); 
+		//construct video frame
 		VideoFrame* videoframe= new VideoFrame(apOutputData->GetResultsMatrix(),
 									  apOutputData->GetChannelsNumber(),
 									  frame,
@@ -326,7 +327,7 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 		for (int band=0; band<12; band++) {
 			videoframe->SetMaxInTheBand(apOutputData->GetMaxResultInTheBand(band), band);
 			videoframe->SetMinInTheBand(apOutputData->GetMinResultInTheBand(band), band);
-		}
+		}//and add it to the video!
 		outputFrames->AddFrame(videoframe);
 		bResultsAvail = true; 
 	}
@@ -365,7 +366,7 @@ bool MicArrayAnalyzer::AudioTrackInit(int i, int length)
 	else
 	{
 		ppfAudioData[i] = new float [length];
-		int ActualFrameLengthSmpl = GetFrameTotLengthSmpl();
+		int ActualFrameLengthSmpl = GetFrameLengthSmpl();
 		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 		return true;
 	}
