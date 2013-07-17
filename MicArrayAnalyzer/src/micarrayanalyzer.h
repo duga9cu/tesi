@@ -164,7 +164,7 @@ class MicArrayAnalyzer
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
 		
 		int curFrame;
-		float frameLength;
+		double frameLength;
 		sampleCount frameLengthSmpl;
 		float frameOverlapRatio;
 		bool playing;
@@ -220,9 +220,10 @@ class MicArrayAnalyzer
 		int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
 		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
 		int GetCurFrame() {return curFrame;}
-		float GetFrameLength() {return frameLength;}
+		double GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
 		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
+		double GetFrameOverlapRatio() {return frameOverlapRatio;}
 		bool Playing() {return playing;}
 		
 		// Setters
@@ -246,8 +247,9 @@ class MicArrayAnalyzer
 //			PrintResult(curFrame);
 #endif
 		}
-		void SetFrameLength(float value) {frameLength = value;}
+		void SetFrameLength(double value) {frameLength = value;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
+		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
 		
 		

@@ -913,7 +913,7 @@ void MyMap::Init()
 
 void MyMap::DestroyMaps()
 {
-    if(m_aadLevelsMap)
+   if(m_aadLevelsMap)
     {
         for (int i = 0; i < X_RES; i++) 
             delete m_aadLevelsMap[i];

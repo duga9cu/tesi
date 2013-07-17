@@ -44,7 +44,6 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		wxStaticBitmap* wxsbHeadersCheck;
 		bool bHeaders, bBgndImage, bLength, bVirtMikes, bProjChannels, bProjRate, bProjBits;
 	protected:
-		void OnHelp( wxCommandEvent& event );
 		void OnOk( wxCommandEvent& event );
 		void OnCancel( wxCommandEvent& event );
 		void OnPaint(wxPaintEvent & event);
@@ -61,6 +60,12 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		void FSOnFocus(wxFocusEvent& event);
 		void FSKillFocus(wxFocusEvent& event);
 		void FSOnChar(wxKeyEvent& event);
+		void FLengthOnFocus(wxFocusEvent& event);
+		void FLengthKillFocus(wxFocusEvent& event);
+		void FLengthOnChar(wxKeyEvent& event);
+		void FOvlpOnFocus(wxFocusEvent& event);
+		void FOvlpKillFocus(wxFocusEvent& event);
+		void FOvlpOnChar(wxKeyEvent& event);
 		double ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, const double def_val);
 	public:
 		// Constructor / Destructor
@@ -88,6 +93,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 	protected:
 		void OnOk(wxCommandEvent& event);
 		void OnCopyResultsToClipboard(wxCommandEvent& event);
+		void OnHelp( wxCommandEvent& event );
 		//      void OnChangeRulersFormat(wxCommandEvent& event);
 		void OnSeparateBandAutoscale(wxCommandEvent& event);
 		//      void OnEditWatchpoints(wxCommandEvent& event);

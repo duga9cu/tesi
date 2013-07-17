@@ -23,6 +23,8 @@
 #include <stdlib.h>        //Required by ColorMap functions
 #include <wx/dcbuffer.h>
 #include <wx/clipbrd.h>    //Used to copy bitmap to the clipboard
+#include <wx/msgdlg.h>
+
 
 
 // -----------------------------------------------------------
@@ -30,6 +32,7 @@
 // -----------------------------------------------------------
 MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnalyzer *maa ) : MyModuleConfDlg(parent), mMAA(maa), bBgndImage(false), bHeaders(false), bLength(false), bVirtMikes(false), bProjRate(false), bProjBits(false), bProjChannels(false)
 {
+	IsAllOKCheck();
 	wxString buffer;
 	buffer.Printf(_("%d"),(int)mMAA->GetProjSampleRate());   //Retrieving Project Sample Rate
 	m_wxstProjRate->SetLabel(buffer);
@@ -59,6 +62,10 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	m_wxtcMinSPL->SetValue(buffer);
 	buffer.Printf(_("%3.1f"),FS_DEFAULT);
 	m_wxtcFS->SetValue(buffer);
+	buffer.Printf(_("%1.3f"),mMAA->GetFrameLength());
+	m_wxtcFLength->SetValue(buffer);
+	buffer.Printf(_("%3.2f"),mMAA->GetFrameOverlapRatio()*100);
+	m_wxtcFOvlp->SetValue(buffer);
 }
 
 MicArrayAnalyzerConfDlg::~MicArrayAnalyzerConfDlg()
@@ -235,11 +242,6 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 void MicArrayAnalyzerConfDlg::OnCancel( wxCommandEvent& event )
 {
 	EndModal(false);
-}
-
-
-void MicArrayAnalyzerConfDlg::OnHelp( wxCommandEvent& event )
-{
 }
 
 
@@ -422,6 +424,53 @@ void MicArrayAnalyzerConfDlg::FSOnChar(wxKeyEvent& event)
 	else event.Skip();
 }
 
+void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
+{
+	m_wxtcFLength->SetValue(wxEmptyString);
+}
+
+
+void MicArrayAnalyzerConfDlg::FLengthKillFocus(wxFocusEvent& event)
+{
+	double d = ReadAndForceDoubleTextCtrl(m_wxtcFLength, mMAA->GetFrameLength());
+	mMAA->SetFrameLength(d);
+}
+
+
+void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
+{
+	if (event.GetKeyCode() == WXK_RETURN)
+	{
+		double d = ReadAndForceDoubleTextCtrl(m_wxtcFLength, mMAA->GetFrameLength());
+		mMAA->SetFrameLength(d);
+	}
+	else event.Skip();
+}
+
+
+void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
+{
+	m_wxtcFOvlp->SetValue(wxEmptyString);
+}
+
+
+void MicArrayAnalyzerConfDlg::FOvlpKillFocus(wxFocusEvent& event)
+{
+	double d = ReadAndForceDoubleTextCtrl(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
+	mMAA->SetFrameOverlapRatio(d);
+}
+
+
+void MicArrayAnalyzerConfDlg::FOvlpOnChar(wxKeyEvent& event)
+{
+	if (event.GetKeyCode() == WXK_RETURN)
+	{
+		double d = ReadAndForceDoubleTextCtrl(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
+		mMAA->SetFrameOverlapRatio(d);
+	}
+	else event.Skip();
+}
+
 
 double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, const double def_val = 0.0)
 {
@@ -576,6 +625,13 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
     ::wxMessageBox(wxT("Map successifully copied to the clipboard."),
                    wxT("Info"),
                    wxOK | wxICON_INFORMATION);    
+}
+
+void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
+{
+	wxString txt,caption;
+	txt.Printf( wxT("Frame Length = %1.3f sec.\nFrame Overlap Ratio = %3.2f "), mMAA->GetFrameLength(), mMAA->GetFrameOverlapRatio());
+	wxMessageBox(txt,caption,wxOK|wxICON_INFORMATION);
 }
 
 
