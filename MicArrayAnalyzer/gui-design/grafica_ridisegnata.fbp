@@ -867,7 +867,7 @@
                                 <property name="id">wxID_ANY</property>
                                 <property name="maxValue">100</property>
                                 <property name="maximum_size"></property>
-                                <property name="minValue">0</property>
+                                <property name="minValue">1</property>
                                 <property name="minimum_size"></property>
                                 <property name="name">m_sliderVideoFrame</property>
                                 <property name="permission">protected</property>

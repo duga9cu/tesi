@@ -557,7 +557,7 @@ m_timer(this, ID_MM_TIMER)
 	Connect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
 	
 	//default values
-	updating = false;
+	updating = 0;
 	mMAA->SetPlaying(false);
 	
 	//	m_sliderVideoFrame->SetMax(numOfFrames);
@@ -741,9 +741,7 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //--------------------
 
 void MicArrayAnalyzerDlg::UpdateFrameControls(){
-	// update the slider, spin control, and colormap..
-	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
-	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
+
 	//m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
 //									   m_wxrbBandSelection->GetSelection()),
 //					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
@@ -764,39 +762,42 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 }
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
-	if (!updating) { 
 		int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);
+	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
-		updating = true;
-	} else updating = false;
 }
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
+		updating++; //to prevent the next call (2nd of TWO!)
 		int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);
-		updating = true;
+	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
-	} else updating = false;}
+	} else updating--;
+}
 
 void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
 	int frame = m_sliderVideoFrame->GetValue();
-	if (!updating) {
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);
+	updating=2;
+	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
-		updating = true;
-	} else updating = false;}
+}
 
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
 	mMAA->SetPlaying(false);
 	mMAA->SetCurFrame(1);
+	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
+	updating=2;
+	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 	UpdateFrameControls();
 }
 
@@ -835,11 +836,11 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 
 void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 {
-	
+#ifdef __AUDEBUG__
 	m_benchTime.Stop();
 	printf("onTimer!!! curFrame = [%d], timing: %.1f ms\n",mMAA->GetCurFrame(), m_benchTime.GetElapsedTime());
 	m_benchTime.Start();
-	
+#endif
 	
 	if (mMAA->Playing()) {
 		if(mMAA->GetCurFrame() < mMAA->GetNumOfFrames()) {
@@ -848,6 +849,9 @@ void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 		else {
 			mMAA->SetPlaying(false);
 		}
+		m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
+		updating=2; 
+		m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame()); //trigger the TEXT_UPDATED event 2 TIMES!!
 		UpdateFrameControls();		
 		RestartTimer();
 	}

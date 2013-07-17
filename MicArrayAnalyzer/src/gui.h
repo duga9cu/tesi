@@ -83,7 +83,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		
 		int m_iCurrRulersFormat; // used for toggling...
 		
-		bool  updating;
+		int  updating;
 		float frameRateCoeff;
 		wxTimer	m_timer;
 		enum { ID_MM_TIMER = 2013 };

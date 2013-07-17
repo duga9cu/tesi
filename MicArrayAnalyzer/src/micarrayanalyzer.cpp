@@ -81,7 +81,6 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 		zeropadding=endFrameSmpl-iAudioTrackLength;
 		endFrameSmpl = iAudioTrackLength;
 		lastframe=true;
-
 	}
 	
 	for (int i=0; i<iProjectNumTracks; i++) {  //copy data into actual frame
@@ -90,7 +89,7 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 		}
 	}
 	
-	if (lastframe) { //on the last frame, zero padding!!
+	if (lastframe) { //on the last frame, zero padding!
 		for (int i=0; i<iProjectNumTracks; i++) { 
 			for (int j=endFrameSmpl; j<endFrameSmpl+zeropadding; j++) {    
 				ActualFrameAudioData[i][j-startFrameSmpl] = 0;
