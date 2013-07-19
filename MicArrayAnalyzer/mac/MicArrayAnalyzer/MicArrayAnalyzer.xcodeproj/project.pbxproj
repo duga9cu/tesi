@@ -372,6 +372,18 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MicArrayAnalyzer_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					usr/local,
+					"$(WX_PREFIX)/include",
+					"$(AUDACITY_LIB_PREFIX)/libsndfile/src",
+					"$(AUDACITY_LIB_PREFIX)/lib-widget-extra",
+					"$(AUDACITY_LIB_PREFIX)/portsmf",
+					"$(AUDACITY_LIB_PREFIX)/portmixer/include",
+					"$(AUDACITY_LIB_PREFIX)/portaudio-v19/include",
+					"$(AUDACITY_SRC_PATH)",
+					"$(WX_PREFIX)/lib/wx/include/mac-unicode-release-$(WX_VERSION)",
+					"$(WX_PREFIX)/include/wx-$(WX_VERSION)",
+				);
 				MACH_O_TYPE = mh_bundle;
 				PRODUCT_NAME = MicArrayAnalyzerd;
 			};
@@ -407,6 +419,7 @@
 				AUDACITY_SRC_PATH = "$(AUDACITY_SRC_PREFIX)/src";
 				AUDACITY_SRC_PREFIX = "/Users/LeopardOS/src/audacity-src-2.0.0";
 				EXECUTABLE_EXTENSION = so;
+				FFMPEG_LIBS = "libavdevice                        \\\nlibavformat                        \\\nlibavfilter                        \\\nlibavcodec                         \\\nlibswresample                      \\\nlibswscale                         \\\nlibavutil                          \\\n";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -420,6 +433,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					usr/local/include,
 					"$(WX_PREFIX)/include",
 					"$(AUDACITY_LIB_PREFIX)/libsndfile/src",
 					"$(AUDACITY_LIB_PREFIX)/lib-widget-extra",
@@ -435,7 +449,15 @@
 					"$(WX_PREFIX)/lib/i386",
 					"$(WX_PREFIX)/lib",
 				);
+				"New Setting" = "";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(shell",
+					"pkg-config",
+					"--cflags",
+					"$(FFMPEG_LIBS))",
+					"$(CFLAGS)",
+				);
 				OTHER_LDFLAGS = (
 					"-bundle_loader",
 					"\"$(AUDACITY_BINARY)\"",
@@ -446,6 +468,7 @@
 				PREBINDING = NO;
 				SDKROOT = macosx10.4;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				USER_HEADER_SEARCH_PATHS = usr/local/include;
 				WX_PREFIX = /opt/local;
 				WX_VERSION = 2.8;
 			};

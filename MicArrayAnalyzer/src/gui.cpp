@@ -432,7 +432,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
 
 void MicArrayAnalyzerConfDlg::FLengthKillFocus(wxFocusEvent& event)
 {
-	double d = ReadAndForceDoubleTextCtrl(m_wxtcFLength, mMAA->GetFrameLength());
+	double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
 	mMAA->SetFrameLength(d);
 }
 
@@ -441,7 +441,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
 {
 	if (event.GetKeyCode() == WXK_RETURN)
 	{
-		double d = ReadAndForceDoubleTextCtrl(m_wxtcFLength, mMAA->GetFrameLength());
+		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
 		mMAA->SetFrameLength(d);
 	}
 	else event.Skip();
@@ -456,7 +456,7 @@ void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
 
 void MicArrayAnalyzerConfDlg::FOvlpKillFocus(wxFocusEvent& event)
 {
-	double d = ReadAndForceDoubleTextCtrl(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
+	double d = ReadAndForceDoubleTextCtrlFrameOverlap(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
 	mMAA->SetFrameOverlapRatio(d);
 }
 
@@ -465,7 +465,7 @@ void MicArrayAnalyzerConfDlg::FOvlpOnChar(wxKeyEvent& event)
 {
 	if (event.GetKeyCode() == WXK_RETURN)
 	{
-		double d = ReadAndForceDoubleTextCtrl(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
+		double d = ReadAndForceDoubleTextCtrlFrameOverlap(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
 		mMAA->SetFrameOverlapRatio(d);
 	}
 	else event.Skip();
@@ -490,6 +490,39 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 }
 
 
+double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = 0.0)
+{
+	double d = def_val;
+	wxString str;
+	
+	str = txt->GetValue();
+	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
+	
+	if (d < 0) d = 0;         
+	while (d > mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate()) d = d / 10; 
+	
+	str.Printf(_("%1.3f"),d);
+	txt->SetValue(str);
+	
+	return d;
+}
+
+double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtrl *txt, const double def_val = 0.0)
+{
+	double d = def_val;
+	wxString str;
+	
+	str = txt->GetValue();
+	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
+	
+	if (d < 0) d = 0;          
+	while (d > 100) d = 100; 
+	
+	str.Printf(_("%3.1f"),d);
+	txt->SetValue(str);
+	
+	return d;
+}
 
 //----------------------------------------------------------------------------
 // MicArrayAnalyzerDlg Constructor
@@ -557,13 +590,17 @@ m_timer(this, ID_MM_TIMER)
 	Connect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
 	
 	//default values
-	updating = 0;
+//	updating = 0;
 	mMAA->SetPlaying(false);
-	
-	//	m_sliderVideoFrame->SetMax(numOfFrames);
-	//	m_spinCtrlCurFrame->SetRange(1, numOfFrames);
 	m_sliderVideoFrame->SetMax(mMAA->GetNumOfFrames());
-	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());	
+	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
+	m_textCtrlCurTime->SetValue(wxT("00:00:000"));
+//	int w,h;
+//	GetTextExtent(wxT("00:00:000"), &w, &h);
+//	wxSize size(w,h);
+//	m_spinCtrlCurFrame->SetInitialSize(size);
+//	updating=2;
+//	m_spinCtrlCurFrame->SetValue(mMAA->GetCurTime());
 }
 
 MicArrayAnalyzerDlg::~MicArrayAnalyzerDlg()
@@ -754,6 +791,7 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 											mMAA->outputFrames->GetOverallMin());
 						  
 						  }
+	m_textCtrlCurTime->SetValue(mMAA->GetCurTime());
 #ifdef __AUDEBUG__
 //	mMAA->PrintResults();
 #endif
@@ -770,14 +808,28 @@ void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
 		UpdateFrameControls();
 }
 
+int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
+	double timestamp;
+	if (!str.ToDouble(&timestamp)) {
+		::wxMessageBox(wxT("Cannot convert to double!"),
+                       wxT("Error"),
+                       wxOK | wxICON_ERROR);
+	}
+	int correspondingFrame = timestamp / mMAA->GetFrameLength() + 1;
+	return correspondingFrame;
+}
+
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
 		updating++; //to prevent the next call (2nd of TWO!)
+//		int frame = SpinProcessValue( event.GetString());
 		int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
-		else mMAA->SetCurFrame(frame);
+		else mMAA->SetCurFrame(frame);		
 	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
+		updating+=2;
+		m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
 	} else updating--;
 }
@@ -795,9 +847,9 @@ void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
 	mMAA->SetPlaying(false);
 	mMAA->SetCurFrame(1);
-	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
+	m_sliderVideoFrame->SetValue(1);
 	updating=2;
-	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
+	m_spinCtrlCurFrame->SetValue(1);
 	UpdateFrameControls();
 }
 

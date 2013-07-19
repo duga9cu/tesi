@@ -67,6 +67,8 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		void FOvlpKillFocus(wxFocusEvent& event);
 		void FOvlpOnChar(wxKeyEvent& event);
 		double ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, const double def_val);
+		double ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtrl *txt, const double def_val);
+		double ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val);
 	public:
 		// Constructor / Destructor
 		MicArrayAnalyzerConfDlg(wxWindow* parent, MicArrayAnalyzer* maa);
@@ -104,6 +106,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnBandAnalysis(wxCommandEvent& event);
 		void OnMouseOverMap(wxCommandEvent& event);
 		//ellerre
+		int SpinProcessValue(wxString str) ;
 		void OnSpinCurFrame(wxCommandEvent& event) ;
 		void OnSpinCtrlTxt(wxCommandEvent& event) ;
 		void OnSliderScroll( wxScrollEvent& event ) ;

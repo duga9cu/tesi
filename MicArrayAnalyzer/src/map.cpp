@@ -796,10 +796,10 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
     dc.DrawBitmap(m_pMaa->GetBGNDBmp(), 0, 0, false); //false = ignore transparency -->> fully opaque.
     
     //Draw ColorMap (mid layer)
-    if(!m_aadLevelsMap)
+//    if(!m_aadLevelsMap)
         InitLevelsMap();
     
-    if(!m_pwximgColorMap) 
+//    if(!m_pwximgColorMap) 
         InitColorMap();
    
     //Applying transparency, respecting minimum SPL treshold.
@@ -913,20 +913,20 @@ void MyMap::Init()
 
 void MyMap::DestroyMaps()
 {
-   if(m_aadLevelsMap)
-    {
-        for (int i = 0; i < X_RES; i++) 
-            delete m_aadLevelsMap[i];
-    
-        delete [] m_aadLevelsMap;
-        m_aadLevelsMap = 0;
-    }
-    
-    if(m_pwximgColorMap)
-    {
-        delete m_pwximgColorMap;
-        m_pwximgColorMap = 0;
-    }
+//   if(m_aadLevelsMap)
+//    {
+//        for (int i = 0; i < X_RES; i++) 
+//            delete m_aadLevelsMap[i];
+//    
+//        delete [] m_aadLevelsMap;
+//        m_aadLevelsMap = 0;
+//    }
+//    
+//    if(m_pwximgColorMap)
+//    {
+//        delete m_pwximgColorMap;
+//        m_pwximgColorMap = 0;
+//    }
     
 }
 

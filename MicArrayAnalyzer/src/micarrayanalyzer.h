@@ -18,6 +18,7 @@
 #include <wx/filename.h>   //Needed to use wxFileName class
 #include <sndfile.h>       //Needed to read WAV files
 #include <string>
+#include <wx/string.h>
 #include <map>
 #include <stdlib.h>
 #include <Audacity.h>
@@ -29,6 +30,8 @@
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
 #include "video.h"
+
+
 
 
 #include "commdefs.h"
@@ -164,9 +167,9 @@ class MicArrayAnalyzer
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
 		
 		int curFrame;
-		double frameLength;
-		sampleCount frameLengthSmpl;
-		float frameOverlapRatio;
+		double frameLength; // seconds
+		sampleCount frameLengthSmpl; //samples
+		float frameOverlapRatio; // ratio [0,1]
 		bool playing;
 		
 		
@@ -220,6 +223,18 @@ class MicArrayAnalyzer
 		int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
 		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
 		int GetCurFrame() {return curFrame;}
+		wxString GetCurTime() {
+			wxString str; 
+			int ms = curFrame*frameLength*1000; //millisec
+			int h = ms / 1000 / 3600;
+			ms = ms % 3600000; //remaining milliseconds without hours
+			int m = ms / 1000 / 60;
+			ms = ms % 60000; // remaining milliseconds without minutes
+			int s = ms / 1000;
+			ms = ms % 1000;  // remaining milliseconds without seconds
+			str.Printf(wxT("%02d:%02d:%02d"), m, s , ms);
+			return str;
+		}
 		double GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
 		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
