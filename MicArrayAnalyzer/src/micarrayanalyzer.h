@@ -105,7 +105,7 @@ class MicArrayAnalyzer
 		
 		double dMinSPLTreshold;
 		double dFSLevel;
-		double dProjectRate;
+		double dProjectRate; //  samples/sec
 		sampleFormat sfProjectFormat;
 		int iProjectNumTracks;
 		sampleCount iAudioTrackLength; //num of samples
@@ -220,21 +220,10 @@ class MicArrayAnalyzer
 		int GetNumOfMeshes() { return iNTriangles; }
 		int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
 		TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
-		int GetAudioTrackLength() {return iAudioTrackLength;} //errelle
+		sampleCount GetAudioTrackLength() {return iAudioTrackLength;} //errelle
 		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
 		int GetCurFrame() {return curFrame;}
-		wxString GetCurTime() {
-			wxString str; 
-			int ms = curFrame*frameLength*1000; //millisec
-			int h = ms / 1000 / 3600;
-			ms = ms % 3600000; //remaining milliseconds without hours
-			int m = ms / 1000 / 60;
-			ms = ms % 60000; // remaining milliseconds without minutes
-			int s = ms / 1000;
-			ms = ms % 1000;  // remaining milliseconds without seconds
-			str.Printf(wxT("%02d:%02d:%02d"), m, s , ms);
-			return str;
-		}
+		wxString GetCurTime();
 		double GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
 		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
@@ -262,7 +251,7 @@ class MicArrayAnalyzer
 //			PrintResult(curFrame);
 #endif
 		}
-		void SetFrameLength(double value) {frameLength = value;}
+		void SetFrameLength(double value) {frameLength = value; frameLengthSmpl = frameLength * dProjectRate;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
 		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}

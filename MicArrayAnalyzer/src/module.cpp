@@ -80,8 +80,8 @@ bool EffectMicArrayAnalyzer::Init()
 	mMAA->SetProjectNumTracks(ntracks);
 	mMAA->SetProjSampleFormat(trackFormat);
 	mMAA->SetProjSampleRate(mProjectRate);
-	sampleCount framelengtsmpl = mMAA->GetFrameLength() * mProjectRate ;
-	mMAA->SetFrameLengthSmpl(framelengtsmpl);
+	sampleCount framelengthsmpl = mMAA->GetFrameLength() * mProjectRate ;
+	mMAA->SetFrameLengthSmpl(framelengthsmpl);
 	return true;
 }
 
@@ -127,6 +127,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	fflush(stdout);
 #endif
 	
+	//----------------  Showing conf dialog ----------------
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer: Showing conf dialog.\n");
 	fflush(stdout);
@@ -136,7 +137,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	
 	if(!dlog.ShowModal())
 	{
-		//wxMessageBox(_("An error occurred while showing configuration dialog."),_("Microphone Array Analyzer plug-in"),wxOK|wxICON_ERROR);
+		wxMessageBox(_("An error occurred while showing configuration dialog."),_("Microphone Array Analyzer plug-in"),wxOK|wxICON_ERROR);
 		delete mMAA;
 		mMAA = 0;
 		return false;
@@ -174,6 +175,8 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	fflush(stdout);
 #endif
 	
+
+	
 	//---------------- Loading deconvolution IRs from file ----------------
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer: Copying deconv IRs from file to MicArrayAnalyzer object.\n");
@@ -186,6 +189,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 		mMAA = 0;
 		return false;
 	}
+
 	
 	//---------------- Even more set up ----------------
 	sampleCount atl= mMAA->GetAudioTrackLength();

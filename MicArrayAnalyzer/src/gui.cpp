@@ -490,7 +490,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 }
 
 
-double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = 0.0)
+double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FRAMELENGTH)
 {
 	double d = def_val;
 	wxString str;
@@ -498,8 +498,12 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	str = txt->GetValue();
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
-	if (d < 0) d = 0;         
-	while (d > mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate()) d = d / 10; 
+	if (d < 0) 
+		d = 0;         
+//	else if (d > mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate()) {
+//		wxMessageBox(_("Frame Length longer than entire audio data.\n"),_("Error"),wxOK|wxICON_ERROR);
+//		d= FRAMELENGTH ;
+//	}
 	
 	str.Printf(_("%1.3f"),d);
 	txt->SetValue(str);
@@ -507,7 +511,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	return d;
 }
 
-double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtrl *txt, const double def_val = 0.0)
+double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtrl *txt, const double def_val = 0.1)
 {
 	double d = def_val;
 	wxString str;
@@ -515,10 +519,14 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 	str = txt->GetValue();
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
+	d= d/100; //translate to ratio
 	if (d < 0) d = 0;          
-	while (d > 100) d = 100; 
+	else if (d > 0.9) {
+		wxMessageBox(_("Maximum frame overlap ratio is 90%.\n"),_("Error"),wxOK|wxICON_ERROR);
+		d = 0.9; 
+	}
 	
-	str.Printf(_("%3.1f"),d);
+	str.Printf(_("%3.1f"),d*100);
 	txt->SetValue(str);
 	
 	return d;

@@ -711,6 +711,24 @@ void MicArrayAnalyzer::PrintResult(int frame) {
 	
 }
 
+wxString MicArrayAnalyzer::GetCurTime() {
+	wxString str; 
+	int ms = iAudioTrackLength / dProjectRate * 1000; //millisec
+	double progressRatio = (double)curFrame / outputFrames->GetNumOfFrames() ;
+	ms = (double)ms * progressRatio;
+	int h = ms / 1000 / 3600;
+	ms = ms % 3600000; //remaining milliseconds without hours
+	int m = ms / 1000 / 60;
+	ms = ms % 60000; // remaining milliseconds without minutes
+	int s = ms / 1000;
+	ms = ms % 1000;  // remaining milliseconds without seconds
+	if (h>0) 
+		str.Printf(wxT("%02d:%02d:%02d:%03d"), h, m, s , ms);
+	else
+		str.Printf(wxT("%02d:%02d:%03d"), m, s , ms);
+	return str;
+}
+
 //-----------------------------
 // AudioPool Class
 //-----------------------------
