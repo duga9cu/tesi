@@ -553,9 +553,9 @@ void MyMap::SetImageAlpha(wxImage* img, const int alpha_perc, const bool is_colo
     double min = 0.0;
     if (is_colormap)
     {
-        //Retrieving min SPL treshold, converted in the current scale unit. 
-        // Pixels with associated levels < treshold will be FULLY TRANSPARENT!
-        min = ::FromdB( m_pMaa->GetMinSPLTreshold(), MeasureUnit(m_iCurrentUnit) );
+        //Retrieving min SPL threshold, converted in the current scale unit. 
+        // Pixels with associated levels < threshold will be FULLY TRANSPARENT!
+        min = ::FromdB( m_pMaa->GetMinSPLThreshold(), MeasureUnit(m_iCurrentUnit) );
     }
     
     if (!(img->HasAlpha())) 
@@ -567,7 +567,7 @@ void MyMap::SetImageAlpha(wxImage* img, const int alpha_perc, const bool is_colo
         {
             if( (is_colormap) && (m_aadLevelsMap[x][y] < min)) 
             { 
-                // If Level < min SPL treshold -->> full   transparency!
+                // If Level < min SPL threshold -->> full   transparency!
                 img->SetAlpha(x, y, 0);   
             }
             else 
@@ -802,7 +802,7 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
 //    if(!m_pwximgColorMap) 
         InitColorMap();
    
-    //Applying transparency, respecting minimum SPL treshold.
+    //Applying transparency, respecting minimum SPL threshold.
     SetImageAlpha(m_pwximgColorMap, 100 - m_iTransparency, true);
     //CAN'T ignore transparency here! -->> true
     dc.DrawBitmap(*m_pwximgColorMap, 0, 0, true);                                 

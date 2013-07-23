@@ -20,6 +20,7 @@
 #include "dialogs.h"
 #include "trprop.h"
 #include "module.h"
+#include "afconfig.h"
 
 // Some consts to define Main Dialog aspect
 const int DEFAULT_RULER_FORMAT = 0;          //0 = deg, 1 = pixel
@@ -41,6 +42,8 @@ const int DEFAULT_RULER_FORMAT = 0;          //0 = deg, 1 = pixel
 class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 	{
 		MicArrayAnalyzer* mMAA;
+		wxConfig* m_pConf; 
+
 		wxStaticBitmap* wxsbHeadersCheck;
 		bool bHeaders, bBgndImage, bLength, bVirtMikes, bProjChannels, bProjRate, bProjBits;
 	protected:
@@ -82,7 +85,6 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 class MicArrayAnalyzerDlg : public MyModuleDlg
 	{
 		MicArrayAnalyzer* mMAA;
-		
 		int m_iCurrRulersFormat; // used for toggling...
 		
 		int  updating;

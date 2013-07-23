@@ -103,7 +103,7 @@ class MicArrayAnalyzer
 	private:
 		ProgressDialog  *mProgress;
 		
-		double dMinSPLTreshold;
+		double dMinSPLThreshold;
 		double dFSLevel;
 		double dProjectRate; //  samples/sec
 		sampleFormat sfProjectFormat;
@@ -197,7 +197,7 @@ class MicArrayAnalyzer
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
-		double GetMinSPLTreshold() { return dMinSPLTreshold; }
+		double GetMinSPLThreshold() { return dMinSPLThreshold; }
 		double GetMaxSPL(bool autoscale_each_band = false, int band = 0);
 		double GetMinSPL(bool autoscale_each_band = false, int band = 0);
 		int GetArrayType() { return iArrayType; }
@@ -241,7 +241,7 @@ class MicArrayAnalyzer
 		void SetWAVFile(const wxString& str);
 		bool SetBgndImage(const wxString& str);
 		void SetFSLevel(double value) { dFSLevel = value; }
-		void SetMinSPLTreshold(double value) { dMinSPLTreshold = value; }
+		void SetMinSPLThreshold(double value) { dMinSPLThreshold = value; }
 		void SetNumOfFrames(int value) {outputFrames->SetNumOfFrames(value); }
 		void SetCurFrame(int value) {
 			curFrame = value; 

@@ -35,7 +35,7 @@ bSndFileAlloc(false),
 bMikesCoordsAlloc(false),
 bBgndImageAlloc(false),
 dFSLevel(FS_DEFAULT),
-dMinSPLTreshold(MIN_SPL_DEFAULT),
+dMinSPLThreshold(MIN_SPL_DEFAULT),
 bAudioDataAlloc(false),
 bDeconvIRsDataAlloc(false),
 iAudioTrackLength(0),
@@ -227,8 +227,8 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 	printf("DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
 	fflush(stdout);
 #endif
-    //afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
-	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data lenght, IRs length.
+    //afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
+	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
 	afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
 	afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
 	afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
@@ -647,14 +647,14 @@ bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, dou
 
 double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
 {
-	double value = dMinSPLTreshold;
+	double value = dMinSPLThreshold;
 	
 	if (bResultsAvail)
 	{
 		if (autoscale_each_band) { value = apOutputData->GetMaxResultInTheBand(band); }
 		else { value = apOutputData->GetMaxResultInTheMatrix(); }
 		
-		if (value < dMinSPLTreshold) { value = dMinSPLTreshold; }
+		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
 	}
 	
 	return value;
@@ -662,14 +662,14 @@ double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
 
 double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
 {
-	double value = dMinSPLTreshold;
+	double value = dMinSPLThreshold;
 	
 	if (bResultsAvail)
 	{
 		if (autoscale_each_band) { value = apOutputData->GetMinResultInTheBand(band); }
 		else { value = apOutputData->GetMinResultInTheMatrix(); }
 		
-		if (value < dMinSPLTreshold) { value = dMinSPLTreshold; }
+		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
 	}
 	
 	return value;

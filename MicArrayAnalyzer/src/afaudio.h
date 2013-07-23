@@ -32,7 +32,7 @@ class AFAudioTrack {
       AFSample** m_apsmpTrack;          // audio track
       AFSample** m_apsmpFilteredTrack;
 
-      AFSampleCount m_smpcLen;  // lenghts of the tracks.
+      AFSampleCount m_smpcLen;  // Lengths of the tracks.
       
    private: 
       double* m_pdbMin;  // minimum of the tracks.

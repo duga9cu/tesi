@@ -24,6 +24,7 @@
 #include <wx/dcbuffer.h>
 #include <wx/clipbrd.h>    //Used to copy bitmap to the clipboard
 #include <wx/msgdlg.h>
+#include <wx/string.h>
 
 
 
@@ -33,9 +34,10 @@
 MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnalyzer *maa ) : MyModuleConfDlg(parent), mMAA(maa), bBgndImage(false), bHeaders(false), bLength(false), bVirtMikes(false), bProjRate(false), bProjBits(false), bProjChannels(false)
 {
 	IsAllOKCheck();
+	m_pConf= new wxConfig(_("MicArrayAnalyzer"));
 	wxString buffer;
 	buffer.Printf(_("%d"),(int)mMAA->GetProjSampleRate());   //Retrieving Project Sample Rate
-	m_wxstProjRate->SetLabel(buffer);
+	m_wxstProjRate->SetLabel(	buffer);
 	buffer.Printf(_("%d"),(int)mMAA->GetProjNumTracks());   //Retrieving Project Number of Traks
 	m_wxstProjChannels->SetLabel(buffer);
 	
@@ -58,13 +60,52 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	
 	this->Connect(wxEVT_PAINT, wxPaintEventHandler(MicArrayAnalyzerConfDlg::OnPaint));
 	
-	buffer.Printf(_("%3.1f"),MIN_SPL_DEFAULT);
+	//	buffer.Printf(_("%3.1f"),MIN_SPL_DEFAULT);
+	//	m_wxtcMinSPL->SetValue(buffer);
+	//	buffer.Printf(_("%3.1f"),FS_DEFAULT);
+	//	m_wxtcFS->SetValue(buffer);
+	//	buffer.Printf(_("%1.3f"),mMAA->GetFrameLength());
+	//	m_wxtcFLength->SetValue(buffer);
+	//	buffer.Printf(_("%3.2f"),mMAA->GetFrameOverlapRatio()*100);
+	//	m_wxtcFOvlp->SetValue(buffer);
+	//______________________________________________________
+	//_________ remember values from last time _____________
+	wxString str;
+	const wxString emptystring = _("");
+	
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/BackgroundImage"));
+	if(m_pConf->Read(buffer, &str, emptystring))
+		m_wxtcBgndImagePath->SetValue(str);
+	else{
+		wxMessageBox(_("Can't find backgournd image setting.\n"),_("Error"),wxOK|wxICON_ERROR);
+	}
+	
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/XMLfile"));
+	if(m_pConf->Read(buffer, &str, emptystring))
+		m_wxtcXMLConfigFilePath->SetValue(str);
+	else {
+		wxMessageBox(_("Can't find XML file setting.\n"),_("Error"),wxOK|wxICON_ERROR);
+	}
+	
+	double d;
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/SPLthreshold"));
+	m_pConf->Read(buffer, &d, MIN_SPL_DEFAULT);
+	buffer.Printf(_("%.1f"),d);
 	m_wxtcMinSPL->SetValue(buffer);
-	buffer.Printf(_("%3.1f"),FS_DEFAULT);
+	
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/FSLevel"));
+	m_pConf->Read(buffer, &d, FS_DEFAULT);
+	buffer.Printf(_("%.1f"),d);
 	m_wxtcFS->SetValue(buffer);
-	buffer.Printf(_("%1.3f"),mMAA->GetFrameLength());
+	
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameLength"));
+	m_pConf->Read(buffer, &d, FRAMELENGTH);
+	buffer.Printf(_("%.3f"),d);
 	m_wxtcFLength->SetValue(buffer);
-	buffer.Printf(_("%3.2f"),mMAA->GetFrameOverlapRatio()*100);
+	
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"));
+	m_pConf->Read(buffer, &d, FRAMEOVERLAP*100);
+	buffer.Printf(_("%.1f"),d);
 	m_wxtcFOvlp->SetValue(buffer);
 }
 
@@ -133,14 +174,14 @@ void MicArrayAnalyzerConfDlg::OnBrowseXML(wxCommandEvent& event)
 			/* To do.... */
 			
 			if (mMAA->BadWAV())
-            {
+			{
 				// Handling bad wav file header error
 				m_wxstHeadersCheck->SetLabel(_("Bad deconv. IRs WAV file header or file not found"));
 				SetHeadersCheckIcon(_("cross_icon"));
 				bHeaders = true;
-            }
+			}
 			else
-            {
+			{
 				// Everything SEEMS allright...
 				m_wxstHeadersCheck->SetLabel(_("XML Header OK, WAV Header OK"));
 				SetHeadersCheckIcon(_("check_icon"));
@@ -220,9 +261,10 @@ void MicArrayAnalyzerConfDlg::OnBrowseXML(wxCommandEvent& event)
 					bProjBits = false;
 					m_wxsbSampleFormatCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."));
 				}
-            }
+			}
 		}
 	}
+	
 	IsAllOKCheck(); //Check if OK button could be enabled.
 }
 
@@ -235,6 +277,12 @@ void MicArrayAnalyzerConfDlg::OnPaint(wxPaintEvent& event)
 
 void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 {
+	m_pConf->Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
+	m_pConf->Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());
+	m_pConf->Write(_("/MicArrayAnalyzer/Conf/SPLthreshold"), m_wxtcMinSPL->GetValue());
+	m_pConf->Write(_("/MicArrayAnalyzer/Conf/FSLevel"),m_wxtcFS->GetValue());
+	m_pConf->Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxtcFLength->GetValue());
+	m_pConf->Write(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"),m_wxtcFOvlp->GetValue());
 	EndModal(true);
 }
 
@@ -385,8 +433,8 @@ void MicArrayAnalyzerConfDlg::MinSPLOnFocus(wxFocusEvent& event)
 
 void MicArrayAnalyzerConfDlg::MinSPLKillFocus(wxFocusEvent& event)
 {
-	double d = ReadAndForceDoubleTextCtrl(m_wxtcMinSPL, mMAA->GetMinSPLTreshold());
-	mMAA->SetMinSPLTreshold(d);
+	double d = ReadAndForceDoubleTextCtrl(m_wxtcMinSPL, mMAA->GetMinSPLThreshold());
+	mMAA->SetMinSPLThreshold(d);
 }
 
 
@@ -394,8 +442,8 @@ void MicArrayAnalyzerConfDlg::MinSPLOnChar(wxKeyEvent& event)
 {
 	if (event.GetKeyCode() == WXK_RETURN)
 	{
-		double d = ReadAndForceDoubleTextCtrl(m_wxtcMinSPL, mMAA->GetMinSPLTreshold());
-		mMAA->SetMinSPLTreshold(d);
+		double d = ReadAndForceDoubleTextCtrl(m_wxtcMinSPL, mMAA->GetMinSPLThreshold());
+		mMAA->SetMinSPLThreshold(d);
 	}
 	else event.Skip();
 }
@@ -485,7 +533,6 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 	
 	str.Printf(_("%3.1f"),d);
 	txt->SetValue(str);
-	
 	return d;
 }
 
@@ -500,10 +547,10 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	
 	if (d < 0) 
 		d = 0;         
-//	else if (d > mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate()) {
-//		wxMessageBox(_("Frame Length longer than entire audio data.\n"),_("Error"),wxOK|wxICON_ERROR);
-//		d= FRAMELENGTH ;
-//	}
+	//	else if (d > mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate()) {
+	//		wxMessageBox(_("Frame Length longer than entire audio data.\n"),_("Error"),wxOK|wxICON_ERROR);
+	//		d= FRAMELENGTH ;
+	//	}
 	
 	str.Printf(_("%1.3f"),d);
 	txt->SetValue(str);
@@ -570,17 +617,17 @@ m_timer(this, ID_MM_TIMER)
 	m_pMap->SetBand(m_wxrbBandSelection->GetSelection());
 	m_pMap->SetStyle(m_wxcScaleStyle->GetSelection());
 	
-//	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-//									   m_wxrbBandSelection->GetSelection()),
-//                      mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-//                                      m_wxrbBandSelection->GetSelection()) );
+	//	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+	//									   m_wxrbBandSelection->GetSelection()),
+	//                      mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+	//                                      m_wxrbBandSelection->GetSelection()) );
 	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
 						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
 	} else {
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
 						  mMAA->outputFrames->GetOverallMin());
-
+		
 	}
 	
 	
@@ -589,26 +636,20 @@ m_timer(this, ID_MM_TIMER)
 	
 	m_pMap->ShowVirtMikesPos(m_wxcbShowVirtMikes->IsChecked()); //Acquiring default value.
 	
-    //Centering dialog on screen
-    this->Centre();
-    
-    // Connect events
-    Connect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
+	//Centering dialog on screen
+	this->Centre();
+	
+	// Connect events
+	Connect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
 	//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
 	Connect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
 	
 	//default values
-//	updating = 0;
+	//	updating = 0;
 	mMAA->SetPlaying(false);
 	m_sliderVideoFrame->SetMax(mMAA->GetNumOfFrames());
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
 	m_textCtrlCurTime->SetValue(wxT("00:00:000"));
-//	int w,h;
-//	GetTextExtent(wxT("00:00:000"), &w, &h);
-//	wxSize size(w,h);
-//	m_spinCtrlCurFrame->SetInitialSize(size);
-//	updating=2;
-//	m_spinCtrlCurFrame->SetValue(mMAA->GetCurTime());
 }
 
 MicArrayAnalyzerDlg::~MicArrayAnalyzerDlg()
@@ -653,23 +694,23 @@ void MicArrayAnalyzerDlg::OnOk(wxCommandEvent& event)
  */
 void MicArrayAnalyzerDlg::OnShowVirtMikesPos(wxCommandEvent& event)
 {
-    m_pMap->ShowVirtMikesPos(event.IsChecked());
-    m_pMap->Refresh();
+	m_pMap->ShowVirtMikesPos(event.IsChecked());
+	m_pMap->Refresh();
 }
 
 void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC ----> TODO !!!!
 {
-    if(!m_pMap->CopyToClipboard())
-    {
-        ::wxMessageBox(wxT("Cannot copy map to the clipboard."),
-                       wxT("Error"),
-                       wxOK | wxICON_ERROR);
-        return;
-    }
+	if(!m_pMap->CopyToClipboard())
+	{
+		::wxMessageBox(wxT("Cannot copy map to the clipboard."),
+					   wxT("Error"),
+					   wxOK | wxICON_ERROR);
+		return;
+	}
 	
-    ::wxMessageBox(wxT("Map successifully copied to the clipboard."),
-                   wxT("Info"),
-                   wxOK | wxICON_INFORMATION);    
+	::wxMessageBox(wxT("Map successifully copied to the clipboard."),
+				   wxT("Info"),
+				   wxOK | wxICON_INFORMATION);    
 }
 
 void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
@@ -682,11 +723,11 @@ void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
 
 void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 {   
-   // m_pMap->SetMaxMin( mMAA->GetMaxSPL(event.IsChecked(),
-//                                       m_wxrbBandSelection->GetSelection()),
-//					  mMAA->GetMinSPL(event.IsChecked(),
-//									  m_wxrbBandSelection->GetSelection()) );
-   	if(event.IsChecked()) {
+	// m_pMap->SetMaxMin( mMAA->GetMaxSPL(event.IsChecked(),
+	//                                       m_wxrbBandSelection->GetSelection()),
+	//					  mMAA->GetMinSPL(event.IsChecked(),
+	//									  m_wxrbBandSelection->GetSelection()) );
+	if(event.IsChecked()) {
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
 						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
 	} else {
@@ -700,36 +741,36 @@ void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 
 void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event)  // ???
 {
-    wxString units;
-    switch(event.GetSelection())
-    {
-        case MU_dB:   units.Printf(wxT("[dB]"));   break;
-        case MU_Pa:   units.Printf(wxT("[Pa]"));   break;
-        case MU_Sqrt: units.Printf(wxT("[SQRT]")); break;
-        case MU_Cbrt: units.Printf(wxT("[CBRT]")); break;
-        default:      units.Printf(wxT("[dB]"));
-    }
-    //NOTE: UPDATING MOUSE POINTER DATA DISPLAY UNIT TOO!!!!    
-    m_wxtcLevelUnit->SetValue(units);
-    
-    m_pMap->SetMeasureUnit(event.GetSelection());
-    m_pMap->Refresh();
+	wxString units;
+	switch(event.GetSelection())
+	{
+		case MU_dB:   units.Printf(wxT("[dB]"));   break;
+		case MU_Pa:   units.Printf(wxT("[Pa]"));   break;
+		case MU_Sqrt: units.Printf(wxT("[SQRT]")); break;
+		case MU_Cbrt: units.Printf(wxT("[CBRT]")); break;
+		default:      units.Printf(wxT("[dB]"));
+	}
+	//NOTE: UPDATING MOUSE POINTER DATA DISPLAY UNIT TOO!!!!    
+	m_wxtcLevelUnit->SetValue(units);
+	
+	m_pMap->SetMeasureUnit(event.GetSelection());
+	m_pMap->Refresh();
 }
 
 void MicArrayAnalyzerDlg::OnScaleStyle(wxCommandEvent& event)  
 {
-    m_pMap->SetStyle(event.GetSelection());
-    m_pMap->Refresh();
+	m_pMap->SetStyle(event.GetSelection());
+	m_pMap->Refresh();
 }
 
 void MicArrayAnalyzerDlg::OnBandAnalysis(wxCommandEvent& event) 
 {
-    int band = event.GetSelection();
-    m_pMap->SetBand(band);
-   // m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-//                                       band),
-//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-//									  band) );
+	int band = event.GetSelection();
+	m_pMap->SetBand(band);
+	// m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+	//                                       band),
+	//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+	//									  band) );
 	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax( band), 
 						  mMAA->outputFrames->GetOverallBandMin(  band ));
@@ -739,46 +780,46 @@ void MicArrayAnalyzerDlg::OnBandAnalysis(wxCommandEvent& event)
 		
 	}
 	
-    m_pMap->Refresh();
+	m_pMap->Refresh();
 }
 
 void MicArrayAnalyzerDlg::OnTransparency(wxSpinEvent& event)
 {
-    m_pMap->SetTransparency(m_wxscTransparency->GetValue());
-    m_pMap->Refresh();
+	m_pMap->SetTransparency(m_wxscTransparency->GetValue());
+	m_pMap->Refresh();
 }
 
 void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)  
 {
-    MyMouseCoord* c = (MyMouseCoord*)event.GetClientData();
-    
-    wxString szX(wxT("----")), szY(wxT("----")), szZ(wxT("----"));
+	MyMouseCoord* c = (MyMouseCoord*)event.GetClientData();
 	
-    if(c->x > 0.0 && c->y > 0.0)
-    {
-        switch(c->format)
-        {
-            case MyRuler::RF_PIXELS:
-                szX.Printf(wxT("%d"), int(c->x));
-                szY.Printf(wxT("%d"), int(c->y));
-                break;
+	wxString szX(wxT("----")), szY(wxT("----")), szZ(wxT("----"));
+	
+	if(c->x > 0.0 && c->y > 0.0)
+	{
+		switch(c->format)
+		{
+			case MyRuler::RF_PIXELS:
+				szX.Printf(wxT("%d"), int(c->x));
+				szY.Printf(wxT("%d"), int(c->y));
+				break;
 				
-            case MyRuler::RF_DEGREES:
-                szX.Printf(wxT("%.1f"), c->x);
-                szY.Printf(wxT("%.1f"), c->y);
-                break;
-        }
-        
-        if(c->unit == MU_dB)
-            szZ.Printf(wxT("%.1f"), c->z);
-        else 
-            szZ.Printf(wxT("%.1E"), c->z);        
-    }      
+			case MyRuler::RF_DEGREES:
+				szX.Printf(wxT("%.1f"), c->x);
+				szY.Printf(wxT("%.1f"), c->y);
+				break;
+		}
+		
+		if(c->unit == MU_dB)
+			szZ.Printf(wxT("%.1f"), c->z);
+		else 
+			szZ.Printf(wxT("%.1E"), c->z);        
+	}      
 	
 	
-    m_wxtcXPos->SetValue(szX);
-    m_wxtcYPos->SetValue(szY);
-    m_wxtcLevel->SetValue(szZ);
+	m_wxtcXPos->SetValue(szX);
+	m_wxtcYPos->SetValue(szY);
+	m_wxtcLevel->SetValue(szZ);
 }
 
 // --------------------
@@ -786,42 +827,42 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //--------------------
 
 void MicArrayAnalyzerDlg::UpdateFrameControls(){
-
+	
 	//m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-//									   m_wxrbBandSelection->GetSelection()),
-//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-//									  m_wxrbBandSelection->GetSelection()) );
-						  if(m_wxcbSeparateBandAutoscale->IsChecked()) {
-						  m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
-											mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()) );
-						  } else {
-						  m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
-											mMAA->outputFrames->GetOverallMin());
-						  
-						  }
+	//									   m_wxrbBandSelection->GetSelection()),
+	//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+	//									  m_wxrbBandSelection->GetSelection()) );
+	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
+						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()) );
+	} else {
+		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
+						  mMAA->outputFrames->GetOverallMin());
+		
+	}
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime());
 #ifdef __AUDEBUG__
-//	mMAA->PrintResults();
+	//	mMAA->PrintResults();
 #endif
 	m_pMap->Refresh();
 	
 }
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
-		int frame = event.GetInt();
-		if (frame < 1) mMAA->SetCurFrame(1);
-		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
-		else mMAA->SetCurFrame(frame);
+	int frame = event.GetInt();
+	if (frame < 1) mMAA->SetCurFrame(1);
+	else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
+	else mMAA->SetCurFrame(frame);
 	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
-		UpdateFrameControls();
+	UpdateFrameControls();
 }
 
 int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
 	double timestamp;
 	if (!str.ToDouble(&timestamp)) {
 		::wxMessageBox(wxT("Cannot convert to double!"),
-                       wxT("Error"),
-                       wxOK | wxICON_ERROR);
+					   wxT("Error"),
+					   wxOK | wxICON_ERROR);
 	}
 	int correspondingFrame = timestamp / mMAA->GetFrameLength() + 1;
 	return correspondingFrame;
@@ -830,12 +871,12 @@ int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
 		updating++; //to prevent the next call (2nd of TWO!)
-//		int frame = SpinProcessValue( event.GetString());
+		//		int frame = SpinProcessValue( event.GetString());
 		int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);		
-	m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
+		m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
 		updating+=2;
 		m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
@@ -844,12 +885,12 @@ void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 
 void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
 	int frame = m_sliderVideoFrame->GetValue();
-		if (frame < 1) mMAA->SetCurFrame(1);
-		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
-		else mMAA->SetCurFrame(frame);
+	if (frame < 1) mMAA->SetCurFrame(1);
+	else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
+	else mMAA->SetCurFrame(frame);
 	updating=2;
 	m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
-		UpdateFrameControls();
+	UpdateFrameControls();
 }
 
 void MicArrayAnalyzerDlg::OnSTOPBtn(wxCommandEvent& event)  {
