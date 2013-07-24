@@ -174,7 +174,6 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	printf("MicArrayAnalyzer: Project tracks copy SUCCEDEED.\n");
 	fflush(stdout);
 #endif
-	
 
 	
 	//---------------- Loading deconvolution IRs from file ----------------

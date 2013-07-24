@@ -828,7 +828,7 @@ void MyMap::OnPaint(wxPaintEvent& evt)
 {
     const wxSize sz = GetClientSize();
     wxAutoBufferedPaintDC adc(this);
-    UpdateMap(adc, sz);
+		UpdateMap(adc, sz);
 }
 
 void MyMap::OnMouseOverDisplay(wxMouseEvent& evt)

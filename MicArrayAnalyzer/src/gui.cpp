@@ -34,7 +34,6 @@
 MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnalyzer *maa ) : MyModuleConfDlg(parent), mMAA(maa), bBgndImage(false), bHeaders(false), bLength(false), bVirtMikes(false), bProjRate(false), bProjBits(false), bProjChannels(false)
 {
 	IsAllOKCheck();
-	m_pConf= new wxConfig(_("MicArrayAnalyzer"));
 	wxString buffer;
 	buffer.Printf(_("%d"),(int)mMAA->GetProjSampleRate());   //Retrieving Project Sample Rate
 	m_wxstProjRate->SetLabel(	buffer);
@@ -68,45 +67,52 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	//	m_wxtcFLength->SetValue(buffer);
 	//	buffer.Printf(_("%3.2f"),mMAA->GetFrameOverlapRatio()*100);
 	//	m_wxtcFOvlp->SetValue(buffer);
+	
 	//______________________________________________________
 	//_________ remember values from last time _____________
-	wxString str;
+		wxString str;
 	const wxString emptystring = _("");
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/BackgroundImage"));
-	if(m_pConf->Read(buffer, &str, emptystring))
-		m_wxtcBgndImagePath->SetValue(str);
-	else{
-		wxMessageBox(_("Can't find backgournd image setting.\n"),_("Error"),wxOK|wxICON_ERROR);
-	}
+	m_Conf.Read(buffer, &str, emptystring);
+	m_wxtcBgndImagePath->SetValue(str);
+	mMAA->SetBgndImage(str);
+	bBgndImage = true;
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/XMLfile"));
-	if(m_pConf->Read(buffer, &str, emptystring))
+	if(m_Conf.Read(buffer, &str, emptystring)) {
+		mMAA->SetXMLFile(str);	
 		m_wxtcXMLConfigFilePath->SetValue(str);
-	else {
-		wxMessageBox(_("Can't find XML file setting.\n"),_("Error"),wxOK|wxICON_ERROR);
+		ParseXML();
 	}
+	m_wxtcXMLConfigFilePath->SetValue(str);
 	
 	double d;
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/SPLthreshold"));
-	m_pConf->Read(buffer, &d, MIN_SPL_DEFAULT);
+	m_Conf.Read(buffer, &d, MIN_SPL_DEFAULT);
 	buffer.Printf(_("%.1f"),d);
 	m_wxtcMinSPL->SetValue(buffer);
+	mMAA->SetMinSPLThreshold(d);
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FSLevel"));
-	m_pConf->Read(buffer, &d, FS_DEFAULT);
+	m_Conf.Read(buffer, &d, FS_DEFAULT);
 	buffer.Printf(_("%.1f"),d);
 	m_wxtcFS->SetValue(buffer);
+	mMAA->SetFSLevel(d);
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameLength"));
-	m_pConf->Read(buffer, &d, FRAMELENGTH);
+	m_Conf.Read(buffer, &d, FRAMELENGTH);
 	buffer.Printf(_("%.3f"),d);
 	m_wxtcFLength->SetValue(buffer);
+	mMAA->SetFrameLength(d);
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"));
-	m_pConf->Read(buffer, &d, FRAMEOVERLAP*100);
+	m_Conf.Read(buffer, &d, FRAMEOVERLAP*100);
 	buffer.Printf(_("%.1f"),d);
 	m_wxtcFOvlp->SetValue(buffer);
+	mMAA->SetFrameOverlapRatio(d/100);
+	
+	IsAllOKCheck();
 }
 
 MicArrayAnalyzerConfDlg::~MicArrayAnalyzerConfDlg()
@@ -133,6 +139,130 @@ void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event)
 	}
 	
 	IsAllOKCheck(); //Check if OK button could be enabled.
+}
+
+void MicArrayAnalyzerConfDlg::ParseXML() {
+		if (mMAA->BadXML())
+		{
+			// Handling two cases: (1) bad XML header, (2) good XML header but the XML doesn't hold mic array data.
+			//m_wxsbHeadersCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+			m_wxstHeadersCheck->SetLabel(_("Bad XML header or not a Mic Array Configuration file"));
+			SetHeadersCheckIcon(_("cross_icon"));
+			bHeaders = true;
+		}		
+		else
+		{
+			mMAA->ReadXMLData(); //So, at least the XML seems ok. Reading data!
+			EnableTable(); //Enabling the xml/wav/project data table
+			
+			//Filling **ONLY** XML fields of the data table
+			wxString buffer;
+			m_wxstMicName->SetLabel(mMAA->GetMicName());
+			m_wxstManufacturer->SetLabel(mMAA->GetManufacturer());
+			if (mMAA->GetArrayType() == 0) m_wxstArrayType->SetLabel(_("Spherical"));
+			else { m_wxstArrayType->SetLabel(_("Planar")); }
+			buffer.Printf(_("%d"),mMAA->GetDeconvIRsLength());
+			m_wxstXMLLength->SetLabel(buffer);
+			buffer.Printf(_("%d"),mMAA->GetCapsulesNumber());
+			m_wxstXMLCapsules->SetLabel(buffer);
+			m_wxstXMLCapsules2->SetLabel(buffer);
+			buffer.Printf(_("%d"),mMAA->GetVirtualMikes());         
+			m_wxstXMLVirtual->SetLabel(buffer);
+			
+			//Here we can check if XML <-> PROJECT values are matched and set icons
+			/* To do.... */
+			
+			if (mMAA->BadWAV())
+			{
+				// Handling bad wav file header error
+				m_wxstHeadersCheck->SetLabel(_("Bad deconv. IRs WAV file header or file not found"));
+				SetHeadersCheckIcon(_("cross_icon"));
+				bHeaders = true;
+			}
+			else
+			{
+				// Everything SEEMS allright...
+				m_wxstHeadersCheck->SetLabel(_("XML Header OK, WAV Header OK"));
+				SetHeadersCheckIcon(_("check_icon"));
+				bHeaders = true;
+				
+				//Filling data table with WAV data.
+				buffer.Printf(_("%d"),mMAA->GetWAVLength());
+				m_wxstWAVLength->SetLabel(buffer);
+				m_wxstWAVFormat->SetLabel(mMAA->GetWAVFormatName());
+				buffer.Printf(_("%d"),mMAA->GetWAVSampleRate());
+				m_wxstWAVfsample->SetLabel(buffer);
+				buffer.Printf(_("%d"),mMAA->GetWAVChannels());
+				m_wxstWAVChannels->SetLabel(buffer);
+				
+				//Now we can set XML <-> WAV and WAV <-> PROJECT icons too!
+				if ((mMAA->GetDeconvIRsLength() * mMAA->GetCapsulesNumber()) == mMAA->GetWAVLength())
+				{
+					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+					bLength = true;
+					m_wxsbLengthCheck->SetToolTip(wxEmptyString);
+				}
+				else
+				{
+					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+					bLength = false;
+					m_wxsbLengthCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."));
+				}
+				
+				if (mMAA->GetVirtualMikes() == mMAA->GetWAVChannels())
+				{
+					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+					bVirtMikes = true;
+					m_wxsbWAVChannelsCheck->SetToolTip(wxEmptyString);
+				}
+				else
+				{
+					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+					bVirtMikes = false;
+					m_wxsbWAVChannelsCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."));
+				}
+				
+				if (mMAA->GetCapsulesNumber() == mMAA->GetProjNumTracks())
+				{
+					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+					bProjChannels = true;
+					m_wxsbProjChannelsCheck->SetToolTip(wxEmptyString);
+				}
+				else
+				{
+					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+					bProjChannels = false;
+					m_wxsbProjChannelsCheck->SetToolTip(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."));
+				}
+				
+				if (mMAA->GetWAVSampleRate() == (int)mMAA->GetProjSampleRate())
+				{
+					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+					bProjRate = true;
+					m_wxsbRateCheck->SetToolTip(wxEmptyString);
+				}
+				else
+				{
+					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+					bProjRate = false;
+					m_wxsbRateCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample rates should be the same."));
+				}
+				
+				if (mMAA->GetWAVSampleFormat() == mMAA->GetProjSampleFormat())
+				{
+					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+					bProjBits = true;
+					m_wxsbSampleFormatCheck->SetToolTip(wxEmptyString);
+				}
+				else
+				{
+					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("warning_icon")));
+					bProjBits = false;
+					m_wxsbSampleFormatCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."));
+				}
+			}
+		}
+	IsAllOKCheck();
 }
 
 void MicArrayAnalyzerConfDlg::OnBrowseXML(wxCommandEvent& event)
@@ -277,12 +407,13 @@ void MicArrayAnalyzerConfDlg::OnPaint(wxPaintEvent& event)
 
 void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 {
-	m_pConf->Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
-	m_pConf->Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());
-	m_pConf->Write(_("/MicArrayAnalyzer/Conf/SPLthreshold"), m_wxtcMinSPL->GetValue());
-	m_pConf->Write(_("/MicArrayAnalyzer/Conf/FSLevel"),m_wxtcFS->GetValue());
-	m_pConf->Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxtcFLength->GetValue());
-	m_pConf->Write(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"),m_wxtcFOvlp->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/SPLthreshold"), m_wxtcMinSPL->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FSLevel"),m_wxtcFS->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxtcFLength->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"),m_wxtcFOvlp->GetValue());
+	m_Conf.Flush();
 	EndModal(true);
 }
 
@@ -435,6 +566,7 @@ void MicArrayAnalyzerConfDlg::MinSPLKillFocus(wxFocusEvent& event)
 {
 	double d = ReadAndForceDoubleTextCtrl(m_wxtcMinSPL, mMAA->GetMinSPLThreshold());
 	mMAA->SetMinSPLThreshold(d);
+		IsAllOKCheck();
 }
 
 
@@ -444,6 +576,7 @@ void MicArrayAnalyzerConfDlg::MinSPLOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrl(m_wxtcMinSPL, mMAA->GetMinSPLThreshold());
 		mMAA->SetMinSPLThreshold(d);
+			IsAllOKCheck();
 	}
 	else event.Skip();
 }
@@ -459,6 +592,7 @@ void MicArrayAnalyzerConfDlg::FSKillFocus(wxFocusEvent& event)
 {
 	double d = ReadAndForceDoubleTextCtrl(m_wxtcFS, mMAA->GetFSLevel());
 	mMAA->SetFSLevel(d);
+	IsAllOKCheck();
 }
 
 
@@ -468,6 +602,7 @@ void MicArrayAnalyzerConfDlg::FSOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrl(m_wxtcFS, mMAA->GetFSLevel());
 		mMAA->SetFSLevel(d);
+			IsAllOKCheck();
 	}
 	else event.Skip();
 }
@@ -482,6 +617,7 @@ void MicArrayAnalyzerConfDlg::FLengthKillFocus(wxFocusEvent& event)
 {
 	double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
 	mMAA->SetFrameLength(d);
+		IsAllOKCheck();
 }
 
 
@@ -491,6 +627,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
 		mMAA->SetFrameLength(d);
+			IsAllOKCheck();
 	}
 	else event.Skip();
 }
@@ -505,7 +642,8 @@ void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
 void MicArrayAnalyzerConfDlg::FOvlpKillFocus(wxFocusEvent& event)
 {
 	double d = ReadAndForceDoubleTextCtrlFrameOverlap(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
-	mMAA->SetFrameOverlapRatio(d);
+	mMAA->SetFrameOverlapRatio(d/100);
+		IsAllOKCheck();
 }
 
 
@@ -514,7 +652,8 @@ void MicArrayAnalyzerConfDlg::FOvlpOnChar(wxKeyEvent& event)
 	if (event.GetKeyCode() == WXK_RETURN)
 	{
 		double d = ReadAndForceDoubleTextCtrlFrameOverlap(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
-		mMAA->SetFrameOverlapRatio(d);
+		mMAA->SetFrameOverlapRatio(d/100);
+			IsAllOKCheck();
 	}
 	else event.Skip();
 }
@@ -645,7 +784,7 @@ m_timer(this, ID_MM_TIMER)
 	Connect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
 	
 	//default values
-	//	updating = 0;
+	updating = 0;
 	mMAA->SetPlaying(false);
 	m_sliderVideoFrame->SetMax(mMAA->GetNumOfFrames());
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
@@ -870,14 +1009,14 @@ int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
-		updating++; //to prevent the next call (2nd of TWO!)
+//		updating++; //to prevent the next call (2nd of TWO!)
 		//		int frame = SpinProcessValue( event.GetString());
 		int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);		
 		m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
-		updating+=2;
+		updating++;
 		m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
 	} else updating--;

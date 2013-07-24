@@ -42,11 +42,12 @@ const int DEFAULT_RULER_FORMAT = 0;          //0 = deg, 1 = pixel
 class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 	{
 		MicArrayAnalyzer* mMAA;
-		wxConfig* m_pConf; 
+		wxConfig m_Conf; 
 
 		wxStaticBitmap* wxsbHeadersCheck;
 		bool bHeaders, bBgndImage, bLength, bVirtMikes, bProjChannels, bProjRate, bProjBits;
 	protected:
+		void IsAllOKCheck();
 		void OnOk( wxCommandEvent& event );
 		void OnCancel( wxCommandEvent& event );
 		void OnPaint(wxPaintEvent & event);
@@ -54,9 +55,9 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		void SetHeadersCheckIcon(const wxChar* icon);
 		void RePaint();
 		void EnableTable();
+		void ParseXML();
 		void OnBrowseXML(wxCommandEvent& event);
 		void OnBrowseBGND(wxCommandEvent& event);
-		void IsAllOKCheck();
 		void MinSPLOnFocus(wxFocusEvent& event);
 		void MinSPLKillFocus(wxFocusEvent& event);
 		void MinSPLOnChar(wxKeyEvent& event);
