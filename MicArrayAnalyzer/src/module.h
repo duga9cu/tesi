@@ -33,6 +33,7 @@ class EffectMicArrayAnalyzer: public Effect
       void SelectTracks(bool status);
       void SelectAllTracks();
       void DeselectAllTracks();
+	  bool DoShowConfDialog();
       void End();
    
    public:

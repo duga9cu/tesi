@@ -679,17 +679,20 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FRAMELENGTH)
 {
 	double d = def_val;
+	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
 	wxString str;
 	
 	str = txt->GetValue();
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
 	if (d < 0) 
-		d = 0;         
-	//	else if (d > mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate()) {
-	//		wxMessageBox(_("Frame Length longer than entire audio data.\n"),_("Error"),wxOK|wxICON_ERROR);
-	//		d= FRAMELENGTH ;
-	//	}
+		d = 0;      
+	else if (d > audiotracklengthinseconds ) {
+		str.Printf(_("Frame Length value too long!\nselected audio data is %f second long.\n\nvalue reset to default"),
+				   audiotracklengthinseconds);
+		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
+		d= FRAMELENGTH ;
+	}
 	
 	str.Printf(_("%1.3f"),d);
 	txt->SetValue(str);
@@ -1009,14 +1012,13 @@ int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
-//		updating++; //to prevent the next call (2nd of TWO!)
+		updating++; //to prevent the next call (2nd of TWO!)
 		//		int frame = SpinProcessValue( event.GetString());
 		int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);		
 		m_sliderVideoFrame->SetValue(mMAA->GetCurFrame());
-		updating++;
 		m_spinCtrlCurFrame->SetValue(mMAA->GetCurFrame());
 		UpdateFrameControls();
 	} else updating--;

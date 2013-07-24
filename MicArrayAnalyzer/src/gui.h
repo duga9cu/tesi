@@ -20,7 +20,7 @@
 #include "dialogs.h"
 #include "trprop.h"
 #include "module.h"
-#include "afconfig.h"
+#include <wx/config.h>
 
 // Some consts to define Main Dialog aspect
 const int DEFAULT_RULER_FORMAT = 0;          //0 = deg, 1 = pixel

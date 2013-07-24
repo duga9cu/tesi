@@ -9,7 +9,8 @@
 #ifndef __VIDEO_H__
 #define __VIDEO_H__
 
-#include <map>
+#include <wx/hashmap.h>
+
 
 #define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046 nel test teatro)
 #define FRAMEOVERLAP 0.1					// percentage of frame overlapping
@@ -45,7 +46,9 @@ class VideoFrame
 class Video
 	{
 	private:
-		std::map<int,VideoFrame*> resultCube;
+		WX_DECLARE_HASH_MAP( int, VideoFrame*, wxIntegerHash, wxIntegerEqual, WxHash_Map );
+//		std::map<int,VideoFrame*> resultCube;
+		WxHash_Map resultCube;
 		int numOfFrames;
 		double overallMax, overallMin;
 		double overallBandMax[12];

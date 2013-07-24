@@ -127,21 +127,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	fflush(stdout);
 #endif
 	
-	//----------------  Showing conf dialog ----------------
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer: Showing conf dialog.\n");
-	fflush(stdout);
-#endif
-	MicArrayAnalyzerConfDlg dlog(mParent, mMAA);
-	dlog.CenterOnParent();
-	
-	if(!dlog.ShowModal())
-	{
-		wxMessageBox(_("An error occurred while showing configuration dialog."),_("Microphone Array Analyzer plug-in"),wxOK|wxICON_ERROR);
-		delete mMAA;
-		mMAA = 0;
-		return false;
-	}
+
 	
 	//---------------- Loading tracks data from Audacity current project ----------------
 #ifdef __AUDEBUG__
@@ -174,7 +160,20 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	printf("MicArrayAnalyzer: Project tracks copy SUCCEDEED.\n");
 	fflush(stdout);
 #endif
+	
 
+
+	
+	//---------------- Even more set up ----------------
+	sampleCount atl= mMAA->GetAudioTrackLength();
+	sampleCount fls =  mMAA->GetFrameLengthSmpl();
+	sampleCount ovlp = mMAA->GetFrameOverlapSmpl();
+	int numOfFrames = atl / (fls-ovlp);  
+	mMAA->SetNumOfFrames(numOfFrames);
+	
+	//----------------  Showing conf dialog ----------------
+	if (!DoShowConfDialog()) 
+		return false;
 	
 	//---------------- Loading deconvolution IRs from file ----------------
 #ifdef __AUDEBUG__
@@ -188,15 +187,6 @@ bool EffectMicArrayAnalyzer::PromptUser()
 		mMAA = 0;
 		return false;
 	}
-
-	
-	//---------------- Even more set up ----------------
-	sampleCount atl= mMAA->GetAudioTrackLength();
-	sampleCount fls =  mMAA->GetFrameLengthSmpl();
-	sampleCount ovlp = mMAA->GetFrameOverlapSmpl();
-	int numOfFrames = atl / (fls-ovlp);  
-	mMAA->SetNumOfFrames(numOfFrames);
-	
 	
 	return true;
 }
@@ -253,6 +243,24 @@ void EffectMicArrayAnalyzer::End()
 	// Deleting mMAA object
 	delete mMAA;
 	mMAA = 0;
+}
+
+bool EffectMicArrayAnalyzer::DoShowConfDialog() {
+#ifdef __AUDEBUG__
+	printf("MicArrayAnalyzer: Showing conf dialog.\n");
+	fflush(stdout);
+#endif
+	MicArrayAnalyzerConfDlg dlog(mParent, mMAA);
+	dlog.CenterOnParent();
+	
+	if(!dlog.ShowModal())
+	{
+		wxMessageBox(_("An error occurred while showing configuration dialog."),_("Microphone Array Analyzer plug-in"),wxOK|wxICON_ERROR);
+		delete mMAA;
+		mMAA = 0;
+		return false;
+	}
+	return true;
 }
 
 void EffectMicArrayAnalyzer::InitVideoProgressMeter(const wxString& operation)
