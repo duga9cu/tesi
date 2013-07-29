@@ -87,7 +87,7 @@ class AudioPool : public AFAudioTrack
 		double GetMinResultInTheBand(int col); //Returns MIN level inside the choosen ppdResultsMatrix column.
 		bool FillResultsMatrix();  //Hard working function!
 		
-		bool SetResultsMatrix(double** ppd) {ppdResultsMatrix = ppd;} //errelle 
+		void SetResultsMatrix(double** ppd) {ppdResultsMatrix = ppd;} //errelle 
 		
 		//Constructor/Destructor
 		AudioPool(const int nTracks, double dBFullScale, double Fs);
@@ -229,6 +229,7 @@ class MicArrayAnalyzer
 		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
 		double GetFrameOverlapRatio() {return frameOverlapRatio;}
 		bool Playing() {return playing;}
+		int GetTransparency() {return outputFrames->GetTransparency();}
 		
 		// Setters
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
@@ -255,6 +256,7 @@ class MicArrayAnalyzer
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
 		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
+		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
 		
 		
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }

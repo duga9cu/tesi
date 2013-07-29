@@ -14,6 +14,7 @@
 
 #define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046 nel test teatro)
 #define FRAMEOVERLAP 0.1					// percentage of frame overlapping
+#define TRANSPARENCY 50					// alpha value for the colormap superposition
 
 class AudioPool;
 
@@ -50,6 +51,7 @@ class Video
 //		std::map<int,VideoFrame*> resultCube;
 		WxHash_Map resultCube;
 		int numOfFrames;
+		int transparency;
 		double overallMax, overallMin;
 		double overallBandMax[12];
 		double overallBandMin[12];
@@ -65,11 +67,13 @@ class Video
 		double GetOverallMin() {return overallMin;}
 		double GetOverallBandMax(int band) {return overallBandMax[band];}
 		double GetOverallBandMin(int band) {return overallBandMin[band];}
+		int GetTransparency() {return transparency;}
 		
+		void SetTransparency(int valTransp) {transparency = valTransp;}
 		void SetNumOfFrames(int n) {numOfFrames=n ;}
 		
 		// 'ctors
-		Video(): numOfFrames(0), overallMax(0),overallMin(0) {}
+		Video(): numOfFrames(0), transparency(50), overallMax(0),overallMin(0) {}
 //		~Video() {delete[] resultCube;}
 	};
 #endif __VIDEO_H__

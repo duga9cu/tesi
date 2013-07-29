@@ -33,6 +33,7 @@
 // -----------------------------------------------------------
 MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnalyzer *maa ) : MyModuleConfDlg(parent), mMAA(maa), bBgndImage(false), bHeaders(false), bLength(false), bVirtMikes(false), bProjRate(false), bProjBits(false), bProjChannels(false)
 {
+	updating=0;
 	IsAllOKCheck();
 	wxString buffer;
 	buffer.Printf(_("%d"),(int)mMAA->GetProjSampleRate());   //Retrieving Project Sample Rate
@@ -87,7 +88,17 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	}
 	m_wxtcXMLConfigFilePath->SetValue(str);
 	
+	
 	double d;
+
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/Transparency"));
+	m_Conf.Read(buffer, &d, TRANSPARENCY);
+//	buffer.Printf(_("%d"),d);
+	updating=2;
+	m_wxscTransparency->SetValue(d);
+	m_wxsldTransparency->SetValue(d);
+	mMAA->SetTransparency(d);
+	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/SPLthreshold"));
 	m_Conf.Read(buffer, &d, MIN_SPL_DEFAULT);
 	buffer.Printf(_("%.1f"),d);
@@ -407,8 +418,11 @@ void MicArrayAnalyzerConfDlg::OnPaint(wxPaintEvent& event)
 
 void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 {
+	mMAA->SetTransparency(m_wxscTransparency->GetValue());
+
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/Transparency"), m_wxscTransparency->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/SPLthreshold"), m_wxtcMinSPL->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FSLevel"),m_wxtcFS->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxtcFLength->GetValue());
@@ -553,6 +567,46 @@ void MicArrayAnalyzerConfDlg::SetHeadersCheckIcon(const wxChar* icon)
 	wxsbHeadersCheck = new wxStaticBitmap(m_wxpTable,wxID_ANY,wxNullBitmap,wxPoint(x+w+4,y),wxSize(15,15));
 	//	m_wxbsHeadersCheck->Add(wxsbHeadersCheck);
 	wxsbHeadersCheck->SetBitmap(wxArtProvider::GetBitmap(icon));
+}
+
+void MicArrayAnalyzerConfDlg:: OnSlideTransparency(wxScrollEvent& event)
+{
+	int transp = m_wxsldTransparency->GetValue();
+	if (transp < 0) mMAA->SetTransparency(0);
+	else if (transp>100) mMAA->SetTransparency(100);
+	else mMAA->SetTransparency(transp);
+	updating=2;
+	m_wxscTransparency->SetValue(mMAA->GetTransparency());
+	UpdateTranspOverview();
+}
+
+
+
+void MicArrayAnalyzerConfDlg:: OnSpinTransText( wxCommandEvent& event )
+{
+	if (!updating) {
+		updating++; //to prevent the next call (2nd of TWO!)
+		int trans = event.GetInt();
+		if (trans < 0) mMAA->SetTransparency(0);
+		else if (trans> 100) mMAA->SetTransparency(100);
+		else mMAA->SetTransparency(trans);		
+		m_wxsldTransparency->SetValue(mMAA->GetTransparency());
+		m_wxscTransparency->SetValue(mMAA->GetTransparency());
+		UpdateTranspOverview();
+	} else updating--;
+}
+
+void MicArrayAnalyzerConfDlg:: OnSpinTransArrow( wxSpinEvent& event) 
+{
+//???
+}
+
+
+void MicArrayAnalyzerConfDlg:: UpdateTranspOverview()
+{
+//TODO  :
+//		put a default image (or even better the bgndimage!) on the GUI 
+//      and put a default colormap on it with the selected transparency just for overview
 }
 
 
@@ -774,7 +828,7 @@ m_timer(this, ID_MM_TIMER)
 	
 	
 	
-	m_pMap->SetTransparency(m_wxscTransparency->GetValue());
+	m_pMap->SetTransparency(mMAA->GetTransparency());
 	
 	m_pMap->ShowVirtMikesPos(m_wxcbShowVirtMikes->IsChecked()); //Acquiring default value.
 	
@@ -922,12 +976,6 @@ void MicArrayAnalyzerDlg::OnBandAnalysis(wxCommandEvent& event)
 		
 	}
 	
-	m_pMap->Refresh();
-}
-
-void MicArrayAnalyzerDlg::OnTransparency(wxSpinEvent& event)
-{
-	m_pMap->SetTransparency(m_wxscTransparency->GetValue());
 	m_pMap->Refresh();
 }
 

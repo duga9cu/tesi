@@ -207,6 +207,7 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	
+	
 	for (sampleCount frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) 
 	{
 		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());

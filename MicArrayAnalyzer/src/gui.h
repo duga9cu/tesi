@@ -44,6 +44,7 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		MicArrayAnalyzer* mMAA;
 		wxConfig m_Conf; 
 
+		int updating;
 		wxStaticBitmap* wxsbHeadersCheck;
 		bool bHeaders, bBgndImage, bLength, bVirtMikes, bProjChannels, bProjRate, bProjBits;
 	protected:
@@ -58,6 +59,10 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		void ParseXML();
 		void OnBrowseXML(wxCommandEvent& event);
 		void OnBrowseBGND(wxCommandEvent& event);
+		void OnSlideTransparency(wxScrollEvent& event);
+		void OnSpinTransArrow( wxSpinEvent& event );
+		void OnSpinTransText( wxCommandEvent& event );
+		void UpdateTranspOverview();
 		void MinSPLOnFocus(wxFocusEvent& event);
 		void MinSPLKillFocus(wxFocusEvent& event);
 		void MinSPLOnChar(wxKeyEvent& event);
@@ -105,7 +110,6 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnShowVirtMikesPos(wxCommandEvent& event);
 		void OnScaleStyle(wxCommandEvent& event);
 		void OnScaleUnit(wxCommandEvent& event);
-		void OnTransparency(wxSpinEvent& event);
 		void OnBandAnalysis(wxCommandEvent& event);
 		void OnMouseOverMap(wxCommandEvent& event);
 		//ellerre
