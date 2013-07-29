@@ -548,8 +548,22 @@ const wxEventType wxEVT_POINTER_POSITION = wxNewEventType();
 ////////////////////////////////////////////////////////////////////////////////
 // MyMap
 ////////////////////////////////////////////////////////////////////////////////
-void MyMap::SetImageAlpha(wxImage* img, const int alpha_perc, const bool is_colormap)
+void MyMap::SetImageAlpha(int image, const int alpha_perc, const bool is_colormap)
 {
+	wxImage *img;
+	switch (image) {
+		case 1:
+			img = m_pwximgColorMap;
+			break;
+		case 2:
+			img = m_pwximgVirtMikesMap;
+			break;
+		case 3:
+			img = m_pwximgDebugMap;
+			break;
+		default:
+			break;
+	}
     double min = 0.0;
     if (is_colormap)
     {
@@ -565,16 +579,16 @@ void MyMap::SetImageAlpha(wxImage* img, const int alpha_perc, const bool is_colo
     {
         for (int x = 0; x < img->GetWidth(); x++)
         {
-            if( (is_colormap) && (m_aadLevelsMap[x][y] < min)) 
-            { 
-                // If Level < min SPL threshold -->> full   transparency!
-                img->SetAlpha(x, y, 0);   
-            }
-            else 
-            { 
+         //   if( (is_colormap) && (m_aadLevelsMap[x][y] < min))   //PROBLEMA! il livello non lo so durante l'inizializzazione e soprattutto cambia sempre e io non voglio settare sempre la transparency!
+//            { 
+//                // If Level < min SPL threshold -->> full   transparency!
+//                img->SetAlpha(x, y, 0);   
+//            }
+//            else 
+//            { 
                 //Scaling [0;100] % alpha level to fit [0;255] range.
                 img->SetAlpha(x, y, (unsigned char)((255/100)*alpha_perc));   
-            }
+//            }
         }
     }
 }
@@ -705,7 +719,7 @@ void MyMap::InitVirtMikesMap()
     m_pwximgVirtMikesMap = new wxImage(m_wxrctImageBox.width, m_wxrctImageBox.height);
     
     //Initializing it as a FULLY transparent image.
-    SetImageAlpha(m_pwximgVirtMikesMap, 0);
+    SetImageAlpha(2, 0);
     int x,y;
     for (int j = 0; j < m_pMaa->GetNumOfMeshes(); j++)
     {
@@ -728,7 +742,7 @@ void MyMap::InitDebugMap()
     m_pwximgDebugMap = new wxImage(m_wxrctImageBox.width, m_wxrctImageBox.height);
 
     //Initalizing as a FULLY transparent image.
-    SetImageAlpha(m_pwximgDebugMap, 0);
+    SetImageAlpha(3, 0);
     
 }
 
@@ -803,7 +817,7 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
         InitColorMap();
    
     //Applying transparency, respecting minimum SPL threshold.
-    SetImageAlpha(m_pwximgColorMap, 100 - m_iTransparency, true);
+//    SetImageAlpha(m_pwximgColorMap, 100 - m_iTransparency, true);
     //CAN'T ignore transparency here! -->> true
     dc.DrawBitmap(*m_pwximgColorMap, 0, 0, true);                                 
     
@@ -906,9 +920,9 @@ wxSize MyMap::DoGetBestSize() const
 }
 
 
-void MyMap::Init()
+void MyMap::Init()     // It can be useful sometime...
 {
-    // It can be useful sometime...
+	m_pwximgColorMap = new wxImage(m_wxrctImageBox.width, m_wxrctImageBox.height); //New image, all pixels are inited to black.
 }
 
 void MyMap::DestroyMaps()

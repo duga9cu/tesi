@@ -251,7 +251,6 @@ class MyMap : public wxControl
     wxTimer m_Timer;
     
     // private methods
-    void SetImageAlpha(wxImage* img, const int alpha_perc, const bool is_colormap = false);
     void DrawCrossOnImage(wxImage* img, const int x, const int y, const wxColour* color);
     
     void InitLevelsMap();
@@ -302,6 +301,11 @@ class MyMap : public wxControl
     void SetMaxMin       (const double max, 
                           const double min);
     void SetTransparency (const int transparency);
+	
+	void SetImageAlpha(int image,	//case 1:Colormap image , case 2:VirtMikes image, case 3:Debug image
+					   const int alpha_perc, 
+					   const bool is_colormap = false); 
+
     
     void SetMicArrayAnalyzerPtr(MicArrayAnalyzer* pMaa) { m_pMaa = pMaa; }
     

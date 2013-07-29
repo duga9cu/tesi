@@ -257,8 +257,7 @@ class MicArrayAnalyzer
 		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
-		
-		
+				
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
 		bool Calculate(sampleCount f); // This function does the hard work!

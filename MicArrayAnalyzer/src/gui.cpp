@@ -808,7 +808,7 @@ m_timer(this, ID_MM_TIMER)
 	m_wxtcLevelUnit->SetValue(wxString::Format(wxT("[dB]"))); // Should be the default
 	
 	m_pMap->SetMicArrayAnalyzerPtr(mMAA); // Something better has to be done!
-	
+	m_pMap->SetImageAlpha(1, 100 - mMAA->GetTransparency(), true);
 	m_pMap->SetMeasureUnit(m_wxcScaleUnit->GetSelection());
 	m_pMap->SetBand(m_wxrbBandSelection->GetSelection());
 	m_pMap->SetStyle(m_wxcScaleStyle->GetSelection());
@@ -837,7 +837,6 @@ m_timer(this, ID_MM_TIMER)
 	
 	// Connect events
 	Connect(wxEVT_POINTER_POSITION, wxCommandEventHandler(MicArrayAnalyzerDlg::OnMouseOverMap), NULL, this);
-	//	m_sliderVideoFrame->Connect( wxEVT_SCROLL, wxScrollEventHandler( MyModuleDlg::OnSliderScroll ), NULL, this );
 	Connect(wxEVT_TIMER,       wxTimerEventHandler(MicArrayAnalyzerDlg::OnTimer),            NULL, this);
 	
 	//default values
