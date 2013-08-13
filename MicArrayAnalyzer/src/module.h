@@ -23,8 +23,50 @@
 #include "micarrayanalyzer.h"
 
 
+
+// For compilers that support precompilation, includes "wx/wx.h".
+#include "wx/wxprec.h"
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
+
+#include "wx/thread.h"
+#include "wx/dynarray.h"
+#include "wx/numdlg.h"
+#include "wx/progdlg.h"
+#include "del_interface.h"
+
 class WaveTrack;
 
+WX_DEFINE_ARRAY_PTR(wxThread *, wxArrayThread); 
+
+// --------------------------------------------------------------------------- 
+// a simple thread 
+// --------------------------------------------------------------------------- 
+class MyThread : public wxThread 
+	{ 
+	public: 
+		MyThread(MicArrayAnalyzer* maa, int frame); 
+		virtual ~MyThread(); 
+		// thread execution starts here 
+		virtual void *Entry(); 
+	public: 
+		unsigned m_count;  //?????
+		MicArrayAnalyzer* mMAA;
+	private:
+		bool Calculate();
+		float** ActualFrameAudioData;
+	}; 
+
+
+// --------------------------------------------------------------------------- 
+// main effect class
+// --------------------------------------------------------------------------- 
 class EffectMicArrayAnalyzer: public Effect
    {
    private:
@@ -35,6 +77,12 @@ class EffectMicArrayAnalyzer: public Effect
       void DeselectAllTracks();
 	  bool DoShowConfDialog();
       void End();
+	  MyThread *CreateThread(int frame);
+	   void UpdateThreadStatus();
+	   
+	   // remember the number of running threads and total number of threads
+	   size_t m_nRunning,
+	   m_nCount;
    
    public:
       // ---------------- Standard Audacity Effects' methods ----------------
@@ -65,7 +113,18 @@ class EffectMicArrayAnalyzer: public Effect
    public:     
       EffectMicArrayAnalyzer();
       ~EffectMicArrayAnalyzer();
+	   
+	   // critical section protects access to all of the fields below 
+	   wxCriticalSection m_critsect; 
+	   // all the threads currently alive - as soon as the thread terminates, it's removed from the array 
+	   wxArrayThread m_threads; 
+	   // semaphore used to wait for the threads to exit, see MyFrame::OnQuit() 
+	   wxSemaphore m_semAllDone; 
+	   // indicates that we're shutting down and all threads should exit 
+	   bool m_shuttingDown;
 
+	   
+//	   DECLARE_EVENT_TABLE()
    };
 
 

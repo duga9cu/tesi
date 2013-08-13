@@ -163,9 +163,7 @@ class MicArrayAnalyzer
 		int iWatchpoints;                //Number of stored watchpoints.
 		wxArrayString wxasWatchpointsLabels;
 		bool bWatchpointsAlloc;          //false = watchpoints not yet defined.
-		
-		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
-		
+				
 		int curFrame;
 		double frameLength; // seconds
 		sampleCount frameLengthSmpl; //samples
@@ -181,6 +179,8 @@ class MicArrayAnalyzer
 		
 	public:     
 		Video *outputFrames;
+
+		wxCriticalSection m_critSec; 
 
 		bool ReadXMLData();
 		bool BadXML();
@@ -205,6 +205,7 @@ class MicArrayAnalyzer
 		wxString GetManufacturer() { return wxsManufacturer; }
 		int GetCapsulesNumber() { return iCapsules; }
 		int GetVirtualMikes() { return iVirtualMikes; }
+		VirtualMikesSet * GetVirtualMikeSet() {return vmsMirroredMikes;}
 		int GetDeconvIRsLength() { return iDeconvIRsLength; }
 		sf_count_t GetWAVLength() { return sfinfo.frames; }
 		int GetWAVChannels() { return sfinfo.channels; }
@@ -215,11 +216,14 @@ class MicArrayAnalyzer
 		sampleFormat GetProjSampleFormat() { return sfProjectFormat; }
 		int GetProjNumTracks() { return iProjectNumTracks; }
 		float* GetAudioDataTrack(int id) { return ppfAudioData[id]; }
+		float** GetAudioData() {return ppfAudioData;} //errelle
+		float*** GetDeconvIRsData() {return pppfDeconvIRsData;}
 		wxBitmap GetBGNDBmp() { if (bBgndImageAlloc) {return wxbBgndImage;} else {return NULL;} }
 		double GetResult(int ch, int band) { if(bResultsAvail) { return apOutputData->GetResultsMatrixCell(ch,band); } else return 0; }
 		int GetNumOfMeshes() { return iNTriangles; }
 		int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
 		TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
+		TriangularMesh** GetTriangles() {return tmMeshes;} //errelle
 		sampleCount GetAudioTrackLength() {return iAudioTrackLength;} //errelle
 		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
 		int GetCurFrame() {return curFrame;}
@@ -230,6 +234,15 @@ class MicArrayAnalyzer
 		double GetFrameOverlapRatio() {return frameOverlapRatio;}
 		bool Playing() {return playing;}
 		int GetTransparency() {return outputFrames->GetTransparency();}
+		bool GetMirroredMikesAlloc() {return bMirroredMikesAlloc;}
+		double* GetMikesCoordinates() {return MikesCoordinates;} 
+		AFMatrixvolver* GetConvolver() {return afmvConvolver;}
+		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
+		bool IsResultAvail() {return bResultsAvail;}
+		float GetfdBScalingFactor() {return fdBScalingFactor;}
+		double GetdFSLevel() {return dFSLevel;}
+		AudioPool *GetapOutputData() {return apOutputData;}
+
 		
 		// Setters
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
@@ -257,10 +270,12 @@ class MicArrayAnalyzer
 		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
-				
+		void SetResultAvail (bool isResultAvail) {bResultsAvail = isResultAvail;}
+		
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
-		bool Calculate(sampleCount f); // This function does the hard work!
+		
+//		bool Calculate(sampleCount f); // This function does the hard work!
 		MicArrayAnalyzer();
 		~MicArrayAnalyzer();
 	};
