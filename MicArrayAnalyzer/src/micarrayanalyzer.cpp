@@ -224,7 +224,7 @@ bool MicArrayAnalyzer::Calculate(sampleCount frame)
 	
 	//Setting up convolution class
 #ifdef __AUDEBUG__
-	printf("DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
+	printf("Triangulating...DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
 	fflush(stdout);
 #endif
     //afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
@@ -714,7 +714,7 @@ void MicArrayAnalyzer::PrintResult(int frame) {
 wxString MicArrayAnalyzer::GetCurTime() {
 	wxString str; 
 	int ms = iAudioTrackLength / dProjectRate * 1000; //millisec
-	double progressRatio = (double)curFrame / outputFrames->GetNumOfFrames() ;
+	double progressRatio = (double)(curFrame-1) / (outputFrames->GetNumOfFrames() - 1) ;
 	ms = (double)ms * progressRatio;
 	int h = ms / 1000 / 3600;
 	ms = ms % 3600000; //remaining milliseconds without hours
@@ -846,7 +846,7 @@ bool AudioPool::FillResultsMatrix()
 	}
 	
 #ifdef __AUDEBUG__
-	printf("DONE\n");
+	printf("AudioPool: Filling results matrix...DONE\n");
 	fflush(stdout);
 #endif
 	//	DestroyProgressMeter();

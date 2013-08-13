@@ -22,6 +22,93 @@
 //#define __AUDEBUG__
 //#endif
 
+// ----------------------------------------------------------------------------
+// MyThread
+// ----------------------------------------------------------------------------
+
+MyThread::MyThread(MicArrayAnalyzer* maa, int frame)
+: wxThread()
+{
+	mMAA = maa;
+    m_count = frame;
+}
+
+MyThread::~MyThread()
+{	
+	//TODO
+
+}
+
+wxThread::ExitCode MyThread::Entry()
+{
+    printf("Thread started (priority = %u). id #=%d\n", GetPriority(), GetId());
+	
+	// check if the application is shutting down: in this case all threads
+	// should stop a.s.a.p.
+	{
+		wxCriticalSectionLocker locker(mMAA->m_critSec); //approfondisci
+		
+        // check if just this thread was asked to exit
+		if ( TestDestroy() ) return NULL;
+				
+		//do something..
+		UpdateVideoProgressMeter(m_count,mMAA->GetNumOfFrames());
+		
+		if(mMAA->Calculate(m_count))
+		{
+			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
+		}
+		else
+		{
+			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+			//		 delete mAp; mAp = 0;
+			return false;
+		}		
+		
+		printf("Thread id#=%d finished.\n", GetId());
+		
+		return NULL;
+	}
+}	
+
+// ----------------------------------------------------------------------------
+// EffectMicArrayAnalyzer
+// ----------------------------------------------------------------------------
+MyThread *EffectMicArrayAnalyzer::CreateThread(int frame) 
+{ 
+	MyThread *thread = new MyThread(mMAA,frame); 
+	if ( thread->Create() != wxTHREAD_NO_ERROR ) 
+	{ 
+		wxLogError(wxT("Can't create thread!")); 
+	} 
+	wxCriticalSectionLocker enter(m_critsect); 
+	m_threads.Add(thread); 
+	return thread; 
+} 
+
+void EffectMicArrayAnalyzer::UpdateThreadStatus()
+{
+	wxCriticalSectionLocker enter(m_critsect);
+	
+	// update the counts of running/total threads
+	size_t nRunning = 0,
+	nCount = m_threads.Count();
+	for ( size_t n = 0; n < nCount; n++ )
+	{
+		if ( m_threads[n]->IsRunning() )
+			nRunning++;
+	}
+	
+	if ( nCount != m_nCount || nRunning != m_nRunning )
+	{
+		m_nRunning = nRunning;
+		m_nCount = nCount;
+		
+		printf("%u threads total, %u running.", unsigned(nCount), unsigned(nRunning));
+	}
+	//else: avoid flicker - don't print anything
+}
+
 
 bool EffectMicArrayAnalyzer::Init()
 {
@@ -127,7 +214,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	fflush(stdout);
 #endif
 	
-
+	
 	
 	//---------------- Loading tracks data from Audacity current project ----------------
 #ifdef __AUDEBUG__
@@ -161,8 +248,8 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	fflush(stdout);
 #endif
 	
-
-
+	
+	
 	
 	//---------------- Even more set up ----------------
 	sampleCount atl= mMAA->GetAudioTrackLength();
@@ -191,37 +278,27 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	return true;
 }
 
-bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
+bool EffectMicArrayAnalyzer::Process()  
 {
 #ifdef __AUDEBUG__
 	printf("This is PROCESS\n");
 	fflush(stdout);
 #endif
 	
-	//check if frameLength is sufficiently short
-	if(mMAA->GetFrameLengthSmpl() > mMAA->GetAudioTrackLength() ) {
-		printf("Process: redefining frame Length because audio track to analyze is shorter!");
-		mMAA->SetFrameLength(mMAA->GetAudioTrackLength() / 10);
-		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
-	}
+	// ---- is it necessary anymore? ----
+//	//check if frameLength is sufficiently short
+//	if(mMAA->GetFrameLengthSmpl() > mMAA->GetAudioTrackLength() ) {
+//		printf("Process: redefining frame Length because audio track to analyze is shorter!");
+//		mMAA->SetFrameLength(mMAA->GetAudioTrackLength() / 10);
+//		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
+//	}
 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	
 	
 	for (sampleCount frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) 
 	{
-		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
-
-		if(mMAA->Calculate(frame))
-		{
-			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
-		}
-		else
-		{
-			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-			//		 delete mAp; mAp = 0;
-			return false;
-		}
+		CreateThread(frame)->Run();
 	}
 #ifdef __AUDEBUG__
 	mMAA->PrintResults();
@@ -236,7 +313,7 @@ bool EffectMicArrayAnalyzer::Process()  // Attualmente non elaboro nulla...
 		//m_bProcess = true;
 	}
 	
-    return true;
+	return true;
 }
 
 void EffectMicArrayAnalyzer::End()
@@ -283,7 +360,7 @@ void EffectMicArrayAnalyzer::DestroyVideoProgressMeter()
 
 
 EffectMicArrayAnalyzer::EffectMicArrayAnalyzer()
-: mMAA(0)
+: mMAA(0), m_shuttingDown(false)
 {}
 
 
@@ -307,53 +384,53 @@ extern "C"
 	// [esseci] da qui in giu` riscritta per compatibilita` con Audacity 1.3.14 e successivi.
 	//          Attenzione: se hai una versione precedente, quasi certamente non funzionera`
 	
-    wxString g_wxszVersion;
-    
-    extern DLL_API const wxChar* GetVersionString();	
-    extern DLL_API int ModuleDispatch(ModuleDispatchTypes type);
-    
-    const wxChar* GetVersionString()
-    {
-        if(gPrefs != 0)
-            gPrefs->Read(wxT("/Version"), &g_wxszVersion);
-        
-        return g_wxszVersion.c_str();
-    }
+	wxString g_wxszVersion;
 	
-    int ModuleDispatch(ModuleDispatchTypes type)
-    {
-        switch(type)
-        {
-            case ModuleInitialize: 
-            {
-#ifdef __AUDEBUG__
-                fprintf(stderr, "[MicArrayAnalyzer]: dispatch %d received.\n", int(type));
-#endif
-                EffectManager & em = EffectManager::Get();
-                em.RegisterEffect(new EffectMicArrayAnalyzer(), BUILTIN_EFFECT | ANALYZE_EFFECT );
-                break;
-            }
-				
-            case ModuleTerminate:
-            case AppInitialized:
-            case AppQuiting:
-            case ProjectInitialized:
-            case ProjectClosing:
-            case MenusRebuilt:
-#ifdef __AUDEBUG__
-                fprintf(stderr, "[MicArrayAnalyzer]: dispatch %d received.\n", int(type));
-#endif
-                break;
-                
-            default:
-#ifdef __AUDEBUG__
-                fprintf(stderr, "[MicArrayAnalyzer]: unknown dispatch received.\n");
-#endif
-                break;
-        } 
+	extern DLL_API const wxChar* GetVersionString();	
+	extern DLL_API int ModuleDispatch(ModuleDispatchTypes type);
+	
+	const wxChar* GetVersionString()
+	{
+		if(gPrefs != 0)
+			gPrefs->Read(wxT("/Version"), &g_wxszVersion);
 		
-        return 1;
-    }
+		return g_wxszVersion.c_str();
+	}
+	
+	int ModuleDispatch(ModuleDispatchTypes type)
+	{
+		switch(type)
+		{
+			case ModuleInitialize: 
+			{
+#ifdef __AUDEBUG__
+				fprintf(stderr, "[MicArrayAnalyzer]: dispatch %d received.\n", int(type));
+#endif
+				EffectManager & em = EffectManager::Get();
+				em.RegisterEffect(new EffectMicArrayAnalyzer(), BUILTIN_EFFECT | ANALYZE_EFFECT );
+				break;
+			}
+				
+			case ModuleTerminate:
+			case AppInitialized:
+			case AppQuiting:
+			case ProjectInitialized:
+			case ProjectClosing:
+			case MenusRebuilt:
+#ifdef __AUDEBUG__
+				fprintf(stderr, "[MicArrayAnalyzer]: dispatch %d received.\n", int(type));
+#endif
+				break;
+				
+			default:
+#ifdef __AUDEBUG__
+				fprintf(stderr, "[MicArrayAnalyzer]: unknown dispatch received.\n");
+#endif
+				break;
+		} 
+		
+		return 1;
+	}
 };
 
 

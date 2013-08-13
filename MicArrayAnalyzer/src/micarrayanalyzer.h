@@ -182,6 +182,8 @@ class MicArrayAnalyzer
 	public:     
 		Video *outputFrames;
 
+		wxCriticalSection m_critSec; 
+
 		bool ReadXMLData();
 		bool BadXML();
 		bool BadWAV();
