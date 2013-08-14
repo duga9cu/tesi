@@ -17,8 +17,11 @@
 
 #include "gui.h"
 #include "module.h"
-
+#include "del_interface.h"
+       
 #include <wx/timer.h>
+
+using namespace tpp;
 
 //#ifndef __AUDEBUG__  //FORCING DEBUG MODE
 //#define __AUDEBUG__
@@ -33,6 +36,10 @@ MyThread::MyThread(MicArrayAnalyzer* maa, int frame)
 {
 	mMAA = maa;
     m_count = frame;
+	ActualFrameAudioData = new float* [mMAA->GetProjNumTracks()];
+	for (int i=0; i<mMAA->GetProjNumTracks(); i++) {
+		ActualFrameAudioData[i] = new float [mMAA->GetFrameLengthSmpl()];
+	}
 }
 
 MyThread::~MyThread()
@@ -47,9 +54,7 @@ wxThread::ExitCode MyThread::Entry()
 	
 	// check if the application is shutting down: in this case all threads
 	// should stop a.s.a.p.
-	{
-		wxCriticalSectionLocker locker(mMAA->m_critSec); //approfondisci
-		
+	{		
         // check if just this thread was asked to exit
 		if ( TestDestroy() ) return NULL;
 						
@@ -72,6 +77,7 @@ wxThread::ExitCode MyThread::Entry()
 
 bool MyThread::Calculate()
 {
+	//controllare se la copia così va bene : le variabili in cui il thread scrive devono essere protette da mutex
 	int frame = m_count;
 	sampleCount frameLengthSmpl = mMAA->GetFrameLengthSmpl();
 	float frameOverlapRatio = mMAA->GetFrameOverlapRatio();
@@ -82,10 +88,9 @@ bool MyThread::Calculate()
 	wxBitmap wxbBgndImage = mMAA->GetBGNDBmp();
 	int iArrayType = mMAA->GetArrayType();
 	VirtualMikesSet* vmsMirroredMikes = mMAA->GetVirtualMikeSet();
-	bool bMirroredMikesAlloc = mMAA->GetMirroredMikesAlloc();
+//	bool bMirroredMikesAlloc = mMAA->GetMirroredMikesAlloc();
 	int iVirtualMikes = mMAA->GetVirtualMikes();
 	double * MikesCoordinates = mMAA->GetMikesCoordinates();
-	int iNTriangles = mMAA->GetNumOfMeshes();
 	TriangularMesh** tmMeshes = mMAA->GetTriangles();
 	AFMatrixvolver* afmvConvolver = mMAA->GetConvolver();
 	AudioPool* apOutputData = mMAA->GetapOutputData();
@@ -159,7 +164,7 @@ bool MyThread::Calculate()
 		vmsMirroredMikes = new VirtualMikesSet;   //For spherical arrays we need to "clone" each virtual mike properly
 		//to guarantee ColorMap boundary continuity.
 		//See "GetMirroredMikes" if you want to explore cloning rules!
-		bMirroredMikesAlloc = true;
+		mMAA->SetMirroredMikesAlloc(true);
 	}
 	int i, j;
 	for (i=0;i<iVirtualMikes;i++)
@@ -200,16 +205,16 @@ bool MyThread::Calculate()
 #endif
 	Delaunay dt(v);   //"dt" stands for (d)elaunay (t)riangulation
 	dt.Triangulate(); //The triangulation will be computed here....
-	iNTriangles = dt.ntriangles(); //Storing the number of computed triangular meshes
+	mMAA->SetNumOfMeshes( dt.ntriangles()); //Storing the number of computed triangular meshes
 	
 	//	UpdateProgressMeter(1,iNTriangles+1);
 	
-	tmMeshes = new TriangularMesh* [iNTriangles];      //The computed triangulation will be stored inside a TriangularMesh array.
+	tmMeshes = new TriangularMesh* [mMAA->GetNumOfMeshes()];      //The computed triangulation will be stored inside a TriangularMesh array.
 	int x[3],y[3],mic[3];                              //(x,y) = position, mic = mic #.
 	Delaunay::fIterator fit = dt.fbegin();
 	
 	int k;
-	for(j=0;j<iNTriangles;j++)
+	for(j=0;j<mMAA->GetNumOfMeshes();j++)
 	{
 		//		UpdateProgressMeter(j+1,iNTriangles+1);
 		x[0] = dt.point_at_vertex_id(dt.Org(fit))[0];
@@ -574,12 +579,12 @@ bool EffectMicArrayAnalyzer::Process()
 #endif
 	
 	// ---- is it necessary anymore? ----
-//	//check if frameLength is sufficiently short
-//	if(mMAA->GetFrameLengthSmpl() > mMAA->GetAudioTrackLength() ) {
-//		printf("Process: redefining frame Length because audio track to analyze is shorter!");
-//		mMAA->SetFrameLength(mMAA->GetAudioTrackLength() / 10);
-//		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
-//	}
+	//check if frameLength is sufficiently short
+	if(mMAA->GetFrameLengthSmpl() > mMAA->GetAudioTrackLength() ) {
+		printf("Process: redefining frame Length because audio track to analyze is shorter!");
+		mMAA->SetFrameLength(mMAA->GetAudioTrackLength() / 10);
+		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
+	}
 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	

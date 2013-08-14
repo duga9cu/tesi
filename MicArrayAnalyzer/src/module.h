@@ -39,7 +39,6 @@
 #include "wx/dynarray.h"
 #include "wx/numdlg.h"
 #include "wx/progdlg.h"
-#include "del_interface.h"
 
 class WaveTrack;
 
@@ -56,7 +55,7 @@ class MyThread : public wxThread
 		// thread execution starts here 
 		virtual void *Entry(); 
 	public: 
-		unsigned m_count;  //?????
+		unsigned m_count;  //frame on which the thread is working
 		MicArrayAnalyzer* mMAA;
 	private:
 		bool Calculate();

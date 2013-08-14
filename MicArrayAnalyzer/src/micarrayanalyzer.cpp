@@ -349,26 +349,27 @@ void MicArrayAnalyzer::AudioDataInit()
 		delete [] pfAbsoluteMax;
 	}
 	ppfAudioData = new float* [iProjectNumTracks];
-	ActualFrameAudioData = new float* [iProjectNumTracks];
+//	ActualFrameAudioData = new float* [iProjectNumTracks];
 	pfLocalMin = new float [iProjectNumTracks];
 	pfLocalMax = new float [iProjectNumTracks];
 	pfAbsoluteMin = new float [iProjectNumTracks];
 	pfAbsoluteMax = new float [iProjectNumTracks];
 	bAudioDataAlloc = true;
 	
-	for (int i = 0; i < iProjectNumTracks; i++) {ppfAudioData[i] = 0; ActualFrameAudioData[i]=0;}  //Init each pointer to zero!
+	for (int i = 0; i < iProjectNumTracks; i++) {
+	ppfAudioData[i] = 0; 
+//	ActualFrameAudioData[i]=0;
+	}  //Init each pointer to zero!
 }
 
 bool MicArrayAnalyzer::AudioTrackInit(int i, int length)
 {
 	if (!bAudioDataAlloc) return false; //Main audio tracks array not init before!!!
-	else
-	{
 		ppfAudioData[i] = new float [length];
-		int ActualFrameLengthSmpl = GetFrameLengthSmpl();
-		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
+//		int ActualFrameLengthSmpl = GetFrameLengthSmpl();
+//		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 		return true;
-	}
+	
 }
 
 void MicArrayAnalyzer::CalculateFSScalingFactor()

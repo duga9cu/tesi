@@ -140,7 +140,8 @@ class MicArrayAnalyzer
 		TriangularMesh **tmMeshes;
 		int iNTriangles;                    //# of stored triangular meshes
 		
-		float **ppfAudioData, **ActualFrameAudioData;
+		float **ppfAudioData; 
+//		float **ActualFrameAudioData;
 		/*********************************************/
 //		map<int, double**> resultCube;
 		/*********************************************/
@@ -234,7 +235,6 @@ class MicArrayAnalyzer
 		double GetFrameOverlapRatio() {return frameOverlapRatio;}
 		bool Playing() {return playing;}
 		int GetTransparency() {return outputFrames->GetTransparency();}
-		bool GetMirroredMikesAlloc() {return bMirroredMikesAlloc;}
 		double* GetMikesCoordinates() {return MikesCoordinates;} 
 		AFMatrixvolver* GetConvolver() {return afmvConvolver;}
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
@@ -271,6 +271,9 @@ class MicArrayAnalyzer
 		void SetPlaying(bool value) {playing = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
 		void SetResultAvail (bool isResultAvail) {bResultsAvail = isResultAvail;}
+		void SetMirroredMikesAlloc(bool value) { bMirroredMikesAlloc=value;}
+		void SetNumOfMeshes(int value) {  iNTriangles=value; }
+
 		
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
