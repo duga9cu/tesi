@@ -195,7 +195,7 @@ class MicArrayAnalyzer
 //							apOutputData->SetResultsMatrix(resultCube[curFrame]);
 		}
 		void PrintResults();
-		void PrintResult(int frame);
+		void PrintResult(unsigned int frame);
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
@@ -262,7 +262,7 @@ class MicArrayAnalyzer
 				
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
-		bool Calculate(sampleCount f); // This function does the hard work!
+		bool Calculate(unsigned int f); // This function does the hard work!
 		MicArrayAnalyzer();
 		~MicArrayAnalyzer();
 	};

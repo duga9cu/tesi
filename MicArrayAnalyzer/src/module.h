@@ -48,13 +48,14 @@ WX_DEFINE_ARRAY_PTR(wxThread *, wxArrayThread);
 class MyThread : public wxThread 
 	{ 
 	public: 
-		MyThread(MicArrayAnalyzer* maa, int frame); 
+		MyThread(MicArrayAnalyzer* maa, unsigned int frame); 
 		virtual ~MyThread(); 
 		// thread execution starts here 
 		virtual void *Entry(); 
 	public: 
-		unsigned m_count;  //?????
+		unsigned int m_count;  //?????
 		MicArrayAnalyzer* mMAA;
+		MicArrayAnalyzer threadMAA;
 	}; 
 
 
@@ -71,7 +72,7 @@ class EffectMicArrayAnalyzer: public Effect
       void DeselectAllTracks();
 	  bool DoShowConfDialog();
       void End();
-	  MyThread *CreateThread();
+	  MyThread *CreateThread(unsigned int frame);
 	   void UpdateThreadStatus();
 	   
 	   // remember the number of running threads and total number of threads

@@ -67,7 +67,7 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 	if(bWatchpointsAlloc) delete [] piWatchpoints;
 }
 
-bool MicArrayAnalyzer::Calculate(sampleCount frame)
+bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer::Calculate(): copying ppfAudioData into ActualFrameAudioData\n");
@@ -693,7 +693,7 @@ void MicArrayAnalyzer::PrintResults() {
 	}
 }
 
-void MicArrayAnalyzer::PrintResult(int frame) {
+void MicArrayAnalyzer::PrintResult(unsigned int frame) {
 		
 		printf("\n\n*** ONLY ONE MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", frame);
 		

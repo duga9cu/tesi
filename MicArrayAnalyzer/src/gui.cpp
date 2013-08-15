@@ -1080,7 +1080,7 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 }
 
 void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
-	int frame = event.GetInt();
+	unsigned int frame = event.GetInt();
 	if (frame < 1) mMAA->SetCurFrame(1);
 	else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 	else mMAA->SetCurFrame(frame);
@@ -1102,8 +1102,8 @@ int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
 		updating++; //to prevent the next call (2nd of TWO!)
-		//		int frame = SpinProcessValue( event.GetString());
-		int frame = event.GetInt();
+		//		unsigned int frame = SpinProcessValue( event.GetString());
+		unsigned int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 		else mMAA->SetCurFrame(frame);		
@@ -1114,7 +1114,7 @@ void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 }
 
 void MicArrayAnalyzerDlg::OnSliderScroll( wxScrollEvent& event )  {
-	int frame = m_sliderVideoFrame->GetValue();
+	unsigned int frame = m_sliderVideoFrame->GetValue();
 	if (frame < 1) mMAA->SetCurFrame(1);
 	else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
 	else mMAA->SetCurFrame(frame);

@@ -26,7 +26,7 @@
 // MyThread
 // ----------------------------------------------------------------------------
 
-MyThread::MyThread(MicArrayAnalyzer* maa, int frame)
+MyThread::MyThread(MicArrayAnalyzer* maa,unsigned int frame)
 : wxThread()
 {
 	mMAA = maa;
@@ -41,31 +41,17 @@ MyThread::~MyThread()
 
 wxThread::ExitCode MyThread::Entry()
 {
-    printf("Thread started (priority = %u). id #=%d\n", GetPriority(), GetId());
+    printf("Thread started (priority = %u). id #=%d\n", GetPriority(), m_count);
 	
 	// check if the application is shutting down: in this case all threads
 	// should stop a.s.a.p.
-	{
-		wxCriticalSectionLocker locker(mMAA->m_critSec); //approfondisci
-		
+	{		
         // check if just this thread was asked to exit
 		if ( TestDestroy() ) return NULL;
-				
+		
 		//do something..
-		UpdateVideoProgressMeter(m_count,mMAA->GetNumOfFrames());
-		
-		if(mMAA->Calculate(m_count))
-		{
-			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
-		}
-		else
-		{
-			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-			//		 delete mAp; mAp = 0;
-			return false;
-		}		
-		
-		printf("Thread id#=%d finished.\n", GetId());
+		wxThread::Sleep(7000);
+		printf("Thread id#=%d finished.\n", m_count);
 		
 		return NULL;
 	}
@@ -74,7 +60,7 @@ wxThread::ExitCode MyThread::Entry()
 // ----------------------------------------------------------------------------
 // EffectMicArrayAnalyzer
 // ----------------------------------------------------------------------------
-MyThread *EffectMicArrayAnalyzer::CreateThread(int frame) 
+MyThread *EffectMicArrayAnalyzer::CreateThread(unsigned int frame) 
 { 
 	MyThread *thread = new MyThread(mMAA,frame); 
 	if ( thread->Create() != wxTHREAD_NO_ERROR ) 
@@ -296,9 +282,22 @@ bool EffectMicArrayAnalyzer::Process()
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	
 	
-	for (sampleCount frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) 
+	for (unsigned int frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) 
 	{
 		CreateThread(frame)->Run();
+		
+		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
+		
+		if(mMAA->Calculate(frame))
+		{
+			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
+		}
+		else
+		{
+			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+			//		 delete mAp; mAp = 0;
+			return false;
+		}		
 	}
 #ifdef __AUDEBUG__
 	mMAA->PrintResults();
