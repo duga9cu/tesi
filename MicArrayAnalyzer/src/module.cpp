@@ -83,13 +83,14 @@ bool MyThread::Calculate()
 	float frameOverlapRatio = mMAA->GetFrameOverlapRatio();
 	sampleCount	iAudioTrackLength = mMAA->GetAudioTrackLength();
 	int iProjectNumTracks = mMAA->GetProjNumTracks();
-	float ** ppfAudioData = mMAA->GetAudioData();
-	float ***pppfDeconvIRsData = mMAA->GetDeconvIRsData();
+	int iVirtualMikes = mMAA->GetVirtualMikes();
 	wxBitmap wxbBgndImage = mMAA->GetBGNDBmp();
 	int iArrayType = mMAA->GetArrayType();
+	float ** ppfAudioData = mMAA->GetAudioData();
+	float ***pppfDeconvIRsData = mMAA->GetDeconvIRsData();
+	//scrittura
 	VirtualMikesSet* vmsMirroredMikes = mMAA->GetVirtualMikeSet();
 //	bool bMirroredMikesAlloc = mMAA->GetMirroredMikesAlloc();
-	int iVirtualMikes = mMAA->GetVirtualMikes();
 	double * MikesCoordinates = mMAA->GetMikesCoordinates();
 	TriangularMesh** tmMeshes = mMAA->GetTriangles();
 	AFMatrixvolver* afmvConvolver = mMAA->GetConvolver();
