@@ -42,6 +42,7 @@ class VideoFrame
 		
 		// 'ctors
 		VideoFrame(double **fM, int channels, int fn, double ovrllMax, double ovrllmin);
+		~VideoFrame() {delete frameMatrix;}
 	};
 
 class Video
@@ -68,7 +69,7 @@ class Video
 		double GetOverallBandMax(int band) {return overallBandMax[band];}
 		double GetOverallBandMin(int band) {return overallBandMin[band];}
 		int GetTransparency() {return transparency;}
-		
+		VideoFrame* GetVideoFrame(unsigned int frameNum) {return resultCube[frameNum];}
 		void SetTransparency(int valTransp) {transparency = valTransp;}
 		void SetNumOfFrames(int n) {numOfFrames=n ;}
 		

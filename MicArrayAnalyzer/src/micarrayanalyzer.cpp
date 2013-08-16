@@ -50,6 +50,60 @@ frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1)
 {outputFrames = new Video();}
 
+MicArrayAnalyzer::MicArrayAnalyzer(MicArrayAnalyzer& mMAA) 
+: dProjectRate(mMAA.dProjectRate),
+sfProjectFormat(mMAA.sfProjectFormat),
+iProjectNumTracks(mMAA.iProjectNumTracks),
+bXMLFileAlloc(mMAA.bXMLFileAlloc),
+bWAVFileAlloc(mMAA.bWAVFileAlloc),
+bSndFileAlloc(mMAA.bSndFileAlloc),
+bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
+bBgndImageAlloc(mMAA.bBgndImageAlloc),
+dFSLevel(mMAA.dFSLevel),
+dMinSPLThreshold(mMAA.dMinSPLThreshold),
+bAudioDataAlloc(false), //to initialize without deleting in AudioDataInit()
+bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
+iAudioTrackLength(mMAA.iAudioTrackLength),
+bMirroredMikesAlloc(mMAA.bMirroredMikesAlloc),
+iNTriangles(mMAA.iNTriangles),
+bWatchpointsAlloc(mMAA.bWatchpointsAlloc),
+iWatchpoints(mMAA.iWatchpoints),
+mProgress(mMAA.mProgress),
+frameLength(mMAA.frameLength),
+frameLengthSmpl(mMAA.frameLengthSmpl),
+frameOverlapRatio(mMAA.frameOverlapRatio),
+curFrame(mMAA.curFrame),
+wxfnXMLFile(mMAA.wxfnXMLFile),
+wxfnWAVFile(mMAA.wxfnWAVFile),
+infile(mMAA.infile),
+sfinfo(mMAA.sfinfo),
+wxsMicName(mMAA.wxsMicName),
+wxsManufacturer(mMAA.wxsManufacturer),
+iArrayType(mMAA.iArrayType),
+iMikesCoordsUnits(mMAA.iMikesCoordsUnits),
+MikesCoordinates(mMAA.MikesCoordinates),
+iCapsules(mMAA.iCapsules),
+iVirtualMikes(mMAA.iVirtualMikes),
+iDeconvIRsLength(mMAA.iDeconvIRsLength),
+wxbBgndImage(mMAA.wxbBgndImage),
+wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
+fdBScalingFactor(mMAA.fdBScalingFactor),
+bResultsAvail(mMAA.bResultsAvail),
+
+pppfDeconvIRsData(mMAA.pppfDeconvIRsData)
+
+{
+//outputFrames = new Video();
+	AudioDataInit();
+	
+	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
+	for (int i=0; i<iProjectNumTracks; i++) {
+		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
+	}
+	
+	ppfAudioData = mMAA.ppfAudioData; //glielo copio così che tanto è di sola lettura e lo sovrascrivo dopo aver chiamato la init qui sopra
+}
+
 MicArrayAnalyzer::~MicArrayAnalyzer()
 {
 	if(mProgress) delete mProgress;

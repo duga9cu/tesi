@@ -51,11 +51,12 @@ class MyThread : public wxThread
 		MyThread(MicArrayAnalyzer* maa, unsigned int frame); 
 		virtual ~MyThread(); 
 		// thread execution starts here 
-		virtual void *Entry(); 
+		virtual void *Entry();
+		void InitThreadMAA();
 	public: 
-		unsigned int m_count;  //?????
-		MicArrayAnalyzer* mMAA;
-		MicArrayAnalyzer threadMAA;
+		unsigned int m_count;  //frame on which the thread is working on
+		MicArrayAnalyzer* mMAA; //the one and only original
+		MicArrayAnalyzer* threadMAA; //another one created by each thread
 	}; 
 
 

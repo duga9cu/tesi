@@ -39,6 +39,17 @@ MyThread::~MyThread()
 
 }
 
+void MyThread::InitThreadMAA() 
+{
+	threadMAA = new MicArrayAnalyzer(*mMAA);
+//	threadMAA->SetProjectNumTracks(mMAA->GetProjNumTracks());
+//	threadMAA->SetProjSampleFormat(mMAA->GetProjSampleFormat());
+//	threadMAA->SetProjSampleRate(mMAA->GetProjSampleRate());
+//	threadMAA->SetFrameLengthSmpl(mMAA->GetFrameLengthSmpl());
+//	
+
+}
+
 wxThread::ExitCode MyThread::Entry()
 {
     printf("Thread started (priority = %u). id #=%d\n", GetPriority(), m_count);
@@ -50,7 +61,27 @@ wxThread::ExitCode MyThread::Entry()
 		if ( TestDestroy() ) return NULL;
 		
 		//do something..
-		wxThread::Sleep(7000);
+//		wxThread::Sleep(7000);
+		InitThreadMAA();
+		
+		printf("\n************************** Process: calculate(%d) ***************************\n",m_count);
+		if(threadMAA->Calculate(m_count))
+		{
+			printf("Process: calculate(%d) successfully executed by thread # %d\n",m_count, GetId());
+		}
+		else
+		{
+			printf("Process: calculate(%d)  executed by thread # %d FAILED FOR SOME REASONS\n",m_count, GetId());
+			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+			//		 delete mAp; mAp = 0;
+			return false;
+		}
+		
+		wxCriticalSectionLocker locker(mMAA->m_critSec);
+		//find the VideoFrame object whose key is equal to m_count (aka frame number) 
+		//and add it to the original MAA outputframes video object
+		mMAA->outputFrames->AddFrame(threadMAA->outputFrames->GetVideoFrame(m_count)); 
+		
 		printf("Thread id#=%d finished.\n", m_count);
 		
 		return NULL;
@@ -286,21 +317,21 @@ bool EffectMicArrayAnalyzer::Process()
 	{
 		CreateThread(frame)->Run();
 		
-		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
+//		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
 		
-		if(mMAA->Calculate(frame))
-		{
-			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
-		}
-		else
-		{
-			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-			//		 delete mAp; mAp = 0;
-			return false;
-		}		
+	//	if(mMAA->Calculate(frame))
+//		{
+//			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
+//		}
+//		else
+//		{
+//			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+//			//		 delete mAp; mAp = 0;
+//			return false;
+//		}		
 	}
 #ifdef __AUDEBUG__
-	mMAA->PrintResults();
+//	mMAA->PrintResults();
 #endif
 	DestroyVideoProgressMeter();
 	
