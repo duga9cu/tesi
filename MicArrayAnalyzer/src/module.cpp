@@ -26,28 +26,25 @@
 // MyThread
 // ----------------------------------------------------------------------------
 
-MyThread::MyThread(MicArrayAnalyzer* maa,unsigned int frame)
+MyThread::MyThread(MicArrayAnalyzer* maa,unsigned int frame,wxMutex *mutex, wxCondition *condition, wxCriticalSection* cs, size_t& tc)
 : wxThread()
 {
 	mMAA = maa;
     m_count = frame;
+	m_mutexCondFinish = mutex;
+	m_condFinish = condition;
+	critsect= cs;
+	m_nThreadCount = tc;
 }
 
 MyThread::~MyThread()
-{	
-	//TODO
-
+{			
+	printf("Thread id#=%d finished.\n", m_count);
 }
 
 void MyThread::InitThreadMAA() 
 {
 	threadMAA = new MicArrayAnalyzer(*mMAA);
-//	threadMAA->SetProjectNumTracks(mMAA->GetProjNumTracks());
-//	threadMAA->SetProjSampleFormat(mMAA->GetProjSampleFormat());
-//	threadMAA->SetProjSampleRate(mMAA->GetProjSampleRate());
-//	threadMAA->SetFrameLengthSmpl(mMAA->GetFrameLengthSmpl());
-//	
-
 }
 
 wxThread::ExitCode MyThread::Entry()
@@ -63,27 +60,24 @@ wxThread::ExitCode MyThread::Entry()
 		//do something..
 //		wxThread::Sleep(7000);
 		InitThreadMAA();
-		
+		wxThreadIdType threadId = GetId();
 		printf("\n************************** Process: calculate(%d) ***************************\n",m_count);
 		if(threadMAA->Calculate(m_count))
 		{
-			printf("Process: calculate(%d) successfully executed by thread # %d\n",m_count, GetId());
+			printf("Process: calculate(%d) successfully executed by thread # %d\n",m_count, threadId);
 		}
 		else
 		{
-			printf("Process: calculate(%d)  executed by thread # %d FAILED FOR SOME REASONS\n",m_count, GetId());
+			printf("Process: calculate(%d)  executed by thread # %d FAILED FOR SOME REASONS\n",m_count, threadId);
 			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
 			//		 delete mAp; mAp = 0;
 			return false;
 		}
-		
-		wxCriticalSectionLocker locker(mMAA->m_critSec);
-		//find the VideoFrame object whose key is equal to m_count (aka frame number) 
-		//and add it to the original MAA outputframes video object
-		mMAA->outputFrames->AddFrame(threadMAA->outputFrames->GetVideoFrame(m_count)); 
-		
-		printf("Thread id#=%d finished.\n", m_count);
-		
+		wxCriticalSectionLocker locker(*critsect);
+		m_nThreadCount--;
+
+		wxMutexLocker lock(*m_mutexCondFinish);
+        m_condFinish->Signal();
 		return NULL;
 	}
 }	
@@ -93,38 +87,40 @@ wxThread::ExitCode MyThread::Entry()
 // ----------------------------------------------------------------------------
 MyThread *EffectMicArrayAnalyzer::CreateThread(unsigned int frame) 
 { 
-	MyThread *thread = new MyThread(mMAA,frame); 
+	MyThread *thread = new MyThread(mMAA,frame, m_mutexCondFinish, m_condFinish, &m_critsect, m_nThreadCount); 
 	if ( thread->Create() != wxTHREAD_NO_ERROR ) 
 	{ 
 		wxLogError(wxT("Can't create thread!")); 
 	} 
 	wxCriticalSectionLocker enter(m_critsect); 
-	m_threads.Add(thread); 
+	m_threads.Add(thread);
+	m_nThreadCount++;
+	assert(m_nThreadCount < mMAA->GetNumOfFrames());
 	return thread; 
 } 
 
-void EffectMicArrayAnalyzer::UpdateThreadStatus()
-{
-	wxCriticalSectionLocker enter(m_critsect);
-	
-	// update the counts of running/total threads
-	size_t nRunning = 0,
-	nCount = m_threads.Count();
-	for ( size_t n = 0; n < nCount; n++ )
-	{
-		if ( m_threads[n]->IsRunning() )
-			nRunning++;
-	}
-	
-	if ( nCount != m_nCount || nRunning != m_nRunning )
-	{
-		m_nRunning = nRunning;
-		m_nCount = nCount;
-		
-		printf("%u threads total, %u running.", unsigned(nCount), unsigned(nRunning));
-	}
-	//else: avoid flicker - don't print anything
-}
+//void EffectMicArrayAnalyzer::UpdateThreadStatus()
+//{
+//	wxCriticalSectionLocker enter(m_critsect);
+//	
+//	// update the counts of running/total threads
+//	size_t nRunning = 0,
+//	nCount = m_threads.Count();
+//	for ( size_t n = 0; n < nCount; n++ )
+//	{
+//		if ( m_threads[n]->IsRunning() )
+//			nRunning++;
+//	}
+//	
+//	if ( nCount != m_nCount || nRunning != m_nRunning )
+//	{
+//		m_nRunning = nRunning;
+//		m_nCount = nCount;
+//		
+//		printf("%u threads total, %u running.", unsigned(nCount), unsigned(nRunning));
+//	}
+//	//else: avoid flicker - don't print anything
+//}
 
 
 bool EffectMicArrayAnalyzer::Init()
@@ -311,28 +307,44 @@ bool EffectMicArrayAnalyzer::Process()
 //	}
 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
+	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());
+
+	// the mutex should be initially locked
+    m_mutexCondFinish->Lock();
 	
-	
-	for (unsigned int frame = 1; frame <= mMAA->GetNumOfFrames(); frame++) 
+	for (unsigned int frame = 1; frame < mMAA->GetNumOfFrames(); frame++) 
 	{
-		CreateThread(frame)->Run();
-		
-//		UpdateVideoProgressMeter(frame,mMAA->GetNumOfFrames());
-		
-	//	if(mMAA->Calculate(frame))
-//		{
-//			printf("\n************************** Process: calculate(%d) ***************************\n",frame+1);
-//		}
-//		else
-//		{
-//			wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-//			//		 delete mAp; mAp = 0;
-//			return false;
-//		}		
+		CreateThread(frame)->Run();		
 	}
+	
+	//wait for every thread to finish
+	//	while (!m_threads.IsEmpty()) {
+	while (m_nThreadCount != 0 ) {
+		m_condFinish->Wait();
+//		wxCriticalSectionLocker enter(m_critsect); 
+//		m_nThreadCount--;
+		UpdateVideoProgressMeter(mMAA->GetNumOfFrames() - m_nThreadCount , mMAA->GetNumOfFrames());
+	}
+	
+	//the last frame on the main thread
+		printf("\n************************** Process: calculate(%d) ***************************\n",mMAA->GetNumOfFrames());
+		if(mMAA->Calculate(mMAA->GetNumOfFrames()))
+			{
+//				printf("\n************************** Process: calculate(%d) ***************************\n",mMAA->GetNumOfFrames());
+			}
+			else
+			{
+				wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+				//		 delete mAp; mAp = 0;
+				return false;
+			}		
+	
 #ifdef __AUDEBUG__
-//	mMAA->PrintResults();
+//	mMAA->PrintResults(); //ricorda di lockare la sessione critica!
 #endif
+	
+	printf("\n\n******************* ALL THREADS DONE!! ***************\n\n");
+	
 	DestroyVideoProgressMeter();
 	
 	MicArrayAnalyzerDlg dlog_1(mParent, mMAA);
@@ -390,8 +402,12 @@ void EffectMicArrayAnalyzer::DestroyVideoProgressMeter()
 
 
 EffectMicArrayAnalyzer::EffectMicArrayAnalyzer()
-: mMAA(0), m_shuttingDown(false)
-{}
+: mMAA(0), m_shuttingDown(false), m_nThreadCount(0)
+{
+	m_mutexCondFinish= new wxMutex();
+	m_condFinish = new wxCondition(*m_mutexCondFinish);
+	assert (m_condFinish->IsOk());
+}
 
 
 EffectMicArrayAnalyzer::~EffectMicArrayAnalyzer()

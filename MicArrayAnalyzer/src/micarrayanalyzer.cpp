@@ -50,50 +50,60 @@ frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1)
 {outputFrames = new Video();}
 
-MicArrayAnalyzer::MicArrayAnalyzer(MicArrayAnalyzer& mMAA) 
-: dProjectRate(mMAA.dProjectRate),
+MicArrayAnalyzer::MicArrayAnalyzer(MicArrayAnalyzer& mMAA) : 
+mProgress(mMAA.mProgress),
+dMinSPLThreshold(mMAA.dMinSPLThreshold),
+dFSLevel(mMAA.dFSLevel),
+dProjectRate(mMAA.dProjectRate),
 sfProjectFormat(mMAA.sfProjectFormat),
 iProjectNumTracks(mMAA.iProjectNumTracks),
-bXMLFileAlloc(mMAA.bXMLFileAlloc),
-bWAVFileAlloc(mMAA.bWAVFileAlloc),
-bSndFileAlloc(mMAA.bSndFileAlloc),
-bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
-bBgndImageAlloc(mMAA.bBgndImageAlloc),
-dFSLevel(mMAA.dFSLevel),
-dMinSPLThreshold(mMAA.dMinSPLThreshold),
-bAudioDataAlloc(false), //to initialize without deleting in AudioDataInit()
-bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
 iAudioTrackLength(mMAA.iAudioTrackLength),
 bMirroredMikesAlloc(mMAA.bMirroredMikesAlloc),
-iNTriangles(mMAA.iNTriangles),
-bWatchpointsAlloc(mMAA.bWatchpointsAlloc),
-iWatchpoints(mMAA.iWatchpoints),
-mProgress(mMAA.mProgress),
-frameLength(mMAA.frameLength),
-frameLengthSmpl(mMAA.frameLengthSmpl),
-frameOverlapRatio(mMAA.frameOverlapRatio),
-curFrame(mMAA.curFrame),
 wxfnXMLFile(mMAA.wxfnXMLFile),
+bXMLFileAlloc(mMAA.bXMLFileAlloc),
 wxfnWAVFile(mMAA.wxfnWAVFile),
+bWAVFileAlloc(mMAA.bWAVFileAlloc),
 infile(mMAA.infile),
+bSndFileAlloc(mMAA.bSndFileAlloc),
 sfinfo(mMAA.sfinfo),
 wxsMicName(mMAA.wxsMicName),
 wxsManufacturer(mMAA.wxsManufacturer),
 iArrayType(mMAA.iArrayType),
 iMikesCoordsUnits(mMAA.iMikesCoordsUnits),
-MikesCoordinates(mMAA.MikesCoordinates),
 iCapsules(mMAA.iCapsules),
 iVirtualMikes(mMAA.iVirtualMikes),
 iDeconvIRsLength(mMAA.iDeconvIRsLength),
+MikesCoordinates(mMAA.MikesCoordinates),
+bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
 wxbBgndImage(mMAA.wxbBgndImage),
+bBgndImageAlloc(mMAA.bBgndImageAlloc),
 wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
+// vmsMirroredMikes e 
+//tmMeshes  - non servono perchè sono inizializzati nella calculate() che viene chiamata dopo...
+iNTriangles(mMAA.iNTriangles),
+// ppfAudioData e 
+//ActualFrameAudioData  - vengono trattate dopo..
+bAudioDataAlloc(false), //to initialize without deleting in AudioDataInit()
+//pfLocalMin 
+//pfLocalMax 
+//pfAbsoluteMin 
+//pfAbsoluteMax  - vengono anche loro inizializzati nella calculate()
 fdBScalingFactor(mMAA.fdBScalingFactor),
-bResultsAvail(mMAA.bResultsAvail),
-
-pppfDeconvIRsData(mMAA.pppfDeconvIRsData)
-
+pppfDeconvIRsData(mMAA.pppfDeconvIRsData),
+bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
+//apOutputData  - viene inizializzata anche lei nella calculate()
+bResultsAvail(false), //devo ancora calcolare
+//afmvConvolver  - viene usato solo in calculate()
+piWatchpoints(mMAA.piWatchpoints),
+iWatchpoints(mMAA.iWatchpoints),
+// wxasWatchpointsLabels  - quando servirà .. forse
+bWatchpointsAlloc(mMAA.bWatchpointsAlloc),
+curFrame(mMAA.curFrame),
+frameLength(mMAA.frameLength),
+frameLengthSmpl(mMAA.frameLengthSmpl),
+frameOverlapRatio(mMAA.frameOverlapRatio)
 {
-//outputFrames = new Video();
+    outputFrames = mMAA.outputFrames;
 	AudioDataInit();
 	
 	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
@@ -102,6 +112,8 @@ pppfDeconvIRsData(mMAA.pppfDeconvIRsData)
 	}
 	
 	ppfAudioData = mMAA.ppfAudioData; //glielo copio così che tanto è di sola lettura e lo sovrascrivo dopo aver chiamato la init qui sopra
+	
+	
 }
 
 MicArrayAnalyzer::~MicArrayAnalyzer()
@@ -371,7 +383,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	//Calculating Results
 	if (apOutputData->FillResultsMatrix()) {
 //		resultCube[frame]=apOutputData->GetResultsMatrix(); 
-		//construct video frame
+		//construct video frame...
 		VideoFrame* videoframe= new VideoFrame(apOutputData->GetResultsMatrix(),
 									  apOutputData->GetChannelsNumber(),
 									  frame,
@@ -380,7 +392,10 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		for (int band=0; band<12; band++) {
 			videoframe->SetMaxInTheBand(apOutputData->GetMaxResultInTheBand(band), band);
 			videoframe->SetMinInTheBand(apOutputData->GetMinResultInTheBand(band), band);
-		}//and add it to the video!
+		}
+		
+		//... and add it to the video!
+		wxCriticalSectionLocker locker(m_critSec);
 		outputFrames->AddFrame(videoframe);
 		bResultsAvail = true; 
 	}
@@ -729,7 +744,7 @@ double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
 	return value;
 }
 void MicArrayAnalyzer::PrintResults() {
-	for (int f=1; f<=outputFrames->GetNumOfFrames(); f++) {
+	for (int f=1; f<=GetNumOfFrames(); f++) {
 		
 		printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
 

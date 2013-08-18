@@ -264,7 +264,7 @@ class MicArrayAnalyzer
 		void CalculateFSScalingFactor();
 		bool Calculate(unsigned int f); // This function does the hard work!
 		MicArrayAnalyzer();
-		MicArrayAnalyzer(MicArrayAnalyzer& mMAA);
+		MicArrayAnalyzer(MicArrayAnalyzer& mMAA); //ellerre
 		~MicArrayAnalyzer();
 	};
 

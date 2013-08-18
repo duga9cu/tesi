@@ -48,15 +48,19 @@ WX_DEFINE_ARRAY_PTR(wxThread *, wxArrayThread);
 class MyThread : public wxThread 
 	{ 
 	public: 
-		MyThread(MicArrayAnalyzer* maa, unsigned int frame); 
+		MyThread(MicArrayAnalyzer* maa, unsigned int frame,wxMutex *mutex, wxCondition *condition, wxCriticalSection* critsect, size_t& m_nThreadCount); 
 		virtual ~MyThread(); 
 		// thread execution starts here 
 		virtual void *Entry();
 		void InitThreadMAA();
-	public: 
+	private: 
 		unsigned int m_count;  //frame on which the thread is working on
 		MicArrayAnalyzer* mMAA; //the one and only original
 		MicArrayAnalyzer* threadMAA; //another one created by each thread
+		wxCondition *m_condFinish;
+		wxMutex *m_mutexCondFinish;
+		wxCriticalSection *critsect;
+		size_t m_nThreadCount;
 	}; 
 
 
@@ -74,11 +78,21 @@ class EffectMicArrayAnalyzer: public Effect
 	  bool DoShowConfDialog();
       void End();
 	  MyThread *CreateThread(unsigned int frame);
-	   void UpdateThreadStatus();
-	   
+//	   void UpdateThreadStatus();
+
+	   // critical section protects access to all of the fields below 
+	   wxCriticalSection m_critsect; 
+	   // all the threads currently alive - as soon as the thread terminates, it's removed from the array 
+	   wxArrayThread m_threads; 
+	   // semaphore used to wait for the threads to exit, see MyFrame::OnQuit() 
+	   wxSemaphore m_semAllDone; 
+	   //condition all done
+	   wxMutex *m_mutexCondFinish;
+	   wxCondition *m_condFinish;
+	   // indicates that we're shutting down and all threads should exit 
+	   bool m_shuttingDown;
 	   // remember the number of running threads and total number of threads
-	   size_t m_nRunning,
-	   m_nCount;
+	   size_t m_nRunning, m_nThreadCount;
    
    public:
       // ---------------- Standard Audacity Effects' methods ----------------
@@ -109,19 +123,7 @@ class EffectMicArrayAnalyzer: public Effect
    public:     
       EffectMicArrayAnalyzer();
       ~EffectMicArrayAnalyzer();
-	   
-	   // critical section protects access to all of the fields below 
-	   wxCriticalSection m_critsect; 
-	   // all the threads currently alive - as soon as the thread terminates, it's removed from the array 
-	   wxArrayThread m_threads; 
-	   // semaphore used to wait for the threads to exit, see MyFrame::OnQuit() 
-	   wxSemaphore m_semAllDone; 
-	   // indicates that we're shutting down and all threads should exit 
-	   bool m_shuttingDown;
-
-	   
-//	   DECLARE_EVENT_TABLE()
-   };
+};
 
 
 #endif // __MICARRAYANALYZER_MODULE_H__
