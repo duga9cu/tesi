@@ -72,15 +72,11 @@ void Video::SetMinsAndMaxs()
 
 
 void Video::AddFrame(VideoFrame* f) 	{
-//	assert(f->GetFrameNum() <= numOfFrames);
-	//			assert(frame.GetFrameNum()==resultCube.size()+1);
+	assert(f->GetFrameNum() <= numOfFrames);
 		resultCube[f->GetFrameNum()] = f;
-
-	//	if (f->GetFrameNum() == numOfFrames) {//last frame added
 	int resultcubesize = resultCube.size();
 	if (resultcubesize == numOfFrames) { //last frame added
-		// calculate overall max min
-		this->SetMinsAndMaxs();
-		
+//	if (f->GetFrameNum() == numOfFrames) {//last frame added
+		this->SetMinsAndMaxs(); 	// calculate overall max min
 	} 
 }

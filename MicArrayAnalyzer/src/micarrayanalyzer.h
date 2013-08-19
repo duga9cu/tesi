@@ -182,7 +182,7 @@ class MicArrayAnalyzer
 	public:     
 		Video *outputFrames;
 
-		wxCriticalSection m_critSec; 
+		wxCriticalSection *mAAcritSec;  //protects common data among  threads
 
 		bool ReadXMLData();
 		bool BadXML();

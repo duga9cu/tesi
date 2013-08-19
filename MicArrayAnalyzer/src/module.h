@@ -48,7 +48,7 @@ WX_DEFINE_ARRAY_PTR(wxThread *, wxArrayThread);
 class MyThread : public wxThread 
 	{ 
 	public: 
-		MyThread(MicArrayAnalyzer* maa, unsigned int frame,wxMutex *mutex, wxCondition *condition, wxCriticalSection* critsect, size_t& m_nThreadCount); 
+		MyThread(MicArrayAnalyzer* maa, unsigned int frame,wxMutex *mutex, wxCondition *condition, wxCriticalSection* effectCritsect, size_t* m_nThreadCount); 
 		virtual ~MyThread(); 
 		// thread execution starts here 
 		virtual void *Entry();
@@ -59,8 +59,8 @@ class MyThread : public wxThread
 		MicArrayAnalyzer* threadMAA; //another one created by each thread
 		wxCondition *m_condFinish;
 		wxMutex *m_mutexCondFinish;
-		wxCriticalSection *critsect;
-		size_t m_nThreadCount;
+		wxCriticalSection *effectCritsect;
+		size_t *pnThreadCount;
 	}; 
 
 
@@ -81,18 +81,19 @@ class EffectMicArrayAnalyzer: public Effect
 //	   void UpdateThreadStatus();
 
 	   // critical section protects access to all of the fields below 
-	   wxCriticalSection m_critsect; 
+	   wxCriticalSection effectCritsect; 
 	   // all the threads currently alive - as soon as the thread terminates, it's removed from the array 
 	   wxArrayThread m_threads; 
 	   // semaphore used to wait for the threads to exit, see MyFrame::OnQuit() 
-	   wxSemaphore m_semAllDone; 
+//	   wxSemaphore m_semAllDone; 
 	   //condition all done
 	   wxMutex *m_mutexCondFinish;
 	   wxCondition *m_condFinish;
 	   // indicates that we're shutting down and all threads should exit 
-	   bool m_shuttingDown;
+//	   bool m_shuttingDown;
 	   // remember the number of running threads and total number of threads
-	   size_t m_nRunning, m_nThreadCount;
+//	   size_t m_nRunning; 
+	   size_t m_nThreadCount;
    
    public:
       // ---------------- Standard Audacity Effects' methods ----------------

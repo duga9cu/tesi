@@ -48,7 +48,10 @@ mProgress(0),
 frameLength(FRAMELENGTH),
 frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1)
-{outputFrames = new Video();}
+{
+	outputFrames = new Video();
+	mAAcritSec = new wxCriticalSection();
+}
 
 MicArrayAnalyzer::MicArrayAnalyzer(MicArrayAnalyzer& mMAA) : 
 mProgress(mMAA.mProgress),
@@ -101,9 +104,10 @@ bWatchpointsAlloc(mMAA.bWatchpointsAlloc),
 curFrame(mMAA.curFrame),
 frameLength(mMAA.frameLength),
 frameLengthSmpl(mMAA.frameLengthSmpl),
-frameOverlapRatio(mMAA.frameOverlapRatio)
+frameOverlapRatio(mMAA.frameOverlapRatio),
+outputFrames(mMAA.outputFrames),
+mAAcritSec(mMAA.mAAcritSec)
 {
-    outputFrames = mMAA.outputFrames;
 	AudioDataInit();
 	
 	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
@@ -382,7 +386,6 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	
 	//Calculating Results
 	if (apOutputData->FillResultsMatrix()) {
-//		resultCube[frame]=apOutputData->GetResultsMatrix(); 
 		//construct video frame...
 		VideoFrame* videoframe= new VideoFrame(apOutputData->GetResultsMatrix(),
 									  apOutputData->GetChannelsNumber(),
@@ -395,7 +398,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		}
 		
 		//... and add it to the video!
-		wxCriticalSectionLocker locker(m_critSec);
+		wxCriticalSectionLocker locker(*mAAcritSec);
 		outputFrames->AddFrame(videoframe);
 		bResultsAvail = true; 
 	}
@@ -879,13 +882,13 @@ bool AudioPool::FillResultsMatrix()
 	//Results Matrix Calculation
 	//	InitProgressMeter(_("Calculating levels for each audio band..."));
 #ifdef __AUDEBUG__
-	printf("AudioPool: Filling results matrix...");
+//	printf("AudioPool: Filling results matrix...");
 	fflush(stdout);
 #endif
-	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
+//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
 	for (int i = 0; i < m_nChannels; i++) //For each audio track
 	{
-		printf("%d\t",i);
+//		printf("%d\t",i);
 		for (int j = 0; j < (2+10); j++) //For each band
 		{
 			//			UpdateProgressMeter(i*(2+10) + j,(m_nChannels)*(2+10));
@@ -908,15 +911,15 @@ bool AudioPool::FillResultsMatrix()
 				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
 				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
             }
-			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
+//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
 		}
-		printf("\n");
+//		printf("\n");
 		fflush(stdout);
 	}
 	
 #ifdef __AUDEBUG__
-	printf("AudioPool: Filling results matrix...DONE\n");
-	fflush(stdout);
+//	printf("AudioPool: Filling results matrix...DONE\n");
+//	fflush(stdout);
 #endif
 	//	DestroyProgressMeter();
 	return true;

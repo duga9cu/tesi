@@ -26,15 +26,15 @@
 // MyThread
 // ----------------------------------------------------------------------------
 
-MyThread::MyThread(MicArrayAnalyzer* maa,unsigned int frame,wxMutex *mutex, wxCondition *condition, wxCriticalSection* cs, size_t& tc)
+MyThread::MyThread(MicArrayAnalyzer* maa,unsigned int frame,wxMutex *mutex, wxCondition *condition, wxCriticalSection* cs, size_t* tc)
 : wxThread()
 {
 	mMAA = maa;
     m_count = frame;
 	m_mutexCondFinish = mutex;
 	m_condFinish = condition;
-	critsect= cs;
-	m_nThreadCount = tc;
+	effectCritsect= cs;
+	pnThreadCount = tc;
 }
 
 MyThread::~MyThread()
@@ -55,7 +55,7 @@ wxThread::ExitCode MyThread::Entry()
 	// should stop a.s.a.p.
 	{		
         // check if just this thread was asked to exit
-		if ( TestDestroy() ) return NULL;
+//		if ( TestDestroy() ) return NULL;
 		
 		//do something..
 //		wxThread::Sleep(7000);
@@ -73,8 +73,8 @@ wxThread::ExitCode MyThread::Entry()
 			//		 delete mAp; mAp = 0;
 			return false;
 		}
-		wxCriticalSectionLocker locker(*critsect);
-		m_nThreadCount--;
+		wxCriticalSectionLocker locker(*effectCritsect);
+		*pnThreadCount= *pnThreadCount - 1 ;
 
 		wxMutexLocker lock(*m_mutexCondFinish);
         m_condFinish->Signal();
@@ -87,12 +87,11 @@ wxThread::ExitCode MyThread::Entry()
 // ----------------------------------------------------------------------------
 MyThread *EffectMicArrayAnalyzer::CreateThread(unsigned int frame) 
 { 
-	MyThread *thread = new MyThread(mMAA,frame, m_mutexCondFinish, m_condFinish, &m_critsect, m_nThreadCount); 
+	MyThread *thread = new MyThread(mMAA,frame, m_mutexCondFinish, m_condFinish, &effectCritsect, &m_nThreadCount); 
 	if ( thread->Create() != wxTHREAD_NO_ERROR ) 
 	{ 
 		wxLogError(wxT("Can't create thread!")); 
 	} 
-	wxCriticalSectionLocker enter(m_critsect); 
 	m_threads.Add(thread);
 	m_nThreadCount++;
 	assert(m_nThreadCount < mMAA->GetNumOfFrames());
@@ -101,7 +100,7 @@ MyThread *EffectMicArrayAnalyzer::CreateThread(unsigned int frame)
 
 //void EffectMicArrayAnalyzer::UpdateThreadStatus()
 //{
-//	wxCriticalSectionLocker enter(m_critsect);
+//	wxCriticalSectionLocker enter(effectCritsect);
 //	
 //	// update the counts of running/total threads
 //	size_t nRunning = 0,
@@ -311,7 +310,7 @@ bool EffectMicArrayAnalyzer::Process()
 
 	// the mutex should be initially locked
     m_mutexCondFinish->Lock();
-	
+	effectCritsect.Enter();
 	for (unsigned int frame = 1; frame < mMAA->GetNumOfFrames(); frame++) 
 	{
 		CreateThread(frame)->Run();		
@@ -320,9 +319,9 @@ bool EffectMicArrayAnalyzer::Process()
 	//wait for every thread to finish
 	//	while (!m_threads.IsEmpty()) {
 	while (m_nThreadCount != 0 ) {
+		effectCritsect.Leave();
 		m_condFinish->Wait();
-//		wxCriticalSectionLocker enter(m_critsect); 
-//		m_nThreadCount--;
+		effectCritsect.Enter();
 		UpdateVideoProgressMeter(mMAA->GetNumOfFrames() - m_nThreadCount , mMAA->GetNumOfFrames());
 	}
 	
@@ -402,7 +401,7 @@ void EffectMicArrayAnalyzer::DestroyVideoProgressMeter()
 
 
 EffectMicArrayAnalyzer::EffectMicArrayAnalyzer()
-: mMAA(0), m_shuttingDown(false), m_nThreadCount(0)
+: mMAA(0), m_nThreadCount(0)
 {
 	m_mutexCondFinish= new wxMutex();
 	m_condFinish = new wxCondition(*m_mutexCondFinish);
