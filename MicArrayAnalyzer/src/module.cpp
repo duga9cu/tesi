@@ -73,11 +73,11 @@ wxThread::ExitCode MyThread::Entry()
 			//		 delete mAp; mAp = 0;
 			return false;
 		}
-		wxCriticalSectionLocker locker(*effectCritsect);
-		*pnThreadCount= *pnThreadCount - 1 ;
 
 		wxMutexLocker lock(*m_mutexCondFinish);
         m_condFinish->Signal();
+		wxCriticalSectionLocker locker(*effectCritsect);
+		*pnThreadCount= *pnThreadCount - 1 ;
 		return NULL;
 	}
 }	
@@ -337,7 +337,8 @@ bool EffectMicArrayAnalyzer::Process()
 				//		 delete mAp; mAp = 0;
 				return false;
 			}		
-	
+	UpdateVideoProgressMeter(mMAA->GetNumOfFrames() , mMAA->GetNumOfFrames());
+
 #ifdef __AUDEBUG__
 //	mMAA->PrintResults(); //ricorda di lockare la sessione critica!
 #endif
