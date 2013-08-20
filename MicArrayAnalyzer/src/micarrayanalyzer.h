@@ -101,7 +101,7 @@ class AudioPool : public AFAudioTrack
 class MicArrayAnalyzer
 	{
 	private:
-		ProgressDialog  *mProgress;
+//		ProgressDialog  *mProgress;
 		
 		double dMinSPLThreshold;
 		double dFSLevel;
@@ -175,9 +175,9 @@ class MicArrayAnalyzer
 		
 		
 	protected:
-		void InitProgressMeter(const wxString& operation);
-		bool UpdateProgressMeter(int step,int total);
-		void DestroyProgressMeter();
+	//	void InitProgressMeter(const wxString& operation);
+//		bool UpdateProgressMeter(int step,int total);
+//		void DestroyProgressMeter();
 		
 	public:     
 		Video *outputFrames;
@@ -196,6 +196,7 @@ class MicArrayAnalyzer
 		}
 		void PrintResults();
 		void PrintResult(unsigned int frame);
+		void PrintActualFrame(int frame);
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
@@ -264,7 +265,7 @@ class MicArrayAnalyzer
 		void CalculateFSScalingFactor();
 		bool Calculate(unsigned int f); // This function does the hard work!
 		MicArrayAnalyzer();
-		MicArrayAnalyzer(MicArrayAnalyzer& mMAA); //ellerre
+		MicArrayAnalyzer(const MicArrayAnalyzer& mMAA); //ellerre
 		~MicArrayAnalyzer();
 	};
 

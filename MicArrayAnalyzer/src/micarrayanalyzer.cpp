@@ -44,7 +44,7 @@ iNTriangles(0),
 bResultsAvail(false),
 bWatchpointsAlloc(false),
 iWatchpoints(0),
-mProgress(0),
+//mProgress(0),
 frameLength(FRAMELENGTH),
 frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1)
@@ -53,8 +53,8 @@ curFrame(1)
 	mAAcritSec = new wxCriticalSection();
 }
 
-MicArrayAnalyzer::MicArrayAnalyzer(MicArrayAnalyzer& mMAA) : 
-mProgress(mMAA.mProgress),
+MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
+//mProgress(mMAA.mProgress),
 dMinSPLThreshold(mMAA.dMinSPLThreshold),
 dFSLevel(mMAA.dFSLevel),
 dProjectRate(mMAA.dProjectRate),
@@ -81,49 +81,55 @@ bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
 wxbBgndImage(mMAA.wxbBgndImage),
 bBgndImageAlloc(mMAA.bBgndImageAlloc),
 wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
-// vmsMirroredMikes e 
-//tmMeshes  - non servono perchè sono inizializzati nella calculate() che viene chiamata dopo...
+//vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
+//tmMeshes(mMAA.tmMeshes), // initialized in calculate()
 iNTriangles(mMAA.iNTriangles),
-// ppfAudioData e 
-//ActualFrameAudioData  - vengono trattate dopo..
-bAudioDataAlloc(false), //to initialize without deleting in AudioDataInit()
-//pfLocalMin 
-//pfLocalMax 
-//pfAbsoluteMin 
-//pfAbsoluteMax  - vengono anche loro inizializzati nella calculate()
+ppfAudioData(mMAA.ppfAudioData), //* shared among threads!
+//ActualFrameAudioData(mMAA.ActualFrameAudioData),  //*
+//bAudioDataAlloc(false), //*
+//pfLocalMin(mMAA.pfLocalMin), //*
+//pfLocalMax(mMAA.pfLocalMax), //*
+//pfAbsoluteMin(mMAA.pfAbsoluteMin),	//*
+//pfAbsoluteMax(mMAA.pfAbsoluteMax),	//*
 fdBScalingFactor(mMAA.fdBScalingFactor),
-pppfDeconvIRsData(mMAA.pppfDeconvIRsData),
+pppfDeconvIRsData(mMAA.pppfDeconvIRsData), //* read-only 
 bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
-//apOutputData  - viene inizializzata anche lei nella calculate()
-bResultsAvail(false), //devo ancora calcolare
-//afmvConvolver  - viene usato solo in calculate()
-piWatchpoints(mMAA.piWatchpoints),
-iWatchpoints(mMAA.iWatchpoints),
-// wxasWatchpointsLabels  - quando servirà .. forse
-bWatchpointsAlloc(mMAA.bWatchpointsAlloc),
+//apOutputData(mMAA.apOutputData),	//*  - viene usato solo in calculate()
+bResultsAvail(false), //devo ancora calcolare i risultati
+//afmvConvolver //*		- viene usato solo in calculate()
+ // per ora non uso i watchpoints
+//piWatchpoints(mMAA.piWatchpoints),
+//iWatchpoints(mMAA.iWatchpoints), 
+// wxasWatchpointsLabels(mMAA.wxasWatchpointsLabels),  
+//bWatchpointsAlloc(mMAA.bWatchpointsAlloc), 
 curFrame(mMAA.curFrame),
 frameLength(mMAA.frameLength),
 frameLengthSmpl(mMAA.frameLengthSmpl),
 frameOverlapRatio(mMAA.frameOverlapRatio),
-outputFrames(mMAA.outputFrames),
-mAAcritSec(mMAA.mAAcritSec)
+outputFrames(mMAA.outputFrames), //* shared among threads! 
+mAAcritSec(mMAA.mAAcritSec) //* shared among threads!
 {
-	AudioDataInit();
-	
+	wxfnBgndImageFile=mMAA.wxfnBgndImageFile;
+	ActualFrameAudioData = new float* [iProjectNumTracks];
+	pfLocalMin = new float [iProjectNumTracks];
+	pfLocalMax = new float [iProjectNumTracks];
+	pfAbsoluteMin = new float [iProjectNumTracks];
+	pfAbsoluteMax = new float [iProjectNumTracks];
+	bAudioDataAlloc = true;
+  //Init each pointer to zero
+	for (int i = 0; i < iProjectNumTracks; i++) {
+		ActualFrameAudioData[i]=0;
+	}	
 	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
 	for (int i=0; i<iProjectNumTracks; i++) {
 		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 	}
-	
-	ppfAudioData = mMAA.ppfAudioData; //glielo copio così che tanto è di sola lettura e lo sovrascrivo dopo aver chiamato la init qui sopra
-	
-	
 }
 
 MicArrayAnalyzer::~MicArrayAnalyzer()
 {
-	if(mProgress) delete mProgress;
-	mProgress = 0;
+//	if(mProgress) delete mProgress;
+//	mProgress = 0;
 	if(bXMLFileAlloc) delete wxfnXMLFile;
 	if(bWAVFileAlloc) delete wxfnWAVFile;
 	if(bSndFileAlloc) sf_close(infile);
@@ -139,8 +145,11 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {
+	mAAcritSec->Enter(); //DEBUG per avere i flussi tutti in serie
+	
+	
 #ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(): copying ppfAudioData into ActualFrameAudioData\n");
+	printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
 	fflush(stdout);
 #endif
 	sampleCount startFrameSmpl = (frame-1)*(frameLengthSmpl - frameLengthSmpl*frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
@@ -154,7 +163,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	}
 	
 	for (int i=0; i<iProjectNumTracks; i++) {  //copy data into actual frame
-		for (int j=startFrameSmpl; j<endFrameSmpl; j++) {    
+		for (int j=startFrameSmpl; j<endFrameSmpl; j++) { 
 			ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
 		}
 	}
@@ -166,9 +175,9 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 			}
 		}	
 	}
-	
-	
+
 #ifdef __AUDEBUG__
+	PrintActualFrame(frame);
 	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
 	fflush(stdout);
 #endif
@@ -187,7 +196,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	//	UpdateProgressMeter(1,1);
 	
 	//	DestroyProgressMeter();	
-	
+
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer::Calculate(): Adding virtual mikes to Delaunay triangulation.\n");
 	fflush(stdout);
@@ -241,7 +250,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	}
 	
 	//	DestroyProgressMeter();
-	
+
 	//	InitProgressMeter(_("Generating mesh surface..."));
 #ifdef __AUDEBUG__
 	printf("MicArrayAnalyzer::Calculate(): Triangulating...");
@@ -290,8 +299,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		++fit;
 	}
 	//	DestroyProgressMeter();
-	
-	
+
 	//Setting up convolution class
 #ifdef __AUDEBUG__
 	printf("Triangulating...DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
@@ -320,7 +328,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 			afmvConvolver->SetFilterMatrixItem(pppfDeconvIRsData[i][j],i,j);
 		}
 	}
-	
+//	mAAcritSec->Leave();
 	/* Convolution calculation!
 	 The convolution is computed in this fashion:
 	 
@@ -335,6 +343,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	 "Obviously" yk = ir(k,1) * x1 + ir(k,2) * x2 + ... + ir(k,j) * xj , where * stands for convolution, not a simple product :)
 	 AFMatrixvolver class does the summation too!
 	 */
+	//	mAAcritSec->Enter();
 	//	 #ifdef __AUDEBUG__
 	//	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
 	//	 fflush(stdout);
@@ -345,7 +354,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	//	 fflush(stdout);
 	//	 #endif
 	
-	
+
 	//Retrieving Convolution Output Data
 	//	InitProgressMeter(_("Retrieving convolution results from convolver object..."));
 	CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
@@ -363,6 +372,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	}
 	//	DestroyProgressMeter();
 	
+
 	//NORMALIZING Output Tracks! -->> new peak level will be 1.
 	//	InitProgressMeter(_("Autoranging output signals to match FS..."));
 #ifdef __AUDEBUG__
@@ -385,24 +395,32 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	//	DestroyProgressMeter();
 	
 	//Calculating Results
+	printf("thread #%d filling audiopool result matrix \n",frame);
 	if (apOutputData->FillResultsMatrix()) {
 		//construct video frame...
-		VideoFrame* videoframe= new VideoFrame(apOutputData->GetResultsMatrix(),
-									  apOutputData->GetChannelsNumber(),
+		double** resultmatrix=apOutputData->GetResultsMatrix();
+		int channelsnumber= apOutputData->GetChannelsNumber();
+		double maxresultinthematrix = apOutputData->GetMaxResultInTheMatrix();
+		double minresultinthematrix = apOutputData->GetMinResultInTheMatrix();
+		VideoFrame* videoframe= new VideoFrame(resultmatrix,
+									  channelsnumber,
 									  frame,
-									  apOutputData->GetMaxResultInTheMatrix(),
-									  apOutputData->GetMinResultInTheMatrix());
+									  maxresultinthematrix,
+									  minresultinthematrix);
 		for (int band=0; band<12; band++) {
 			videoframe->SetMaxInTheBand(apOutputData->GetMaxResultInTheBand(band), band);
 			videoframe->SetMinInTheBand(apOutputData->GetMinResultInTheBand(band), band);
 		}
-		
 		//... and add it to the video!
 		wxCriticalSectionLocker locker(*mAAcritSec);
 		outputFrames->AddFrame(videoframe);
 		bResultsAvail = true; 
+		mAAcritSec->Leave();
 	}
-	else { bResultsAvail = false; }
+	else { 
+		bResultsAvail = false; 
+		mAAcritSec->Leave();
+	}
 	
 //	PrintResult(frame);
 	
@@ -660,21 +678,21 @@ bool MicArrayAnalyzer::ReadXMLData()
 	return true;
 }
 
-void MicArrayAnalyzer::InitProgressMeter(const wxString& operation)
-{
-	mProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
-}
-
-bool MicArrayAnalyzer::UpdateProgressMeter(int step,int total)
-{
-	return bool(mProgress->Update(step, total) == eProgressSuccess); // [esseci] 
-}
-
-void MicArrayAnalyzer::DestroyProgressMeter()
-{
-	if(mProgress) delete mProgress;
-	mProgress = 0;
-}
+//void MicArrayAnalyzer::InitProgressMeter(const wxString& operation)
+//{
+//	mProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
+//}
+//
+//bool MicArrayAnalyzer::UpdateProgressMeter(int step,int total)
+//{
+//	return bool(mProgress->Update(step, total) == eProgressSuccess); // [esseci] 
+//}
+//
+//void MicArrayAnalyzer::DestroyProgressMeter()
+//{
+//	if(mProgress) delete mProgress;
+//	mProgress = 0;
+//}
 
 bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num)
 {
@@ -746,11 +764,12 @@ double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
 	
 	return value;
 }
+
 void MicArrayAnalyzer::PrintResults() {
 	for (int f=1; f<=GetNumOfFrames(); f++) {
 		
 		printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
-
+		
 		for (int i = 0; i < apOutputData->GetChannelsNumber(); i++) //For each audio track
 		{
 			printf("%d\t",i);
@@ -765,23 +784,21 @@ void MicArrayAnalyzer::PrintResults() {
 	}
 }
 
-void MicArrayAnalyzer::PrintResult(unsigned int frame) {
+void MicArrayAnalyzer::PrintActualFrame(int frame) {
 		
-		printf("\n\n*** ONLY ONE MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", frame);
-		
-		for (int i = 0; i < apOutputData->GetChannelsNumber(); i++) //For each audio track
+	printf("\n\n*** ACTUAL FRAME # %d -PART- *** ", frame);
+	for (int j = 0; j < 50; j++) 
+	{
+	for (int i=0; i < iProjectNumTracks; i++)
 		{
-			printf("%d\t",i);
-			for (int j = 0; j < (2+10); j++) //For each band
-			{
-				double ** matrix=outputFrames->GetFrameMatrix(frame);
-				printf("%1.4f\t",undB20(float(matrix[i][j]))*p0);
-			}
-			printf("\n");
-			fflush(stdout);
+			printf("  %f  ", ActualFrameAudioData[i][j]);
 		}
-	
+		printf("\n");
+		fflush(stdout);
+	}
+	printf("\n\n");
 }
+
 
 wxString MicArrayAnalyzer::GetCurTime() {
 	wxString str; 
@@ -882,13 +899,13 @@ bool AudioPool::FillResultsMatrix()
 	//Results Matrix Calculation
 	//	InitProgressMeter(_("Calculating levels for each audio band..."));
 #ifdef __AUDEBUG__
-//	printf("AudioPool: Filling results matrix...");
+	printf("AudioPool: Filling results matrix...");
 	fflush(stdout);
 #endif
-//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
+	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
 	for (int i = 0; i < m_nChannels; i++) //For each audio track
 	{
-//		printf("%d\t",i);
+		printf("%d\t",i);
 		for (int j = 0; j < (2+10); j++) //For each band
 		{
 			//			UpdateProgressMeter(i*(2+10) + j,(m_nChannels)*(2+10));
@@ -911,9 +928,9 @@ bool AudioPool::FillResultsMatrix()
 				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
 				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
             }
-//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
+			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
 		}
-//		printf("\n");
+		printf("\n");
 		fflush(stdout);
 	}
 	
@@ -946,10 +963,6 @@ double AudioPool::GetMaxResultInTheMatrix()
 
 double AudioPool::GetMaxResultInTheBand(int col)
 {
-#ifdef __AUDEBUG__
-	printf("AudioPool::GetMINResultInTheBand: band [%d]\n",col);
-	fflush(stdout);
-#endif
 	if (bResultsMatrixAlloc)
 	{
 		double max;
@@ -958,6 +971,10 @@ double AudioPool::GetMaxResultInTheBand(int col)
 		{
 			max = (ppdResultsMatrix[i][col] > max) ? ppdResultsMatrix[i][col] : max;
 		}
+#ifdef __AUDEBUG__
+		printf("AudioPool::GetMAXResultInTheBand: band [%d] = %f\n",col,max);
+		fflush(stdout);
+#endif
 		return max;
 	}
 	else { return 0; }
@@ -984,10 +1001,6 @@ double AudioPool::GetMinResultInTheMatrix()
 
 double AudioPool::GetMinResultInTheBand(int col)
 {
-#ifdef __AUDEBUG__
-	printf("AudioPool::GetMINResultInTheBand: band [%d]\n",col);
-	fflush(stdout);
-#endif
 	if (bResultsMatrixAlloc)
 	{
 		double min;
@@ -996,6 +1009,10 @@ double AudioPool::GetMinResultInTheBand(int col)
 		{
 			min = (ppdResultsMatrix[i][col] < min) ? ppdResultsMatrix[i][col] : min;
 		}
+#ifdef __AUDEBUG__
+		printf("AudioPool::GetMINResultInTheBand: band [%d] = %f\n",col,min);
+		fflush(stdout);
+#endif
 		return min;
 	}
 	else { return 0; }
@@ -1034,7 +1051,8 @@ bool AudioPool::ResultsMatrixInit()
 	printf("AudioPool: Results Matrix INIT\n");
 	fflush(stdout);
 #endif
-	if (bResultsMatrixAlloc) delete [] ppdResultsMatrix;
+	if (bResultsMatrixAlloc) 
+		delete [] ppdResultsMatrix;
 	ppdResultsMatrix = new double* [m_nChannels];
 	
 	for (int i = 0; i < m_nChannels; i++)

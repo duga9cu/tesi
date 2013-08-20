@@ -945,6 +945,9 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 		return;
 	}
 	
+#ifdef __AUDEBUG__
+	mMAA->PrintResults();
+#endif
 	::wxMessageBox(wxT("Map successifully copied to the clipboard."),
 				   wxT("Info"),
 				   wxOK | wxICON_INFORMATION);    
@@ -1069,7 +1072,6 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 	} else {
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
 						  mMAA->outputFrames->GetOverallMin());
-		
 	}
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime());
 #ifdef __AUDEBUG__

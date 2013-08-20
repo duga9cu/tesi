@@ -49,18 +49,19 @@ void MyThread::InitThreadMAA()
 
 wxThread::ExitCode MyThread::Entry()
 {
+	effectCritsect->Enter();
     printf("Thread started (priority = %u). id #=%d\n", GetPriority(), m_count);
 	
 	// check if the application is shutting down: in this case all threads
 	// should stop a.s.a.p.
 	{		
         // check if just this thread was asked to exit
-//		if ( TestDestroy() ) return NULL;
+		if ( TestDestroy() ) return NULL;
 		
 		//do something..
 //		wxThread::Sleep(7000);
 		InitThreadMAA();
-		wxThreadIdType threadId = GetId();
+		wxThreadIdType threadId = this->GetId();
 		printf("\n************************** Process: calculate(%d) ***************************\n",m_count);
 		if(threadMAA->Calculate(m_count))
 		{
@@ -74,10 +75,13 @@ wxThread::ExitCode MyThread::Entry()
 			return false;
 		}
 
-		wxMutexLocker lock(*m_mutexCondFinish);
+//		wxMutexLocker lock(*m_mutexCondFinish);
         m_condFinish->Signal();
-		wxCriticalSectionLocker locker(*effectCritsect);
+//		wxCriticalSectionLocker locker(*effectCritsect);
 		*pnThreadCount= *pnThreadCount - 1 ;
+		
+		effectCritsect->Leave();
+		
 		return NULL;
 	}
 }	
@@ -86,7 +90,8 @@ wxThread::ExitCode MyThread::Entry()
 // EffectMicArrayAnalyzer
 // ----------------------------------------------------------------------------
 MyThread *EffectMicArrayAnalyzer::CreateThread(unsigned int frame) 
-{ 
+{
+	if (m_nThreadCount >= mMAA->GetNumOfFrames()) return NULL;
 	MyThread *thread = new MyThread(mMAA,frame, m_mutexCondFinish, m_condFinish, &effectCritsect, &m_nThreadCount); 
 	if ( thread->Create() != wxTHREAD_NO_ERROR ) 
 	{ 
@@ -94,7 +99,6 @@ MyThread *EffectMicArrayAnalyzer::CreateThread(unsigned int frame)
 	} 
 	m_threads.Add(thread);
 	m_nThreadCount++;
-	assert(m_nThreadCount < mMAA->GetNumOfFrames());
 	return thread; 
 } 
 
@@ -305,15 +309,30 @@ bool EffectMicArrayAnalyzer::Process()
 //		mMAA->SetFrameLengthSmpl( mMAA->GetFrameLength() * mProjectRate );		
 //	}
 	
-	InitVideoProgressMeter(_("Calculating video frame for each band..."));
-	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());
+//	InitVideoProgressMeter(_("Calculating video frame for each band..."));
+//	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());
 
+	//the first frame on the main thread
+	printf("\n************************** Process: calculate(%d) ***************************\n",1);
+	if(mMAA->Calculate(1))
+	{
+		//				printf("\n************************** Process: calculate(%d) ***************************\n",mMAA->GetNumOfFrames());
+	}
+	else
+	{
+		wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+		//		 delete mAp; mAp = 0;
+		return false;
+	}	
+	
+	
 	// the mutex should be initially locked
     m_mutexCondFinish->Lock();
 	effectCritsect.Enter();
-	for (unsigned int frame = 1; frame < mMAA->GetNumOfFrames(); frame++) 
+	for (unsigned int frame = 2; frame <= mMAA->GetNumOfFrames(); frame++) 
 	{
-		CreateThread(frame)->Run();		
+		wxThread* thread = CreateThread(frame);	
+		if (thread != NULL) thread->Run() ;
 	}
 	
 	//wait for every thread to finish
@@ -322,30 +341,21 @@ bool EffectMicArrayAnalyzer::Process()
 		effectCritsect.Leave();
 		m_condFinish->Wait();
 		effectCritsect.Enter();
-		UpdateVideoProgressMeter(mMAA->GetNumOfFrames() - m_nThreadCount , mMAA->GetNumOfFrames());
+//		UpdateVideoProgressMeter(mMAA->GetNumOfFrames() - m_nThreadCount , mMAA->GetNumOfFrames());
 	}
 	
-	//the last frame on the main thread
-		printf("\n************************** Process: calculate(%d) ***************************\n",mMAA->GetNumOfFrames());
-		if(mMAA->Calculate(mMAA->GetNumOfFrames()))
-			{
-//				printf("\n************************** Process: calculate(%d) ***************************\n",mMAA->GetNumOfFrames());
-			}
-			else
-			{
-				wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-				//		 delete mAp; mAp = 0;
-				return false;
-			}		
-	UpdateVideoProgressMeter(mMAA->GetNumOfFrames() , mMAA->GetNumOfFrames());
+		
+//	UpdateVideoProgressMeter(mMAA->GetNumOfFrames() , mMAA->GetNumOfFrames());
 
 #ifdef __AUDEBUG__
-//	mMAA->PrintResults(); //ricorda di lockare la sessione critica!
-#endif
-	
+//	mMAA->PrintResults();
 	printf("\n\n******************* ALL THREADS DONE!! ***************\n\n");
+#endif
+
+//	DestroyVideoProgressMeter();
 	
-	DestroyVideoProgressMeter();
+	//calculate video overall max/min SPL, and for each band too
+	mMAA->outputFrames->SetMinsAndMaxs();
 	
 	MicArrayAnalyzerDlg dlog_1(mParent, mMAA);
 	
@@ -413,6 +423,8 @@ EffectMicArrayAnalyzer::EffectMicArrayAnalyzer()
 EffectMicArrayAnalyzer::~EffectMicArrayAnalyzer()
 {
 	if(mMAA != 0) delete mMAA;
+	delete m_condFinish;
+	delete m_mutexCondFinish;
 }
 
 

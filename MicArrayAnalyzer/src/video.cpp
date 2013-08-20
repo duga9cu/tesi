@@ -38,6 +38,9 @@ bframeMatrixAlloc(false)
 void Video::SetMinsAndMaxs()		
 {
 	//init
+#ifdef __AUDEBUG__
+	VideoFrame *ciccio=resultCube[1];
+#endif
 	double max=0; 
 	double min=resultCube[1]->GetOverallMin(); 
 	for (int band=0; band<12; band++) {
@@ -46,14 +49,6 @@ void Video::SetMinsAndMaxs()
 	}
 	//calc
 	for(int i=1;i<=numOfFrames;i++) {
-		//overallmax
-		double valmax = resultCube[i]->GetOverallMax() ;
-		if(valmax > max)	max=valmax;
-		
-		//overallmin
-		double valmin = resultCube[i]->GetOverallMin() ;
-		if(valmin< min)	min=valmin;
-		
 		//maxintheband
 		for (int band=0; band<12; band++) {
 			if(resultCube[i]->GetMaxInTheBand(band) > overallBandMax[band])
@@ -65,6 +60,14 @@ void Video::SetMinsAndMaxs()
 			if(resultCube[i]->GetMinInTheBand(band) < overallBandMin[band])
 				overallBandMin[band] = resultCube[i]->GetMinInTheBand(band);
 		}
+		//overallmax
+		double valmax = resultCube[i]->GetOverallMax() ; //can be optimized
+		if(valmax > max)	max=valmax;
+		
+		//overallmin
+		double valmin = resultCube[i]->GetOverallMin() ; //can be optimized
+		if(valmin< min)	min=valmin;
+			
 	}
 	overallMax = max;
 	overallMin = min;
@@ -74,9 +77,10 @@ void Video::SetMinsAndMaxs()
 void Video::AddFrame(VideoFrame* f) 	{
 	assert(f->GetFrameNum() <= numOfFrames);
 		resultCube[f->GetFrameNum()] = f;
-	int resultcubesize = resultCube.size();
-	if (resultcubesize == numOfFrames) { //last frame added
-//	if (f->GetFrameNum() == numOfFrames) {//last frame added
-		this->SetMinsAndMaxs(); 	// calculate overall max min
-	} 
+	VideoFrame* ciccio=resultCube[f->GetFrameNum()];
+	//int resultcubesize = resultCube.size();
+//	if (resultcubesize == numOfFrames) { //last frame added
+////	if (f->GetFrameNum() == numOfFrames) {//last frame added
+////		this->SetMinsAndMaxs(); 	// calculate overall max min
+//	} 
 }

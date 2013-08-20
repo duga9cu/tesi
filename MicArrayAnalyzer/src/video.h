@@ -56,7 +56,6 @@ class Video
 		double overallMax, overallMin;
 		double overallBandMax[12];
 		double overallBandMin[12];
-		void SetMinsAndMaxs();
 		
 		
 	public:
@@ -72,7 +71,8 @@ class Video
 		VideoFrame* GetVideoFrame(unsigned int frameNum) {return resultCube[frameNum];}
 		void SetTransparency(int valTransp) {transparency = valTransp;}
 		void SetNumOfFrames(int n) {numOfFrames=n ;}
-		
+		void SetMinsAndMaxs();
+
 		// 'ctors
 		Video(): numOfFrames(0), transparency(50), overallMax(0),overallMin(0) {}
 //		~Video() {delete[] resultCube;}
