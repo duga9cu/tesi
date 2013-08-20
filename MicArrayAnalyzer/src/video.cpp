@@ -78,9 +78,11 @@ void Video::AddFrame(VideoFrame* f) 	{
 	assert(f->GetFrameNum() <= numOfFrames);
 		resultCube[f->GetFrameNum()] = f;
 	VideoFrame* ciccio=resultCube[f->GetFrameNum()];
-	//int resultcubesize = resultCube.size();
-//	if (resultcubesize == numOfFrames) { //last frame added
-////	if (f->GetFrameNum() == numOfFrames) {//last frame added
-////		this->SetMinsAndMaxs(); 	// calculate overall max min
-//	} 
+	if (ciccio) ;
+}
+
+void Video::DeleteAllData() {
+	for (int i=1; i<=numOfFrames; i++) {
+		resultCube[i]->DeleteAllData();
+	}
 }

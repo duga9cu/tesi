@@ -58,14 +58,14 @@ MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) :
 dMinSPLThreshold(mMAA.dMinSPLThreshold),
 dFSLevel(mMAA.dFSLevel),
 dProjectRate(mMAA.dProjectRate),
-sfProjectFormat(mMAA.sfProjectFormat),
+//sfProjectFormat(mMAA.sfProjectFormat), //not used in calculate()
 iProjectNumTracks(mMAA.iProjectNumTracks),
 iAudioTrackLength(mMAA.iAudioTrackLength),
 bMirroredMikesAlloc(mMAA.bMirroredMikesAlloc),
 wxfnXMLFile(mMAA.wxfnXMLFile),
 bXMLFileAlloc(mMAA.bXMLFileAlloc),
 wxfnWAVFile(mMAA.wxfnWAVFile),
-bWAVFileAlloc(mMAA.bWAVFileAlloc),
+bWAVFileAlloc(/*mMAA.bWAVFileAlloc*/ NULL),
 infile(mMAA.infile),
 bSndFileAlloc(mMAA.bSndFileAlloc),
 sfinfo(mMAA.sfinfo),
@@ -76,7 +76,7 @@ iMikesCoordsUnits(mMAA.iMikesCoordsUnits),
 iCapsules(mMAA.iCapsules),
 iVirtualMikes(mMAA.iVirtualMikes),
 iDeconvIRsLength(mMAA.iDeconvIRsLength),
-MikesCoordinates(mMAA.MikesCoordinates),
+MikesCoordinates(mMAA.MikesCoordinates), //* shared among threads! (read-only)
 bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
 wxbBgndImage(mMAA.wxbBgndImage),
 bBgndImageAlloc(mMAA.bBgndImageAlloc),
@@ -84,15 +84,15 @@ wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
 //vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
 //tmMeshes(mMAA.tmMeshes), // initialized in calculate()
 iNTriangles(mMAA.iNTriangles),
-ppfAudioData(mMAA.ppfAudioData), //* shared among threads!
-//ActualFrameAudioData(mMAA.ActualFrameAudioData),  //*
-//bAudioDataAlloc(false), //*
-//pfLocalMin(mMAA.pfLocalMin), //*
-//pfLocalMax(mMAA.pfLocalMax), //*
-//pfAbsoluteMin(mMAA.pfAbsoluteMin),	//*
-//pfAbsoluteMax(mMAA.pfAbsoluteMax),	//*
-fdBScalingFactor(mMAA.fdBScalingFactor),
-pppfDeconvIRsData(mMAA.pppfDeconvIRsData), //* read-only 
+ppfAudioData(mMAA.ppfAudioData), //* shared among threads! (read-only)
+//ActualFrameAudioData(mMAA.ActualFrameAudioData),  //* vedi sotto
+//bAudioDataAlloc(false), //* vedi sotto
+pfLocalMin(mMAA.pfLocalMin), //* shared (read-only)
+pfLocalMax(mMAA.pfLocalMax), //* shared (read-only)
+pfAbsoluteMin(mMAA.pfAbsoluteMin),	//* shared (read-only)
+pfAbsoluteMax(mMAA.pfAbsoluteMax),	//* shared (read-only)
+//fdBScalingFactor(mMAA.fdBScalingFactor), // initialized in calculate()
+pppfDeconvIRsData(mMAA.pppfDeconvIRsData), //* shared (read-only) 
 bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
 //apOutputData(mMAA.apOutputData),	//*  - viene usato solo in calculate()
 bResultsAvail(false), //devo ancora calcolare i risultati
@@ -111,41 +111,86 @@ mAAcritSec(mMAA.mAAcritSec) //* shared among threads!
 {
 	wxfnBgndImageFile=mMAA.wxfnBgndImageFile;
 	ActualFrameAudioData = new float* [iProjectNumTracks];
-	pfLocalMin = new float [iProjectNumTracks];
-	pfLocalMax = new float [iProjectNumTracks];
-	pfAbsoluteMin = new float [iProjectNumTracks];
-	pfAbsoluteMax = new float [iProjectNumTracks];
+
 	bAudioDataAlloc = true;
-  //Init each pointer to zero
-	for (int i = 0; i < iProjectNumTracks; i++) {
-		ActualFrameAudioData[i]=0;
-	}	
+	
 	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
 	for (int i=0; i<iProjectNumTracks; i++) {
 		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 	}
 }
 
+void MicArrayAnalyzer::DeleteAllData()  {
+	if(bXMLFileAlloc) {
+		delete wxfnXMLFile;
+		bXMLFileAlloc=false;
+	}
+	if(bWAVFileAlloc) {
+		delete wxfnWAVFile;
+		bWAVFileAlloc=false;
+	}
+	if(bSndFileAlloc) {
+		sf_close(infile);
+		bSndFileAlloc=false;
+	}
+	if(bMikesCoordsAlloc) {
+		delete [] MikesCoordinates;
+		bMikesCoordsAlloc=false;
+	}
+	if(bBgndImageAlloc) {
+		delete wxfnBgndImageFile;
+		bBgndImageAlloc=false;
+	}
+	if(bMirroredMikesAlloc) {
+		delete vmsMirroredMikes;
+		bMirroredMikesAlloc=false;
+	}
+	if(iNTriangles > 0) delete [] tmMeshes;
+	if (bAudioDataAlloc) delete [] ppfAudioData;
+	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
+	if(bWatchpointsAlloc) delete [] piWatchpoints;
+	
+	outputFrames->DeleteAllData();
+}
+
+
 MicArrayAnalyzer::~MicArrayAnalyzer()
 {
 //	if(mProgress) delete mProgress;
 //	mProgress = 0;
-	if(bXMLFileAlloc) delete wxfnXMLFile;
-	if(bWAVFileAlloc) delete wxfnWAVFile;
-	if(bSndFileAlloc) sf_close(infile);
-	if(bMikesCoordsAlloc) delete [] MikesCoordinates;
-	if(bBgndImageAlloc) delete wxfnBgndImageFile;
-	if(bMirroredMikesAlloc) delete vmsMirroredMikes;
-	if(iNTriangles > 0) delete [] tmMeshes;
-	//ANDARE AVANTI NEL CONTROLLO DA QUI!!!!
-	if (bAudioDataAlloc) delete [] ppfAudioData;
-	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
-	if(bWatchpointsAlloc) delete [] piWatchpoints;
+//	if(bXMLFileAlloc) {
+//		delete wxfnXMLFile;
+//		bXMLFileAlloc=false;
+//	}
+//	if(bWAVFileAlloc) {
+//		delete wxfnWAVFile;
+//		bWAVFileAlloc=false;
+//	}
+//	if(bSndFileAlloc) {
+//		sf_close(infile);
+//		bSndFileAlloc=false;
+//	}
+//	if(bMikesCoordsAlloc) {
+//		delete [] MikesCoordinates;
+//		bMikesCoordsAlloc=false;
+//	}
+//	if(bBgndImageAlloc) {
+//		delete wxfnBgndImageFile;
+//		bBgndImageAlloc=false;
+//	}
+//	if(bMirroredMikesAlloc) {
+//		delete vmsMirroredMikes;
+//		bMirroredMikesAlloc=false;
+//	}
+//	if(iNTriangles > 0) delete [] tmMeshes;
+//	if (bAudioDataAlloc) delete [] ppfAudioData;
+//	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
+//	if(bWatchpointsAlloc) delete [] piWatchpoints;
 }
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {
-	mAAcritSec->Enter(); //DEBUG per avere i flussi tutti in serie
+	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
 	
 	
 #ifdef __AUDEBUG__
@@ -224,7 +269,8 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	{
 		//		UpdateProgressMeter(i,iVirtualMikes);
 		
-		tempP[0] = MikesCoordinates[2*i]; tempP[1] = MikesCoordinates[2*i + 1];
+		tempP[0] = MikesCoordinates[2*i]; 
+		tempP[1] = MikesCoordinates[2*i + 1];
 #ifdef __AUDEBUG__
 		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
 		fflush(stdout);

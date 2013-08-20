@@ -39,7 +39,7 @@ class VideoFrame
 		
 		void SetMaxInTheBand(double max , int band) {maxInTheBand[band]=max;}
 		void SetMinInTheBand(double min , int band) {minInTheBand[band]=min;}
-		
+		void DeleteAllData() {delete frameMatrix;}
 		// 'ctors
 		VideoFrame(double **fM, int channels, int fn, double ovrllMax, double ovrllmin);
 		~VideoFrame() {delete frameMatrix;}
@@ -72,6 +72,7 @@ class Video
 		void SetTransparency(int valTransp) {transparency = valTransp;}
 		void SetNumOfFrames(int n) {numOfFrames=n ;}
 		void SetMinsAndMaxs();
+		void DeleteAllData();
 
 		// 'ctors
 		Video(): numOfFrames(0), transparency(50), overallMax(0),overallMin(0) {}

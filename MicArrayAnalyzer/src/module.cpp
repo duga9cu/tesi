@@ -371,6 +371,7 @@ bool EffectMicArrayAnalyzer::Process()
 void EffectMicArrayAnalyzer::End()
 {
 	// Deleting mMAA object
+	mMAA->DeleteAllData();
 	delete mMAA;
 	mMAA = 0;
 }
@@ -422,7 +423,10 @@ EffectMicArrayAnalyzer::EffectMicArrayAnalyzer()
 
 EffectMicArrayAnalyzer::~EffectMicArrayAnalyzer()
 {
-	if(mMAA != 0) delete mMAA;
+	if(mMAA != 0) {
+		mMAA->DeleteAllData();
+		delete mMAA;
+	}
 	delete m_condFinish;
 	delete m_mutexCondFinish;
 }

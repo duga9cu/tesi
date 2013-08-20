@@ -194,6 +194,7 @@ class MicArrayAnalyzer
 			SetCurFrame(++curFrame); 
 //							apOutputData->SetResultsMatrix(resultCube[curFrame]);
 		}
+		void DeleteAllData();
 		void PrintResults();
 		void PrintResult(unsigned int frame);
 		void PrintActualFrame(int frame);
