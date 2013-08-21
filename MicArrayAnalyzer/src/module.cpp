@@ -295,13 +295,17 @@ bool EffectMicArrayAnalyzer::Process()
 	printf("This is PROCESS\n");
 	fflush(stdout);
 #endif
-	
-	int numofcores; //TODO discover how many cores
-	numofcores=2; // in my case ;)
-	
+
+	int numofcores= wxThread::GetCPUCount(); 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());
 
+#ifdef __AUDEBUG__
+	printf("process:: start timer for threads calculate()..\n");
+	fflush(stdout);
+	m_benchTime.Start();
+#endif
+	
 	//the first frame on the main thread (to complete init of some variables of mMAA)
 	printf("\n************************** Process: calculate(%d) ***************************\n",1);
 	if(mMAA->Calculate(1))
@@ -350,7 +354,11 @@ bool EffectMicArrayAnalyzer::Process()
 
 #ifdef __AUDEBUG__
 //	mMAA->PrintResults();
-	printf("\n\n******************* ALL THREADS DONE!! ***************\n\n");
+	printf("\n\n******************* ALL THREADS DONE!! ***************\n");
+	printf("process:: stop timer for threads calculate(). ");
+	fflush(stdout);
+	m_benchTime.Stop();
+	printf("timer: elapsed time = %.1f ms", m_benchTime.GetElapsedTime());
 #endif
 
 	DestroyVideoProgressMeter();

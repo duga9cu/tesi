@@ -273,7 +273,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>11</integer>
+									<integer>3</integer>
 									<integer>2</integer>
 									<integer>0</integer>
 								</array>
@@ -316,7 +316,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>module.cpp</string>
+								<string>video.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,11 +324,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>module.cpp</string>
+										<string>video.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>B48B07EA17C4BF38001658AE</string>
+										<string>B48B080E17C4C38E001658AE</string>
 										<key>history</key>
 										<array>
 											<string>B47C87FB1779EDFA00CD0C7F</string>
@@ -375,7 +375,6 @@
 											<string>B4282A9517A02ADA00715DE3</string>
 											<string>B4282A9D17A037EB00715DE3</string>
 											<string>B4282B0F17A04E8C00715DE3</string>
-											<string>B47C650617A66A3A00E93524</string>
 											<string>B47C653217A66DD300E93524</string>
 											<string>B47C653417A66DD300E93524</string>
 											<string>B47C65A617A6777F00E93524</string>
@@ -399,20 +398,21 @@
 											<string>B47EB4FB17C393E40012E597</string>
 											<string>B48A65ED17C3A77000557104</string>
 											<string>B48A65FC17C3AB7600557104</string>
-											<string>B48A669217C3C6F400557104</string>
-											<string>B4876CCA17C3E45500B66185</string>
 											<string>B4876CCB17C3E45500B66185</string>
 											<string>B4876CCC17C3E45500B66185</string>
 											<string>B47D5A2317C418810009B4A4</string>
 											<string>B47D5A5D17C425EB0009B4A4</string>
 											<string>B424837517C42AED009C8161</string>
 											<string>B424838D17C42D3C009C8161</string>
-											<string>B42483B817C430DE009C8161</string>
 											<string>B42483CE17C431F7009C8161</string>
 											<string>B48B07CD17C4BCAA001658AE</string>
 											<string>B48B07CE17C4BCAA001658AE</string>
-											<string>B48B07E617C4BF38001658AE</string>
-											<string>B48B07E717C4BF38001658AE</string>
+											<string>B48B07FA17C4C33B001658AE</string>
+											<string>B48B07FB17C4C33B001658AE</string>
+											<string>B48B07FC17C4C33B001658AE</string>
+											<string>B48B07FD17C4C33B001658AE</string>
+											<string>B48B080817C4C372001658AE</string>
+											<string>B48B080917C4C372001658AE</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -471,13 +471,17 @@
 											<string>B48A660117C3AB7600557104</string>
 											<string>B48A666F17C3BE8500557104</string>
 											<string>B47D5A6517C425EB0009B4A4</string>
-											<string>B42483A017C42EC7009C8161</string>
-											<string>B42483B317C430B2009C8161</string>
 											<string>B42483B417C430B2009C8161</string>
 											<string>B48B07CF17C4BCAA001658AE</string>
 											<string>B48B07D017C4BCAA001658AE</string>
-											<string>B48B07E817C4BF38001658AE</string>
 											<string>B48B07E917C4BF38001658AE</string>
+											<string>B48B07F217C4C196001658AE</string>
+											<string>B48B07F417C4C196001658AE</string>
+											<string>B48B07FF17C4C33B001658AE</string>
+											<string>B48B080017C4C33B001658AE</string>
+											<string>B48B080117C4C33B001658AE</string>
+											<string>B48B080217C4C33B001658AE</string>
+											<string>B48B080A17C4C372001658AE</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -673,13 +677,14 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>B48B080F17C4C38E001658AE</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>B48B07DD17C4BCAA001658AE</string>
 		<string>B48B07DE17C4BCAA001658AE</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>B47C87BC1779B69900CD0C7F</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/LeopardOS/Documents/Xcode/tesi-repo/MicArrayAnalyzer/mac/MicArrayAnalyzer/MicArrayAnalyzer.xcodeproj</string>
+		<string>1C78EAAD065D492600B07095</string>
 	</array>
 	<key>WindowString</key>
 	<string>1280 122 1152 870 1280 122 1152 870 </string>
@@ -1004,6 +1009,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -1049,7 +1056,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

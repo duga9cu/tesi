@@ -71,6 +71,7 @@ class EffectMicArrayAnalyzer: public Effect
    {
    private:
       MicArrayAnalyzer *mMAA;
+	   TimeBenchmark m_benchTime;
       bool LoadTrackData(WaveTrack *wt, int id);
       void SelectTracks(bool status);
       void SelectAllTracks();
@@ -79,20 +80,16 @@ class EffectMicArrayAnalyzer: public Effect
       void End();
 	  MyThread *CreateThread(unsigned int frame);
 //	   void UpdateThreadStatus();
+	   
 
 	   // critical section protects access to all of the fields below 
 	   wxCriticalSection effectCritsect; 
 	   // all the threads currently alive - as soon as the thread terminates, it's removed from the array 
 	   wxArrayThread m_threads; 
-	   // semaphore used to wait for the threads to exit, see MyFrame::OnQuit() 
-//	   wxSemaphore m_semAllDone; 
 	   //condition all done
 	   wxMutex *m_mutexCondFinish;
 	   wxCondition *m_condFinish;
-	   // indicates that we're shutting down and all threads should exit 
-//	   bool m_shuttingDown;
-	   // remember the number of running threads and total number of threads
-//	   size_t m_nRunning; 
+	   // remember the number of running threads 
 	   size_t m_nThreadCount;
    
    public:
