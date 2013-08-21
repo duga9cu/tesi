@@ -35,8 +35,10 @@ bframeMatrixAlloc(false)
 }
 
 
-void Video::SetMinsAndMaxs()		
+bool Video::SetMinsAndMaxs()		
 {
+	if (!videoIsComplete) return videoIsComplete;
+	
 	//init
 #ifdef __AUDEBUG__
 	VideoFrame *ciccio=resultCube[1];
@@ -71,18 +73,20 @@ void Video::SetMinsAndMaxs()
 	}
 	overallMax = max;
 	overallMin = min;
+		
+	return videoIsComplete;
 }
 
 
 void Video::AddFrame(VideoFrame* f) 	{
 	assert(f->GetFrameNum() <= numOfFrames);
 		resultCube[f->GetFrameNum()] = f;
-	VideoFrame* ciccio=resultCube[f->GetFrameNum()];
-	if (ciccio) ;
+//	VideoFrame* ciccio=resultCube[f->GetFrameNum()];
+//	if (ciccio) ;
 }
 
-void Video::DeleteAllData() {
-	for (int i=1; i<=numOfFrames; i++) {
-		resultCube[i]->DeleteAllData();
-	}
-}
+//void Video::DeleteAllData() {
+//	for (int i=1; i<=numOfFrames; i++) {
+//		resultCube[i]->DeleteAllData();
+//	}
+//}

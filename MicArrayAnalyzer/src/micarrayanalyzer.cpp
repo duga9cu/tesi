@@ -150,7 +150,7 @@ void MicArrayAnalyzer::DeleteAllData()  {
 	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
 	if(bWatchpointsAlloc) delete [] piWatchpoints;
 	
-	outputFrames->DeleteAllData();
+//	outputFrames->DeleteAllData();
 }
 
 
@@ -190,7 +190,7 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {
-	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
+//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
 	
 	
 #ifdef __AUDEBUG__
@@ -222,7 +222,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	}
 
 #ifdef __AUDEBUG__
-	PrintActualFrame(frame);
+//	PrintActualFrame(frame);
 	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
 	fflush(stdout);
 #endif
@@ -461,11 +461,11 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		wxCriticalSectionLocker locker(*mAAcritSec);
 		outputFrames->AddFrame(videoframe);
 		bResultsAvail = true; 
-		mAAcritSec->Leave();
+//		mAAcritSec->Leave();
 	}
 	else { 
 		bResultsAvail = false; 
-		mAAcritSec->Leave();
+//		mAAcritSec->Leave();
 	}
 	
 //	PrintResult(frame);
@@ -945,13 +945,13 @@ bool AudioPool::FillResultsMatrix()
 	//Results Matrix Calculation
 	//	InitProgressMeter(_("Calculating levels for each audio band..."));
 #ifdef __AUDEBUG__
-	printf("AudioPool: Filling results matrix...");
+//	printf("AudioPool: Filling results matrix...");
 	fflush(stdout);
 #endif
-	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
+//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
 	for (int i = 0; i < m_nChannels; i++) //For each audio track
 	{
-		printf("%d\t",i);
+//		printf("%d\t",i);
 		for (int j = 0; j < (2+10); j++) //For each band
 		{
 			//			UpdateProgressMeter(i*(2+10) + j,(m_nChannels)*(2+10));
@@ -974,9 +974,9 @@ bool AudioPool::FillResultsMatrix()
 				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
 				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
             }
-			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
+//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
 		}
-		printf("\n");
+//		printf("\n");
 		fflush(stdout);
 	}
 	
