@@ -253,7 +253,6 @@ class MyMap : public wxControl
     // private methods
     void DrawCrossOnImage(wxImage* img, const int x, const int y, const wxColour* color);
     
-    void InitLevelsMap();
     void InitColorMap();
     void InitVirtMikesMap();
 #ifdef __WXDEBUG__    
@@ -281,7 +280,8 @@ class MyMap : public wxControl
   public:
     // Operations
     bool CopyToClipboard();
-    
+	void InitLevelsMap();
+
     // Interface
     bool AreVirtMikesPosShown() const { return m_bShowVirtMikesPos; }    
     

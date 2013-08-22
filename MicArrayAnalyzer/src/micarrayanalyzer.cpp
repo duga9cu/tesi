@@ -46,7 +46,9 @@ iWatchpoints(0),
 //mProgress(0),
 frameLength(FRAMELENGTH),
 frameOverlapRatio(FRAMEOVERLAP),
-curFrame(1)
+curFrame(1),
+playing(false),
+bandAutoscale(false)
 {
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
 	outputFrames->m_iCurrentUnit=MU_dB;
@@ -189,7 +191,7 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 }
 
 
-void MicArrayAnalyzer::InitLevelsMap(int frame)
+void MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure unit
 {
     int i,k,l;
 	
@@ -240,7 +242,7 @@ void MicArrayAnalyzer::InitLevelsMap(int frame)
 							levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
 													 currentBand);
 							//Scaling to the correct unit
-							levels[vert] = FromdB(levels[vert], MeasureUnit(outputFrames->m_iCurrentUnit)); 
+							levels[vert] = FromdB(levels[vert], /*MeasureUnit(outputFrames->m_iCurrentUnit)*/ MU_dB); 
 						}
 						//Setting levels will automatically compute interpolation coeffs.
 						tmCurrentTri->SetLevelsAtVertexes(levels); 

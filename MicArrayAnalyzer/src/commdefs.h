@@ -45,14 +45,162 @@
 // ----- custom
 #define dB(x)     ((x > 0) ? 10.0*log10(x) : -200.0)
 #define dB20(x)   ((x > 0) ? 20.0*log10(x) : -200.0)
-#define undB(x)   (pow(10.0, x/10.0))
-#define undB20(x) (pow(10.0, x/20.0))
-//inline double undB(double x, double b = 10.0) {
-//	return std::pow(10.0,x/b);
-//}
-//inline double undB20(double x) {
-//	return undB(x,20.0);
-//}
+const double p0              = 0.000020;  //Sound Level Reference, in Pascal.
+//#define undB(x)   (pow(10.0, x/10.0))
+//#define undB20(x) (pow(10.0, x/20.0))
+inline double undB(double x, double b = 10.0) {
+	return pow(10.0,x/b)*p0;
+}
+inline double undB20(double x) {
+	return undB(x,20.0);
+}
+
+enum MeasureUnit { MU_dB   = 0, MU_Pa,   MU_Sqrt,   MU_Cbrt }; 
+enum Styles      { CMS_JET = 0, CMS_HOT, CMS_COLD };
+
+static double FromdB(const double value_dB, const MeasureUnit mu)
+{
+	double result;
+    switch (mu)
+    {
+        case MU_dB:   result = value_dB; break;
+        case MU_Pa:   result = (undB20(value_dB)); break;
+        case MU_Sqrt: result = sqrt(undB20(value_dB)); break;
+        case MU_Cbrt: result = pow(10.0, ((1.0 / 3.0)*log10(undB20(value_dB)))); break;
+		default: result = value_dB; break;
+    }
+    return result;
+}
+
+static bool DoubleToRGB(unsigned char* rgb, 
+				 const double   value, 
+				 const double   min, 
+				 const double   max, 
+				 const int      style)
+{
+    unsigned char c1=144;
+    double max4=(max-min)/4;
+    float max3=(max-min)/3;   
+    double dbTmpValue = value;
+    
+    switch (style)
+    {
+        case CMS_JET: //Jet ColorMap
+            dbTmpValue -= min;
+            if (dbTmpValue == HUGE_VAL)
+            {    
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 0)
+            {    
+                rgb[0] = rgb[1] = rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max4)
+            {   
+                rgb[0] = 0; 
+                rgb[1] = 0; 
+                rgb[2] = c1 + (unsigned char)((255-c1)*dbTmpValue/max4); 
+            }
+            else if (dbTmpValue < 2*max4)
+            {   
+                rgb[0] = 0; 
+                rgb[1] = (unsigned char)(255*(dbTmpValue-max4)/max4); 
+                rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 3*max4)
+            {   
+                rgb[0] = (unsigned char)(255*(dbTmpValue-2*max4)/max4); 
+                rgb[1] = 255; 
+                rgb[2] = 255 - rgb[0]; 
+            }
+            else if (dbTmpValue < max)
+            {   
+                rgb[0] = 255; 
+                rgb[1] = (unsigned char)(255-255*(dbTmpValue-3*max4)/max4); 
+                rgb[2] = 0; 
+            }
+            else
+            {   
+                rgb[0] = 255; 
+                rgb[1] = rgb[2] = 0; 
+            }
+            break;
+            
+        case CMS_HOT: //Hot ColorMap
+            dbTmpValue -= min;
+            if (dbTmpValue == HUGE_VAL)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 0)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max3)
+            { 
+                rgb[0] = (unsigned char)(255*dbTmpValue/max3); 
+                rgb[1] = 0; 
+                rgb[2] = 0; 
+            }
+            else if (dbTmpValue < 2*max3)
+            { 
+                rgb[0] = 255; 
+                rgb[1] = (unsigned char)(255*(dbTmpValue-max3)/max3); 
+                rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max)
+            { 
+                rgb[0] = 255; 
+                rgb[1] = 255; 
+                rgb[2] = (unsigned char)(255*(dbTmpValue-2*max3)/max3); 
+            }
+            else
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            break;
+            
+        case CMS_COLD: //Cold ColorMap
+            dbTmpValue -= min;
+            if (dbTmpValue == HUGE_VAL)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 0)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max3)
+            { 
+                rgb[0] = 0; 
+                rgb[1] = 0; 
+                rgb[2] = (unsigned char)(255*dbTmpValue/max3); 
+            }
+            else if (dbTmpValue < 2*max3)
+            { 
+                rgb[0] = 0; 
+                rgb[1] = (unsigned char)(255*(dbTmpValue-max3)/max3); 
+                rgb[2] = 255; 
+            }
+            else if (dbTmpValue < max)
+            { 
+                rgb[0] = (unsigned char)(255*(dbTmpValue-2*max3)/max3); 
+                rgb[1] = 255; 
+                rgb[2] = 255; 
+            }
+            else
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            break;
+            
+        default:
+            return false; //Not supported ColorMap requested
+    }
+    
+    return true;
+}
+
 
 // these are for fftw_complex vectors
 #ifndef __FFTW_REIM__

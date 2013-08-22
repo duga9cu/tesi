@@ -966,18 +966,19 @@ void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 	//					  mMAA->GetMinSPL(event.IsChecked(),
 	//									  m_wxrbBandSelection->GetSelection()) );
 	if(event.IsChecked()) {
+		mMAA->SetBandAutoscale(true);
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
 						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
 	} else {
+		mMAA->SetBandAutoscale(false);
 		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
 						  mMAA->outputFrames->GetOverallMin());
-		
 	}
 	
 	m_pMap->Refresh();
 }   
 
-void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event)  // ???
+void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event) 
 {
 	wxString units;
 	switch(event.GetSelection())

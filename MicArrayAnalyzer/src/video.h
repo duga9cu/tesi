@@ -11,16 +11,16 @@
 
 #include <wx/hashmap.h>
 #include "meshandinterpol.h"
+#include "commdefs.h"
 
 #define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046 nel test teatro)
 #define FRAMEOVERLAP 0.1					// percentage of frame overlapping
 #define TRANSPARENCY 50					// alpha value for the colormap superposition
 
-enum MeasureUnit { MU_dB   = 0, MU_Pa,   MU_Sqrt,   MU_Cbrt }; 
-enum Styles      { CMS_JET = 0, CMS_HOT, CMS_COLD };
 
-double FromdB(const double value_dB, const MeasureUnit mu);
-bool DoubleToRGB(unsigned char* rgb, const double value, const double min, const double max, const int style);
+
+//double FromdB(const double value_dB, const MeasureUnit mu);
+//bool DoubleToRGB(unsigned char* rgb, const double value, const double min, const double max, const int style);
 
 class AudioPool;
 

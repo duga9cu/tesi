@@ -507,10 +507,10 @@ void MyColorMap::Draw(wxDC& dc)
     for(int i = 0; i < (iColorBarSubdiv + 1); i++)
     {
         value = max - ((max - min)/iColorBarSubdiv)*i;
-        if (m_iMeasureUnit == MU_dB)
+//        if (m_iMeasureUnit == MU_dB)
             scale_label.Printf(wxT("%.1f"), value);  //For dB scale we DON'T use scientific notation.
-        else
-            scale_label.Printf(wxT("%.1E"), value);
+     //   else
+//            scale_label.Printf(wxT("%.1E"), value);
         
         dc.GetTextExtent(scale_label, &w, &h);
         dc.DrawText(scale_label, 
@@ -679,6 +679,16 @@ void MyMap::InitLevelsMap()
     m_benchTime.Stop();
     printf("MyMap::InitLevelsMap timing: %.1f ms\n", m_benchTime.GetElapsedTime());
 #endif    
+//	if(m_pMaa->IsBandAutoscale()) {
+//		SetMaxMin(m_pMaa->outputFrames->GetOverallBandMax( m_iCurrentBand), 
+//				  m_pMaa->outputFrames->GetOverallBandMin( m_iCurrentBand));
+//	} else {
+//		SetMaxMin(m_pMaa->outputFrames->GetOverallMax(),
+//				  m_pMaa->outputFrames->GetOverallMin());
+//		
+//	}
+	
+	this->Refresh();
 }
 
 void MyMap::InitColorMap()
@@ -811,8 +821,9 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
     
     //Draw ColorMap (mid layer)
 //    if(!m_aadLevelsMap)
-//        InitLevelsMap();
-	m_aadLevelsMap=m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
+	if (m_pMaa->Playing()) 
+		m_aadLevelsMap=m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
+	else InitLevelsMap();
 	
 //    if(!m_pwximgColorMap) 
         InitColorMap();
@@ -988,7 +999,8 @@ void MyMap::SetMeasureUnit(const int mu)
 {
     DestroyMaps();
     m_iCurrentUnit = int(mu);
-    m_pColorMap->SetMeasureUnit(m_iCurrentUnit); 
+	m_pMaa->outputFrames->m_iCurrentUnit = mu;
+    m_pColorMap->SetMeasureUnit(m_iCurrentUnit);
 }
 
 void MyMap::SetStyle(const int style)         

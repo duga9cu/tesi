@@ -46,7 +46,6 @@ const int X_RES_DEG          = 360;
 const int Y_RES_DEG          = 180;
 const double MIN_SPL_DEFAULT = 0.0;       //dB
 const double FS_DEFAULT      = 120.0;     //dB
-const double p0              = 0.000020;  //Sound Level Reference, in Pascal.
 
 /// Conversion from C-string to wxString
 #define         cs2ws(s)   (wxString(s,wxConvUTF8))
@@ -170,6 +169,7 @@ class MicArrayAnalyzer
 		sampleCount frameLengthSmpl; //samples
 		float frameOverlapRatio; // ratio [0,1]
 		bool playing;
+		bool bandAutoscale;
 		
 		
 		
@@ -233,6 +233,7 @@ class MicArrayAnalyzer
 		double GetFrameOverlapRatio() {return frameOverlapRatio;}
 		bool Playing() {return playing;}
 		int GetTransparency() {return outputFrames->GetTransparency();}
+		bool IsBandAutoscale() {return bandAutoscale;}
 		
 		// Setters
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
@@ -259,6 +260,7 @@ class MicArrayAnalyzer
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
 		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
+		void SetBandAutoscale(bool value) {bandAutoscale = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
 				
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
