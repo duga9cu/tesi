@@ -8,6 +8,149 @@
  */
 
 #include "video.h"
+#include "commdefs.h"
+
+double FromdB(const double value_dB, const MeasureUnit mu)
+{
+    switch (mu)
+    {
+        case MU_dB:   return value_dB;
+        case MU_Pa:   return (undB20(value_dB));
+        case MU_Sqrt: return sqrt(undB20(value_dB));
+        case MU_Cbrt: return pow(10.0, ((1.0 / 3.0)*log10(undB20(value_dB)))); 
+    }
+    return value_dB;
+}
+
+bool DoubleToRGB(unsigned char* rgb, 
+				 const double   value, 
+				 const double   min, 
+				 const double   max, 
+				 const int      style)
+{
+    unsigned char c1=144;
+    double max4=(max-min)/4;
+    float max3=(max-min)/3;   
+    double dbTmpValue = value;
+    
+    switch (style)
+    {
+        case CMS_JET: //Jet ColorMap
+            dbTmpValue -= min;
+            if (dbTmpValue == HUGE_VAL)
+            {    
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 0)
+            {    
+                rgb[0] = rgb[1] = rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max4)
+            {   
+                rgb[0] = 0; 
+                rgb[1] = 0; 
+                rgb[2] = c1 + (unsigned char)((255-c1)*dbTmpValue/max4); 
+            }
+            else if (dbTmpValue < 2*max4)
+            {   
+                rgb[0] = 0; 
+                rgb[1] = (unsigned char)(255*(dbTmpValue-max4)/max4); 
+                rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 3*max4)
+            {   
+                rgb[0] = (unsigned char)(255*(dbTmpValue-2*max4)/max4); 
+                rgb[1] = 255; 
+                rgb[2] = 255 - rgb[0]; 
+            }
+            else if (dbTmpValue < max)
+            {   
+                rgb[0] = 255; 
+                rgb[1] = (unsigned char)(255-255*(dbTmpValue-3*max4)/max4); 
+                rgb[2] = 0; 
+            }
+            else
+            {   
+                rgb[0] = 255; 
+                rgb[1] = rgb[2] = 0; 
+            }
+            break;
+            
+        case CMS_HOT: //Hot ColorMap
+            dbTmpValue -= min;
+            if (dbTmpValue == HUGE_VAL)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 0)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max3)
+            { 
+                rgb[0] = (unsigned char)(255*dbTmpValue/max3); 
+                rgb[1] = 0; 
+                rgb[2] = 0; 
+            }
+            else if (dbTmpValue < 2*max3)
+            { 
+                rgb[0] = 255; 
+                rgb[1] = (unsigned char)(255*(dbTmpValue-max3)/max3); 
+                rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max)
+            { 
+                rgb[0] = 255; 
+                rgb[1] = 255; 
+                rgb[2] = (unsigned char)(255*(dbTmpValue-2*max3)/max3); 
+            }
+            else
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            break;
+            
+        case CMS_COLD: //Cold ColorMap
+            dbTmpValue -= min;
+            if (dbTmpValue == HUGE_VAL)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            else if (dbTmpValue < 0)
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 0; 
+            }
+            else if (dbTmpValue < max3)
+            { 
+                rgb[0] = 0; 
+                rgb[1] = 0; 
+                rgb[2] = (unsigned char)(255*dbTmpValue/max3); 
+            }
+            else if (dbTmpValue < 2*max3)
+            { 
+                rgb[0] = 0; 
+                rgb[1] = (unsigned char)(255*(dbTmpValue-max3)/max3); 
+                rgb[2] = 255; 
+            }
+            else if (dbTmpValue < max)
+            { 
+                rgb[0] = (unsigned char)(255*(dbTmpValue-2*max3)/max3); 
+                rgb[1] = 255; 
+                rgb[2] = 255; 
+            }
+            else
+            { 
+                rgb[0] = rgb[1] = rgb[2] = 255; 
+            }
+            break;
+            
+        default:
+            return false; //Not supported ColorMap requested
+    }
+    
+    return true;
+}
+
 
 bool VideoFrame::frameMatrixInit(int channels, double** fM)
 {
@@ -32,7 +175,35 @@ overallMin(ovrllmin),
 bframeMatrixAlloc(false)
 {
 	frameMatrixInit(channels,fM);
+	m_aadLevelsMap= new double** [12]; //has one matrix for each audio band
 }
+
+
+
+//void Video::CreateColorMaps()
+//{   
+//    
+//	wxImage *pwximgColorMap = new wxImage(m_width, m_height); //New image, all pixels are inited to black.
+//	
+//	//Retrieving min and max levels for the current band, scaled to the correct unit.
+//	double min = FromdB(m_dbMin, MeasureUnit(m_iCurrentUnit));  
+//	double max = FromdB(m_dbMax, MeasureUnit(m_iCurrentUnit));  
+//	
+//#ifdef __AUDEBUG__
+//	printf("Gui::InitColorMap(): min = %f ; max = %f ; scale_unit = %d \n", min, max, m_iCurrentUnit);
+//#endif
+//	
+//	unsigned char rgb[3];
+//    
+//    for (int i = 0; i < m_width; i++)
+//    {
+//        for (int k = 0; k < m_height; k++)
+//        {
+//            DoubleToRGB(rgb, m_aadLevelsMap[i][k], min, max, style);
+//            pwximgColorMap->SetRGB(i, k, rgb[0], rgb[1], rgb[2]);
+//        }
+//    }   
+//}
 
 
 bool Video::SetMinsAndMaxs()		
@@ -40,9 +211,6 @@ bool Video::SetMinsAndMaxs()
 	if (!videoIsComplete) return videoIsComplete;
 	
 	//init
-#ifdef __AUDEBUG__
-	VideoFrame *ciccio=resultCube[1];
-#endif
 	double max=0; 
 	double min=resultCube[1]->GetOverallMin(); 
 	for (int band=0; band<12; band++) {

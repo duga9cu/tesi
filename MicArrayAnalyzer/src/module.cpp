@@ -306,7 +306,7 @@ bool EffectMicArrayAnalyzer::Process()
 	m_benchTime.Start();
 #endif
 	
-	//the first frame on the main thread (to complete init of some variables of mMAA)
+	//the first frame on the main thread (in order to complete init of some variables of mMAA)
 	printf("\n************************** Process: calculate(%d) ***************************\n",1);
 	if(mMAA->Calculate(1))
 	{
@@ -346,7 +346,6 @@ bool EffectMicArrayAnalyzer::Process()
 		}
 		UpdateVideoProgressMeter(frame , mMAA->GetNumOfFrames());
 	}
-	
 	effectCritsect.Leave();
 	
 		
@@ -374,6 +373,8 @@ bool EffectMicArrayAnalyzer::Process()
 		wxMessageBox(buf,_("Error"),wxOK|wxICON_ERROR);
 		return false;
 	}
+	
+//	mMAA->outputFrames->CreateColorMaps();
 
 	MicArrayAnalyzerDlg dlog_1(mParent, mMAA);
 	

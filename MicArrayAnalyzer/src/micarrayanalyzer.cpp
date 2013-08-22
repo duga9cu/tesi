@@ -21,7 +21,6 @@
 //#endif
 
 
-
 using std::vector;
 using namespace tpp;
 
@@ -49,7 +48,8 @@ frameLength(FRAMELENGTH),
 frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1)
 {
-	outputFrames = new Video();
+	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
+	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
 }
 
@@ -83,7 +83,7 @@ bBgndImageAlloc(mMAA.bBgndImageAlloc),
 wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
 //vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
 //tmMeshes(mMAA.tmMeshes), // initialized in calculate()
-iNTriangles(mMAA.iNTriangles),
+iNTriangles(mMAA.iNTriangles), //la triangolazione è uguale per tutti // ANDREBBE TOLTA DALLA CALCULATE E FATTA PRIMA?
 ppfAudioData(mMAA.ppfAudioData), //* shared among threads! (read-only)
 //ActualFrameAudioData(mMAA.ActualFrameAudioData),  //* vedi sotto
 //bAudioDataAlloc(false), //* vedi sotto
@@ -187,6 +187,74 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 //	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
 //	if(bWatchpointsAlloc) delete [] piWatchpoints;
 }
+
+
+void MicArrayAnalyzer::InitLevelsMap(int frame)
+{
+    int i,k,l;
+	
+	for( int currentBand=0; currentBand<2+10; currentBand++) 
+	{
+		//Levels Map matrix init.
+		
+		double **aadLevelsMap = new double* [MAP_WIDTH];
+		for ( l = 0; l < MAP_WIDTH; l++) 
+			aadLevelsMap[l] = new double [MAP_HEIGHT];
+		
+		
+		TriangularMesh* tmCurrentTri;
+		
+		ClearInterpolCoeffs();  //Clearing A,B,C,det for each triangle.
+		int j = 0; //Used to remember the previous triangle where a point was located, in order to speed-up point location!
+		for (i = 0; i < MAP_WIDTH; i++)
+		{
+			for (k = 0; k < MAP_HEIGHT; k++)
+			{
+				//Locating the position of pixel (i,k) inside the triangulation
+				for (l = 0; l <iNTriangles; l++)
+				{
+					tmCurrentTri = NULL;
+					if (InOrOutTriangle(i,k,j) >= 0) //InOrOutTriangle returns -1 if point (i,k) is outside, 0 in it's onside and +1 if it's inside triangle number j.
+					{
+						tmCurrentTri = GetTriangle(j);
+						break; //Location completed!
+					}
+					else
+					{
+						j++;
+						if (j >= iNTriangles) 
+							j = 0; //Re-init.
+					}
+				}
+				
+				if (tmCurrentTri != NULL)
+				{
+					if (!tmCurrentTri->AreCoeffsSet())  //If coeffs aren't set,
+					{                                //we should set levels at triangle vertexes before calling GetInterpolatedValue().
+						double levels[3];
+						
+						for (int vert = 0; vert < 3; vert++)
+						{
+							//Retrieving level @ each vertex inside the choosen 
+							//ch = mic# at the choosen vertex, band = wxRadioButton choice!
+							levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
+													 currentBand);
+							//Scaling to the correct unit
+							levels[vert] = FromdB(levels[vert], MeasureUnit(outputFrames->m_iCurrentUnit)); 
+						}
+						//Setting levels will automatically compute interpolation coeffs.
+						tmCurrentTri->SetLevelsAtVertexes(levels); 
+					}
+					aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
+				}
+			}
+		}    
+		wxCriticalSectionLocker enter(*mAAcritSec);
+		outputFrames->SetFrameLevelsMap(frame, aadLevelsMap, currentBand);
+	}
+}
+
+
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {
@@ -449,18 +517,24 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		double maxresultinthematrix = apOutputData->GetMaxResultInTheMatrix();
 		double minresultinthematrix = apOutputData->GetMinResultInTheMatrix();
 		VideoFrame* videoframe= new VideoFrame(resultmatrix,
-									  channelsnumber,
-									  frame,
-									  maxresultinthematrix,
-									  minresultinthematrix);
+											   channelsnumber,
+											   frame,
+											   maxresultinthematrix,
+											   minresultinthematrix);
 		for (int band=0; band<12; band++) {
 			videoframe->SetMaxInTheBand(apOutputData->GetMaxResultInTheBand(band), band);
 			videoframe->SetMinInTheBand(apOutputData->GetMinResultInTheBand(band), band);
 		}
+
 		//... and add it to the video!
-		wxCriticalSectionLocker locker(*mAAcritSec);
+		mAAcritSec->Enter();
 		outputFrames->AddFrame(videoframe);
-		bResultsAvail = true; 
+		bResultsAvail = true;
+		mAAcritSec->Leave();
+		
+		//build SPL map 
+		InitLevelsMap(frame);
+				
 //		mAAcritSec->Leave();
 	}
 	else { 
@@ -469,6 +543,8 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 	}
 	
 //	PrintResult(frame);
+	
+
 	
 	//THE END!
 	return true;

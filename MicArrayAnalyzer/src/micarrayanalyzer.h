@@ -32,8 +32,6 @@
 #include "video.h"
 
 
-
-
 #include "commdefs.h"
 
 using namespace std;
@@ -165,6 +163,7 @@ class MicArrayAnalyzer
 		bool bWatchpointsAlloc;          //false = watchpoints not yet defined.
 		
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
+		void InitLevelsMap(int frame);
 		
 		int curFrame;
 		double frameLength; // seconds
@@ -265,6 +264,7 @@ class MicArrayAnalyzer
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
 		bool Calculate(unsigned int f); // This function does the hard work!
+
 		MicArrayAnalyzer();
 		MicArrayAnalyzer(const MicArrayAnalyzer& mMAA); //ellerre
 		~MicArrayAnalyzer();

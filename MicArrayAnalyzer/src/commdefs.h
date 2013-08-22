@@ -47,6 +47,12 @@
 #define dB20(x)   ((x > 0) ? 20.0*log10(x) : -200.0)
 #define undB(x)   (pow(10.0, x/10.0))
 #define undB20(x) (pow(10.0, x/20.0))
+//inline double undB(double x, double b = 10.0) {
+//	return std::pow(10.0,x/b);
+//}
+//inline double undB20(double x) {
+//	return undB(x,20.0);
+//}
 
 // these are for fftw_complex vectors
 #ifndef __FFTW_REIM__

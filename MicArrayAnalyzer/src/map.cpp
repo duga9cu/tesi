@@ -17,17 +17,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Functions implementation
 ////////////////////////////////////////////////////////////////////////////////
-double FromdB(const double value_dB, const MeasureUnit mu)
-{
-    switch (mu)
-    {
-        case MU_dB:   return value_dB;
-        case MU_Pa:   return (undB20(value_dB));
-        case MU_Sqrt: return sqrt(undB20(value_dB));
-        case MU_Cbrt: return pow(10.0, ((1.0 / 3.0)*log10(undB20(value_dB)))); 
-    }
-    return value_dB;
-}
+//double FromdB(const double value_dB, const MeasureUnit mu)
+//{
+//    switch (mu)
+//    {
+//        case MU_dB:   return value_dB;
+//        case MU_Pa:   return (undB20(value_dB));
+//        case MU_Sqrt: return sqrt(undB20(value_dB));
+//        case MU_Cbrt: return pow(10.0, ((1.0 / 3.0)*log10(undB20(value_dB)))); 
+//    }
+//    return value_dB;
+//}
 
 ////////////////////////////////////////////////////////////////////////////////
 // MyGrob implementation
@@ -569,7 +569,7 @@ void MyMap::SetImageAlpha(int image, const int alpha_perc, const bool is_colorma
     {
         //Retrieving min SPL threshold, converted in the current scale unit. 
         // Pixels with associated levels < threshold will be FULLY TRANSPARENT!
-        min = ::FromdB( m_pMaa->GetMinSPLThreshold(), MeasureUnit(m_iCurrentUnit) );
+        min = FromdB( m_pMaa->GetMinSPLThreshold(), MeasureUnit(m_iCurrentUnit) );
     }
     
     if (!(img->HasAlpha())) 
@@ -627,7 +627,7 @@ void MyMap::InitLevelsMap()
             m_aadLevelsMap[l] = new double [m_wxrctImageBox.height];
     }
     
-    int j = 0; //Used to remember the previous triangle where a point was located, used to speed-up point location!
+    int j = 0; //Used to remember the previous triangle where a point was located, in order to speed-up point location!
     TriangularMesh* tmCurrentTri;
     
     m_pMaa->ClearInterpolCoeffs();  //Clearing A,B,C,det for each triangle.
@@ -811,10 +811,13 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
     
     //Draw ColorMap (mid layer)
 //    if(!m_aadLevelsMap)
-        InitLevelsMap();
-    
+//        InitLevelsMap();
+	m_aadLevelsMap=m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
+	
 //    if(!m_pwximgColorMap) 
         InitColorMap();
+	
+	//TODO ------------------------------------ get the current wximage for the color map (from outputframes?) -------
    
     //Applying transparency, respecting minimum SPL threshold.
 //    SetImageAlpha(m_pwximgColorMap, 100 - m_iTransparency, true);

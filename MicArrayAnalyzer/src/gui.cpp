@@ -868,8 +868,6 @@ m_timer(this, ID_MM_TIMER)
 		
 	}
 	
-	
-	
 	m_pMap->SetTransparency(mMAA->GetTransparency());
 	
 	m_pMap->ShowVirtMikesPos(m_wxcbShowVirtMikes->IsChecked()); //Acquiring default value.
