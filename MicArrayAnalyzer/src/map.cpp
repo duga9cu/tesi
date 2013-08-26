@@ -827,9 +827,7 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
 	
 //    if(!m_pwximgColorMap) 
         InitColorMap();
-	
-	//TODO ------------------------------------ get the current wximage for the color map (from outputframes?) -------
-   
+	   
     //Applying transparency, respecting minimum SPL threshold.
 //    SetImageAlpha(m_pwximgColorMap, 100 - m_iTransparency, true);
     //CAN'T ignore transparency here! -->> true

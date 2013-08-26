@@ -63,17 +63,17 @@ class Video
 		WxHash_Map resultCube;
 		int numOfFrames;
 		int transparency;
-		double overallMax, overallMin;
-		double overallBandMax[12];
-		double overallBandMin[12];
-		bool videoIsComplete;
+		double overallMax, overallMin; 
+		double overallBandMax[12]; //max of the video for each band
+		double overallBandMin[12]; //min of the video for each band
+		bool isVideoComplete;
 		int m_width, m_height; 		//pixel ratio for each frame
 		
 	public:
 		int m_iCurrentUnit;
 
 		void AddFrame(VideoFrame* f) ;
-		bool IsVideoComplete() {videoIsComplete = (resultCube.size()==numOfFrames) ? true: false; return videoIsComplete;}
+		bool IsVideoComplete() {isVideoComplete = (resultCube.size()==numOfFrames) ? true: false; return isVideoComplete;}
 //		void CreateColorMaps();
 
 		//getters
@@ -91,13 +91,13 @@ class Video
 		//setters
 		void SetTransparency(int valTransp) {transparency = valTransp;}
 		void SetNumOfFrames(int n) {numOfFrames=n ;}
-//		void SetVideoIsComplete(bool value) {videoIsComplete=value;}
+//		void SetVideoIsComplete(bool value) {isVideoComplete=value;}
 		void SetFrameLevelsMap(int frame, double** levelsmap, int band) {resultCube[frame]->SetLevelsMap(levelsmap, band);}
 		bool SetMinsAndMaxs();
 //		void DeleteAllData();
 
 		// 'ctors
-		Video(int width, int height):m_width(width), m_height(height), numOfFrames(0), transparency(50), overallMax(0),overallMin(0),videoIsComplete(false) {}
+		Video(int width, int height):m_width(width), m_height(height), numOfFrames(0), transparency(50), overallMax(0),overallMin(0),isVideoComplete(false) {}
 		~Video() { /* has to be empty */}
 	};
 #endif __VIDEO_H__

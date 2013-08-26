@@ -67,41 +67,39 @@ bframeMatrixAlloc(false)
 
 bool Video::SetMinsAndMaxs()		
 {
-	if (!videoIsComplete) return videoIsComplete;
+	if (!isVideoComplete) return isVideoComplete;
 	
 	//init
-	double max=0; 
-	double min=resultCube[1]->GetOverallMin(); 
+	overallMax=0; 
+	overallMin=resultCube[1]->GetOverallMin(); 
 	for (int band=0; band<12; band++) {
 		overallBandMax[band]=0;
 		overallBandMin[band]=resultCube[1]->GetMinInTheBand(band);
 	}
 	//calc
 	for(int i=1;i<=numOfFrames;i++) {
-		//maxintheband
+		//overallBandMax
 		for (int band=0; band<12; band++) {
 			if(resultCube[i]->GetMaxInTheBand(band) > overallBandMax[band])
 				overallBandMax[band] = resultCube[i]->GetMaxInTheBand(band);
 		}
 		
-		//minintheband
+		//overallBandMin
 		for (int band=0; band<12; band++) {
 			if(resultCube[i]->GetMinInTheBand(band) < overallBandMin[band])
 				overallBandMin[band] = resultCube[i]->GetMinInTheBand(band);
 		}
 		//overallmax
 		double valmax = resultCube[i]->GetOverallMax() ; //can be optimized
-		if(valmax > max)	max=valmax;
+		if(valmax > overallMax)	overallMax=valmax;
 		
 		//overallmin
 		double valmin = resultCube[i]->GetOverallMin() ; //can be optimized
-		if(valmin< min)	min=valmin;
+		if(valmin< overallMin)	overallMin=valmin;
 			
 	}
-	overallMax = max;
-	overallMin = min;
 		
-	return videoIsComplete;
+	return isVideoComplete;
 }
 
 

@@ -364,9 +364,8 @@ bool EffectMicArrayAnalyzer::Process()
 	
 	if (mMAA->outputFrames->IsVideoComplete()) {
 		printf("\n\n******************* VIDEO COMPLETED!! ***************\n\n");
-	//calculate video overall max/min SPL, and for each band too
 	}
-	
+	//calculate video overall max/min SPL, and for each band too
 	if(!mMAA->outputFrames->SetMinsAndMaxs()) {
 		wxString buf;
 		buf.Printf(wxT("Video is not complete! it contains %d frames over %d. There was an irreversible problem."), mMAA->outputFrames->GetSize(), mMAA->GetNumOfFrames());

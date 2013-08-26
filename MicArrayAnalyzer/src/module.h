@@ -90,7 +90,7 @@ class EffectMicArrayAnalyzer: public Effect
 	   wxMutex *m_mutexCondFinish;
 	   wxCondition *m_condFinish;
 	   // remember the number of running threads 
-	   size_t m_nThreadCount, m_nRunningThreads;
+	   size_t m_nThreadCount;
    
    public:
       // ---------------- Standard Audacity Effects' methods ----------------

@@ -855,18 +855,11 @@ m_timer(this, ID_MM_TIMER)
 	m_pMap->SetBand(m_wxrbBandSelection->GetSelection());
 	m_pMap->SetStyle(m_wxcScaleStyle->GetSelection());
 	
-	//	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//									   m_wxrbBandSelection->GetSelection()),
-	//                      mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//                                      m_wxrbBandSelection->GetSelection()) );
-	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
-						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
-	} else {
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
-						  mMAA->outputFrames->GetOverallMin());
-		
-	}
+	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+										m_wxrbBandSelection->GetSelection()),
+					   mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+										m_wxrbBandSelection->GetSelection()) );
+
 	
 	m_pMap->SetTransparency(mMAA->GetTransparency());
 	
@@ -962,19 +955,13 @@ void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
 
 void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 {   
-	// m_pMap->SetMaxMin( mMAA->GetMaxSPL(event.IsChecked(),
-	//                                       m_wxrbBandSelection->GetSelection()),
-	//					  mMAA->GetMinSPL(event.IsChecked(),
-	//									  m_wxrbBandSelection->GetSelection()) );
-	if(event.IsChecked()) {
-		mMAA->SetBandAutoscale(true);
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
-						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()));
-	} else {
-		mMAA->SetBandAutoscale(false);
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
-						  mMAA->outputFrames->GetOverallMin());
-	}
+	 m_pMap->SetMaxMin( mMAA->GetMaxSPL(event.IsChecked(),
+										m_wxrbBandSelection->GetSelection()),
+						mMAA->GetMinSPL(event.IsChecked(),
+										m_wxrbBandSelection->GetSelection()) );
+	
+	if(event.IsChecked()) mMAA->SetBandAutoscale(true);
+	else mMAA->SetBandAutoscale(false);
 	
 	m_pMap->Refresh();
 }   
@@ -1007,18 +994,11 @@ void MicArrayAnalyzerDlg::OnBandAnalysis(wxCommandEvent& event)
 {
 	int band = event.GetSelection();
 	m_pMap->SetBand(band);
-	// m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//                                       band),
-	//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//									  band) );
-	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax( band), 
-						  mMAA->outputFrames->GetOverallBandMin(  band ));
-	} else {
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
-						  mMAA->outputFrames->GetOverallMin());
-		
-	}
+	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+	                                       band),
+						  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+										  band) );
+
 	
 	m_pMap->Refresh();
 }
@@ -1061,18 +1041,13 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //--------------------
 
 void MicArrayAnalyzerDlg::UpdateFrameControls(){
+//	
+//	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//										   m_wxrbBandSelection->GetSelection()),
+//					   mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+//						     			  m_wxrbBandSelection->GetSelection()) );
+
 	
-	//m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//									   m_wxrbBandSelection->GetSelection()),
-	//					  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//									  m_wxrbBandSelection->GetSelection()) );
-	if(m_wxcbSeparateBandAutoscale->IsChecked()) {
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallBandMax(  m_wxrbBandSelection->GetSelection()), 
-						  mMAA->outputFrames->GetOverallBandMin(  m_wxrbBandSelection->GetSelection()) );
-	} else {
-		m_pMap->SetMaxMin(mMAA->outputFrames->GetOverallMax(),
-						  mMAA->outputFrames->GetOverallMin());
-	}
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime());
 #ifdef __AUDEBUG__
 	//	mMAA->PrintResults();

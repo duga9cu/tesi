@@ -202,8 +202,8 @@ class MicArrayAnalyzer
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
 		double GetMinSPLThreshold() { return dMinSPLThreshold; }
-		double GetMaxSPL(bool autoscale_each_band = false, int band = 0);
-		double GetMinSPL(bool autoscale_each_band = false, int band = 0);
+		double GetMaxSPL(bool autoscale_each_band = false, int band = 0);  //max in the whole video if louder than minSPLthreshold
+		double GetMinSPL(bool autoscale_each_band = false, int band = 0);  //min in the whole video if louder than minSPLthreshold
 		int GetArrayType() { return iArrayType; }
 		wxString GetMicName() { return wxsMicName; }
 		wxString GetManufacturer() { return wxsManufacturer; }

@@ -291,11 +291,11 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		}	
 	}
 
-#ifdef __AUDEBUG__
+//#ifdef __AUDEBUG__
 //	PrintActualFrame(frame);
-	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
-	fflush(stdout);
-#endif
+//	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
+//	fflush(stdout);
+//#endif
 	
 	//	InitProgressMeter(_("Checking background image size..."));
 	
@@ -491,27 +491,27 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 
 	//NORMALIZING Output Tracks! -->> new peak level will be 1.
 	//	InitProgressMeter(_("Autoranging output signals to match FS..."));
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(): AutoRanging output signals.\n");
-	fflush(stdout);
-#endif
-	double dMax;
-	dMax = apOutputData->FindOverallMax();
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(): Found Max Level = %f [pressure]\n",dMax);
-	fflush(stdout);
-#endif
-	//	UpdateProgressMeter(1,2);
-	apOutputData->ApplyOverallGain(1/dMax);
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(): applied overall gain = %f ; new overall max = %f [pressure]\n",1/dMax,apOutputData->FindOverallMax());
-	fflush(stdout);      
-#endif
+//#ifdef __AUDEBUG__
+//	printf("MicArrayAnalyzer::Calculate(): AutoRanging output signals.\n");
+//	fflush(stdout);
+//#endif
+//	double dMax;
+//	dMax = apOutputData->FindOverallMax();
+//#ifdef __AUDEBUG__
+//	printf("MicArrayAnalyzer::Calculate(): Found Max Level = %f [pressure]\n",dMax);
+//	fflush(stdout);
+//#endif
+//	//	UpdateProgressMeter(1,2);
+//	apOutputData->ApplyOverallGain(1/dMax);
+//#ifdef __AUDEBUG__
+//	printf("MicArrayAnalyzer::Calculate(): applied overall gain = %f ; new overall max = %f [pressure]\n",1/dMax,apOutputData->FindOverallMax());
+//	fflush(stdout);      
+//#endif
 	//	UpdateProgressMeter(2,2);
 	//	DestroyProgressMeter();
 	
 	//Calculating Results
-	printf("thread #%d filling audiopool result matrix \n",frame);
+//	printf("thread #%d filling audiopool result matrix \n",frame);
 	if (apOutputData->FillResultsMatrix()) {
 		//construct video frame...
 		double** resultmatrix=apOutputData->GetResultsMatrix();
@@ -532,6 +532,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		mAAcritSec->Enter();
 		outputFrames->AddFrame(videoframe);
 		bResultsAvail = true;
+//		PrintResult(frame);
 		mAAcritSec->Leave();
 		
 		//build SPL map 
@@ -543,10 +544,6 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		bResultsAvail = false; 
 //		mAAcritSec->Leave();
 	}
-	
-//	PrintResult(frame);
-	
-
 	
 	//THE END!
 	return true;
@@ -859,14 +856,44 @@ bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, dou
 	return true;
 }
 
+//double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
+//{
+//	double value = dMinSPLThreshold;
+//	
+//	if (bResultsAvail)
+//	{
+//		if (autoscale_each_band) { value = apOutputData->GetMaxResultInTheBand(band); }
+//		else { value = apOutputData->GetMaxResultInTheMatrix(); }
+//		
+//		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
+//	}
+//	
+//	return value;
+//}
+//
+//double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
+//{
+//	double value = dMinSPLThreshold;
+//	
+//	if (bResultsAvail)
+//	{
+//		if (autoscale_each_band) { value = apOutputData->GetMinResultInTheBand(band); }
+//		else { value = apOutputData->GetMinResultInTheMatrix(); }
+//		
+//		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
+//	}
+//	
+//	return value;
+//}
+
 double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
 {
 	double value = dMinSPLThreshold;
 	
 	if (bResultsAvail)
 	{
-		if (autoscale_each_band) { value = apOutputData->GetMaxResultInTheBand(band); }
-		else { value = apOutputData->GetMaxResultInTheMatrix(); }
+		if (autoscale_each_band) { value = outputFrames->GetOverallBandMax(band); }
+		else { value = outputFrames->GetOverallMax(); }
 		
 		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
 	}
@@ -880,8 +907,8 @@ double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
 	
 	if (bResultsAvail)
 	{
-		if (autoscale_each_band) { value = apOutputData->GetMinResultInTheBand(band); }
-		else { value = apOutputData->GetMinResultInTheMatrix(); }
+		if (autoscale_each_band) { value = outputFrames->GetOverallBandMin(band); }
+		else { value = outputFrames->GetOverallMin(); }
 		
 		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
 	}
@@ -900,7 +927,7 @@ void MicArrayAnalyzer::PrintResults() {
 			printf("%d\t",i);
 			for (int j = 0; j < (2+10); j++) //For each band
 			{
-				printf("%1.4f\t",undB20(float(matrix[i][j]))*p0);
+				printf("%1.4f\t",undB20(float(matrix[i][j])));
 			}
 			printf("\n");
 			fflush(stdout);
@@ -908,15 +935,32 @@ void MicArrayAnalyzer::PrintResults() {
 	}
 }
 
+void MicArrayAnalyzer::PrintResult(unsigned int f) {
+		
+		printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
+		double ** matrix=outputFrames->GetFrameMatrix(f);
+		
+		for (int i = 0; i < sfinfo.channels; i++) //For each audio track
+		{
+			printf("%d\t",i);
+			for (int j = 0; j < (2+10); j++) //For each band
+			{
+				printf("%1.4f\t",undB20(float(matrix[i][j])));
+			}
+			printf("\n");
+			fflush(stdout);
+		}
+}
+
 void MicArrayAnalyzer::PrintLevels() {
 	for (int f=1; f<=GetNumOfFrames(); f++) {
 		
-		printf("\n\n*** LEVELS MATRIX no [%d] --- a part of it 100x100 --- *** (dB on vertex)\n", f);
+		printf("\n\n*** LEVELS MATRIX no [%d] --- a part of it 10x10 --- *** (dB on vertex)\n", f);
 		double ** matrix=outputFrames->GetFrameLevels(f, 0);
 		
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 10; i++)
 		{
-			for (int k = 0; k < 100; k++)
+			for (int k = 0; k < 10; k++)
 			{
 				printf("%1.4f  ",matrix[i][k]);
 			}
@@ -1040,10 +1084,10 @@ bool AudioPool::FillResultsMatrix()
 	
 	//Results Matrix Calculation
 	//	InitProgressMeter(_("Calculating levels for each audio band..."));
-#ifdef __AUDEBUG__
+//#ifdef __AUDEBUG__
 //	printf("AudioPool: Filling results matrix...");
-	fflush(stdout);
-#endif
+//	fflush(stdout);
+//#endif
 //	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
 	for (int i = 0; i < m_nChannels; i++) //For each audio track
 	{
@@ -1070,7 +1114,7 @@ bool AudioPool::FillResultsMatrix()
 				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
 				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
             }
-//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j]))*p0);
+//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j])));
 		}
 //		printf("\n");
 		fflush(stdout);
@@ -1086,10 +1130,6 @@ bool AudioPool::FillResultsMatrix()
 
 double AudioPool::GetMaxResultInTheMatrix()
 {
-#ifdef __AUDEBUG__
-	printf("AudioPool::GetMAXResultInTheMatrix\n");
-	fflush(stdout);
-#endif
 	if (bResultsMatrixAlloc)
 	{
 		double max;
@@ -1098,6 +1138,10 @@ double AudioPool::GetMaxResultInTheMatrix()
 		{
 			max = (GetMaxResultInTheBand(i) > max) ? GetMaxResultInTheBand(i) : max;
 		}
+#ifdef __AUDEBUG__
+		printf("AudioPool::GetMAXResultInTheMatrix = %f\n", max);
+		fflush(stdout);
+#endif
 		return max;
 	}
 	else { return 0; }
@@ -1113,10 +1157,10 @@ double AudioPool::GetMaxResultInTheBand(int col)
 		{
 			max = (ppdResultsMatrix[i][col] > max) ? ppdResultsMatrix[i][col] : max;
 		}
-#ifdef __AUDEBUG__
-		printf("AudioPool::GetMAXResultInTheBand: band [%d] = %f\n",col,max);
-		fflush(stdout);
-#endif
+//#ifdef __AUDEBUG__
+//		printf("AudioPool::GetMAXResultInTheBand: band [%d] = %f\n",col,max);
+//		fflush(stdout);
+//#endif
 		return max;
 	}
 	else { return 0; }
@@ -1124,10 +1168,6 @@ double AudioPool::GetMaxResultInTheBand(int col)
 
 double AudioPool::GetMinResultInTheMatrix()
 {
-#ifdef __AUDEBUG__
-	printf("AudioPool::GetMINResultInTheMatrix\n");
-	fflush(stdout);
-#endif
 	if (bResultsMatrixAlloc)
 	{
 		double min;
@@ -1136,6 +1176,10 @@ double AudioPool::GetMinResultInTheMatrix()
 		{
 			min = (GetMinResultInTheBand(i) < min) ? GetMinResultInTheBand(i) : min;
 		}
+#ifdef __AUDEBUG__
+		printf("AudioPool::GetMINResultInTheMatrix = %f\n",min);
+		fflush(stdout);
+#endif
 		return min;
 	}
 	else { return 0; }
@@ -1151,10 +1195,10 @@ double AudioPool::GetMinResultInTheBand(int col)
 		{
 			min = (ppdResultsMatrix[i][col] < min) ? ppdResultsMatrix[i][col] : min;
 		}
-#ifdef __AUDEBUG__
-		printf("AudioPool::GetMINResultInTheBand: band [%d] = %f\n",col,min);
-		fflush(stdout);
-#endif
+//#ifdef __AUDEBUG__
+//		printf("AudioPool::GetMINResultInTheBand: band [%d] = %f\n",col,min);
+//		fflush(stdout);
+//#endif
 		return min;
 	}
 	else { return 0; }
