@@ -945,6 +945,7 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 	
 #ifdef __AUDEBUG__
 	mMAA->PrintResults();
+	mMAA->PrintLevels();
 #endif
 	::wxMessageBox(wxT("Map successifully copied to the clipboard."),
 				   wxT("Info"),

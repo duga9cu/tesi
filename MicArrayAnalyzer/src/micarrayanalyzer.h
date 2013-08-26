@@ -197,6 +197,7 @@ class MicArrayAnalyzer
 		void PrintResults();
 		void PrintResult(unsigned int frame);
 		void PrintActualFrame(int frame);
+		void PrintLevels();
 		
 		// Getters
 		double GetFSLevel() { return dFSLevel; }

@@ -893,14 +893,32 @@ void MicArrayAnalyzer::PrintResults() {
 	for (int f=1; f<=GetNumOfFrames(); f++) {
 		
 		printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
+		double ** matrix=outputFrames->GetFrameMatrix(f);
 		
-		for (int i = 0; i < apOutputData->GetChannelsNumber(); i++) //For each audio track
+		for (int i = 0; i < sfinfo.channels; i++) //For each audio track
 		{
 			printf("%d\t",i);
 			for (int j = 0; j < (2+10); j++) //For each band
 			{
-				double ** matrix=outputFrames->GetFrameMatrix(f);
 				printf("%1.4f\t",undB20(float(matrix[i][j]))*p0);
+			}
+			printf("\n");
+			fflush(stdout);
+		}
+	}
+}
+
+void MicArrayAnalyzer::PrintLevels() {
+	for (int f=1; f<=GetNumOfFrames(); f++) {
+		
+		printf("\n\n*** LEVELS MATRIX no [%d] --- a part of it 100x100 --- *** (dB on vertex)\n", f);
+		double ** matrix=outputFrames->GetFrameLevels(f, 0);
+		
+		for (int i = 0; i < 100; i++)
+		{
+			for (int k = 0; k < 100; k++)
+			{
+				printf("%1.4f  ",matrix[i][k]);
 			}
 			printf("\n");
 			fflush(stdout);
