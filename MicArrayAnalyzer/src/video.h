@@ -90,7 +90,7 @@ class Video
 		
 		//setters
 		void SetTransparency(int valTransp) {transparency = valTransp;}
-		void SetNumOfFrames(int n) {numOfFrames=n ;}
+		void SetNumOfFrames(int val) {numOfFrames = val;}
 //		void SetVideoIsComplete(bool value) {isVideoComplete=value;}
 		void SetFrameLevelsMap(int frame, double** levelsmap, int band) {resultCube[frame]->SetLevelsMap(levelsmap, band);}
 		bool SetMinsAndMaxs();

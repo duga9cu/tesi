@@ -251,7 +251,6 @@ class MicArrayAnalyzer
 		void SetNumOfFrames(int value) {outputFrames->SetNumOfFrames(value); }
 		void SetCurFrame(int value) {
 			curFrame = value; 
-//			apOutputData->SetResultsMatrix(resultCube[curFrame]);  
 			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
 #ifdef __AUDEBUG__
 //			PrintResult(curFrame);

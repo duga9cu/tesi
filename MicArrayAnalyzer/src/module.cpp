@@ -269,6 +269,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	int numOfFrames = atl / (fls-ovlp);  
 	mMAA->SetNumOfFrames(numOfFrames);
 	
+	
 	//----------------  Showing conf dialog ----------------
 	if (!DoShowConfDialog()) 
 		return false;

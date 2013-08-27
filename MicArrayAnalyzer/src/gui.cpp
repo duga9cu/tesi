@@ -124,6 +124,9 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	mMAA->SetFrameOverlapRatio(d/100);
 	
 	IsAllOKCheck();
+	
+	str.Printf(_("%d"),mMAA->GetAudioTrackLength()/(mMAA->GetFrameLengthSmpl()-mMAA->GetFrameOverlapSmpl()));
+	m_wxstTotFrames->SetLabel(str);
 }
 
 MicArrayAnalyzerConfDlg::~MicArrayAnalyzerConfDlg()
@@ -706,6 +709,7 @@ void MicArrayAnalyzerConfDlg::FSOnChar(wxKeyEvent& event)
 void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
 {
 	m_wxtcFLength->SetValue(wxEmptyString);
+	m_wxstTotFrames->SetLabel(wxEmptyString);
 }
 
 
@@ -723,6 +727,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
 		mMAA->SetFrameLength(d);
+		m_wxtcFOvlp->SetFocusFromKbd();
 		IsAllOKCheck();
 	}
 	else event.Skip();
@@ -732,6 +737,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
 void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
 {
 	m_wxtcFOvlp->SetValue(wxEmptyString);
+	m_wxstTotFrames->SetLabel(wxEmptyString);
 }
 
 
@@ -749,6 +755,7 @@ void MicArrayAnalyzerConfDlg::FOvlpOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrlFrameOverlap(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
 		mMAA->SetFrameOverlapRatio(d/100);
+		m_wxbOk->SetFocus();
 		IsAllOKCheck();
 	}
 	else event.Skip();
@@ -779,6 +786,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	wxString str;
 	
 	str = txt->GetValue();
+	str.Replace(_(","), _("."), true);
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
 	if (d < 0) 
@@ -792,6 +800,9 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	
 	str.Printf(_("%1.3f"),d);
 	txt->SetValue(str);
+	int totframes = mMAA->GetAudioTrackLength() / ( d * mMAA->GetProjSampleRate() * ( 1 - mMAA->GetFrameOverlapRatio()));
+	str.Printf(_("%d"), totframes);
+	m_wxstTotFrames->SetLabel(str);
 	
 	return d;
 }
@@ -802,6 +813,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 	wxString str;
 	
 	str = txt->GetValue();
+	str.Replace(_(","), _("."), true);
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
 	d= d/100; //translate to ratio
@@ -813,9 +825,14 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 	
 	str.Printf(_("%3.1f"),d*100);
 	txt->SetValue(str);
+	int totframes = mMAA->GetAudioTrackLength()/(mMAA->GetFrameLengthSmpl() * (1 - d) );
+	str.Printf(_("%d"),totframes);
+	m_wxstTotFrames->SetLabel(str);
 	
 	return d;
 }
+
+
 
 //----------------------------------------------------------------------------
 // MicArrayAnalyzerDlg Constructor
@@ -960,8 +977,7 @@ void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 						mMAA->GetMinSPL(event.IsChecked(),
 										m_wxrbBandSelection->GetSelection()) );
 	
-	if(event.IsChecked()) mMAA->SetBandAutoscale(true);
-	else mMAA->SetBandAutoscale(false);
+	mMAA->SetBandAutoscale(event.IsChecked());
 	
 	m_pMap->Refresh();
 }   
@@ -971,11 +987,11 @@ void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event)
 	wxString units;
 	switch(event.GetSelection())
 	{
-		case MU_dB:   units.Printf(wxT("[dB]"));   break;
-		case MU_Pa:   units.Printf(wxT("[Pa]"));   break;
-		case MU_Sqrt: units.Printf(wxT("[SQRT]")); break;
-		case MU_Cbrt: units.Printf(wxT("[CBRT]")); break;
-		default:      units.Printf(wxT("[dB]"));
+		case MU_dB:   units.Printf(wxT("[dB]"));	m_buttonPlay->Enable(true);			break;
+		case MU_Pa:   units.Printf(wxT("[Pa]"));	m_buttonPlay->Enable(false);		break;
+		case MU_Sqrt: units.Printf(wxT("[SQRT]"));	m_buttonPlay->Enable(false);		break;
+		case MU_Cbrt: units.Printf(wxT("[CBRT]"));	m_buttonPlay->Enable(false);		break;
+		default:      units.Printf(wxT("[dB]"));	m_buttonPlay->Enable(true);
 	}
 	//NOTE: UPDATING MOUSE POINTER DATA DISPLAY UNIT TOO!!!!    
 	m_wxtcLevelUnit->SetValue(units);
@@ -996,7 +1012,7 @@ void MicArrayAnalyzerDlg::OnBandAnalysis(wxCommandEvent& event)
 	m_pMap->SetBand(band);
 	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
 	                                       band),
-						  mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
+					   mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
 										  band) );
 
 	
