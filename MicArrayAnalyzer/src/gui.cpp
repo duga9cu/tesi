@@ -155,7 +155,8 @@ void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event)
 	IsAllOKCheck(); //Check if OK button could be enabled.
 }
 
-void MicArrayAnalyzerConfDlg::ParseXML() {
+void MicArrayAnalyzerConfDlg::ParseXML() 
+{
 	if (mMAA->BadXML())
 	{
 		// Handling two cases: (1) bad XML header, (2) good XML header but the XML doesn't hold mic array data.
@@ -479,7 +480,7 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 
 void MicArrayAnalyzerConfDlg::OnCancel( wxCommandEvent& event )
 {
-	EndModal(false);
+	EndModal(false);  //WHY FALSE?
 }
 
 
@@ -727,7 +728,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
 		mMAA->SetFrameLength(d);
-		m_wxtcFOvlp->SetFocusFromKbd();
+//		m_wxtcFOvlp->SetFocusFromKbd();
 		IsAllOKCheck();
 	}
 	else event.Skip();
@@ -755,7 +756,6 @@ void MicArrayAnalyzerConfDlg::FOvlpOnChar(wxKeyEvent& event)
 	{
 		double d = ReadAndForceDoubleTextCtrlFrameOverlap(m_wxtcFOvlp, mMAA->GetFrameOverlapRatio()*100);
 		mMAA->SetFrameOverlapRatio(d/100);
-		m_wxbOk->SetFocus();
 		IsAllOKCheck();
 	}
 	else event.Skip();
@@ -801,6 +801,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	str.Printf(_("%1.3f"),d);
 	txt->SetValue(str);
 	int totframes = mMAA->GetAudioTrackLength() / ( d * mMAA->GetProjSampleRate() * ( 1 - mMAA->GetFrameOverlapRatio()));
+	mMAA->SetNumOfFrames(totframes);
 	str.Printf(_("%d"), totframes);
 	m_wxstTotFrames->SetLabel(str);
 	
@@ -816,16 +817,17 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 	str.Replace(_(","), _("."), true);
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
-	d= d/100; //translate to ratio
+//	d= d/100; //translate to ratio
 	if (d < 0) d = 0;          
-	else if (d > 0.9) {
+	else if (d > 90) {
 		wxMessageBox(_("Maximum frame overlap ratio is 90%.\n"),_("Error"),wxOK|wxICON_ERROR);
-		d = 0.9; 
+		d = 90; 
 	}
 	
-	str.Printf(_("%3.1f"),d*100);
+	str.Printf(_("%3.1f"),d);
 	txt->SetValue(str);
-	int totframes = mMAA->GetAudioTrackLength()/(mMAA->GetFrameLengthSmpl() * (1 - d) );
+	int totframes = mMAA->GetAudioTrackLength()/(mMAA->GetFrameLengthSmpl() * (1 - d/100) );
+	mMAA->SetNumOfFrames(totframes);
 	str.Printf(_("%d"),totframes);
 	m_wxstTotFrames->SetLabel(str);
 	
@@ -849,9 +851,9 @@ m_timer(this, ID_MM_TIMER)
 	fflush(stdout);
 #endif
 	//Loading icons
-	//   m_wxbbPlay->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("play_icon")));
-	//   m_wxbbStop->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("stop_icon")));
-	//   m_wxbbPause->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("pause_icon")));   
+//	   m_buttonPlay->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("play_icon")));
+//	   m_buttonStop->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("stop_icon")));
+//	   m_buttonPause->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("pause_icon")));   
 	//   m_wxbbSpeedUp->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("speedup_icon")));   
 	//   m_wxbbSlowDown->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("slowdown_icon")));
 	//   m_wxbbRulersMenu->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("rulers_menu_icon")));
@@ -895,6 +897,7 @@ m_timer(this, ID_MM_TIMER)
 	m_sliderVideoFrame->SetMax(mMAA->GetNumOfFrames());
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
 	m_textCtrlCurTime->SetValue(wxT("00:00:000"));
+//	m_wxcbSeparateBandAutoscale->SetValue(true);
 }
 
 MicArrayAnalyzerDlg::~MicArrayAnalyzerDlg()

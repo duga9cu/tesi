@@ -279,7 +279,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	printf("MicArrayAnalyzer: Copying deconv IRs from file to MicArrayAnalyzer object.\n");
 	fflush(stdout);
 #endif
-	if(!mMAA->LoadDeconvIRs())
+	if(!mMAA->LoadDeconvIRs()) //CONTROLLA QUANTO VALE numofframes
 	{
 		wxMessageBox(_("Error copying deconv IRs from WAV file!"),_("Error"),wxOK|wxICON_ERROR);
 		delete mMAA;

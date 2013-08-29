@@ -48,7 +48,8 @@ frameLength(FRAMELENGTH),
 frameOverlapRatio(FRAMEOVERLAP),
 curFrame(1),
 playing(false),
-bandAutoscale(false)
+//bandAutoscale(true)
+bandAutoscale(true)
 {
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
 	outputFrames->m_iCurrentUnit=MU_dB;
@@ -112,11 +113,10 @@ outputFrames(mMAA.outputFrames), //* shared among threads!
 mAAcritSec(mMAA.mAAcritSec) //* shared among threads!
 {
 	wxfnBgndImageFile=mMAA.wxfnBgndImageFile;
-	ActualFrameAudioData = new float* [iProjectNumTracks];
 
-	bAudioDataAlloc = true;
-	
+	bAudioDataAlloc = true;	
 	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
+	ActualFrameAudioData = new float* [iProjectNumTracks];
 	for (int i=0; i<iProjectNumTracks; i++) {
 		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 	}
@@ -259,12 +259,10 @@ void MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure
 
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
-{
-//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
-	
-	
+{		
 #ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
+//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
+printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
 	fflush(stdout);
 #endif
 	sampleCount startFrameSmpl = (frame-1)*(frameLengthSmpl - frameLengthSmpl*frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
