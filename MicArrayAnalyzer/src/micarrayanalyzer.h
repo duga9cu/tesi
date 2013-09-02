@@ -120,13 +120,13 @@ class MicArrayAnalyzer
 		SF_INFO sfinfo;
 		wxString wxsMicName;
 		wxString wxsManufacturer;
-		int iArrayType;
+		int iArrayType; // 0=sperical, 1=cylindric, 2=planar
 		int iMikesCoordsUnits;
 		int iCapsules;
 		int iVirtualMikes;
 		int iDeconvIRsLength;
 		
-		double *MikesCoordinates;
+		double *MikesCoordinates; // [mic1.x,mic1.y, mic2.x,mic2.y, mic3.x,mic3.y, ... , micN.x,micN.y ]
 		bool bMikesCoordsAlloc;
 		
 		wxBitmap wxbBgndImage;
@@ -202,8 +202,8 @@ class MicArrayAnalyzer
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
 		double GetMinSPLThreshold() { return dMinSPLThreshold; }
-		double GetMaxSPL(bool autoscale_each_band = false, int band = 0);  //max in the whole video if louder than minSPLthreshold
-		double GetMinSPL(bool autoscale_each_band = false, int band = 0);  //min in the whole video if louder than minSPLthreshold
+		double GetMaxSPL(bool autoscale_each_band = false, int band = 0);  // MAX in the whole video if louder than minSPLthreshold
+		double GetMinSPL(bool autoscale_each_band = false, int band = 0);  // MIN in the whole video if louder than minSPLthreshold
 		int GetArrayType() { return iArrayType; }
 		wxString GetMicName() { return wxsMicName; }
 		wxString GetManufacturer() { return wxsManufacturer; }

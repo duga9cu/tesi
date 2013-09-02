@@ -769,7 +769,7 @@ bool MicArrayAnalyzer::ReadXMLData()
 			if(bMikesCoordsAlloc) delete MikesCoordinates;
 			else { bMikesCoordsAlloc = true; }
 			MikesCoordinates = new double[iVirtualMikes*2];
-			
+			//Filling coord table
 			mic_coord = data->FirstChildElement("Mic_1");
 			if (!mic_coord) return false;  //ERROR
 			else
