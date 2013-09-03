@@ -94,10 +94,13 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		int m_iCurrRulersFormat; // used for toggling...
 		
 		int  updating;
-		float frameRateCoeff;
+		float m_frameRateCoeff;
 		wxTimer	m_timer;
 		enum { ID_MM_TIMER = 2013 };
 		TimeBenchmark m_benchTime;
+		double m_lastFrameElapsedTime;
+		double m_lastMillitimer;
+//		double m_averageFrameElapsedTime;
 
 		
 	protected:
@@ -123,11 +126,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnChoiceFrameRate(wxCommandEvent& event) ;
 		void UpdateFrameControls();
 		void OnTimer(wxTimerEvent& event); 
-		void RestartTimer() {	
-			//	int millitimer = mMAA->GetFrameLength()*1000; 
-			//	int millitimer = (mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate() ) / mMAA->GetNumOfFrames();
-			int millitimer = 1; //prova a andare a cannone!
-			m_timer.Start(millitimer, true);}
+		void RestartTimer();
 
 	public:
 		MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer* maa);

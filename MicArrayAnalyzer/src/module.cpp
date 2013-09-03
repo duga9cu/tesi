@@ -296,7 +296,7 @@ bool EffectMicArrayAnalyzer::Process()
 	printf("This is PROCESS\n");
 	fflush(stdout);
 #endif
-
+	
 	int numofcores= wxThread::GetCPUCount(); 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());

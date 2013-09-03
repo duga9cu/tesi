@@ -269,7 +269,7 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 	sampleCount endFrameSmpl = startFrameSmpl + frameLengthSmpl;
 	bool lastframe = false;
 	int zeropadding=0;
-	if (endFrameSmpl >= iAudioTrackLength) { //on the last frame, cut!
+	if (endFrameSmpl >=	iAudioTrackLength) { //on the last frame, cut!
 		zeropadding=endFrameSmpl-iAudioTrackLength;
 		endFrameSmpl = iAudioTrackLength;
 		lastframe=true;

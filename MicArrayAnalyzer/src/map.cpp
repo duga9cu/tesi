@@ -705,7 +705,7 @@ void MyMap::InitColorMap()
     double max = ::FromdB(m_dbMax, MeasureUnit(m_iCurrentUnit));  
     
 #ifdef __AUDEBUG__
-    printf("Gui::InitColorMap(): min = %f ; max = %f ; scale_unit = %d \n", min, max, m_iCurrentUnit);
+//    printf("Gui::InitColorMap(): min = %f ; max = %f ; scale_unit = %d \n", min, max, m_iCurrentUnit);
 #endif
     
     unsigned char rgb[3];

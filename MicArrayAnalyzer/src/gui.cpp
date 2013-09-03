@@ -844,6 +844,8 @@ MicArrayAnalyzerDlg::MicArrayAnalyzerDlg(wxWindow* parent, MicArrayAnalyzer *maa
 mMAA(maa), 
 m_iCurrRulersFormat(MyRuler::RF_DEGREES),
 m_benchTime(),
+m_lastFrameElapsedTime(0),
+m_lastMillitimer(0), 
 m_timer(this, ID_MM_TIMER)
 {
 #ifdef __AUDEBUG__
@@ -1141,19 +1143,19 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 	switch (event.GetInt()) {
 			
 		case 0: // 0.1x
-			frameRateCoeff=0.1;
+			m_frameRateCoeff=0.1;
 			break;		
 			
 		case 1: // 0.2x
-			frameRateCoeff=0.2;
+			m_frameRateCoeff=0.2;
 			break;
 			
 		case 2: // 0.5x
-			frameRateCoeff=0.5;
+			m_frameRateCoeff=0.5;
 			break;
 			
 		case 3: // 1x
-			frameRateCoeff=1;
+			m_frameRateCoeff=1;
 			break;
 			
 		default:
@@ -1161,11 +1163,41 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 	}	
 }
 
+void MicArrayAnalyzerDlg::RestartTimer() 
+{
+	switch (m_wxcPlaybackSpeed->GetCurrentSelection()) { //decide how long to yeld to sync the video with the frame rate
+		case 0: // 0.1x
+			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 0.1 - (m_lastFrameElapsedTime - m_lastMillitimer); 
+			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;					
+			break;
+			
+		case 1: // 0.2x
+			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 0.2 - (m_lastFrameElapsedTime - m_lastMillitimer);
+			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;
+			break;
+			
+		case 2: // 0.5x
+			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 0.5 - (m_lastFrameElapsedTime - m_lastMillitimer);
+			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;
+			break;
+			
+		case 3: // 1x
+			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 1.0 - (m_lastFrameElapsedTime - m_lastMillitimer);
+			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;
+			break;
+			
+		default:
+			break;
+	}
+	m_timer.Start(m_lastMillitimer, true);
+}
+
 void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 {
 #ifdef __AUDEBUG__
 	m_benchTime.Stop();
-	printf("onTimer!!! curFrame = [%d], timing: %.1f ms\n",mMAA->GetCurFrame(), m_benchTime.GetElapsedTime());
+	m_lastFrameElapsedTime = m_benchTime.GetElapsedTime();
+	printf("onTimer!!! curFrame = [%d], timing: %.1f ms\n",mMAA->GetCurFrame(), m_lastFrameElapsedTime);
 	m_benchTime.Start();
 #endif
 	
