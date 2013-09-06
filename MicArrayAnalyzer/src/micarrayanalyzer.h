@@ -16,6 +16,7 @@
 
 #include <wx/wx.h>
 #include <wx/filename.h>   //Needed to use wxFileName class
+#include <vector>
 #include <sndfile.h>       //Needed to read WAV files
 #include <string>
 #include <wx/string.h>
@@ -30,7 +31,11 @@
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
 #include "video.h"
+//#include "ffmpegEncode.h"
 
+extern "C" { 
+#include "FFMPEGencodeVideoToFramesPPM.h"
+}
 
 #include "commdefs.h"
 
@@ -94,7 +99,6 @@ class AudioPool : public AFAudioTrack
 //-------------------------------
 // MicArrayAnalyzer Class Header
 //-------------------------------
-
 class MicArrayAnalyzer
 	{
 	private:
@@ -133,6 +137,11 @@ class MicArrayAnalyzer
 		bool bBgndImageAlloc;
 		wxFileName* wxfnBgndImageFile;
 		
+		vector<wxBitmap> m_vBgndVideo;
+		bool bBgndVideoAlloc;
+		wxFileName* wxfnBgndVideoFile;
+		double m_bgndVideoFrameRate;
+
 		VirtualMikesSet *vmsMirroredMikes;  //It MAY contains mirrored virtual mikes, ONLY IF the array is spherical.
 		TriangularMesh **tmMeshes;
 		int iNTriangles;                    //# of stored triangular meshes
@@ -164,7 +173,7 @@ class MicArrayAnalyzer
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
 		void InitLevelsMap(int frame);
 		
-		int curFrame;
+		int m_curFrame;
 		double frameLength; // seconds
 		sampleCount frameLengthSmpl; //samples
 		float frameOverlapRatio; // ratio [0,1]
@@ -190,8 +199,8 @@ class MicArrayAnalyzer
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
 		void NextFrame() {
-			SetCurFrame(++curFrame); 
-//							apOutputData->SetResultsMatrix(resultCube[curFrame]);
+			SetCurFrame(++m_curFrame); 
+//							apOutputData->SetResultsMatrix(resultCube[m_curFrame]);
 		}
 		void DeleteAllData();
 		void PrintResults();
@@ -220,14 +229,16 @@ class MicArrayAnalyzer
 		int GetProjNumTracks() { return iProjectNumTracks; }
 		float* GetAudioDataTrack(int id) { return ppfAudioData[id]; }
 		wxBitmap GetBGNDBmp() { if (bBgndImageAlloc) {return wxbBgndImage;} else {return NULL;} }
+		wxBitmap GetBGNDVideoBmp();
 		double GetResult(int ch, int band) { if(bResultsAvail) { return apOutputData->GetResultsMatrixCell(ch,band); } else return 0; }
 		int GetNumOfMeshes() { return iNTriangles; }
 		int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
 		TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
 		sampleCount GetAudioTrackLength() {return iAudioTrackLength;} //errelle
 		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
-		int GetCurFrame() {return curFrame;}
-		wxString GetCurTime();
+		int GetCurFrame() {return m_curFrame;}
+		wxString GetCurTime_Str();
+		int GetCurTime_ms();
 		double GetFrameLength() {return frameLength;}
 		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
 		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
@@ -246,14 +257,15 @@ class MicArrayAnalyzer
 		void SetXMLFile(const wxString& str);
 		void SetWAVFile(const wxString& str);
 		bool SetBgndImage(const wxString& str);
+		bool SetBgndVideo(const wxString& str);
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLThreshold(double value) { dMinSPLThreshold = value; }
 		void SetNumOfFrames(int value) {outputFrames->SetNumOfFrames(value); }
 		void SetCurFrame(int value) {
-			curFrame = value; 
-			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(curFrame));
+			m_curFrame = value; 
+			apOutputData->SetResultsMatrix( outputFrames->GetFrameMatrix(m_curFrame));
 #ifdef __AUDEBUG__
-//			PrintResult(curFrame);
+//			PrintResult(m_curFrame);
 #endif
 		}
 		void SetFrameLength(double value) {frameLength = value; frameLengthSmpl = frameLength * dProjectRate;}

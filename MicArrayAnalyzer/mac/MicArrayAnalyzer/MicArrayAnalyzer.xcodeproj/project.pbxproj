@@ -12,6 +12,9 @@
 		B42901F717D62842008935A8 /* ffmpegEncode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B42901F617D62842008935A8 /* ffmpegEncode.cpp */; };
 		B42901F917D62849008935A8 /* ffmpegEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = B42901F817D62849008935A8 /* ffmpegEncode.h */; };
 		B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */ = {isa = PBXBuildFile; fileRef = B4752AD1174CB72100F2A556 /* LoadModules.h */; };
+		B4C9C2B917D8D9A500A21854 /* swscale.h in Headers */ = {isa = PBXBuildFile; fileRef = B4C9C2B817D8D9A500A21854 /* swscale.h */; };
+		B4C9C2F017D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h in Headers */ = {isa = PBXBuildFile; fileRef = B4C9C2EF17D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h */; };
+		B4C9C35417D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c in Sources */ = {isa = PBXBuildFile; fileRef = B4C9C35317D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c */; };
 		FC0125A114FBDA3700531590 /* map.h in Headers */ = {isa = PBXBuildFile; fileRef = FC01259F14FBDA3700531590 /* map.h */; };
 		FC0125A214FBDA3700531590 /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC0125A014FBDA3700531590 /* map.cpp */; };
 		FC0125D714FE2BD000531590 /* benchmrk.h in Headers */ = {isa = PBXBuildFile; fileRef = FC0125D514FE2BD000531590 /* benchmrk.h */; };
@@ -67,6 +70,9 @@
 		B42901F617D62842008935A8 /* ffmpegEncode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ffmpegEncode.cpp; path = ../../src/ffmpegEncode.cpp; sourceTree = SOURCE_ROOT; };
 		B42901F817D62849008935A8 /* ffmpegEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ffmpegEncode.h; path = ../../src/ffmpegEncode.h; sourceTree = SOURCE_ROOT; };
 		B4752AD1174CB72100F2A556 /* LoadModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadModules.h; path = "../../../../../../src/audacity-src-2.0.0/src/LoadModules.h"; sourceTree = SOURCE_ROOT; };
+		B4C9C2B817D8D9A500A21854 /* swscale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = swscale.h; path = ../../src/swscale.h; sourceTree = SOURCE_ROOT; };
+		B4C9C2EF17D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMPEGencodeVideoToFramesPPM.h; path = ../../src/FFMPEGencodeVideoToFramesPPM.h; sourceTree = SOURCE_ROOT; };
+		B4C9C35317D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = FFMPEGencodeVideoToFramesPPM.c; path = ../../src/FFMPEGencodeVideoToFramesPPM.c; sourceTree = SOURCE_ROOT; };
 		B4CBEFD01732C01E00073390 /* LoadModules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LoadModules.cpp; path = "/Users/LeopardOS/src/audacity-src-2.0.0/src/LoadModules.cpp"; sourceTree = "<absolute>"; };
 		D2AAC09D05546B4700DB518D /* MicArrayAnalyzerd.so */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = MicArrayAnalyzerd.so; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC01259F14FBDA3700531590 /* map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = map.h; path = ../../src/map.h; sourceTree = SOURCE_ROOT; };
@@ -137,6 +143,7 @@
 		0867D691FE84028FC02AAC07 /* MicArrayAnalyzer */ = {
 			isa = PBXGroup;
 			children = (
+				B4C9C2BA17D8D9AA00A21854 /* FFMPEG_swscale */,
 				B4CBEFCF1732BFEA00073390 /* Audacity */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				FC0416E514F39D1200AD323A /* Headers */,
@@ -177,6 +184,7 @@
 				FC0125A014FBDA3700531590 /* map.cpp */,
 				B4141DEE178D7CB300E1FF1C /* video.cpp */,
 				B42901F617D62842008935A8 /* ffmpegEncode.cpp */,
+				B4C9C35317D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c */,
 				FC0125D514FE2BD000531590 /* benchmrk.h */,
 				FC0125D614FE2BD000531590 /* benchmrk.cpp */,
 			);
@@ -192,6 +200,14 @@
 			name = "Configuration Files";
 			sourceTree = "<group>";
 		};
+		B4C9C2BA17D8D9AA00A21854 /* FFMPEG_swscale */ = {
+			isa = PBXGroup;
+			children = (
+				B4C9C2B817D8D9A500A21854 /* swscale.h */,
+			);
+			name = FFMPEG_swscale;
+			sourceTree = "<group>";
+		};
 		B4CBEFCF1732BFEA00073390 /* Audacity */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				FC01259F14FBDA3700531590 /* map.h */,
+				B4C9C2EF17D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h */,
 				B42901F817D62849008935A8 /* ffmpegEncode.h */,
 				B4141DEC178D7C2900E1FF1C /* video.h */,
 				FC0416E614F39D4400AD323A /* afaudio.h */,
@@ -271,6 +288,8 @@
 				B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */,
 				B4141DED178D7C2900E1FF1C /* video.h in Headers */,
 				B42901F917D62849008935A8 /* ffmpegEncode.h in Headers */,
+				B4C9C2B917D8D9A500A21854 /* swscale.h in Headers */,
+				B4C9C2F017D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +379,7 @@
 				FC0125D814FE2BD000531590 /* benchmrk.cpp in Sources */,
 				B4141DEF178D7CB300E1FF1C /* video.cpp in Sources */,
 				B42901F717D62842008935A8 /* ffmpegEncode.cpp in Sources */,
+				B4C9C35417D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +447,6 @@
 				AUDACITY_SRC_PATH = "$(AUDACITY_SRC_PREFIX)/src";
 				AUDACITY_SRC_PREFIX = "/Users/LeopardOS/src/audacity-src-2.0.0";
 				EXECUTABLE_EXTENSION = so;
-				FFMPEG_LIBS = "libavdevice                        \\\nlibavformat                        \\\nlibavfilter                        \\\nlibavcodec                         \\\nlibswresample                      \\\nlibswscale                         \\\nlibavutil                          \\\n";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -441,8 +460,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					usr/local/include,
-					"$(AUDACITY_LIB_PREFIX)/ffmpeg",
 					"$(WX_PREFIX)/include",
 					"$(AUDACITY_LIB_PREFIX)/libsndfile/src",
 					"$(AUDACITY_LIB_PREFIX)/lib-widget-extra",
@@ -458,7 +475,6 @@
 					"$(WX_PREFIX)/lib/i386",
 					"$(WX_PREFIX)/lib",
 				);
-				"New Setting" = "";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"$(shell",
@@ -468,11 +484,19 @@
 					"$(CFLAGS)",
 				);
 				OTHER_LDFLAGS = (
+					"-lbz2",
+					"-liconv",
+					"-lavutil",
+					"-lavcodec",
+					"-lz",
+					"-lm",
+					"-lswscale",
 					"-bundle_loader",
 					"\"$(AUDACITY_BINARY)\"",
 					"-fPIC",
 					"-undefined",
 					dynamic_lookup,
+					"-lavformat",
 				);
 				PREBINDING = NO;
 				SDKROOT = macosx10.4;

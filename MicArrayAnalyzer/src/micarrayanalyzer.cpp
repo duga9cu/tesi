@@ -33,6 +33,7 @@ bWAVFileAlloc(false),
 bSndFileAlloc(false),
 bMikesCoordsAlloc(false),
 bBgndImageAlloc(false),
+bBgndVideoAlloc(false),
 dFSLevel(FS_DEFAULT),
 dMinSPLThreshold(MIN_SPL_DEFAULT),
 bAudioDataAlloc(false),
@@ -46,10 +47,10 @@ iWatchpoints(0),
 //mProgress(0),
 frameLength(FRAMELENGTH),
 frameOverlapRatio(FRAMEOVERLAP),
-curFrame(1),
+m_curFrame(1),
 playing(false),
 //bandAutoscale(true)
-bandAutoscale(true)
+bandAutoscale(false)
 {
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
 	outputFrames->m_iCurrentUnit=MU_dB;
@@ -84,6 +85,9 @@ bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
 wxbBgndImage(mMAA.wxbBgndImage),
 bBgndImageAlloc(mMAA.bBgndImageAlloc),
 wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
+m_vBgndVideo(mMAA.m_vBgndVideo),
+bBgndVideoAlloc(mMAA.bBgndVideoAlloc),
+wxfnBgndVideoFile(mMAA.wxfnBgndVideoFile),
 //vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
 //tmMeshes(mMAA.tmMeshes), // initialized in calculate()
 iNTriangles(mMAA.iNTriangles), //la triangolazione è uguale per tutti // ANDREBBE TOLTA DALLA CALCULATE E FATTA PRIMA?
@@ -105,7 +109,7 @@ bResultsAvail(false), //devo ancora calcolare i risultati
 //iWatchpoints(mMAA.iWatchpoints), 
 // wxasWatchpointsLabels(mMAA.wxasWatchpointsLabels),  
 //bWatchpointsAlloc(mMAA.bWatchpointsAlloc), 
-curFrame(mMAA.curFrame),
+m_curFrame(mMAA.m_curFrame),
 frameLength(mMAA.frameLength),
 frameLengthSmpl(mMAA.frameLengthSmpl),
 frameOverlapRatio(mMAA.frameOverlapRatio),
@@ -706,6 +710,32 @@ bool MicArrayAnalyzer::SetBgndImage(const wxString& str)
 	return true; // [esseci] else qui non ha senso...
 }
 
+bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
+{
+	if (bBgndVideoAlloc) 
+	{ 
+		delete wxfnBgndVideoFile;
+//		m_vBgndVideo.clear();
+	}
+	else bBgndVideoAlloc = true;
+	wxfnBgndVideoFile = new wxFileName(str);
+	
+//	m_bgndVideoFrameRate = FfmpegEncoder::EncodeFrames((char*)wxfnBgndVideoFile->GetFullPath().data());
+
+	EncodeFrames((char*)wxfnBgndVideoFile->GetFullPath().data());
+	
+	wxString szFilename;
+	wxBitmap wxbdumb;
+	for (int iFrame=1; ; iFrame++) {
+		szFilename.Printf( _("tmpFrames/frame%d.ppm"), iFrame);
+		if ( !wxbdumb.LoadFile(szFilename /*wxfnBgndImageFile->GetFullPath()*/, wxBITMAP_TYPE_PNM) ) 
+			break;
+		m_vBgndVideo.push_back(wxbdumb);
+	}
+	return true; 
+}
+
+
 void MicArrayAnalyzer::SetWAVFile(const wxString& str)
 {
 	if (bWAVFileAlloc) { delete wxfnWAVFile; }
@@ -984,10 +1014,10 @@ void MicArrayAnalyzer::PrintActualFrame(int frame) {
 }
 
 
-wxString MicArrayAnalyzer::GetCurTime() {
+wxString MicArrayAnalyzer::GetCurTime_Str() {
 	wxString str; 
 	int ms = iAudioTrackLength / dProjectRate * 1000; //millisec
-	double progressRatio = (double)(curFrame-1) / (outputFrames->GetNumOfFrames() - 1) ;
+	double progressRatio = (double)(m_curFrame-1) / (outputFrames->GetNumOfFrames() - 1) ;
 	ms = (double)ms * progressRatio;
 	int h = ms / 1000 / 3600;
 	ms = ms % 3600000; //remaining milliseconds without hours
@@ -1000,6 +1030,27 @@ wxString MicArrayAnalyzer::GetCurTime() {
 	else
 		str.Printf(wxT("%02d:%02d:%03d"), m, s , ms);
 	return str;
+}
+
+int MicArrayAnalyzer::GetCurTime_ms() {
+	wxString str; 
+	int ms = iAudioTrackLength / dProjectRate * 1000; //millisec
+	double progressRatio = (double)(m_curFrame-1) / (outputFrames->GetNumOfFrames() - 1) ;
+	ms = (double)ms * progressRatio;
+	return ms;
+}
+
+wxBitmap MicArrayAnalyzer::GetBGNDVideoBmp() 
+{
+	if (bBgndVideoAlloc) 
+	{
+		int bgndVideoFrameNum = GetCurTime_ms() * m_bgndVideoFrameRate; //current background video frame number
+		return m_vBgndVideo[bgndVideoFrameNum];
+	} 
+	else 
+	{
+	return NULL;
+	} 
 }
 
 //-----------------------------

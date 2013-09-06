@@ -77,7 +77,8 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/BackgroundImage"));
 	m_Conf.Read(buffer, &str, emptystring);
 	m_wxtcBgndImagePath->SetValue(str);
-	mMAA->SetBgndImage(str);
+//	mMAA->SetBgndImage(str);
+	mMAA->SetBgndVideo(str);
 	bBgndImage = true;
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/XMLfile"));
@@ -136,11 +137,12 @@ MicArrayAnalyzerConfDlg::~MicArrayAnalyzerConfDlg()
 
 void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event)
 {
-	wxFileDialog* wxfdOpenFileDialog = new wxFileDialog(this,_("Open background image file..."),_(""),_(""),_("All compatible types (*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
+	wxFileDialog* wxfdOpenFileDialog = new wxFileDialog(this,_("Open background image file..."),_(""),_(""),_("All compatible types (*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|MPEG (P6) video (*.mpg)|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
 	if (wxfdOpenFileDialog->ShowModal() == wxID_OK)
 	{
 		m_wxtcBgndImagePath->SetValue(_("Opening in progress, please wait..."));
-		if (mMAA->SetBgndImage(wxfdOpenFileDialog->GetPath()))
+//		if (mMAA->SetBgndImage(wxfdOpenFileDialog->GetPath()))
+		if (mMAA->SetBgndVideo(wxfdOpenFileDialog->GetPath()))
 		{
 			m_wxtcBgndImagePath->SetValue(wxfdOpenFileDialog->GetPath());
 			bBgndImage = true;
@@ -480,7 +482,8 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 
 void MicArrayAnalyzerConfDlg::OnCancel( wxCommandEvent& event )
 {
-	EndModal(false);  //WHY FALSE?
+	EndModal(false); 
+
 }
 
 
@@ -1069,7 +1072,7 @@ void MicArrayAnalyzerDlg::UpdateFrameControls(){
 //						     			  m_wxrbBandSelection->GetSelection()) );
 
 	
-	m_textCtrlCurTime->SetValue(mMAA->GetCurTime());
+	m_textCtrlCurTime->SetValue(mMAA->GetCurTime_Str());
 #ifdef __AUDEBUG__
 	//	mMAA->PrintResults();
 #endif
