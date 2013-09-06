@@ -704,8 +704,13 @@ bool MicArrayAnalyzer::SetBgndImage(const wxString& str)
 	else bBgndImageAlloc = true;
 	wxfnBgndImageFile = new wxFileName(str);
 	
-	if ( !wxbBgndImage.LoadFile(wxfnBgndImageFile->GetFullPath(), wxBITMAP_TYPE_JPEG) ) 
+	if ( !wxbBgndImage.LoadFile(wxfnBgndImageFile->GetFullPath(), wxBITMAP_TYPE_JPEG) ) {
+#ifdef __AUDEBUG__
+		printf("BACKGROUND IMAGE FILE : %s\n",wxfnBgndImageFile->GetFullPath().c_str());
+		fflush(stdout);
+#endif
 		return false;
+	}
 	
 	return true; // [esseci] else qui non ha senso...
 }
@@ -721,9 +726,12 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	wxfnBgndVideoFile = new wxFileName(str);
 	
 //	m_bgndVideoFrameRate = FfmpegEncoder::EncodeFrames((char*)wxfnBgndVideoFile->GetFullPath().data());
-
-	EncodeFrames((char*)wxfnBgndVideoFile->GetFullPath().data());
-	
+#ifdef __AUDEBUG__
+	printf("BACKGROUND Video FILE : %s\n",wxfnBgndVideoFile->GetFullPath().c_str());
+	fflush(stdout);
+#endif
+	char* videofilepath =(char*) wxfnBgndVideoFile->GetFullPath().c_str();
+	EncodeFrames(videofilepath);  //TODO send it to a separate thread!	
 	wxString szFilename;
 	wxBitmap wxbdumb;
 	for (int iFrame=1; ; iFrame++) {

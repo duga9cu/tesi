@@ -77,7 +77,7 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/BackgroundImage"));
 	m_Conf.Read(buffer, &str, emptystring);
 	m_wxtcBgndImagePath->SetValue(str);
-//	mMAA->SetBgndImage(str);
+	mMAA->SetBgndImage(str);
 	mMAA->SetBgndVideo(str);
 	bBgndImage = true;
 	
@@ -135,9 +135,13 @@ MicArrayAnalyzerConfDlg::~MicArrayAnalyzerConfDlg()
 	if (bHeaders) { delete wxsbHeadersCheck; }
 }
 
-void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event)
+void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event) //Video version
 {
-	wxFileDialog* wxfdOpenFileDialog = new wxFileDialog(this,_("Open background image file..."),_(""),_(""),_("All compatible types (*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|MPEG (P6) video (*.mpg)|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
+	wxFileDialog* wxfdOpenFileDialog = 
+					new wxFileDialog(this,
+									 _("Open background file..."),
+									 _(""),_(""),
+									 _("All compatible types (*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|MPEG (P6) video (*.mpg)|*.mpg|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
 	if (wxfdOpenFileDialog->ShowModal() == wxID_OK)
 	{
 		m_wxtcBgndImagePath->SetValue(_("Opening in progress, please wait..."));
@@ -156,6 +160,31 @@ void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event)
 	
 	IsAllOKCheck(); //Check if OK button could be enabled.
 }
+
+//void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event)  //IMAGE VERSION
+//{
+//	wxFileDialog* wxfdOpenFileDialog = 
+//	new wxFileDialog(this,
+//					 _("Open background file..."),
+//					 _(""),_(""),
+//					 _("All compatible types (*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
+//	if (wxfdOpenFileDialog->ShowModal() == wxID_OK)
+//	{
+//		m_wxtcBgndImagePath->SetValue(_("Opening in progress, please wait..."));
+//			if (mMAA->SetBgndImage(wxfdOpenFileDialog->GetPath()))
+//		{
+//			m_wxtcBgndImagePath->SetValue(wxfdOpenFileDialog->GetPath());
+//			bBgndImage = true;
+//		}
+//		else
+//		{
+//			m_wxtcBgndImagePath->SetValue(_("An ERROR has occurred while opening image file..."));
+//			bBgndImage = false;
+//		}
+//	}
+//	
+//	IsAllOKCheck(); //Check if OK button could be enabled.
+//}
 
 void MicArrayAnalyzerConfDlg::ParseXML() 
 {
