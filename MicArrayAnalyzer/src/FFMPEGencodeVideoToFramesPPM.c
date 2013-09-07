@@ -42,7 +42,7 @@ void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame) {
 	fclose(pFile);
 }
 
-int EncodeFrames( char *argv) {
+int EncodeFrames( char* argv) {
 	AVFormatContext *pFormatCtx = NULL;
 	int             i, videoStream;
 	AVCodecContext  *pCodecCtx = NULL;

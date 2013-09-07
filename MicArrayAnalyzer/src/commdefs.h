@@ -14,7 +14,6 @@
 #define __AURORA_COMMDEFS_H__
 
 #include <wx/wx.h>
-
 #include "audtypes.h"
 #include "version.h"
 

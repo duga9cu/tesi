@@ -55,6 +55,7 @@ bandAutoscale(false)
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
 	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
+	wxImage::AddHandler(new wxPNMHandler);
 }
 
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
@@ -706,7 +707,7 @@ bool MicArrayAnalyzer::SetBgndImage(const wxString& str)
 	
 	if ( !wxbBgndImage.LoadFile(wxfnBgndImageFile->GetFullPath(), wxBITMAP_TYPE_JPEG) ) {
 #ifdef __AUDEBUG__
-		printf("BACKGROUND IMAGE FILE : %s\n",wxfnBgndImageFile->GetFullPath().c_str());
+		printf("BACKGROUND IMAGE FILE : %s\n",wxfnBgndImageFile->GetFullPath().mb_str(wxConvUTF8));
 		fflush(stdout);
 #endif
 		return false;
@@ -726,20 +727,24 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	wxfnBgndVideoFile = new wxFileName(str);
 	
 //	m_bgndVideoFrameRate = FfmpegEncoder::EncodeFrames((char*)wxfnBgndVideoFile->GetFullPath().data());
-#ifdef __AUDEBUG__
-	printf("BACKGROUND Video FILE : %s\n",wxfnBgndVideoFile->GetFullPath().c_str());
-	fflush(stdout);
-#endif
-	char* videofilepath =(char*) wxfnBgndVideoFile->GetFullPath().c_str();
-	EncodeFrames(videofilepath);  //TODO send it to a separate thread!	
+//#ifdef __AUDEBUG__
+//	printf("BACKGROUND Video FILE : %s\n",wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
+//	fflush(stdout);
+//#endif
+	char videofilepath[100];
+	strcpy(videofilepath, (const char*) wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
+	EncodeFrames(videofilepath);  //TODO calculate it to a separate thread!	
 	wxString szFilename;
 	wxBitmap wxbdumb;
 	for (int iFrame=1; ; iFrame++) {
-		szFilename.Printf( _("tmpFrames/frame%d.ppm"), iFrame);
+		szFilename.Printf( _("frame%d.ppm"), iFrame);
 		if ( !wxbdumb.LoadFile(szFilename /*wxfnBgndImageFile->GetFullPath()*/, wxBITMAP_TYPE_PNM) ) 
 			break;
 		m_vBgndVideo.push_back(wxbdumb);
 	}
+	//set background image
+	wxbBgndImage = m_vBgndVideo[0];
+	bBgndImageAlloc = true;
 	return true; 
 }
 

@@ -77,7 +77,7 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/BackgroundImage"));
 	m_Conf.Read(buffer, &str, emptystring);
 	m_wxtcBgndImagePath->SetValue(str);
-	mMAA->SetBgndImage(str);
+//	mMAA->SetBgndImage(str);
 	mMAA->SetBgndVideo(str);
 	bBgndImage = true;
 	
