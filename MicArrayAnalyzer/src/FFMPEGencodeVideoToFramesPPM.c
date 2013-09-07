@@ -67,7 +67,7 @@ int EncodeFrames( char* argv) {
 	// Retrieve stream information
     if(av_find_stream_info(pFormatCtx)<0)
 		return -1; // Couldn't find stream information
-	
+		
 	// Dump information about file onto standard error
     dump_format(pFormatCtx, 0, argv, 0);
 	
@@ -99,6 +99,8 @@ int EncodeFrames( char* argv) {
     // Open codec
     if(avcodec_open(pCodecCtx, pCodec)<0)
 		return -1; // Could not open codec
+	
+	int fps = pCodecCtx->time_base.den;
 	
 	// Allocate video frame
 	pFrame=avcodec_alloc_frame();
@@ -145,6 +147,9 @@ int EncodeFrames( char* argv) {
 			
 			// Did we get a video frame?
 			if(frameFinished) {
+				
+//				pFrame->pts // 1/fps units
+				
 				// Convert the image from its native format to RGB
 				sws_scale
 				(
@@ -158,9 +163,8 @@ int EncodeFrames( char* argv) {
 				 );
 				
 				// Save the frame to disk
-				if(++i<=5)
 					SaveFrame(pFrameRGB, pCodecCtx->width, pCodecCtx->height, 
-							  i);
+							  ++i);
 			}
 		}
 		
@@ -181,5 +185,5 @@ int EncodeFrames( char* argv) {
 	// Close the video file
     av_close_input_file(pFormatCtx);
 	
-	return 0;
+	return fps;
 }

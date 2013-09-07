@@ -110,6 +110,8 @@ class MicArrayAnalyzer
 		sampleFormat sfProjectFormat;
 		int iProjectNumTracks;
 		sampleCount iAudioTrackLength; //num of samples
+		sampleCount iAudioTrackStart;
+		sampleCount iAudioTrackEnd;
 		
 		bool bMirroredMikesAlloc; // [esseci]
 		
@@ -140,7 +142,7 @@ class MicArrayAnalyzer
 		vector<wxBitmap> m_vBgndVideo;
 		bool bBgndVideoAlloc;
 		wxFileName* wxfnBgndVideoFile;
-		double m_bgndVideoFrameRate;
+		int m_bgndVideoFrameRate;
 
 		VirtualMikesSet *vmsMirroredMikes;  //It MAY contains mirrored virtual mikes, ONLY IF the array is spherical.
 		TriangularMesh **tmMeshes;
@@ -235,6 +237,8 @@ class MicArrayAnalyzer
 		int InOrOutTriangle(int a, int b, int c) { return tmMeshes[c]->PointTest(a,b); }
 		TriangularMesh* GetTriangle(int value) { return tmMeshes[value]; }
 		sampleCount GetAudioTrackLength() {return iAudioTrackLength;} //errelle
+		sampleCount GetAudioTrackStart() {return iAudioTrackStart;} //errelle
+		sampleCount GetAudioTrackEnd() {return iAudioTrackEnd;} //errelle
 		int GetNumOfFrames() {return outputFrames->GetNumOfFrames();}
 		int GetCurFrame() {return m_curFrame;}
 		wxString GetCurTime_Str();
@@ -251,6 +255,8 @@ class MicArrayAnalyzer
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
 		void SetAbsoluteMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfAbsoluteMin[id] = min; pfAbsoluteMax[id] = max; } }
 		bool SetAudioTrackLength(int value);
+		void SetAudioTrackStart(sampleCount start) {iAudioTrackStart = start;}
+		void SetAudioTrackEnd(sampleCount end) {iAudioTrackEnd = end;}
 		void SetProjSampleRate(double value) { dProjectRate = value; }
 		void SetProjSampleFormat(sampleFormat value) { sfProjectFormat = value; }
 		void SetProjectNumTracks(int value) { iProjectNumTracks = value; }

@@ -928,9 +928,11 @@ m_timer(this, ID_MM_TIMER)
 	//default values
 	updating = 0;
 	mMAA->SetPlaying(false);
+	mMAA->SetCurFrame(1);
 	m_sliderVideoFrame->SetMax(mMAA->GetNumOfFrames());
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
-	m_textCtrlCurTime->SetValue(wxT("00:00:000"));
+//	m_textCtrlCurTime->SetValue(wxT("00:00:000"));
+	m_textCtrlCurTime->SetValue(mMAA->GetCurTime_Str());
 //	m_wxcbSeparateBandAutoscale->SetValue(true);
 }
 
@@ -1197,30 +1199,24 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 
 void MicArrayAnalyzerDlg::RestartTimer() 
 {
+	double framelength_ms = mMAA->GetFrameLength()*1000;
 	switch (m_wxcPlaybackSpeed->GetCurrentSelection()) { //decide how long to yeld to sync the video with the frame rate
 		case 0: // 0.1x
-			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 0.1 - (m_lastFrameElapsedTime - m_lastMillitimer); 
-			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;					
-			break;
+			m_lastMillitimer = framelength_ms / 0.1 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
 			
 		case 1: // 0.2x
-			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 0.2 - (m_lastFrameElapsedTime - m_lastMillitimer);
-			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;
-			break;
+			m_lastMillitimer = framelength_ms / 0.2 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
 			
 		case 2: // 0.5x
-			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 0.5 - (m_lastFrameElapsedTime - m_lastMillitimer);
-			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;
-			break;
+			m_lastMillitimer = framelength_ms / 0.5 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
 			
 		case 3: // 1x
-			m_lastMillitimer = mMAA->GetFrameLength()*1000 / 1.0 - (m_lastFrameElapsedTime - m_lastMillitimer);
-			if (m_lastMillitimer <= 0 ) m_lastMillitimer = 1;
-			break;
+			m_lastMillitimer = framelength_ms / 1.0 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
 			
 		default:
-			break;
+			m_lastMillitimer = 1; break;
 	}
+	if (m_lastMillitimer <= 0 || m_lastMillitimer >= 1000) m_lastMillitimer = 1; // timer between [0 , 1] sec.
 	m_timer.Start(m_lastMillitimer, true);
 }
 

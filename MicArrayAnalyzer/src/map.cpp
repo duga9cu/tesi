@@ -817,7 +817,17 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
     m_pColorMap->Draw(dc);
     
     //Draw Background Image (bottom layer)
-    dc.DrawBitmap(m_pMaa->GetBGNDBmp(), 0, 0, false); //false = ignore transparency -->> fully opaque.
+//    dc.DrawBitmap(m_pMaa->GetBGNDBmp(), 0, 0, false); //false = ignore transparency -->> fully opaque.
+	wxBitmap bgnd = m_pMaa->GetBGNDVideoBmp();
+	//Background Image Size Check (and scaling if necessary)
+	if ((bgnd.GetWidth() != X_RES)||(bgnd.GetHeight() != Y_RES))
+	{
+		//We need to scale choosen image to fit image panel dimensions
+		wxImage tmp = bgnd.ConvertToImage();
+		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
+		bgnd = wxBitmap(tmp);
+	}
+    dc.DrawBitmap(bgnd, 0, 0, false); //false = ignore transparency -->> fully opaque.
     
     //Draw ColorMap (mid layer)
 //    if(!m_aadLevelsMap)

@@ -212,7 +212,11 @@ bool EffectMicArrayAnalyzer::LoadTrackData(WaveTrack *wt, int id)
 		mMAA->SetAbsoluteMinMax(id,absolute_min,absolute_max);
 		
 		if(mMAA->SetAudioTrackLength(end-start)) 
+		{
 			mMAA->AudioTrackInit(id,end-start); //Memory allocation
+			mMAA->SetAudioTrackStart(start);
+			mMAA->SetAudioTrackEnd(end);
+		}
 		wt->Get((samplePtr)mMAA->GetAudioDataTrack(id),floatSample,start,end-start);
 	}
 	return true;

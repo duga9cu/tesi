@@ -39,6 +39,8 @@ dMinSPLThreshold(MIN_SPL_DEFAULT),
 bAudioDataAlloc(false),
 bDeconvIRsDataAlloc(false),
 iAudioTrackLength(0),
+iAudioTrackStart(0),
+iAudioTrackEnd(0),
 bMirroredMikesAlloc(false),
 iNTriangles(0),
 bResultsAvail(false),
@@ -66,6 +68,8 @@ dProjectRate(mMAA.dProjectRate),
 //sfProjectFormat(mMAA.sfProjectFormat), //not used in calculate()
 iProjectNumTracks(mMAA.iProjectNumTracks),
 iAudioTrackLength(mMAA.iAudioTrackLength),
+iAudioTrackStart(mMAA.iAudioTrackStart),
+iAudioTrackEnd(mMAA.iAudioTrackEnd),
 bMirroredMikesAlloc(mMAA.bMirroredMikesAlloc),
 wxfnXMLFile(mMAA.wxfnXMLFile),
 bXMLFileAlloc(mMAA.bXMLFileAlloc),
@@ -706,10 +710,6 @@ bool MicArrayAnalyzer::SetBgndImage(const wxString& str)
 	wxfnBgndImageFile = new wxFileName(str);
 	
 	if ( !wxbBgndImage.LoadFile(wxfnBgndImageFile->GetFullPath(), wxBITMAP_TYPE_JPEG) ) {
-#ifdef __AUDEBUG__
-		printf("BACKGROUND IMAGE FILE : %s\n",wxfnBgndImageFile->GetFullPath().mb_str(wxConvUTF8));
-		fflush(stdout);
-#endif
 		return false;
 	}
 	
@@ -725,20 +725,15 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	}
 	else bBgndVideoAlloc = true;
 	wxfnBgndVideoFile = new wxFileName(str);
-	
-//	m_bgndVideoFrameRate = FfmpegEncoder::EncodeFrames((char*)wxfnBgndVideoFile->GetFullPath().data());
-//#ifdef __AUDEBUG__
-//	printf("BACKGROUND Video FILE : %s\n",wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
-//	fflush(stdout);
-//#endif
 	char videofilepath[100];
 	strcpy(videofilepath, (const char*) wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
-	EncodeFrames(videofilepath);  //TODO calculate it to a separate thread!	
+	m_bgndVideoFrameRate = EncodeFrames(videofilepath);  //TODO calculate it to a separate thread!	
+
 	wxString szFilename;
 	wxBitmap wxbdumb;
 	for (int iFrame=1; ; iFrame++) {
 		szFilename.Printf( _("frame%d.ppm"), iFrame);
-		if ( !wxbdumb.LoadFile(szFilename /*wxfnBgndImageFile->GetFullPath()*/, wxBITMAP_TYPE_PNM) ) 
+		if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
 			break;
 		m_vBgndVideo.push_back(wxbdumb);
 	}
@@ -1026,12 +1021,19 @@ void MicArrayAnalyzer::PrintActualFrame(int frame) {
 	printf("\n\n");
 }
 
-
-wxString MicArrayAnalyzer::GetCurTime_Str() {
-	wxString str; 
-	int ms = iAudioTrackLength / dProjectRate * 1000; //millisec
+int MicArrayAnalyzer::GetCurTime_ms() 
+{
+	int ms =  iAudioTrackLength / dProjectRate * 1000; //millisec
 	double progressRatio = (double)(m_curFrame-1) / (outputFrames->GetNumOfFrames() - 1) ;
 	ms = (double)ms * progressRatio;
+	ms += iAudioTrackStart / dProjectRate * 1000; //millisec of audio seleciont starting point
+	return ms;
+}
+
+wxString MicArrayAnalyzer::GetCurTime_Str() 
+{
+	wxString str; 
+	int ms = GetCurTime_ms();
 	int h = ms / 1000 / 3600;
 	ms = ms % 3600000; //remaining milliseconds without hours
 	int m = ms / 1000 / 60;
@@ -1045,23 +1047,16 @@ wxString MicArrayAnalyzer::GetCurTime_Str() {
 	return str;
 }
 
-int MicArrayAnalyzer::GetCurTime_ms() {
-	wxString str; 
-	int ms = iAudioTrackLength / dProjectRate * 1000; //millisec
-	double progressRatio = (double)(m_curFrame-1) / (outputFrames->GetNumOfFrames() - 1) ;
-	ms = (double)ms * progressRatio;
-	return ms;
-}
 
 wxBitmap MicArrayAnalyzer::GetBGNDVideoBmp() 
 {
 	if (bBgndVideoAlloc) 
 	{
-		int bgndVideoFrameNum = GetCurTime_ms() * m_bgndVideoFrameRate; //current background video frame number
+		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
 		return m_vBgndVideo[bgndVideoFrameNum];
 	} 
 	else 
-	{
+	{	
 	return NULL;
 	} 
 }
