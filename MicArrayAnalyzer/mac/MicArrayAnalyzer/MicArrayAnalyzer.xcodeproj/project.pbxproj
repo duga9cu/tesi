@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		B4141DED178D7C2900E1FF1C /* video.h in Headers */ = {isa = PBXBuildFile; fileRef = B4141DEC178D7C2900E1FF1C /* video.h */; };
 		B4141DEF178D7CB300E1FF1C /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B4141DEE178D7CB300E1FF1C /* video.cpp */; };
-		B42901F717D62842008935A8 /* ffmpegEncode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B42901F617D62842008935A8 /* ffmpegEncode.cpp */; };
-		B42901F917D62849008935A8 /* ffmpegEncode.h in Headers */ = {isa = PBXBuildFile; fileRef = B42901F817D62849008935A8 /* ffmpegEncode.h */; };
 		B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */ = {isa = PBXBuildFile; fileRef = B4752AD1174CB72100F2A556 /* LoadModules.h */; };
 		B4C9C2B917D8D9A500A21854 /* swscale.h in Headers */ = {isa = PBXBuildFile; fileRef = B4C9C2B817D8D9A500A21854 /* swscale.h */; };
 		B4C9C2F017D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h in Headers */ = {isa = PBXBuildFile; fileRef = B4C9C2EF17D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h */; };
@@ -67,8 +65,6 @@
 		5073E0C709E734A800EC74B6 /* MicArrayAnalyzerTarget.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = MicArrayAnalyzerTarget.xcconfig; sourceTree = "<group>"; };
 		B4141DEC178D7C2900E1FF1C /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = ../../src/video.h; sourceTree = SOURCE_ROOT; };
 		B4141DEE178D7CB300E1FF1C /* video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video.cpp; path = ../../src/video.cpp; sourceTree = SOURCE_ROOT; };
-		B42901F617D62842008935A8 /* ffmpegEncode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ffmpegEncode.cpp; path = ../../src/ffmpegEncode.cpp; sourceTree = SOURCE_ROOT; };
-		B42901F817D62849008935A8 /* ffmpegEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ffmpegEncode.h; path = ../../src/ffmpegEncode.h; sourceTree = SOURCE_ROOT; };
 		B4752AD1174CB72100F2A556 /* LoadModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadModules.h; path = "../../../../../../src/audacity-src-2.0.0/src/LoadModules.h"; sourceTree = SOURCE_ROOT; };
 		B4C9C2B817D8D9A500A21854 /* swscale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = swscale.h; path = ../../src/swscale.h; sourceTree = SOURCE_ROOT; };
 		B4C9C2EF17D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFMPEGencodeVideoToFramesPPM.h; path = ../../src/FFMPEGencodeVideoToFramesPPM.h; sourceTree = SOURCE_ROOT; };
@@ -183,7 +179,6 @@
 				32BAE0B70371A74B00C91783 /* MicArrayAnalyzer_Prefix.pch */,
 				FC0125A014FBDA3700531590 /* map.cpp */,
 				B4141DEE178D7CB300E1FF1C /* video.cpp */,
-				B42901F617D62842008935A8 /* ffmpegEncode.cpp */,
 				B4C9C35317D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c */,
 				FC0125D514FE2BD000531590 /* benchmrk.h */,
 				FC0125D614FE2BD000531590 /* benchmrk.cpp */,
@@ -222,7 +217,6 @@
 			children = (
 				FC01259F14FBDA3700531590 /* map.h */,
 				B4C9C2EF17D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h */,
-				B42901F817D62849008935A8 /* ffmpegEncode.h */,
 				B4141DEC178D7C2900E1FF1C /* video.h */,
 				FC0416E614F39D4400AD323A /* afaudio.h */,
 				FC0416E714F39D4400AD323A /* audtypes.h */,
@@ -287,7 +281,6 @@
 				FC0125D714FE2BD000531590 /* benchmrk.h in Headers */,
 				B4752AD2174CB72100F2A556 /* LoadModules.h in Headers */,
 				B4141DED178D7C2900E1FF1C /* video.h in Headers */,
-				B42901F917D62849008935A8 /* ffmpegEncode.h in Headers */,
 				B4C9C2B917D8D9A500A21854 /* swscale.h in Headers */,
 				B4C9C2F017D8DC3000A21854 /* FFMPEGencodeVideoToFramesPPM.h in Headers */,
 			);
@@ -378,7 +371,6 @@
 				FC0125A214FBDA3700531590 /* map.cpp in Sources */,
 				FC0125D814FE2BD000531590 /* benchmrk.cpp in Sources */,
 				B4141DEF178D7CB300E1FF1C /* video.cpp in Sources */,
-				B42901F717D62842008935A8 /* ffmpegEncode.cpp in Sources */,
 				B4C9C35417D8E61E00A21854 /* FFMPEGencodeVideoToFramesPPM.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

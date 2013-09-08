@@ -141,7 +141,7 @@ void MicArrayAnalyzerConfDlg::OnBrowseBGND(wxCommandEvent& event) //Video versio
 					new wxFileDialog(this,
 									 _("Open background file..."),
 									 _(""),_(""),
-									 _("All compatible types (*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.mpg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|MPEG (P6) video (*.mpg)|*.mpg|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
+									 _("All compatible types (*.mpg;*.mpeg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm)|*.mpg;*.mpeg;*.bmp;*.dib;*.gif;*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi;*.pcx;*.png;*.pnm;*.tif;*.tiff;*.xpm;*.xbm|MPEG (P6) video (*.mpg;*.mpeg)|*.mpg;*.mpeg|Bitmap image (*.bmp;*.dib)|*.bmp;*.dib|GIF image (*.gif)|*.gif|JPEG image (*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi)|*.jpg;*.jpeg;*.jpe;*.jif;*.jfif;*.jfi|PCX image (*.pcx)|*.pcx|PNG image (*.png)|*.png|PNM image (*.pnm)|*.pnm|TIFF image (*.tif;*.tiff)|*.tif;*.tiff|XPM image (*.xpm)|*.xpm|XBM image (*.xbm)|*.xbm"),wxFD_OPEN);
 	if (wxfdOpenFileDialog->ShowModal() == wxID_OK)
 	{
 		m_wxtcBgndImagePath->SetValue(_("Opening in progress, please wait..."));

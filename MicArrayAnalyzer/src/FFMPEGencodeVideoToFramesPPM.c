@@ -100,6 +100,7 @@ int EncodeFrames( char* argv) {
     if(avcodec_open(pCodecCtx, pCodec)<0)
 		return -1; // Could not open codec
 	
+	//find out frame rate (supposedly constant)
 	int fps = pCodecCtx->time_base.den;
 	
 	// Allocate video frame

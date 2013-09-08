@@ -35,6 +35,7 @@ class VideoFrame
 		bool frameMatrixInit(int channels, double** fM);
 		bool bframeMatrixAlloc;
 		double*** m_aadLevelsMap;
+		wxBitmap m_wxbBgndImage;
 
 	public:
 		
@@ -45,10 +46,12 @@ class VideoFrame
 		double GetOverallMin() {return overallMin;}
 		double GetMaxInTheBand(int band) {return maxInTheBand[band];}
 		double GetMinInTheBand(int band) {return minInTheBand[band];}
+		wxBitmap GetBgndImage() {return m_wxbBgndImage;}
 		
 		void SetMaxInTheBand(double max , int band) {maxInTheBand[band]=max;}
 		void SetMinInTheBand(double min , int band) {minInTheBand[band]=min;}
 		void SetLevelsMap(double** levelsmap, int band) {m_aadLevelsMap[band]=levelsmap;}
+		void SetBgndImage(wxBitmap wxb) {m_wxbBgndImage=wxb;}
 //		void DeleteAllData() {delete frameMatrix;}
 		
 		// 'ctors
@@ -87,12 +90,14 @@ class Video
 		double GetOverallBandMin(int band) {return overallBandMin[band];}
 		int GetTransparency() {return transparency;}
 		VideoFrame* GetVideoFrame(unsigned int frameNum) {return resultCube[frameNum];}
+		wxBitmap GetBgndImage( int frame ) {return resultCube[frame]->GetBgndImage();}
 		
 		//setters
 		void SetTransparency(int valTransp) {transparency = valTransp;}
 		void SetNumOfFrames(int val) {numOfFrames = val;}
 //		void SetVideoIsComplete(bool value) {isVideoComplete=value;}
 		void SetFrameLevelsMap(int frame, double** levelsmap, int band) {resultCube[frame]->SetLevelsMap(levelsmap, band);}
+		void SetBgndImage(wxBitmap wxb, int frame) {resultCube[frame]->SetBgndImage(wxb);}
 		bool SetMinsAndMaxs();
 //		void DeleteAllData();
 

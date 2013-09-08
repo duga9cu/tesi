@@ -139,7 +139,6 @@ class MicArrayAnalyzer
 		bool bBgndImageAlloc;
 		wxFileName* wxfnBgndImageFile;
 		
-		vector<wxBitmap> m_vBgndVideo;
 		bool bBgndVideoAlloc;
 		wxFileName* wxfnBgndVideoFile;
 		int m_bgndVideoFrameRate;
@@ -263,6 +262,7 @@ class MicArrayAnalyzer
 		void SetXMLFile(const wxString& str);
 		void SetWAVFile(const wxString& str);
 		bool SetBgndImage(const wxString& str);
+		bool SetBgndImage(const wxBitmap& wxb) {wxbBgndImage=wxb;}
 		bool SetBgndVideo(const wxString& str);
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLThreshold(double value) { dMinSPLThreshold = value; }
@@ -280,6 +280,7 @@ class MicArrayAnalyzer
 		void SetPlaying(bool value) {playing = value;}
 		void SetBandAutoscale(bool value) {bandAutoscale = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
+		bool SetBGNDVideoBmp(int frame);
 				
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();

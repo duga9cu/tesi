@@ -34,6 +34,7 @@ bSndFileAlloc(false),
 bMikesCoordsAlloc(false),
 bBgndImageAlloc(false),
 bBgndVideoAlloc(false),
+m_bgndVideoFrameRate(0),
 dFSLevel(FS_DEFAULT),
 dMinSPLThreshold(MIN_SPL_DEFAULT),
 bAudioDataAlloc(false),
@@ -90,7 +91,7 @@ bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
 wxbBgndImage(mMAA.wxbBgndImage),
 bBgndImageAlloc(mMAA.bBgndImageAlloc),
 wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
-m_vBgndVideo(mMAA.m_vBgndVideo),
+m_bgndVideoFrameRate(mMAA.m_bgndVideoFrameRate),
 bBgndVideoAlloc(mMAA.bBgndVideoAlloc),
 wxfnBgndVideoFile(mMAA.wxfnBgndVideoFile),
 //vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
@@ -306,14 +307,14 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 	
 	//	InitProgressMeter(_("Checking background image size..."));
 	
-	//Background Image Size Check (and scaling if necessary)
-	if ((wxbBgndImage.GetWidth() != X_RES)||(wxbBgndImage.GetHeight() != Y_RES))
-	{
-		//We need to scale choosen image to fit image panel dimensions
-		wxImage tmp = wxbBgndImage.ConvertToImage();
-		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
-		wxbBgndImage = wxBitmap(tmp);
-	}
+//	//Background Image Size Check (and scaling if necessary)
+//	if ((wxbBgndImage.GetWidth() != X_RES)||(wxbBgndImage.GetHeight() != Y_RES))
+//	{
+//		//We need to scale choosen image to fit image panel dimensions
+//		wxImage tmp = wxbBgndImage.ConvertToImage();
+//		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
+//		wxbBgndImage = wxBitmap(tmp);
+//	}
 	
 	//	UpdateProgressMeter(1,1);
 	
@@ -538,7 +539,9 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 		//... and add it to the video!
 		mAAcritSec->Enter();
 		outputFrames->AddFrame(videoframe);
+		SetBGNDVideoBmp(frame); //retrieve and add to videoframe respective ppm file (saved in EncodeFrames() )
 		bResultsAvail = true;
+		bBgndImageAlloc = true;
 //		PrintResult(frame);
 		mAAcritSec->Leave();
 		
@@ -728,18 +731,18 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	char videofilepath[100];
 	strcpy(videofilepath, (const char*) wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
 	m_bgndVideoFrameRate = EncodeFrames(videofilepath);  //TODO calculate it to a separate thread!	
-
-	wxString szFilename;
-	wxBitmap wxbdumb;
-	for (int iFrame=1; ; iFrame++) {
-		szFilename.Printf( _("frame%d.ppm"), iFrame);
-		if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
-			break;
-		m_vBgndVideo.push_back(wxbdumb);
-	}
-	//set background image
-	wxbBgndImage = m_vBgndVideo[0];
-	bBgndImageAlloc = true;
+	m_bgndVideoFrameRate = m_bgndVideoFrameRate / 2 ; /// !!! is it right?
+//	wxString szFilename;
+//	wxBitmap wxbdumb;
+//	for (int iFrame=1; ; iFrame++) {
+//		szFilename.Printf( _("frame%d.ppm"), iFrame);
+//		if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
+//			break;
+//		m_vBgndVideo.push_back(wxbdumb);
+//	}
+//	//set background image
+//	wxbBgndImage = m_vBgndVideo[0];
+//	bBgndImageAlloc = true;
 	return true; 
 }
 
@@ -1050,16 +1053,46 @@ wxString MicArrayAnalyzer::GetCurTime_Str()
 
 wxBitmap MicArrayAnalyzer::GetBGNDVideoBmp() 
 {
-	if (bBgndVideoAlloc) 
-	{
-		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
-		return m_vBgndVideo[bgndVideoFrameNum];
-	} 
-	else 
-	{	
-	return NULL;
-	} 
+//	if (bBgndVideoAlloc) 
+//	{
+//		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
+//		return m_vBgndVideo[bgndVideoFrameNum];
+//	} 
+//	else 
+//	{	
+	return outputFrames->GetBgndImage(m_curFrame);
+//	} 
 }
+
+bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame) 
+{
+	wxString szFilename;
+	wxBitmap wxbdumb;
+	int actualframe = m_curFrame; //save it for later..
+	m_curFrame = frame;
+		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
+	if(bgndVideoFrameNum > outputFrames->GetNumOfFrames()) std::cout<<"\nframe out of bound in setBGNDVideoBmp(int frame)!!!\n";
+	szFilename.Printf( _("frame%d.ppm"), bgndVideoFrameNum);
+	if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
+		return false;
+	//Background Image Size Check (and scaling if necessary)
+	if ((wxbdumb.GetWidth() != X_RES)||(wxbdumb.GetHeight() != Y_RES))
+	{
+		//We need to scale choosen image to fit image panel dimensions
+		wxImage tmp = wxbdumb.ConvertToImage();
+		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
+		wxbdumb = wxBitmap(tmp);
+	}
+	
+	outputFrames->SetBgndImage(wxbdumb, m_curFrame);
+	m_curFrame = actualframe; //.. set it back
+	return true;
+}
+
+
+
+
+
 
 //-----------------------------
 // AudioPool Class

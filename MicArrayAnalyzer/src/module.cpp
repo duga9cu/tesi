@@ -353,6 +353,8 @@ bool EffectMicArrayAnalyzer::Process()
 	}
 	effectCritsect.Leave();
 	
+	//set background image
+	mMAA->SetBgndImage( mMAA->GetBGNDVideoBmp() );
 		
 	UpdateVideoProgressMeter(mMAA->GetNumOfFrames() , mMAA->GetNumOfFrames());
 
