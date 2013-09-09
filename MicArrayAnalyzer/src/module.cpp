@@ -349,15 +349,14 @@ bool EffectMicArrayAnalyzer::Process()
 					thread->Run() ;
 			frame++;
 		}
-		UpdateVideoProgressMeter(frame , mMAA->GetNumOfFrames());
+		UpdateVideoProgressMeter(frame-1 , mMAA->GetNumOfFrames());
 	}
-	effectCritsect.Leave();
 	
 	//set background image
 	mMAA->SetBgndImage( mMAA->GetBGNDVideoBmp() );
 		
-	UpdateVideoProgressMeter(mMAA->GetNumOfFrames() , mMAA->GetNumOfFrames());
-
+	effectCritsect.Leave();
+	
 #ifdef __AUDEBUG__
 //	mMAA->PrintResults();
 	printf("\n\n******************* ALL THREADS DONE!! ***************\n");

@@ -59,6 +59,7 @@ bandAutoscale(false)
 	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
 	wxImage::AddHandler(new wxPNMHandler);
+//	SetFrameLength(FRAMELENGTH); è una cagata perchè ancora non sai la proj rate!
 }
 
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
@@ -539,7 +540,8 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 		//... and add it to the video!
 		mAAcritSec->Enter();
 		outputFrames->AddFrame(videoframe);
-		SetBGNDVideoBmp(frame); //retrieve and add to videoframe respective ppm file (saved in EncodeFrames() )
+		if (!SetBGNDVideoBmp(frame)) //retrieve and add to videoframe respective ppm file (saved in EncodeFrames() )
+			outputFrames->DeleteFrame(frame);
 		bResultsAvail = true;
 		bBgndImageAlloc = true;
 //		PrintResult(frame);
@@ -1070,8 +1072,7 @@ bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame)
 	wxBitmap wxbdumb;
 	int actualframe = m_curFrame; //save it for later..
 	m_curFrame = frame;
-		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
-	if(bgndVideoFrameNum > outputFrames->GetNumOfFrames()) std::cout<<"\nframe out of bound in setBGNDVideoBmp(int frame)!!!\n";
+	int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
 	szFilename.Printf( _("frame%d.ppm"), bgndVideoFrameNum);
 	if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
 		return false;

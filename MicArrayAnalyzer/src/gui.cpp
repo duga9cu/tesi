@@ -126,7 +126,9 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	
 	IsAllOKCheck();
 	
-	str.Printf(_("%d"),mMAA->GetAudioTrackLength()/(mMAA->GetFrameLengthSmpl()-mMAA->GetFrameOverlapSmpl()));
+	int totframes = mMAA->GetAudioTrackLength() / (mMAA->GetFrameLengthSmpl() - mMAA->GetFrameOverlapSmpl()) ;
+	mMAA->SetNumOfFrames(totframes);
+	str.Printf(_("%d"), totframes);
 	m_wxstTotFrames->SetLabel(str);
 }
 
@@ -496,6 +498,7 @@ void MicArrayAnalyzerConfDlg::OnPaint(wxPaintEvent& event)
 void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 {
 	mMAA->SetTransparency(m_wxscTransparency->GetValue());
+	mMAA->SetNumOfFrames(wxAtoi(m_wxstTotFrames->GetLabel())); 
 	
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());

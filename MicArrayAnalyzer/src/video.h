@@ -78,6 +78,8 @@ class Video
 		void AddFrame(VideoFrame* f) ;
 		bool IsVideoComplete() {isVideoComplete = (resultCube.size()==numOfFrames) ? true: false; return isVideoComplete;}
 //		void CreateColorMaps();
+		//		void DeleteAllData();
+		void DeleteFrame(int frame) {resultCube.erase(frame);}
 
 		//getters
 		double** GetFrameMatrix(int frameNum) {return resultCube[frameNum]->GetMatrix();}
@@ -99,7 +101,6 @@ class Video
 		void SetFrameLevelsMap(int frame, double** levelsmap, int band) {resultCube[frame]->SetLevelsMap(levelsmap, band);}
 		void SetBgndImage(wxBitmap wxb, int frame) {resultCube[frame]->SetBgndImage(wxb);}
 		bool SetMinsAndMaxs();
-//		void DeleteAllData();
 
 		// 'ctors
 		Video(int width, int height):m_width(width), m_height(height), numOfFrames(0), transparency(50), overallMax(0),overallMin(0),isVideoComplete(false) {}
