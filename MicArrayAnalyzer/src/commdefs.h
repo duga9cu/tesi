@@ -54,6 +54,8 @@ inline double undB20(double x) {
 	return undB(x,20.0);
 }
 
+//typedef uint32_t millisec;
+
 enum MeasureUnit { MU_dB   = 0, MU_Pa,   MU_Sqrt,   MU_Cbrt }; 
 enum Styles      { CMS_JET = 0, CMS_HOT, CMS_COLD };
 

@@ -266,12 +266,12 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	
 	
 	
-	//---------------- Even more set up ----------------
-	sampleCount atl= mMAA->GetAudioTrackLength();
-	sampleCount fls =  mMAA->GetFrameLengthSmpl();
-	sampleCount ovlp = mMAA->GetFrameOverlapSmpl();
-	int numOfFrames = atl / (fls-ovlp);  
-	mMAA->SetNumOfFrames(numOfFrames);
+//	//---------------- Even more set up ----------------
+//	sampleCount atl= mMAA->GetAudioTrackLength();
+//	sampleCount fls =  mMAA->GetFrameLengthSmpl();
+//	sampleCount ovlp = mMAA->GetFrameOverlapSmpl();
+//	int numOfFrames = atl / (fls-ovlp);  
+//	mMAA->SetNumOfFrames(numOfFrames);
 	
 	
 	//----------------  Showing conf dialog ----------------
@@ -283,7 +283,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	printf("MicArrayAnalyzer: Copying deconv IRs from file to MicArrayAnalyzer object.\n");
 	fflush(stdout);
 #endif
-	if(!mMAA->LoadDeconvIRs()) //CONTROLLA QUANTO VALE numofframes
+	if(!mMAA->LoadDeconvIRs()) //DEBUG : CONTROLLA QUANTO VALE numofframes
 	{
 		wxMessageBox(_("Error copying deconv IRs from WAV file!"),_("Error"),wxOK|wxICON_ERROR);
 		delete mMAA;
@@ -311,7 +311,7 @@ bool EffectMicArrayAnalyzer::Process()
 	m_benchTime.Start();
 #endif
 	
-	//the first frame on the main thread (in order to complete init of some variables of mMAA)
+	//the first frame is on the main thread (in order to complete init of some variables of mMAA)
 	printf("\n************************** Process: calculate(%d) ***************************\n",1);
 	if(mMAA->Calculate(1))
 	{

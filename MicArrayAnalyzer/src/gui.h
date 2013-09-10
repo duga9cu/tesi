@@ -45,6 +45,7 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		wxConfig m_Conf; 
 
 		int updating;
+		bool bDoubleReturnPressed;
 		wxStaticBitmap* wxsbHeadersCheck;
 		bool bHeaders, bBgndImage, bLength, bVirtMikes, bProjChannels, bProjRate, bProjBits;
 	protected:

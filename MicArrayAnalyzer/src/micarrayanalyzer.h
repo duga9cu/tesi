@@ -132,7 +132,7 @@ class MicArrayAnalyzer
 		int iVirtualMikes;
 		int iDeconvIRsLength;
 		
-		double *MikesCoordinates;
+		double *MikesCoordinates; //filled with XML data for pixel coordinates of every mic in the fashion [mic1.x,mic1.y, mic2.x,mic2.y, ... , micN.x,micN.y]
 		bool bMikesCoordsAlloc;
 		
 		wxBitmap wxbBgndImage;
@@ -175,9 +175,9 @@ class MicArrayAnalyzer
 		void InitLevelsMap(int frame);
 		
 		int m_curFrame;
-		double frameLength; // seconds
-		sampleCount frameLengthSmpl; //samples
-		float frameOverlapRatio; // ratio [0,1]
+		double m_frameLength; // seconds
+		sampleCount m_frameLengthSmpl; //samples
+		float m_frameOverlapRatio; // ratio [0,1]
 		bool playing;
 		bool bandAutoscale;
 		
@@ -242,10 +242,10 @@ class MicArrayAnalyzer
 		int GetCurFrame() {return m_curFrame;}
 		wxString GetCurTime_Str();
 		int GetCurTime_ms();
-		double GetFrameLength() {return frameLength;}
-		sampleCount GetFrameLengthSmpl() {return frameLengthSmpl;}
-		sampleCount GetFrameOverlapSmpl() {return frameOverlapRatio*frameLengthSmpl;}
-		double GetFrameOverlapRatio() {return frameOverlapRatio;}
+		double GetFrameLength() {return m_frameLength;}
+		sampleCount GetFrameLengthSmpl() {return m_frameLengthSmpl;}
+		sampleCount GetFrameOverlapSmpl() {return m_frameOverlapRatio*m_frameLengthSmpl;}
+		double GetFrameOverlapRatio() {return m_frameOverlapRatio;}
 		bool Playing() {return playing;}
 		int GetTransparency() {return outputFrames->GetTransparency();}
 		bool IsBandAutoscale() {return bandAutoscale;}
@@ -262,7 +262,7 @@ class MicArrayAnalyzer
 		void SetXMLFile(const wxString& str);
 		void SetWAVFile(const wxString& str);
 		bool SetBgndImage(const wxString& str);
-		bool SetBgndImage(const wxBitmap& wxb) {wxbBgndImage=wxb;}
+		void SetBgndImage(const wxBitmap& wxb) {wxbBgndImage=wxb;}
 		bool SetBgndVideo(const wxString& str);
 		void SetFSLevel(double value) { dFSLevel = value; }
 		void SetMinSPLThreshold(double value) { dMinSPLThreshold = value; }
@@ -274,9 +274,9 @@ class MicArrayAnalyzer
 //			PrintResult(m_curFrame);
 #endif
 		}
-		void SetFrameLength(double value) {frameLength = value; frameLengthSmpl = frameLength * dProjectRate;}
-		void SetFrameLengthSmpl(sampleCount valueSmpl){ frameLengthSmpl = valueSmpl; }
-		void SetFrameOverlapRatio(double ratio) {frameOverlapRatio = ratio;}
+		void SetFrameLength(double value) {m_frameLength = value; m_frameLengthSmpl = m_frameLength * dProjectRate;}
+		void SetFrameLengthSmpl(sampleCount valueSmpl){ m_frameLengthSmpl = valueSmpl; }
+		void SetFrameOverlapRatio(double ratio) {m_frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
 		void SetBandAutoscale(bool value) {bandAutoscale = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}

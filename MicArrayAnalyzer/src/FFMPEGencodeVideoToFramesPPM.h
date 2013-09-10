@@ -15,8 +15,11 @@
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include "swscale.h"
+
 #include <stdio.h>
+typedef uint32_t millisec;
+
 
 void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame) ;
 
-int EncodeFrames( char *argv) ;
+int EncodeFrames( char *argv, millisec start_ms, millisec end_ms) ;

@@ -20,7 +20,8 @@
 
 #include "FFMPEGencodeVideoToFramesPPM.h"
 
-void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame) {
+void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame)
+{	
 	FILE *pFile;
 	char szFilename[32];
 	int  y;
@@ -40,11 +41,25 @@ void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame) {
 	
 	// Close file
 	fclose(pFile);
+	
+	
+	
+#ifdef __AUDEBUG__
+	printf("MicArrayAnalyzer::EncodeFrames(): frame%d.ppm saved.\n", iFrame);
+	fflush(stdout);
+#endif
 }
 
-int EncodeFrames( char* argv) {
+int EncodeFrames( char *argv, millisec start_ms, millisec end_ms) 
+{
+	
+	#ifdef __AUDEBUG__
+			printf("MicArrayAnalyzer::EncodeFrames(): Saving single ppm frame from video.\n");
+			fflush(stdout);
+	#endif
+	
 	AVFormatContext *pFormatCtx = NULL;
-	int             i, videoStream;
+	int             i,startframe,endframe, videoStream;
 	AVCodecContext  *pCodecCtx = NULL;
 	AVCodec         *pCodec = NULL;
 	AVFrame         *pFrame = NULL; 
@@ -53,7 +68,7 @@ int EncodeFrames( char* argv) {
 	int             frameFinished;
 	int             numBytes;
 	uint8_t         *buffer = NULL;
-	
+		
 //	AVDictionary    *optionsDict = NULL;
 	struct SwsContext      *sws_ctx = NULL;
 	
@@ -103,6 +118,10 @@ int EncodeFrames( char* argv) {
 	//find out frame rate (supposedly constant)
 	int fps = pCodecCtx->time_base.den;
 	
+	//define first and last frame of the video chunk
+	startframe = (double)start_ms/1000 * (fps/2) -1;
+	endframe = (double)end_ms/1000 * (fps/2) +1;
+
 	// Allocate video frame
 	pFrame=avcodec_alloc_frame();
 	
@@ -146,11 +165,11 @@ int EncodeFrames( char* argv) {
 			avcodec_decode_video2(pCodecCtx, pFrame, &frameFinished, 
 								  &packet);
 			
-			// Did we get a video frame?
+			// Did we get a video frame? is in the selected chunk?
 			if(frameFinished) {
-				
-//				pFrame->pts // 1/fps units
-				
+				if (i<startframe || i>endframe ) 
+					++i;
+				else {
 				// Convert the image from its native format to RGB
 				sws_scale
 				(
@@ -166,6 +185,7 @@ int EncodeFrames( char* argv) {
 				// Save the frame to disk
 					SaveFrame(pFrameRGB, pCodecCtx->width, pCodecCtx->height, 
 							  ++i);
+				}
 			}
 		}
 		

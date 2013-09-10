@@ -148,7 +148,8 @@ public:
       Takes a vector of 2 dimensional points where
 	  each of the coordinates is expressed as double.
     */
-	Delaunay(std::vector< Point >& v){
+	Delaunay(std::vector< Point >& v) : in(NULL),delclass(NULL), pmesh(NULL), pbehavior(NULL)
+	{
 		PList.assign(v.begin(), v.end());
 		Triangulated = false;
 	}

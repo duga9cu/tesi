@@ -48,8 +48,8 @@ bResultsAvail(false),
 bWatchpointsAlloc(false),
 iWatchpoints(0),
 //mProgress(0),
-frameLength(FRAMELENGTH),
-frameOverlapRatio(FRAMEOVERLAP),
+m_frameLength(FRAMELENGTH),
+m_frameOverlapRatio(FRAMEOVERLAP),
 m_curFrame(1),
 playing(false),
 //bandAutoscale(true)
@@ -117,9 +117,9 @@ bResultsAvail(false), //devo ancora calcolare i risultati
 // wxasWatchpointsLabels(mMAA.wxasWatchpointsLabels),  
 //bWatchpointsAlloc(mMAA.bWatchpointsAlloc), 
 m_curFrame(mMAA.m_curFrame),
-frameLength(mMAA.frameLength),
-frameLengthSmpl(mMAA.frameLengthSmpl),
-frameOverlapRatio(mMAA.frameOverlapRatio),
+m_frameLength(mMAA.m_frameLength),
+m_frameLengthSmpl(mMAA.m_frameLengthSmpl),
+m_frameOverlapRatio(mMAA.m_frameOverlapRatio),
 outputFrames(mMAA.outputFrames), //* shared among threads! 
 mAAcritSec(mMAA.mAAcritSec) //* shared among threads!
 {
@@ -276,8 +276,8 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
 	fflush(stdout);
 #endif
-	sampleCount startFrameSmpl = (frame-1)*(frameLengthSmpl - frameLengthSmpl*frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
-	sampleCount endFrameSmpl = startFrameSmpl + frameLengthSmpl;
+	sampleCount startFrameSmpl = (frame-1)*(m_frameLengthSmpl - m_frameLengthSmpl*m_frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
+	sampleCount endFrameSmpl = startFrameSmpl + m_frameLengthSmpl;
 	bool lastframe = false;
 	int zeropadding=0;
 	if (endFrameSmpl >=	iAudioTrackLength) { //on the last frame, cut!
@@ -348,6 +348,7 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 	{
 		//		UpdateProgressMeter(i,iVirtualMikes);
 		
+		// Get current virtualmike coordinates
 		tempP[0] = MikesCoordinates[2*i]; 
 		tempP[1] = MikesCoordinates[2*i + 1];
 #ifdef __AUDEBUG__
@@ -486,10 +487,10 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 	apOutputData = new AudioPool(iVirtualMikes,dFSLevel - double(fdBScalingFactor),dProjectRate); //AudioPool alloc
 	for(int i=0; i<iVirtualMikes; i++)
 	{
-#ifdef __AUDEBUG__
-		printf("MicArrayAnalyzer::Calculate(): Retrieving convolution result [%d] from convolver object.\n",i);
-		fflush(stdout);
-#endif
+//#ifdef __AUDEBUG__
+//		printf("MicArrayAnalyzer::Calculate(): Retrieving convolution result [%d] from convolver object.\n",i);
+//		fflush(stdout);
+//#endif
 		//		UpdateProgressMeter(i,iVirtualMikes);
 		//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
 		//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
@@ -497,27 +498,6 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 	}
 	//	DestroyProgressMeter();
 	
-
-	//NORMALIZING Output Tracks! -->> new peak level will be 1.
-	//	InitProgressMeter(_("Autoranging output signals to match FS..."));
-//#ifdef __AUDEBUG__
-//	printf("MicArrayAnalyzer::Calculate(): AutoRanging output signals.\n");
-//	fflush(stdout);
-//#endif
-//	double dMax;
-//	dMax = apOutputData->FindOverallMax();
-//#ifdef __AUDEBUG__
-//	printf("MicArrayAnalyzer::Calculate(): Found Max Level = %f [pressure]\n",dMax);
-//	fflush(stdout);
-//#endif
-//	//	UpdateProgressMeter(1,2);
-//	apOutputData->ApplyOverallGain(1/dMax);
-//#ifdef __AUDEBUG__
-//	printf("MicArrayAnalyzer::Calculate(): applied overall gain = %f ; new overall max = %f [pressure]\n",1/dMax,apOutputData->FindOverallMax());
-//	fflush(stdout);      
-//#endif
-	//	UpdateProgressMeter(2,2);
-	//	DestroyProgressMeter();
 	
 	//Calculating Results
 //	printf("thread #%d filling audiopool result matrix \n",frame);
@@ -540,8 +520,11 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 		//... and add it to the video!
 		mAAcritSec->Enter();
 		outputFrames->AddFrame(videoframe);
-		if (!SetBGNDVideoBmp(frame)) //retrieve and add to videoframe respective ppm file (saved in EncodeFrames() )
+		if (!SetBGNDVideoBmp(frame)) //retrieve and add to videoframe respective ppm file (saved during EncodeFrames() )
+		{
+			std::cout<<"\nCalculate(): ERROR can't save background image!"<<std::endl;
 			outputFrames->DeleteFrame(frame);
+		}
 		bResultsAvail = true;
 		bBgndImageAlloc = true;
 //		PrintResult(frame);
@@ -732,8 +715,10 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	wxfnBgndVideoFile = new wxFileName(str);
 	char videofilepath[100];
 	strcpy(videofilepath, (const char*) wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
-	m_bgndVideoFrameRate = EncodeFrames(videofilepath);  //TODO calculate it to a separate thread!	
-	m_bgndVideoFrameRate = m_bgndVideoFrameRate / 2 ; /// !!! is it right?
+	int start_ms = iAudioTrackStart / dProjectRate *1000;
+	int end_ms = iAudioTrackEnd / dProjectRate *1000;
+	m_bgndVideoFrameRate = EncodeFrames(videofilepath,start_ms,end_ms);  //TODO calculate it to a separate thread!	
+	m_bgndVideoFrameRate = m_bgndVideoFrameRate / 2 ; /// !!! is it right? it seems that the real fps value is half the value ffmpeg is finding
 //	wxString szFilename;
 //	wxBitmap wxbdumb;
 //	for (int iFrame=1; ; iFrame++) {
