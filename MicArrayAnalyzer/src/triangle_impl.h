@@ -1473,7 +1473,7 @@ VOID *memptr;
 #endif /* not ANSI_DECLARATORS */
 
 {
-  free(memptr);
+		free(memptr);
 }
 
 /**                                                                         **/
