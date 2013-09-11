@@ -72,7 +72,6 @@ class EffectMicArrayAnalyzer: public Effect
    private:
       MicArrayAnalyzer *mMAA;
 	   TimeBenchmark m_benchTime;
-	   wxProgressDialog *m_progressBar;
       bool LoadTrackData(WaveTrack *wt, int id);
       void SelectTracks(bool status);
       void SelectAllTracks();

@@ -729,7 +729,7 @@ void MicArrayAnalyzerConfDlg::MinSPLOnChar(wxKeyEvent& event)
 		IsAllOKCheck();
 	}
 	else {
-		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
+//		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
 			bDoubleReturnPressed=false;
 		event.Skip();
 	}
@@ -763,7 +763,7 @@ void MicArrayAnalyzerConfDlg::FSOnChar(wxKeyEvent& event)
 		IsAllOKCheck();
 	}
 	else {
-		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
+//		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
 			bDoubleReturnPressed=false;
 		event.Skip();
 	}
@@ -797,7 +797,7 @@ void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
 		IsAllOKCheck();
 	}
 	else {
-		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
+//		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
 			bDoubleReturnPressed=false;
 		event.Skip();
 	}
@@ -830,7 +830,7 @@ void MicArrayAnalyzerConfDlg::FOvlpOnChar(wxKeyEvent& event)
 		IsAllOKCheck();
 	}
 	else {
-		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
+//		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
 			bDoubleReturnPressed=false;
 		event.Skip();
 	}

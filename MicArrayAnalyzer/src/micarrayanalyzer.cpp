@@ -351,11 +351,11 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 		// Get current virtualmike coordinates
 		tempP[0] = MikesCoordinates[2*i]; 
 		tempP[1] = MikesCoordinates[2*i + 1];
-#ifdef __AUDEBUG__
-		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
-		fflush(stdout);
-		//         VirtualMike* pvmDebug;
-#endif
+//#ifdef __AUDEBUG__
+//		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
+//		fflush(stdout);
+//		//         VirtualMike* pvmDebug;
+//#endif
 		v.push_back(tempP);  //Adding mike to the triangulation
 		
 		if (iArrayType == 0)
@@ -365,10 +365,10 @@ printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAu
 				double dMirroredMike[2];
 				GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,j); //Retrieving mirror #j mike coords.
 				tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
-#ifdef __AUDEBUG__
-				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
-				fflush(stdout);
-#endif
+//#ifdef __AUDEBUG__
+//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
+//				fflush(stdout);
+//#endif
 				v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
 				vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
             }

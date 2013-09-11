@@ -510,7 +510,7 @@
 				AUDACITY_LIB_PREFIX = "$(AUDACITY_SRC_PREFIX)/lib-src";
 				AUDACITY_MODULES_PATH = "$(AUDACITY_BINARY_PATH)/modules";
 				AUDACITY_SRC_PATH = "$(AUDACITY_SRC_PREFIX)/src";
-				AUDACITY_SRC_PREFIX = "/Users/simone/src/audacity-src-2.0.0";
+				AUDACITY_SRC_PREFIX = "/Users/LeopardOS/src/audacity-src-2.0.0";
 				EXECUTABLE_EXTENSION = so;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -525,6 +525,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(WX_PREFIX)/include",
+					"$(AUDACITY_LIB_PREFIX)/libsndfile/src",
 					"$(AUDACITY_LIB_PREFIX)/lib-widget-extra",
 					"$(AUDACITY_LIB_PREFIX)/portsmf",
 					"$(AUDACITY_LIB_PREFIX)/portmixer/include",
@@ -535,20 +536,30 @@
 				);
 				INSTALL_PATH = "$(AUDACITY_MODULES_PATH)";
 				LIBRARY_SEARCH_PATHS = (
+					$/usr/local/lib/audacity,
 					"$(WX_PREFIX)/lib/i386",
 					"$(WX_PREFIX)/lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
+					"-lbz2",
+					"-liconv",
+					"-lavutil",
+					"-lavcodec",
+					"-lz",
+					"-lm",
+					"-lswscale",
 					"-bundle_loader",
-					"$(AUDACITY_BINARY)",
+					"\"$(AUDACITY_BINARY)\"",
 					"-fPIC",
 					"-undefined",
 					dynamic_lookup,
+					"-lavformat",
 				);
 				PREBINDING = NO;
 				SDKROOT = macosx10.4;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				USER_HEADER_SEARCH_PATHS = /usr/local/include;
 				WX_PREFIX = /opt/local;
 				WX_VERSION = 2.8;
 			};

@@ -31,7 +31,6 @@
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
 #include "video.h"
-//#include "ffmpegEncode.h"
 
 extern "C" { 
 #include "FFMPEGencodeVideoToFramesPPM.h"

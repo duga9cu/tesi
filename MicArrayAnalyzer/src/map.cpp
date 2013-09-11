@@ -11,7 +11,7 @@
 #include <wx/dcbuffer.h>
 
 #include "myartprovider.h"
-#include "micarrayanalyzer.h"
+//#include "micarrayanalyzer.h"
 #include "map.h"
 
 ////////////////////////////////////////////////////////////////////////////////
