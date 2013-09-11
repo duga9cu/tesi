@@ -857,18 +857,19 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FRAMELENGTH)
 {
 	double d = def_val;
-	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
+//	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
+	double maxval=0.05; // seconds as it is that 1s / 0.05s = 20fps which is the minimum value permitted
 	wxString str;
 	
 	str = txt->GetValue();
 	str.Replace(_(","), _("."), true);
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
-	if (d < 0) 
-		d = 0;      
-	else if (d > audiotracklengthinseconds ) {
-		str.Printf(_("Frame Length value too long!\nselected audio data is %f second long.\n\nvalue reset to default"),
-				   audiotracklengthinseconds);
+	if (d <= 0) 
+		d = 0.001;      
+	else if (d > maxval ) {
+		str.Printf(_("Frame Length value too long!\nselected value will results in a frame rate value of %d fps.\n\nvalue reset to default"),
+				   (int)(1.0/d));
 		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
 		d= FRAMELENGTH ;
 	}

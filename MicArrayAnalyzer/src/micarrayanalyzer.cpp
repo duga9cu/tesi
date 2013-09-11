@@ -173,34 +173,34 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 {
 //	if(mProgress) delete mProgress;
 //	mProgress = 0;
-//	if(bXMLFileAlloc) {
-//		delete wxfnXMLFile;
-//		bXMLFileAlloc=false;
-//	}
-//	if(bWAVFileAlloc) {
-//		delete wxfnWAVFile;
-//		bWAVFileAlloc=false;
-//	}
-//	if(bSndFileAlloc) {
-//		sf_close(infile);
-//		bSndFileAlloc=false;
-//	}
-//	if(bMikesCoordsAlloc) {
-//		delete [] MikesCoordinates;
-//		bMikesCoordsAlloc=false;
-//	}
-//	if(bBgndImageAlloc) {
-//		delete wxfnBgndImageFile;
-//		bBgndImageAlloc=false;
-//	}
-//	if(bMirroredMikesAlloc) {
-//		delete vmsMirroredMikes;
-//		bMirroredMikesAlloc=false;
-//	}
-//	if(iNTriangles > 0) delete [] tmMeshes;
-//	if (bAudioDataAlloc) delete [] ppfAudioData;
-//	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
-//	if(bWatchpointsAlloc) delete [] piWatchpoints;
+	if(bXMLFileAlloc) {
+		delete wxfnXMLFile;
+		bXMLFileAlloc=false;
+	}
+	if(bWAVFileAlloc) {
+		delete wxfnWAVFile;
+		bWAVFileAlloc=false;
+	}
+	if(bSndFileAlloc) {
+		sf_close(infile);
+		bSndFileAlloc=false;
+	}
+	if(bMikesCoordsAlloc) {
+		delete [] MikesCoordinates;
+		bMikesCoordsAlloc=false;
+	}
+	if(bBgndImageAlloc) {
+		delete wxfnBgndImageFile;
+		bBgndImageAlloc=false;
+	}
+	if(bMirroredMikesAlloc) {
+		delete vmsMirroredMikes;
+		bMirroredMikesAlloc=false;
+	}
+	if(iNTriangles > 0) delete [] tmMeshes;
+	if (bAudioDataAlloc) delete [] ppfAudioData;
+	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
+	if(bWatchpointsAlloc) delete [] piWatchpoints;
 }
 
 
