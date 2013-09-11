@@ -31,7 +31,7 @@
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
 #include "video.h"
-
+#include <wx/stdpaths.h>
 extern "C" { 
 #include "FFMPEGencodeVideoToFramesPPM.h"
 }
@@ -142,6 +142,9 @@ class MicArrayAnalyzer
 		wxFileName* wxfnBgndVideoFile;
 		int m_bgndVideoFrameRate;
 
+		wxStandardPaths m_standardTMPdirPath;
+		wxString m_tmpDirPath;
+		
 		VirtualMikesSet *vmsMirroredMikes;  //It MAY contains mirrored virtual mikes, ONLY IF the array is spherical.
 		TriangularMesh **tmMeshes;
 		int iNTriangles;                    //# of stored triangular meshes

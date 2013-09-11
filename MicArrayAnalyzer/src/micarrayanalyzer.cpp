@@ -55,6 +55,7 @@ playing(false),
 //bandAutoscale(true)
 bandAutoscale(false)
 {
+	m_tmpDirPath=m_standardTMPdirPath.GetTempDir();
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
 	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
@@ -95,6 +96,7 @@ wxfnBgndImageFile(mMAA.wxfnBgndImageFile),
 m_bgndVideoFrameRate(mMAA.m_bgndVideoFrameRate),
 bBgndVideoAlloc(mMAA.bBgndVideoAlloc),
 wxfnBgndVideoFile(mMAA.wxfnBgndVideoFile),
+m_tmpDirPath(mMAA.m_tmpDirPath),
 //vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
 //tmMeshes(mMAA.tmMeshes), // initialized in calculate()
 iNTriangles(mMAA.iNTriangles), //la triangolazione è uguale per tutti // ANDREBBE TOLTA DALLA CALCULATE E FATTA PRIMA?
@@ -715,9 +717,12 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	wxfnBgndVideoFile = new wxFileName(str);
 	char videofilepath[100];
 	strcpy(videofilepath, (const char*) wxfnBgndVideoFile->GetFullPath().mb_str(wxConvUTF8));
+	char standardTMPdir[100];
+	strcpy(standardTMPdir, (const char*) m_tmpDirPath.mb_str(wxConvUTF8));
 	int start_ms = iAudioTrackStart / dProjectRate *1000;
 	int end_ms = iAudioTrackEnd / dProjectRate *1000;
-	m_bgndVideoFrameRate = EncodeFrames(videofilepath,start_ms,end_ms);  //TODO calculate it to a separate thread!	
+	
+	m_bgndVideoFrameRate = EncodeFrames(videofilepath, standardTMPdir,start_ms,end_ms);  //TODO calculate it to a separate thread!	
 	m_bgndVideoFrameRate = m_bgndVideoFrameRate / 2 ; /// !!! is it right? it seems that the real fps value is half the value ffmpeg is finding
 //	wxString szFilename;
 //	wxBitmap wxbdumb;
@@ -1053,13 +1058,19 @@ wxBitmap MicArrayAnalyzer::GetBGNDVideoBmp()
 
 bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame) 
 {
+	wxString szFilePath(m_tmpDirPath);
 	wxString szFilename;
 	wxBitmap wxbdumb;
 	int actualframe = m_curFrame; //save it for later..
 	m_curFrame = frame;
 	int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
 	szFilename.Printf( _("frame%d.ppm"), bgndVideoFrameNum);
-	if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
+	szFilePath.append(szFilename);
+
+//#ifdef __AUDEBUG__
+//	std::cout<<szFilePath.mb_str(wxConvUTF8);
+//#endif
+	if ( !wxbdumb.LoadFile(szFilePath, wxBITMAP_TYPE_PNM) ) 
 		return false;
 	//Background Image Size Check (and scaling if necessary)
 	if ((wxbdumb.GetWidth() != X_RES)||(wxbdumb.GetHeight() != Y_RES))

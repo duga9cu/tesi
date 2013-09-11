@@ -20,14 +20,14 @@
 
 #include "FFMPEGencodeVideoToFramesPPM.h"
 
-void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame)
+void SaveFrame(AVFrame *pFrame,char* tmpdir, int width, int height, int iFrame)
 {	
 	FILE *pFile;
-	char szFilename[32];
+	char szFilename[100];
 	int  y;
 	
 	// Open file
-	sprintf(szFilename, "frame%d.ppm", iFrame);
+	sprintf(szFilename, "%s/frame%d.ppm",tmpdir , iFrame);
 	pFile=fopen(szFilename, "wb");
 	if(pFile==NULL)
 		return;
@@ -50,7 +50,7 @@ void SaveFrame(AVFrame *pFrame, int width, int height, int iFrame)
 #endif
 }
 
-int EncodeFrames( char *argv, millisec start_ms, millisec end_ms) 
+int EncodeFrames( char *argv,char* tmpdir, millisec start_ms, millisec end_ms) 
 {
 	
 	#ifdef __AUDEBUG__
@@ -183,7 +183,7 @@ int EncodeFrames( char *argv, millisec start_ms, millisec end_ms)
 				 );
 				
 				// Save the frame to disk
-					SaveFrame(pFrameRGB, pCodecCtx->width, pCodecCtx->height, 
+					SaveFrame(pFrameRGB, tmpdir, pCodecCtx->width, pCodecCtx->height, 
 							  ++i);
 				}
 			}
