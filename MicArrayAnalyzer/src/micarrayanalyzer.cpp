@@ -48,7 +48,7 @@ bResultsAvail(false),
 bWatchpointsAlloc(false),
 iWatchpoints(0),
 //mProgress(0),
-m_frameLength(FRAMELENGTH),
+m_frameLength(FRAMELENGTH/1000),
 m_frameOverlapRatio(FRAMEOVERLAP),
 m_curFrame(1),
 playing(false),
@@ -60,7 +60,6 @@ bandAutoscale(false)
 	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
 	wxImage::AddHandler(new wxPNMHandler);
-//	SetFrameLength(FRAMELENGTH); è una cagata perchè ancora non sai la proj rate!
 }
 
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
@@ -170,37 +169,39 @@ void MicArrayAnalyzer::DeleteAllData()  {
 
 
 MicArrayAnalyzer::~MicArrayAnalyzer()
-{
+{//
 //	if(mProgress) delete mProgress;
 //	mProgress = 0;
-//	if(bXMLFileAlloc) {
-//		delete wxfnXMLFile;
-//		bXMLFileAlloc=false;
-//	}
-//	if(bWAVFileAlloc) {
-//		delete wxfnWAVFile;
-//		bWAVFileAlloc=false;
-//	}
-//	if(bSndFileAlloc) {
-//		sf_close(infile);
-//		bSndFileAlloc=false;
-//	}
-//	if(bMikesCoordsAlloc) {
-//		delete [] MikesCoordinates;
-//		bMikesCoordsAlloc=false;
-//	}
-//	if(bBgndImageAlloc) {
-//		delete wxfnBgndImageFile;
-//		bBgndImageAlloc=false;
-//	}
-//	if(bMirroredMikesAlloc) {
-//		delete vmsMirroredMikes;
-//		bMirroredMikesAlloc=false;
-//	}
-//	if(iNTriangles > 0) delete [] tmMeshes;
-//	if (bAudioDataAlloc) delete [] ppfAudioData;
-//	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
-//	if(bWatchpointsAlloc) delete [] piWatchpoints;
+	if(bXMLFileAlloc) {
+		delete wxfnXMLFile;
+		bXMLFileAlloc=false;
+	}
+	if(bWAVFileAlloc) {
+		delete wxfnWAVFile;
+		bWAVFileAlloc=false;
+	}
+	if(bSndFileAlloc) {
+		sf_close(infile);
+		bSndFileAlloc=false;
+	}
+	if(bMikesCoordsAlloc) {
+		delete [] MikesCoordinates;
+		bMikesCoordsAlloc=false;
+	}
+	if(bBgndImageAlloc) {
+		delete wxfnBgndImageFile;
+		bBgndImageAlloc=false;
+	}
+	if(bMirroredMikesAlloc) {
+		delete vmsMirroredMikes;
+		bMirroredMikesAlloc=false;
+	}
+	if(iNTriangles > 0) delete [] tmMeshes;
+	if (bAudioDataAlloc) delete [] ppfAudioData;
+	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
+	if(bWatchpointsAlloc) delete [] piWatchpoints;
+	
+//	delete outputFrames;
 }
 
 

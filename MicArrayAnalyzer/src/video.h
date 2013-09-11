@@ -13,7 +13,12 @@
 #include "meshandinterpol.h"
 #include "commdefs.h"
 
-#define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046 nel test teatro)
+#define FRAMELENGTH_MIN 1					 //in ms -> 1s / 0.01s = 1000 fps which is the max frame rate value imposed
+#define FRAMELENGTH_MAX 50					//in ms -> 1s / 0.05s = 20 fps which is the min frame rate value imposed
+
+
+//defaults
+#define FRAMELENGTH 50					// milliseconds of audio to chunck for one video frame 
 #define FRAMEOVERLAP 0.1					// percentage of frame overlapping
 #define TRANSPARENCY 50					// alpha value for the colormap superposition
 
@@ -104,6 +109,10 @@ class Video
 
 		// 'ctors
 		Video(int width, int height):m_width(width), m_height(height), numOfFrames(0), transparency(50), overallMax(0),overallMin(0),isVideoComplete(false) {}
-		~Video() { /* has to be empty */}
+		~Video() {
+			for (int i=1; i<numOfFrames; i++) {
+				delete resultCube[i];
+			}
+		}
 	};
 #endif __VIDEO_H__

@@ -335,7 +335,7 @@ bool EffectMicArrayAnalyzer::Process()
 		if (thread != NULL) thread->Run() ;
 	}
 	
-	UpdateVideoProgressMeter(frame , mMAA->GetNumOfFrames());
+	UpdateVideoProgressMeter(frame-1 , mMAA->GetNumOfFrames());
 
 	//wait for every thread to finish
 	//	while (!m_threads.IsEmpty()) {

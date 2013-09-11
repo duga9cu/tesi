@@ -125,9 +125,9 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameLength"));
 	m_Conf.Read(buffer, &d, FRAMELENGTH);
-	buffer.Printf(_("%.3f"),d);
+	buffer.Printf(_("%d"),(int)d);
 	m_wxtcFLength->SetValue(buffer);
-	mMAA->SetFrameLength(d);
+	mMAA->SetFrameLength(d/1000);
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"));
 	m_Conf.Read(buffer, &d, FRAMEOVERLAP*100);
@@ -854,27 +854,39 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 }
 
 
-double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FRAMELENGTH)
+double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FRAMELENGTH/1000)
 {
-	double d = def_val;
-	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
+	double d = def_val*1000; //ms
+//	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
+	double maxvalue = FRAMELENGTH_MAX; //ms
+	double minvalue = FRAMELENGTH_MIN; //ms
+
 	wxString str;
-	
+
 	str = txt->GetValue();
 	str.Replace(_(","), _("."), true);
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
-	if (d < 0) 
-		d = 0;      
-	else if (d > audiotracklengthinseconds ) {
-		str.Printf(_("Frame Length value too long!\nselected audio data is %f second long.\n\nvalue reset to default"),
-				   audiotracklengthinseconds);
+	if(d==0) d=1;
+	else if (d < minvalue) 
+	{
+		str.Printf(_("Frame Length value too short!\nselected value would result in frame rate %d fps.\n\nvalue reset to default"),
+				   (int)(1000.0/d));
 		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
-		d= FRAMELENGTH ;
+		d= def_val ;
+	}
+	else if (d > maxvalue ) {
+		str.Printf(_("Frame Length value too long!\nselected value would result in frame rate %d fps.\n\nvalue reset to default"),
+				   (int)(1000.0/d));
+		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
+		d= def_val ;
 	}
 	
-	str.Printf(_("%1.3f"),d);
+	str.Printf(_("%d"),(int)d);
 	txt->SetValue(str);
+	
+	d = d / 1000; //cast to standard seconds!
+	
 	int totframes = mMAA->GetAudioTrackLength() / ( d * mMAA->GetProjSampleRate() * ( 1 - mMAA->GetFrameOverlapRatio()));
 	mMAA->SetNumOfFrames(totframes);
 	str.Printf(_("%d"), totframes);
