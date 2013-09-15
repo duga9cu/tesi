@@ -18,10 +18,6 @@
 #define TRANSPARENCY 50					// alpha value for the colormap superposition
 
 
-
-//double FromdB(const double value_dB, const MeasureUnit mu);
-//bool DoubleToRGB(unsigned char* rgb, const double value, const double min, const double max, const int style);
-
 class AudioPool;
 
 class VideoFrame
@@ -56,7 +52,10 @@ class VideoFrame
 		
 		// 'ctors
 		VideoFrame(double **fM, int channels, int fn, double ovrllMax, double ovrllmin);
-		~VideoFrame() {delete frameMatrix;}
+		~VideoFrame() {
+			delete[] frameMatrix; 
+			delete[]m_aadLevelsMap;
+		}
 	};
 
 class Video
@@ -70,16 +69,19 @@ class Video
 		double overallBandMax[12]; //max of the video for each band
 		double overallBandMin[12]; //min of the video for each band
 		bool isVideoComplete;
+		bool isVideoResized;
 		int m_width, m_height; 		//pixel ratio for each frame
 		
 	public:
 		int m_iCurrentUnit;
 
 		void AddFrame(VideoFrame* f) ;
-		bool IsVideoComplete() {isVideoComplete = (resultCube.size()==numOfFrames) ? true: false; return isVideoComplete;}
+		bool IsVideoComplete(bool oomerror) { isVideoComplete = (resultCube.size()==numOfFrames || oomerror) ? true: false; return isVideoComplete;}
+		bool IsVideoResized() {return isVideoResized;}
 //		void CreateColorMaps();
 		//		void DeleteAllData();
 		void DeleteFrame(int frame) {resultCube.erase(frame);}
+		void CutVideo(int lastframe); //called in case of lack of memory
 
 		//getters
 		double** GetFrameMatrix(int frameNum) {return resultCube[frameNum]->GetMatrix();}
@@ -101,9 +103,19 @@ class Video
 		void SetFrameLevelsMap(int frame, double** levelsmap, int band) {resultCube[frame]->SetLevelsMap(levelsmap, band);}
 		void SetBgndImage(wxBitmap wxb, int frame) {resultCube[frame]->SetBgndImage(wxb);}
 		bool SetMinsAndMaxs();
+		bool SetVideoResized() {isVideoResized = true;} //it is supposed to resize only in case of Out-Of-Memory
 
 		// 'ctors
-		Video(int width, int height):m_width(width), m_height(height), numOfFrames(0), transparency(50), overallMax(0),overallMin(0),isVideoComplete(false) {}
+		Video(int width, int height):	m_width(width), 
+										m_height(height), 
+										numOfFrames(0), 
+										transparency(50), 
+										overallMax(0),
+										overallMin(0),
+										isVideoComplete(false), 
+										isVideoResized(false) 
+		{
+		}
 		~Video() { /* has to be empty */}
 	};
 #endif __VIDEO_H__

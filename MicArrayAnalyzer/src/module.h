@@ -53,6 +53,7 @@ class MyThread : public wxThread
 		// thread execution starts here 
 		virtual void *Entry();
 		void InitThreadMAA();
+		bool GetOutOfMemoryExit() {return bOutOfMemoryExit;}
 	private: 
 		unsigned int m_count;  //frame on which the thread is working on
 		MicArrayAnalyzer* mMAA; //the one and only original
@@ -61,6 +62,7 @@ class MyThread : public wxThread
 		wxMutex *m_mutexCondFinish;
 		wxCriticalSection *effectCritsect;
 		size_t *pnThreadCount;
+		bool bOutOfMemoryExit;
 	}; 
 
 

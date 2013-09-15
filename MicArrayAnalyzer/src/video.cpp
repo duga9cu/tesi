@@ -104,7 +104,7 @@ bool Video::SetMinsAndMaxs()
 
 
 void Video::AddFrame(VideoFrame* f) 	{
-	assert(f->GetFrameNum() <= numOfFrames);
+	if(f->GetFrameNum() <= numOfFrames)
 		resultCube[f->GetFrameNum()] = f;
 //	VideoFrame* ciccio=resultCube[f->GetFrameNum()];
 //	if (ciccio) ;
@@ -115,3 +115,14 @@ void Video::AddFrame(VideoFrame* f) 	{
 //		resultCube[i]->DeleteAllData();
 //	}
 //}
+
+void Video::CutVideo(int lastframe) 
+{
+	lastframe=lastframe-10; //get some buffer
+	SetNumOfFrames(lastframe);
+	for (int i=lastframe+1; i<=resultCube.size(); i++) {
+		DeleteFrame(i);
+		
+	}
+
+}

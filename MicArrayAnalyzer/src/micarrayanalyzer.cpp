@@ -60,7 +60,9 @@ bandAutoscale(false)
 	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
 	wxImage::AddHandler(new wxPNMHandler);
-//	SetFrameLength(FRAMELENGTH); è una cagata perchè ancora non sai la proj rate!
+	m_bErrorOutOfMemory= new bool(false);
+	
+	//	SetFrameLength(FRAMELENGTH); è una cagata perchè ancora non sai la proj rate!
 }
 
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
@@ -113,7 +115,7 @@ bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
 //apOutputData(mMAA.apOutputData),	//*  - viene usato solo in calculate()
 bResultsAvail(false), //devo ancora calcolare i risultati
 //afmvConvolver //*		- viene usato solo in calculate()
- // per ora non uso i watchpoints
+// per ora non uso i watchpoints
 //piWatchpoints(mMAA.piWatchpoints),
 //iWatchpoints(mMAA.iWatchpoints), 
 // wxasWatchpointsLabels(mMAA.wxasWatchpointsLabels),  
@@ -122,16 +124,21 @@ m_curFrame(mMAA.m_curFrame),
 m_frameLength(mMAA.m_frameLength),
 m_frameLengthSmpl(mMAA.m_frameLengthSmpl),
 m_frameOverlapRatio(mMAA.m_frameOverlapRatio),
-outputFrames(mMAA.outputFrames), //* shared among threads! 
+outputFrames(mMAA.outputFrames), //* shared among threads!
+m_bErrorOutOfMemory(mMAA.m_bErrorOutOfMemory),
 mAAcritSec(mMAA.mAAcritSec) //* shared among threads!
 {
+	try {
 	wxfnBgndImageFile=mMAA.wxfnBgndImageFile;
-
+	
 	bAudioDataAlloc = true;	
 	int ActualFrameLengthSmpl = GetFrameLengthSmpl();
 	ActualFrameAudioData = new float* [iProjectNumTracks];
 	for (int i=0; i<iProjectNumTracks; i++) {
 		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
+	}
+	}catch (bad_alloc& ex) {
+		GotBadAlloc();
 	}
 }
 
@@ -165,58 +172,71 @@ void MicArrayAnalyzer::DeleteAllData()  {
 	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
 	if(bWatchpointsAlloc) delete [] piWatchpoints;
 	
-//	outputFrames->DeleteAllData();
+	//	outputFrames->DeleteAllData();
 }
 
 
 MicArrayAnalyzer::~MicArrayAnalyzer()
-{
-//	if(mProgress) delete mProgress;
-//	mProgress = 0;
-	if(bXMLFileAlloc) {
-		delete wxfnXMLFile;
-		bXMLFileAlloc=false;
-	}
-	if(bWAVFileAlloc) {
-		delete wxfnWAVFile;
-		bWAVFileAlloc=false;
-	}
-	if(bSndFileAlloc) {
-		sf_close(infile);
-		bSndFileAlloc=false;
-	}
-	if(bMikesCoordsAlloc) {
-		delete [] MikesCoordinates;
-		bMikesCoordsAlloc=false;
-	}
-	if(bBgndImageAlloc) {
-		delete wxfnBgndImageFile;
-		bBgndImageAlloc=false;
-	}
-	if(bMirroredMikesAlloc) {
-		delete vmsMirroredMikes;
-		bMirroredMikesAlloc=false;
-	}
-	if(iNTriangles > 0) delete [] tmMeshes;
-	if (bAudioDataAlloc) delete [] ppfAudioData;
-	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
-	if(bWatchpointsAlloc) delete [] piWatchpoints;
+{ 
+	//free some memory
+	delete [] ActualFrameAudioData;
+	//REMEMBER TO CALL DeleteAllData() instead! otherwise every thread would destroy everything shared
+	
+	
+	//	if(mProgress) delete mProgress;
+	//	mProgress = 0;
+	//	if(bXMLFileAlloc) {
+	//		delete wxfnXMLFile;
+	//		bXMLFileAlloc=false;
+	//	}
+	//	if(bWAVFileAlloc) {
+	//		delete wxfnWAVFile;
+	//		bWAVFileAlloc=false;
+	//	}
+	//	if(bSndFileAlloc) {
+	//		sf_close(infile);
+	//		bSndFileAlloc=false;
+	//	}
+	//	if(bMikesCoordsAlloc) {
+	//		delete [] MikesCoordinates;
+	//		bMikesCoordsAlloc=false;
+	//	}
+	//	if(bBgndImageAlloc) {
+	//		delete wxfnBgndImageFile;
+	//		bBgndImageAlloc=false;
+	//	}
+	//	if(bMirroredMikesAlloc) {
+	//		delete vmsMirroredMikes;
+	//		bMirroredMikesAlloc=false;
+	//	}
+	//	if(iNTriangles > 0) delete [] tmMeshes;
+	//	if (bAudioDataAlloc) delete [] ppfAudioData;
+	//	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
+	//	if(bWatchpointsAlloc) delete [] piWatchpoints;
 }
 
 
-void MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure unit
+bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure unit
 {
-    int i,k,l;
 	
+    int i,k,l;
+	double **aadLevelsMap;
 	for( int currentBand=0; currentBand<2+10; currentBand++) 
 	{
 		//Levels Map matrix init.
+		try {
+			aadLevelsMap = new double* [MAP_WIDTH];
+		} catch (bad_alloc& ex) {
+			return GotBadAlloc();
+		}
 		
-		double **aadLevelsMap = new double* [MAP_WIDTH];
-		for ( l = 0; l < MAP_WIDTH; l++) 
-			aadLevelsMap[l] = new double [MAP_HEIGHT];
-		
-		
+		for ( l = 0; l < MAP_WIDTH; l++) {
+			try {
+				aadLevelsMap[l] = new double [MAP_HEIGHT];
+			} catch (bad_alloc& ex) {
+				return GotBadAlloc();
+			}
+		}
 		TriangularMesh* tmCurrentTri;
 		
 		ClearInterpolCoeffs();  //Clearing A,B,C,det for each triangle.
@@ -264,285 +284,316 @@ void MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure
 				}
 			}
 		}    
-		wxCriticalSectionLocker enter(*mAAcritSec);
+		wxCriticalSectionLocker lock(*mAAcritSec);
 		outputFrames->SetFrameLevelsMap(frame, aadLevelsMap, currentBand);
 	}
+	return true;
 }
 
 
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
-{		
+{	
+	try{ //catching out of memory situations
 #ifdef __AUDEBUG__
-//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
-printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
-	fflush(stdout);
-#endif
-	sampleCount startFrameSmpl = (frame-1)*(m_frameLengthSmpl - m_frameLengthSmpl*m_frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
-	sampleCount endFrameSmpl = startFrameSmpl + m_frameLengthSmpl;
-	bool lastframe = false;
-	int zeropadding=0;
-	if (endFrameSmpl >=	iAudioTrackLength) { //on the last frame, cut!
-		zeropadding=endFrameSmpl-iAudioTrackLength;
-		endFrameSmpl = iAudioTrackLength;
-		lastframe=true;
-	}
-	
-	for (int i=0; i<iProjectNumTracks; i++) {  //copy data into actual frame
-		for (int j=startFrameSmpl; j<endFrameSmpl; j++) { 
-			ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
-		}
-	}
-	
-	if (lastframe) { //on the last frame, zero padding!
-		for (int i=0; i<iProjectNumTracks; i++) { 
-			for (int j=endFrameSmpl; j<endFrameSmpl+zeropadding; j++) {    
-				ActualFrameAudioData[i][j-startFrameSmpl] = 0;
-			}
-		}	
-	}
-
-//#ifdef __AUDEBUG__
-//	PrintActualFrame(frame);
-//	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
-//	fflush(stdout);
-//#endif
-	
-	//	InitProgressMeter(_("Checking background image size..."));
-	
-//	//Background Image Size Check (and scaling if necessary)
-//	if ((wxbBgndImage.GetWidth() != X_RES)||(wxbBgndImage.GetHeight() != Y_RES))
-//	{
-//		//We need to scale choosen image to fit image panel dimensions
-//		wxImage tmp = wxbBgndImage.ConvertToImage();
-//		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
-//		wxbBgndImage = wxBitmap(tmp);
-//	}
-	
-	//	UpdateProgressMeter(1,1);
-	
-	//	DestroyProgressMeter();	
-
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(): Adding virtual mikes to Delaunay triangulation.\n");
-	fflush(stdout);
-#endif
-	
-	//	InitProgressMeter(_("Adding virtual mikes to the Delaunay triangulation..."));
-	
-	//Adding mikes to the Delaunay triangulation
-	Delaunay::Point tempP;
-	vector<Delaunay::Point> v;
-	
-	if (iArrayType == 0)
-	{
-#ifdef __AUDEBUG__
-		printf("MicArrayAnalyzer::Calculate(): Virtual mikes mirroring ENABLED (spherical array detected).\n");
+		//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
+		printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
 		fflush(stdout);
 #endif
-		vmsMirroredMikes = new VirtualMikesSet;   //For spherical arrays we need to "clone" each virtual mike properly
-		//to guarantee ColorMap boundary continuity.
-		//See "GetMirroredMikes" if you want to explore cloning rules!
-		bMirroredMikesAlloc = true;
-	}
-	int i, j;
-	for (i=0;i<iVirtualMikes;i++)
-	{
-		//		UpdateProgressMeter(i,iVirtualMikes);
+		sampleCount startFrameSmpl = (frame-1)*(m_frameLengthSmpl - m_frameLengthSmpl*m_frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
+		sampleCount endFrameSmpl = startFrameSmpl + m_frameLengthSmpl;
+		bool lastframe = false;
+		int zeropadding=0;
+		if (endFrameSmpl >=	iAudioTrackLength) { //on the last frame, cut!
+			zeropadding=endFrameSmpl-iAudioTrackLength;
+			endFrameSmpl = iAudioTrackLength;
+			lastframe=true;
+		}
 		
-		// Get current virtualmike coordinates
-		tempP[0] = MikesCoordinates[2*i]; 
-		tempP[1] = MikesCoordinates[2*i + 1];
-//#ifdef __AUDEBUG__
-//		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
-//		fflush(stdout);
-//		//         VirtualMike* pvmDebug;
-//#endif
-		v.push_back(tempP);  //Adding mike to the triangulation
+		for (int i=0; i<iProjectNumTracks; i++) {  //copy data into actual frame
+			for (int j=startFrameSmpl; j<endFrameSmpl; j++) { 
+				ActualFrameAudioData[i][j-startFrameSmpl] = ppfAudioData[i][j];
+			}
+		}
 		
-		if (iArrayType == 0)
+		if (lastframe) { //on the last frame, zero padding!
+			for (int i=0; i<iProjectNumTracks; i++) { 
+				for (int j=endFrameSmpl; j<endFrameSmpl+zeropadding; j++) {    
+					ActualFrameAudioData[i][j-startFrameSmpl] = 0;
+				}
+			}	
+		}
+		
+		//#ifdef __AUDEBUG__
+		//	PrintActualFrame(frame);
+		//	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
+		//	fflush(stdout);
+		//#endif
+		
+		//	InitProgressMeter(_("Checking background image size..."));
+		
+		//	//Background Image Size Check (and scaling if necessary)
+		//	if ((wxbBgndImage.GetWidth() != X_RES)||(wxbBgndImage.GetHeight() != Y_RES))
+		//	{
+		//		//We need to scale choosen image to fit image panel dimensions
+		//		wxImage tmp = wxbBgndImage.ConvertToImage();
+		//		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
+		//		wxbBgndImage = wxBitmap(tmp);
+		//	}
+		
+		//	UpdateProgressMeter(1,1);
+		
+		//	DestroyProgressMeter();	
+		
+#ifdef __AUDEBUG__
+		printf("MicArrayAnalyzer::Calculate(): Adding virtual mikes to Delaunay triangulation.\n");
+		fflush(stdout);
+#endif
+		
+		//	InitProgressMeter(_("Adding virtual mikes to the Delaunay triangulation..."));
+		
+		//Adding mikes to the Delaunay triangulation
+		Delaunay::Point tempP;
+		vector<Delaunay::Point> v;
+		
+		if (iArrayType == 0 || iArrayType == 1)
 		{
-			for (j=0;j<3;j++)   //For each virt. mike, three mirrored mikes exists.
-            {
+#ifdef __AUDEBUG__
+			printf("MicArrayAnalyzer::Calculate(): Virtual mikes mirroring ENABLED (spherical or cylindrical array detected).\n");
+			fflush(stdout);
+#endif
+			vmsMirroredMikes = new VirtualMikesSet;   //For spherical arrays we need to "clone" each virtual mike properly
+			//to guarantee ColorMap boundary continuity.
+			//See "GetMirroredMikes" if you want to explore cloning rules!
+			bMirroredMikesAlloc = true;
+		}
+		int i, j;
+		for (i=0;i<iVirtualMikes;i++)
+		{
+			//		UpdateProgressMeter(i,iVirtualMikes);
+			
+			// Get current virtualmike coordinates
+			tempP[0] = MikesCoordinates[2*i]; 
+			tempP[1] = MikesCoordinates[2*i + 1];
+			//#ifdef __AUDEBUG__
+			//		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
+			//		fflush(stdout);
+			//		//         VirtualMike* pvmDebug;
+			//#endif
+			v.push_back(tempP);  //Adding mike to the triangulation
+			
+			if (iArrayType == 0) //spherical
+			{
+				for (j=0;j<3;j++)   //For each virt. mike, three mirrored mikes exists.
+				{
+					double dMirroredMike[2];
+					if (!GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,j,iArrayType)) //Retrieving mirror #j mike coords.
+					{
+						printf("problem with getmirroredmike() during calculate()..");
+						return false;
+					}
+					tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
+					//#ifdef __AUDEBUG__
+					//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
+					//				fflush(stdout);
+					//#endif
+					v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
+					vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
+				}
+			} else if(iArrayType==1) //cylindrical
+			{
 				double dMirroredMike[2];
-				GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,j); //Retrieving mirror #j mike coords.
+				if (!GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,0,iArrayType)) //Retrieving mirror #j mike coords.
+				{
+					printf("problem with getmirroredmike() during calculate()..");
+					return false;
+				}
 				tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
-//#ifdef __AUDEBUG__
-//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
-//				fflush(stdout);
-//#endif
+				//#ifdef __AUDEBUG__
+				//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
+				//				fflush(stdout);
+				//#endif
 				v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
 				vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
-            }
+			}
 		}
-	}
-	
-	//	DestroyProgressMeter();
-
-	//	InitProgressMeter(_("Generating mesh surface..."));
+		
+		//	DestroyProgressMeter();
+		
+		//	InitProgressMeter(_("Generating mesh surface..."));
 #ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::Calculate(): Triangulating...");
-	fflush(stdout);
-#endif
-	Delaunay dt(v);   //"dt" stands for (d)elaunay (t)riangulation
-	dt.Triangulate(); //The triangulation will be computed here....
-	iNTriangles = dt.ntriangles(); //Storing the number of computed triangular meshes
-	
-	//	UpdateProgressMeter(1,iNTriangles+1);
-	
-	tmMeshes = new TriangularMesh* [iNTriangles];      //The computed triangulation will be stored inside a TriangularMesh array.
-	int x[3],y[3],mic[3];                              //(x,y) = position, mic = mic #.
-	Delaunay::fIterator fit = dt.fbegin();
-	
-	int k;
-	for(j=0;j<iNTriangles;j++)
-	{
-		//		UpdateProgressMeter(j+1,iNTriangles+1);
-		x[0] = dt.point_at_vertex_id(dt.Org(fit))[0];
-		x[1] = dt.point_at_vertex_id(dt.Dest(fit))[0];
-		x[2] = dt.point_at_vertex_id(dt.Apex(fit))[0];
-		y[0] = dt.point_at_vertex_id(dt.Org(fit))[1];
-		y[1] = dt.point_at_vertex_id(dt.Dest(fit))[1];
-		y[2] = dt.point_at_vertex_id(dt.Apex(fit))[1];
-		
-		for (i = 0; i < iVirtualMikes; i++)
-			for (k = 0; k < 3; k++)
-				if ((x[k] == MikesCoordinates[2*i])&&(y[k] == MikesCoordinates[2*i + 1]))
-				{
-					mic[k] = i; //Find and save mic # for each vertex.
-				}
-		
-		VirtualMike* pvmCurrent;
-		
-		for (i = 0; i < vmsMirroredMikes->GetNumberOfMikes(); i++)
-			for (k = 0; k < 3; k++)
-            {
-				pvmCurrent = vmsMirroredMikes->GetVirtualMike(i);
-				if ((x[k] == pvmCurrent->GetX())&&(y[k] == pvmCurrent->GetY()))
-				{
-					mic[k] = pvmCurrent->GetMicID(); //Find and save original mic # for each mirrored mike too.
-				}
-            }
-		tmMeshes[j] = new TriangularMesh(x,y,mic);
-		++fit;
-	}
-	//	DestroyProgressMeter();
-
-	//Setting up convolution class
-#ifdef __AUDEBUG__
-	printf("Triangulating...DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
-	fflush(stdout);
-#endif
-    //afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
-	afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
-	afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
-	afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
-	afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
-	
-	//Copying data pointers inside the convolution class
-	for(i = 0; i < sfinfo.channels; i++)  //for each row of the IRs matrix (REMEMBER that sfinfo.channels and iVirtualMikes are the same thing...)
-	{
-#ifdef __HARDDEBUG__
-		printf("MicArrayAnalyzer::Calculate(): Copying audio track [%d] pointer.\n",i);
+		printf("MicArrayAnalyzer::Calculate(): Triangulating...");
 		fflush(stdout);
 #endif
-		afmvConvolver->SetInputVectorItem(ActualFrameAudioData[i],i); //inside this "for" loop I load Audacity tracks too instead of using another separate "for"
-		for(j = 0; j < iCapsules; j++)
+		Delaunay dt(v);   //"dt" stands for (d)elaunay (t)riangulation
+		dt.Triangulate(); //The triangulation will be computed here....
+		iNTriangles = dt.ntriangles(); //Storing the number of computed triangular meshes
+		
+		//	UpdateProgressMeter(1,iNTriangles+1);
+		
+		tmMeshes = new TriangularMesh* [iNTriangles];      //The computed triangulation will be stored inside a TriangularMesh array.
+		int x[3],y[3],mic[3];                              //(x,y) = position, mic = mic #.
+		Delaunay::fIterator fit = dt.fbegin();
+		
+		int k;
+		for(j=0;j<iNTriangles;j++)
+		{
+			//		UpdateProgressMeter(j+1,iNTriangles+1);
+			x[0] = dt.point_at_vertex_id(dt.Org(fit))[0];
+			x[1] = dt.point_at_vertex_id(dt.Dest(fit))[0];
+			x[2] = dt.point_at_vertex_id(dt.Apex(fit))[0];
+			y[0] = dt.point_at_vertex_id(dt.Org(fit))[1];
+			y[1] = dt.point_at_vertex_id(dt.Dest(fit))[1];
+			y[2] = dt.point_at_vertex_id(dt.Apex(fit))[1];
+			
+			for (i = 0; i < iVirtualMikes; i++)
+				for (k = 0; k < 3; k++)
+					if ((x[k] == MikesCoordinates[2*i])&&(y[k] == MikesCoordinates[2*i + 1]))
+					{
+						mic[k] = i; //Find and save mic # for each vertex.
+					}
+			
+			VirtualMike* pvmCurrent;
+			
+			for (i = 0; i < vmsMirroredMikes->GetNumberOfMikes(); i++)
+				for (k = 0; k < 3; k++)
+				{
+					pvmCurrent = vmsMirroredMikes->GetVirtualMike(i);
+					if ((x[k] == pvmCurrent->GetX())&&(y[k] == pvmCurrent->GetY()))
+					{
+						mic[k] = pvmCurrent->GetMicID(); //Find and save original mic # for each mirrored mike too.
+					}
+				}
+			tmMeshes[j] = new TriangularMesh(x,y,mic);
+			++fit;
+		}
+		//	DestroyProgressMeter();
+		
+		//Setting up convolution class
+#ifdef __AUDEBUG__
+		printf("Triangulating...DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
+		fflush(stdout);
+#endif
+		//afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
+		afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
+		afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
+		afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
+		afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
+		
+		//Copying data pointers inside the convolution class
+		for(i = 0; i < sfinfo.channels; i++)  //for each row of the IRs matrix (REMEMBER that sfinfo.channels and iVirtualMikes are the same thing...)
 		{
 #ifdef __HARDDEBUG__
-            printf("MicArrayAnalyzer::Calculate(): Copying IR (%d,%d) pointer.\n",i,j);
-            fflush(stdout);
+			printf("MicArrayAnalyzer::Calculate(): Copying audio track [%d] pointer.\n",i);
+			fflush(stdout);
 #endif
-			afmvConvolver->SetFilterMatrixItem(pppfDeconvIRsData[i][j],i,j);
+			afmvConvolver->SetInputVectorItem(ActualFrameAudioData[i],i); //inside this "for" loop I load Audacity tracks too instead of using another separate "for"
+			for(j = 0; j < iCapsules; j++)
+			{
+#ifdef __HARDDEBUG__
+				printf("MicArrayAnalyzer::Calculate(): Copying IR (%d,%d) pointer.\n",i,j);
+				fflush(stdout);
+#endif
+				afmvConvolver->SetFilterMatrixItem(pppfDeconvIRsData[i][j],i,j);
+			}
 		}
-	}
-//	mAAcritSec->Leave();
-	/* Convolution calculation!
-	 The convolution is computed in this fashion:
-	 
-	 |ir(1,1) ir(1,2) .... ir(1,j)|   |x1|
-	 |ir(2,1) ir(2,2) .... ir(2,j)|   |x2|
-	 |ir(3,1) ir(3,2) .... ir(3,j)|   |x3| 
-	 | .....   .....  ....  ..... | * |..|  = |y1 y2 y3 ... yi|
-	 | .....   .....  ....  ..... |   |..|
-	 |ir(i,1)  .....  .... ir(i,j)|   |xj|
-	 
-	 where i = (# of rows) = (# of virtual microphones) and j = (# of audacity project tracks) = (# of array capsules).
-	 "Obviously" yk = ir(k,1) * x1 + ir(k,2) * x2 + ... + ir(k,j) * xj , where * stands for convolution, not a simple product :)
-	 AFMatrixvolver class does the summation too!
-	 */
-	//	mAAcritSec->Enter();
-	//	 #ifdef __AUDEBUG__
-	//	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
-	//	 fflush(stdout);
-	//	 #endif
-	//	 afmvConvolver->Process();
-	//	 #ifdef __AUDEBUG__
-	//	 printf("DONE\n");
-	//	 fflush(stdout);
-	//	 #endif
-	
-
-	//Retrieving Convolution Output Data
-	//	InitProgressMeter(_("Retrieving convolution results from convolver object..."));
-	CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
-	apOutputData = new AudioPool(iVirtualMikes,dFSLevel - double(fdBScalingFactor),dProjectRate); //AudioPool alloc
-	for(int i=0; i<iVirtualMikes; i++)
-	{
-//#ifdef __AUDEBUG__
-//		printf("MicArrayAnalyzer::Calculate(): Retrieving convolution result [%d] from convolver object.\n",i);
-//		fflush(stdout);
-//#endif
-		//		UpdateProgressMeter(i,iVirtualMikes);
-		//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
-		//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
-		apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
-	}
-	//	DestroyProgressMeter();
-	
-	
-	//Calculating Results
-//	printf("thread #%d filling audiopool result matrix \n",frame);
-	if (apOutputData->FillResultsMatrix()) {
-		//construct video frame...
-		double** resultmatrix=apOutputData->GetResultsMatrix();
-		int channelsnumber= apOutputData->GetChannelsNumber();
-		double maxresultinthematrix = apOutputData->GetMaxResultInTheMatrix();
-		double minresultinthematrix = apOutputData->GetMinResultInTheMatrix();
-		VideoFrame* videoframe= new VideoFrame(resultmatrix,
-											   channelsnumber,
-											   frame,
-											   maxresultinthematrix,
-											   minresultinthematrix);
-		for (int band=0; band<12; band++) {
-			videoframe->SetMaxInTheBand(apOutputData->GetMaxResultInTheBand(band), band);
-			videoframe->SetMinInTheBand(apOutputData->GetMinResultInTheBand(band), band);
-		}
-
-		//... and add it to the video!
-		mAAcritSec->Enter();
-		outputFrames->AddFrame(videoframe);
-		if (!SetBGNDVideoBmp(frame)) //retrieve and add to videoframe respective ppm file (saved during EncodeFrames() )
-		{
-			std::cout<<"\nCalculate(): ERROR can't save background image!"<<std::endl;
-			outputFrames->DeleteFrame(frame);
-		}
-		bResultsAvail = true;
-		bBgndImageAlloc = true;
-//		PrintResult(frame);
-		mAAcritSec->Leave();
+		//	mAAcritSec->Leave();
+		/* Convolution calculation!
+		 The convolution is computed in this fashion:
+		 
+		 |ir(1,1) ir(1,2) .... ir(1,j)|   |x1|
+		 |ir(2,1) ir(2,2) .... ir(2,j)|   |x2|
+		 |ir(3,1) ir(3,2) .... ir(3,j)|   |x3| 
+		 | .....   .....  ....  ..... | * |..|  = |y1 y2 y3 ... yi|
+		 | .....   .....  ....  ..... |   |..|
+		 |ir(i,1)  .....  .... ir(i,j)|   |xj|
+		 
+		 where i = (# of rows) = (# of virtual microphones) and j = (# of audacity project tracks) = (# of array capsules).
+		 "Obviously" yk = ir(k,1) * x1 + ir(k,2) * x2 + ... + ir(k,j) * xj , where * stands for convolution, not a simple product :)
+		 AFMatrixvolver class does the summation too!
+		 */
+		//	mAAcritSec->Enter();
+		//	 #ifdef __AUDEBUG__
+		//	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
+		//	 fflush(stdout);
+		//	 #endif
+		//	 afmvConvolver->Process();
+		//	 #ifdef __AUDEBUG__
+		//	 printf("DONE\n");
+		//	 fflush(stdout);
+		//	 #endif
 		
-		//build SPL map 
-		InitLevelsMap(frame);
-				
-//		mAAcritSec->Leave();
-	}
-	else { 
-		bResultsAvail = false; 
-//		mAAcritSec->Leave();
-	}
+		
+		//Retrieving Convolution Output Data
+		//	InitProgressMeter(_("Retrieving convolution results from convolver object..."));
+		CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
+		apOutputData = new AudioPool(iVirtualMikes,dFSLevel - double(fdBScalingFactor),dProjectRate); //AudioPool alloc
+		for(int i=0; i<iVirtualMikes; i++)
+		{
+			//#ifdef __AUDEBUG__
+			//		printf("MicArrayAnalyzer::Calculate(): Retrieving convolution result [%d] from convolver object.\n",i);
+			//		fflush(stdout);
+			//#endif
+			//		UpdateProgressMeter(i,iVirtualMikes);
+			//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
+			//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
+			apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
+		}
+		//	DestroyProgressMeter();
+		
+		
+		//Calculating Results
+		//	printf("thread #%d filling audiopool result matrix \n",frame);
+		if (apOutputData->FillResultsMatrix()) {
+			//construct video frame...
+			double** resultmatrix=apOutputData->GetResultsMatrix();
+			int channelsnumber= apOutputData->GetChannelsNumber();
+			double maxresultinthematrix = apOutputData->GetMaxResultInTheMatrix();
+			double minresultinthematrix = apOutputData->GetMinResultInTheMatrix();
+			VideoFrame* videoframe= new VideoFrame(resultmatrix,
+												   channelsnumber,
+												   frame,
+												   maxresultinthematrix,
+												   minresultinthematrix);
+			for (int band=0; band<12; band++) {
+				videoframe->SetMaxInTheBand(apOutputData->GetMaxResultInTheBand(band), band);
+				videoframe->SetMinInTheBand(apOutputData->GetMinResultInTheBand(band), band);
+			}
+			
+			//... and add it to the video!
+			mAAcritSec->Enter();
+			
+			if(*m_bErrorOutOfMemory) return false;
+			
+			outputFrames->AddFrame(videoframe);
+			if (!SetBGNDVideoBmp(frame)) //retrieve and add to videoframe respective ppm file (saved during EncodeFrames() )
+			{
+				std::cout<<"\nCalculate(): ERROR can't save background image!"<<std::endl;
+				outputFrames->DeleteFrame(frame);
+			}
+			bResultsAvail = true;
+			//		PrintResult(frame);
+			mAAcritSec->Leave();
+			
+			//build SPL map 
+			if (!InitLevelsMap(frame))
+				return false;
+			
+			//		mAAcritSec->Leave();
+		}
+		else { 
+			bResultsAvail = false; 
+			//		mAAcritSec->Leave();
+		}
+		
 	
-	//THE END!
+		
+		//THE END!
+		
+	} catch (bad_alloc& ex) {
+		cout << "\n\nCalculate(): Memory not allocated !!\n\n";
+		return false;
+    }
 	return true;
 }
 
@@ -711,7 +762,7 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	if (bBgndVideoAlloc) 
 	{ 
 		delete wxfnBgndVideoFile;
-//		m_vBgndVideo.clear();
+		//		m_vBgndVideo.clear();
 	}
 	else bBgndVideoAlloc = true;
 	wxfnBgndVideoFile = new wxFileName(str);
@@ -722,19 +773,20 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	int start_ms = iAudioTrackStart / dProjectRate *1000;
 	int end_ms = iAudioTrackEnd / dProjectRate *1000;
 	
+	
 	m_bgndVideoFrameRate = EncodeFrames(videofilepath, standardTMPdir,start_ms,end_ms);  //TODO calculate it to a separate thread!	
 	m_bgndVideoFrameRate = m_bgndVideoFrameRate / 2 ; /// !!! is it right? it seems that the real fps value is half the value ffmpeg is finding
-//	wxString szFilename;
-//	wxBitmap wxbdumb;
-//	for (int iFrame=1; ; iFrame++) {
-//		szFilename.Printf( _("frame%d.ppm"), iFrame);
-//		if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
-//			break;
-//		m_vBgndVideo.push_back(wxbdumb);
-//	}
-//	//set background image
-//	wxbBgndImage = m_vBgndVideo[0];
-//	bBgndImageAlloc = true;
+	//	wxString szFilename;
+	//	wxBitmap wxbdumb;
+	//	for (int iFrame=1; ; iFrame++) {
+	//		szFilename.Printf( _("frame%d.ppm"), iFrame);
+	//		if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
+	//			break;
+	//		m_vBgndVideo.push_back(wxbdumb);
+	//	}
+	//	//set background image
+	//	wxbBgndImage = m_vBgndVideo[0];
+	//	bBgndImageAlloc = true;
 	return true; 
 }
 
@@ -846,7 +898,7 @@ bool MicArrayAnalyzer::ReadXMLData()
 //	mProgress = 0;
 //}
 
-bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num)
+bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num, int arrayType)
 {
 	int quadrantA = 0, quadrantB = 0, quadrantC = 0, quadrantD = 0;
 	
@@ -854,16 +906,19 @@ bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, dou
 	{
 		if (original_y <= (Y_RES/2))   //Quadrant C
 			quadrantC = 1;
-		if (original_y >= (Y_RES/2))   //Quadrant A
+		else if (original_y > (Y_RES/2))   //Quadrant A
 			quadrantA = 1;
+		else return false;
 	}
-	if (original_x >= (X_RES/2))
+	else if (original_x > (X_RES/2))
 	{
 		if (original_y <= (Y_RES/2))   //Quadrant D
 			quadrantD = 1;
-		if (original_y >= (Y_RES/2))   //Quadrant B
+		else if (original_y > (Y_RES/2))   //Quadrant B
 			quadrantB = 1;
+		else return false;
 	}
+	else return false;
 	
 	switch (mirror_num)
 	{
@@ -873,12 +928,18 @@ bool MicArrayAnalyzer::GetMirroredMike(double original_x, double original_y, dou
 			mirror_xy[1] = quadrantA*(original_y) + quadrantB*(original_y) + quadrantC*(original_y) + quadrantD*(original_y);
 			break;
 		case 1:
-			mirror_xy[0] = quadrantA*(X_RES-original_x) + quadrantB*(2*X_RES-original_x) + quadrantC*(X_RES-original_x) + quadrantD*(2*X_RES-original_x);
-			mirror_xy[1] = quadrantA*(2*Y_RES-original_y) + quadrantB*(2*Y_RES-original_y) + quadrantC*(-original_y) + quadrantD*(-original_y);
+			if (iArrayType == 0 ) //spherical 
+			{
+				mirror_xy[0] = quadrantA*(X_RES-original_x) + quadrantB*(2*X_RES-original_x) + quadrantC*(X_RES-original_x) + quadrantD*(2*X_RES-original_x);
+				mirror_xy[1] = quadrantA*(2*Y_RES-original_y) + quadrantB*(2*Y_RES-original_y) + quadrantC*(-original_y) + quadrantD*(-original_y);
+			}
 			break;
 		case 2:
-			mirror_xy[0] = quadrantA*(-original_x) + quadrantB*(X_RES-original_x) + quadrantC*(-original_x) + quadrantD*(X_RES-original_x);
-			mirror_xy[1] = quadrantA*(2*Y_RES-original_y) + quadrantB*(2*Y_RES-original_y) + quadrantC*(-original_y) + quadrantD*(-original_y);
+			if (iArrayType == 0 ) //spherical 
+			{
+				mirror_xy[0] = quadrantA*(-original_x) + quadrantB*(X_RES-original_x) + quadrantC*(-original_x) + quadrantD*(X_RES-original_x);
+				mirror_xy[1] = quadrantA*(2*Y_RES-original_y) + quadrantB*(2*Y_RES-original_y) + quadrantC*(-original_y) + quadrantD*(-original_y);
+			}
 			break;
 		default:
 			return false;
@@ -967,20 +1028,20 @@ void MicArrayAnalyzer::PrintResults() {
 }
 
 void MicArrayAnalyzer::PrintResult(unsigned int f) {
-		
-		printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
-		double ** matrix=outputFrames->GetFrameMatrix(f);
-		
-		for (int i = 0; i < sfinfo.channels; i++) //For each audio track
+	
+	printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
+	double ** matrix=outputFrames->GetFrameMatrix(f);
+	
+	for (int i = 0; i < sfinfo.channels; i++) //For each audio track
+	{
+		printf("%d\t",i);
+		for (int j = 0; j < (2+10); j++) //For each band
 		{
-			printf("%d\t",i);
-			for (int j = 0; j < (2+10); j++) //For each band
-			{
-				printf("%1.4f\t",undB20(float(matrix[i][j])));
-			}
-			printf("\n");
-			fflush(stdout);
+			printf("%1.4f\t",undB20(float(matrix[i][j])));
 		}
+		printf("\n");
+		fflush(stdout);
+	}
 }
 
 void MicArrayAnalyzer::PrintLevels() {
@@ -1002,11 +1063,11 @@ void MicArrayAnalyzer::PrintLevels() {
 }
 
 void MicArrayAnalyzer::PrintActualFrame(int frame) {
-		
+	
 	printf("\n\n*** ACTUAL FRAME # %d -PART- *** ", frame);
 	for (int j = 0; j < 50; j++) 
 	{
-	for (int i=0; i < iProjectNumTracks; i++)
+		for (int i=0; i < iProjectNumTracks; i++)
 		{
 			printf("  %f  ", ActualFrameAudioData[i][j]);
 		}
@@ -1045,15 +1106,15 @@ wxString MicArrayAnalyzer::GetCurTime_Str()
 
 wxBitmap MicArrayAnalyzer::GetBGNDVideoBmp() 
 {
-//	if (bBgndVideoAlloc) 
-//	{
-//		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
-//		return m_vBgndVideo[bgndVideoFrameNum];
-//	} 
-//	else 
-//	{	
+	//	if (bBgndVideoAlloc) 
+	//	{
+	//		int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
+	//		return m_vBgndVideo[bgndVideoFrameNum];
+	//	} 
+	//	else 
+	//	{	
 	return outputFrames->GetBgndImage(m_curFrame);
-//	} 
+	//	} 
 }
 
 bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame) 
@@ -1066,10 +1127,10 @@ bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame)
 	int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
 	szFilename.Printf( _("frame%d.ppm"), bgndVideoFrameNum);
 	szFilePath.append(szFilename);
-
-//#ifdef __AUDEBUG__
-//	std::cout<<szFilePath.mb_str(wxConvUTF8);
-//#endif
+	
+	//#ifdef __AUDEBUG__
+	//	std::cout<<szFilePath.mb_str(wxConvUTF8);
+	//#endif
 	if ( !wxbdumb.LoadFile(szFilePath, wxBITMAP_TYPE_PNM) ) 
 		return false;
 	//Background Image Size Check (and scaling if necessary)
@@ -1171,14 +1232,14 @@ bool AudioPool::FillResultsMatrix()
 	
 	//Results Matrix Calculation
 	//	InitProgressMeter(_("Calculating levels for each audio band..."));
-//#ifdef __AUDEBUG__
-//	printf("AudioPool: Filling results matrix...");
-//	fflush(stdout);
-//#endif
-//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
+	//#ifdef __AUDEBUG__
+	//	printf("AudioPool: Filling results matrix...");
+	//	fflush(stdout);
+	//#endif
+	//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
 	for (int i = 0; i < m_nChannels; i++) //For each audio track
 	{
-//		printf("%d\t",i);
+		//		printf("%d\t",i);
 		for (int j = 0; j < (2+10); j++) //For each band
 		{
 			//			UpdateProgressMeter(i*(2+10) + j,(m_nChannels)*(2+10));
@@ -1201,15 +1262,15 @@ bool AudioPool::FillResultsMatrix()
 				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
 				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
             }
-//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j])));
+			//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j])));
 		}
-//		printf("\n");
+		//		printf("\n");
 		fflush(stdout);
 	}
 	
 #ifdef __AUDEBUG__
-//	printf("AudioPool: Filling results matrix...DONE\n");
-//	fflush(stdout);
+	//	printf("AudioPool: Filling results matrix...DONE\n");
+	//	fflush(stdout);
 #endif
 	//	DestroyProgressMeter();
 	return true;
@@ -1244,10 +1305,10 @@ double AudioPool::GetMaxResultInTheBand(int col)
 		{
 			max = (ppdResultsMatrix[i][col] > max) ? ppdResultsMatrix[i][col] : max;
 		}
-//#ifdef __AUDEBUG__
-//		printf("AudioPool::GetMAXResultInTheBand: band [%d] = %f\n",col,max);
-//		fflush(stdout);
-//#endif
+		//#ifdef __AUDEBUG__
+		//		printf("AudioPool::GetMAXResultInTheBand: band [%d] = %f\n",col,max);
+		//		fflush(stdout);
+		//#endif
 		return max;
 	}
 	else { return 0; }
@@ -1282,10 +1343,10 @@ double AudioPool::GetMinResultInTheBand(int col)
 		{
 			min = (ppdResultsMatrix[i][col] < min) ? ppdResultsMatrix[i][col] : min;
 		}
-//#ifdef __AUDEBUG__
-//		printf("AudioPool::GetMINResultInTheBand: band [%d] = %f\n",col,min);
-//		fflush(stdout);
-//#endif
+		//#ifdef __AUDEBUG__
+		//		printf("AudioPool::GetMINResultInTheBand: band [%d] = %f\n",col,min);
+		//		fflush(stdout);
+		//#endif
 		return min;
 	}
 	else { return 0; }

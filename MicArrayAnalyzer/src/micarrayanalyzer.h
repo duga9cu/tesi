@@ -32,6 +32,7 @@
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
 #include "video.h"
 #include <wx/stdpaths.h>
+
 extern "C" { 
 #include "FFMPEGencodeVideoToFramesPPM.h"
 }
@@ -98,6 +99,8 @@ class AudioPool : public AFAudioTrack
 //-------------------------------
 // MicArrayAnalyzer Class Header
 //-------------------------------
+
+
 class MicArrayAnalyzer
 	{
 	private:
@@ -173,8 +176,17 @@ class MicArrayAnalyzer
 		wxArrayString wxasWatchpointsLabels;
 		bool bWatchpointsAlloc;          //false = watchpoints not yet defined.
 		
-		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num);
-		void InitLevelsMap(int frame);
+		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num, int arrayType);
+		bool InitLevelsMap(int frame);
+		bool GotBadAlloc() {
+			mAAcritSec->Enter(); //leave it at the end of thread->Entry()
+			cout << "\n\ninitLevelsMap(): Memory not allocated !!\n\n";
+			//		wxMessageBox(_("Out Of Memory ! ... go get some memory ;)"),_("Error"),wxOK|wxICON_ERROR);
+//			if(!*m_bErrorOutOfMemory)
+				*m_bErrorOutOfMemory=true;
+			
+			return false;
+		}
 		
 		int m_curFrame;
 		double m_frameLength; // seconds
@@ -182,8 +194,7 @@ class MicArrayAnalyzer
 		float m_frameOverlapRatio; // ratio [0,1]
 		bool playing;
 		bool bandAutoscale;
-		
-		
+		bool* m_bErrorOutOfMemory; //shared among threads
 		
 	protected:
 	//	void InitProgressMeter(const wxString& operation);
@@ -192,8 +203,9 @@ class MicArrayAnalyzer
 		
 	public:     
 		Video *outputFrames;
-
-		wxCriticalSection *mAAcritSec;  //protects common data among  threads
+		wxString m_wxsSecurityBuffer; //to write on it while out of memory
+		wxString m_errorBuffer;
+		wxCriticalSection *mAAcritSec;  //protects common mAA data among  threads
 
 		bool ReadXMLData();
 		bool BadXML();
@@ -251,6 +263,7 @@ class MicArrayAnalyzer
 		bool Playing() {return playing;}
 		int GetTransparency() {return outputFrames->GetTransparency();}
 		bool IsBandAutoscale() {return bandAutoscale;}
+		bool GetErrorOutOfMemory() {return *m_bErrorOutOfMemory;}
 		
 		// Setters
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }

@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <MicArrayData>
     <!--This is a Mic Array data file, created using ***Mic Array Configuration editor - v1.2***-->
-    <Data MicName="Eigenmike 32 - 4th order Cardioids" Manufacturer="mh acoustics LLC" ArrayType="0" Capsules="32" VirtualMikes="32" DeconvIRsWAVFile="4Order-32cardioids-filters.wav" DeconvIRsLength="2048" MikesCoordsUnits="1">
+    <Data MicName="Eigenmike 32 - 4th order Cardioids" Manufacturer="mh acoustics LLC" ArrayType="0" Capsules="32" VirtualMikes="32" DeconvIRsWAVFile="EM32_32mic4order_2048.WAV" DeconvIRsLength="2048" MikesCoordsUnits="1">
         <Mic_1 X="480" Y="296" />
         <Mic_2 X="395" Y="240" />
         <Mic_3 X="480" Y="184" />

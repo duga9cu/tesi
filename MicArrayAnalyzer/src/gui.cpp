@@ -219,8 +219,25 @@ void MicArrayAnalyzerConfDlg::ParseXML()
 		wxString buffer;
 		m_wxstMicName->SetLabel(mMAA->GetMicName());
 		m_wxstManufacturer->SetLabel(mMAA->GetManufacturer());
-		if (mMAA->GetArrayType() == 0) m_wxstArrayType->SetLabel(_("Spherical"));
-		else { m_wxstArrayType->SetLabel(_("Planar")); }
+		
+		switch (mMAA->GetArrayType()) 
+		{
+			case 0:
+			m_wxstArrayType->SetLabel(_("Spherical"));
+				break;
+			case 1:
+			m_wxstArrayType->SetLabel(_("Cylindrical"));
+				break;
+			case 2:
+			m_wxstArrayType->SetLabel(_("Planar"));
+				break;
+			default:
+				m_wxstArrayType->SetLabel(_("can't find arraytype"));
+				break;
+		}
+		
+//		if (mMAA->GetArrayType() == 0) m_wxstArrayType->SetLabel(_("Spherical"));
+//		else { m_wxstArrayType->SetLabel(_("Planar")); }
 		
 		//buffer.Printf(_("%d"),mMAA->GetDeconvIRsLength());
 		//			m_wxstXMLLength->SetLabel(buffer);
@@ -511,6 +528,7 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 {
 	mMAA->SetTransparency(m_wxscTransparency->GetValue());
 	mMAA->SetNumOfFrames(wxAtoi(m_wxstTotFrames->GetLabel())); 
+//	mMAA->SetNumOfFrames(mMAA->GetAudioTrackLength() / (mMAA->GetFrameLengthSmpl() - mMAA->GetFrameOverlapSmpl()));
 	
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());
@@ -867,6 +885,12 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 	
 	if (d <= 0) 
 		d = 0.001;      
+//	else if (d > audiotracklengthinseconds ) {
+//		str.Printf(_("Frame Length value too long!\nselected audio is %1.3f seconds.\n\nvalue reset to default"),
+//				   mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate());
+//		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
+//		d= FRAMELENGTH ;
+//	}
 	else if (d > maxval ) {
 		str.Printf(_("Frame Length value too long!\nselected value will results in a frame rate value of %d fps.\n\nvalue reset to default"),
 				   (int)(1.0/d));
@@ -972,7 +996,6 @@ m_timer(this, ID_MM_TIMER)
 	//default values
 	updating = 0;
 	mMAA->SetPlaying(false);
-	mMAA->SetCurFrame(1);
 	m_sliderVideoFrame->SetMax(mMAA->GetNumOfFrames());
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime_Str());

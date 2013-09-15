@@ -35,11 +35,12 @@ MyThread::MyThread(MicArrayAnalyzer* maa,unsigned int frame,wxMutex *mutex, wxCo
 	m_condFinish = condition;
 	effectCritsect= cs;
 	pnThreadCount = tc;
+	bOutOfMemoryExit = false;
 }
 
 MyThread::~MyThread()
 {			
-	printf("Thread id#=%d finished.\n", m_count);
+	printf("Thread id# = %d finished.\n", m_count);
 }
 
 void MyThread::InitThreadMAA() 
@@ -49,35 +50,57 @@ void MyThread::InitThreadMAA()
 
 wxThread::ExitCode MyThread::Entry()
 {
-//	effectCritsect->Enter(); //thread atomicity
+//#ifdef __AUDEBUG__
+//		effectCritsect->Enter(); //thread atomicity
+//#endif
+	mMAA->m_errorBuffer.Printf(_("Frame %d Run Out Of Memory ! ... go get some more memory ;)"),m_count); //just in case ...
+
     printf("Thread started (priority = %u). id #=%d\n", GetPriority(), m_count);
-	
-// check if just this thread was asked to exit
-	if ( TestDestroy() ) return NULL;
-	
-//		wxThread::Sleep(7000);
+
+	if (mMAA->GetErrorOutOfMemory()) return NULL;
+
 	InitThreadMAA();
+	if(mMAA->GetErrorOutOfMemory()) {
+		mMAA->outputFrames->SetNumOfFrames(mMAA->outputFrames->GetSize() - (*pnThreadCount+1));
+		mMAA->mAAcritSec->Leave(); //connected to the entry() in gotbadalloc
+		return NULL;
+	}
 	wxThreadIdType threadId = this->GetId();
 	printf("\n************************** Process: calculate(%d) ***************************\n",m_count);
 	if(threadMAA->Calculate(m_count))
 	{
-		printf("Process: calculate(%d) successfully executed by thread # %d\n",m_count, threadId);
+		printf("Process: calculate(%d) successfully executed by thread # %lu\n",m_count, threadId);
 	}
 	else
 	{
-		printf("Process: calculate(%d)  executed by thread # %d FAILED FOR SOME REASONS\n",m_count, threadId);
-		wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
-//		delete mAp; mAp = 0;
-		return false;
+		printf("Process: calculate(%d)  executed by thread # %lu FAILED DUE TO LACK OF MEMORY\n",m_count, threadId);
+		//		wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+		if(!mMAA->outputFrames->IsVideoResized()){
+//		mMAA->m_wxsSecurityBuffer.Empty();
+			wxMessageBox(mMAA->m_errorBuffer,_("Error"),wxOK|wxICON_ERROR);
+		//mMAA->m_errorBuffer.Printf(_("Frame %d Run Out Of Memory ! ... go get some more memory ;)"),m_count);
+//		wxMessageBox(mMAA->m_errorBuffer,_("Error"),wxOK|wxICON_ERROR);
+		}
+		//		delete mAp; mAp = 0;				
 	}
 	
-	wxMutexLocker lock(*m_mutexCondFinish); //thread atomicity
+	wxMutexLocker lock(*m_mutexCondFinish); 
 	m_condFinish->Signal();
-	wxCriticalSectionLocker locker(*effectCritsect); //thread atomicity
+	wxCriticalSectionLocker locker(*effectCritsect); 
 	*pnThreadCount= *pnThreadCount - 1 ;
+	if(mMAA->GetErrorOutOfMemory()) {
+		if (!mMAA->outputFrames->IsVideoResized()) {
+			//resize video with valid frames only!
+			mMAA->outputFrames->SetVideoResized();
+		mMAA->outputFrames->CutVideo(mMAA->outputFrames->GetSize() - (*pnThreadCount+1));
+			
+		}
+		mMAA->mAAcritSec->Leave(); //connected to the entry() in gotbadalloc
+	}
 	
+//#ifdef __AUDEBUG__
 //		effectCritsect->Leave();  //thread atomicity
-	
+//#endif
 	return NULL;
 }	
 
@@ -264,16 +287,6 @@ bool EffectMicArrayAnalyzer::PromptUser()
 #endif
 	
 	
-	
-	
-//	//---------------- Even more set up ----------------
-//	sampleCount atl= mMAA->GetAudioTrackLength();
-//	sampleCount fls =  mMAA->GetFrameLengthSmpl();
-//	sampleCount ovlp = mMAA->GetFrameOverlapSmpl();
-//	int numOfFrames = atl / (fls-ovlp);  
-//	mMAA->SetNumOfFrames(numOfFrames);
-	
-	
 	//----------------  Showing conf dialog ----------------
 	if (!DoShowConfDialog()) 
 		return false;
@@ -301,10 +314,12 @@ bool EffectMicArrayAnalyzer::Process()
 	fflush(stdout);
 #endif
 	
+	MicArrayAnalyzerDlg dlog_1(mParent, mMAA); //init dialog
+	
 	int numofcores= wxThread::GetCPUCount(); 	
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());
-
+	
 #ifdef __AUDEBUG__
 	printf("process:: start timer for threads calculate()..\n");
 	fflush(stdout);
@@ -320,6 +335,8 @@ bool EffectMicArrayAnalyzer::Process()
 	else
 	{
 		wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
+		//		wxMessageBox(_("Out Of Memory ! ... go get some memory ;)"),_("Error"),wxOK|wxICON_ERROR);
+		
 		//		 delete mAp; mAp = 0;
 		return false;
 	}	
@@ -331,57 +348,63 @@ bool EffectMicArrayAnalyzer::Process()
 	//from second frame we start one thread per core
 	for (frame = 2; frame < 2+numofcores; frame++) 
 	{
-		wxThread* thread = CreateThread(frame);	
-		if (thread != NULL) thread->Run() ;
+		MyThread* thread = CreateThread(frame);	
+		if (thread != NULL) {
+			thread->Run(); 
+		}
+		UpdateVideoProgressMeter(frame , mMAA->GetNumOfFrames());
 	}
 	
-	UpdateVideoProgressMeter(frame , mMAA->GetNumOfFrames());
-
+	
+	
 	//wait for every thread to finish
 	//	while (!m_threads.IsEmpty()) {
 	while (m_nThreadCount) {
 		effectCritsect.Leave();
 		m_condFinish->Wait();
 		effectCritsect.Enter();
-		if (frame <= mMAA->GetNumOfFrames()) {
-			wxThread* thread = CreateThread(frame);	
-			if (thread != NULL) 
-					thread->Run() ;
-			frame++;
+		if (frame <= mMAA->GetNumOfFrames()) 
+		{
+			MyThread* thread = CreateThread(frame);	
+			if (thread != NULL) {
+				thread->Run();
+			}
 		}
-		UpdateVideoProgressMeter(frame-1 , mMAA->GetNumOfFrames());
+		if(!mMAA->GetErrorOutOfMemory()) {
+		UpdateVideoProgressMeter(frame , mMAA->GetNumOfFrames());
+		frame++;
+		} 
 	}
+
 	
-	//set background image
-	mMAA->SetBgndImage( mMAA->GetBGNDVideoBmp() );
-		
 	effectCritsect.Leave();
 	
 #ifdef __AUDEBUG__
-//	mMAA->PrintResults();
+	//	mMAA->PrintResults();
 	printf("\n\n******************* ALL THREADS DONE!! ***************\n");
 	printf("process:: stop timer for threads calculate(). ");
 	fflush(stdout);
 	m_benchTime.Stop();
 	printf("timer: elapsed time = %.1f ms", m_benchTime.GetElapsedTime());
 #endif
-
+	
 	DestroyVideoProgressMeter();
 	
-	if (mMAA->outputFrames->IsVideoComplete()) {
+	if (mMAA->outputFrames->IsVideoComplete(mMAA->GetErrorOutOfMemory())) {
 		printf("\n\n******************* VIDEO COMPLETED!! ***************\n\n");
 	}
 	//calculate video overall max/min SPL, and for each band too
 	if(!mMAA->outputFrames->SetMinsAndMaxs()) {
-		wxString buf;
-		buf.Printf(wxT("Video is not complete! it contains %d frames over %d. There was an irreversible problem."), mMAA->outputFrames->GetSize(), mMAA->GetNumOfFrames());
-		wxMessageBox(buf,_("Error"),wxOK|wxICON_ERROR);
+		mMAA->m_wxsSecurityBuffer.Printf(wxT("Video is not complete! it contains %d frames over %d. There was an irreversible problem."), mMAA->outputFrames->GetSize(), mMAA->GetNumOfFrames());
+		wxMessageBox(mMAA->m_wxsSecurityBuffer,_("Error"),wxOK|wxICON_ERROR);
 		return false;
 	}
 	
-//	mMAA->outputFrames->CreateColorMaps();
-
-	MicArrayAnalyzerDlg dlog_1(mParent, mMAA);
+	//set first frame background image
+	mMAA->SetCurFrame(1);
+	mMAA->SetBgndImage( mMAA->GetBGNDVideoBmp() );
+	//	mMAA->outputFrames->CreateColorMaps();
+	
 	
 	dlog_1.CenterOnParent();
 	if(dlog_1.ShowModal())
@@ -425,7 +448,9 @@ void EffectMicArrayAnalyzer::InitVideoProgressMeter(const wxString& operation)
 
 bool EffectMicArrayAnalyzer::UpdateVideoProgressMeter(int step,int total)
 {
-	return bool(mProgress->Update(step, total) == eProgressSuccess); // [esseci] 
+	if (step>total) step=total;
+	mMAA->m_wxsSecurityBuffer.Printf(_("Calculating video frame %d for each band..."),step);
+	return bool(mProgress->Update(step, total, mMAA->m_wxsSecurityBuffer) == eProgressSuccess); // [esseci] 
 }
 
 void EffectMicArrayAnalyzer::DestroyVideoProgressMeter()
