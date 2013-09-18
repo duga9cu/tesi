@@ -802,6 +802,33 @@ void MyMap::MarkDebugMap(wxPoint& p)
 }
 #endif
 
+bool MyMap::SaveContext() 
+{
+	wxSize sz = GetClientSize();
+    
+    wxBitmap bmp(sz.GetWidth(), sz.GetHeight());
+    wxMemoryDC dc(bmp);
+    
+    if(!dc.IsOk())
+    {
+        ::wxMessageBox(wxT("Invalid DC"),
+                       wxT("Error"),
+                       wxOK | wxICON_ERROR);
+        return false;
+    }
+	
+    for (int i=1; i<=m_pMaa->GetNumOfFrames(); ++i) {
+		m_pMaa->SetCurFrame(i);
+		UpdateMap(dc, sz);
+		wxString txt;
+		int bgndVideoFrameNum = m_pMaa->GetCurVideoFrameNum();
+		txt.Printf(_("frame%d.jpg"),bgndVideoFrameNum);
+		if(!bmp.SaveFile(txt, wxBITMAP_TYPE_JPEG))
+			return false;
+    }
+    return true;
+}
+
 void MyMap::UpdateMap(wxDC& dc, wxSize size)
 {
 #ifdef __WXMSW__
@@ -818,13 +845,14 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
     
     //Draw Background Image (bottom layer)
 //    dc.DrawBitmap(m_pMaa->GetBGNDBmp(), 0, 0, false); //false = ignore transparency -->> fully opaque.
+	if(m_pMaa->IsBackgndVisible()) {
 	wxBitmap bgnd = m_pMaa->GetBGNDVideoBmp();
     dc.DrawBitmap(bgnd, 0, 0, false); //false = ignore transparency -->> fully opaque.
-    
+    }
     //Draw ColorMap (mid layer)
 //    if(!m_aadLevelsMap)
 	if (m_pMaa->Playing()) 
-		m_aadLevelsMap=m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
+		m_aadLevelsMap = m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
 	else InitLevelsMap();
 	
 //    if(!m_pwximgColorMap) 

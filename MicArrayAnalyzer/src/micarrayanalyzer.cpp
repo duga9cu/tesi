@@ -126,7 +126,8 @@ m_frameLengthSmpl(mMAA.m_frameLengthSmpl),
 m_frameOverlapRatio(mMAA.m_frameOverlapRatio),
 outputFrames(mMAA.outputFrames), //* shared among threads!
 m_bErrorOutOfMemory(mMAA.m_bErrorOutOfMemory),
-mAAcritSec(mMAA.mAAcritSec) //* shared among threads!
+mAAcritSec(mMAA.mAAcritSec), //* shared among threads!
+libs(mMAA.libs) //* shared among threads
 {
 	try {
 	wxfnBgndImageFile=mMAA.wxfnBgndImageFile;
@@ -167,10 +168,29 @@ void MicArrayAnalyzer::DeleteAllData()  {
 		delete vmsMirroredMikes;
 		bMirroredMikesAlloc=false;
 	}
-	if(iNTriangles > 0) delete [] tmMeshes;
-	if (bAudioDataAlloc) delete [] ppfAudioData;
-	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
-	if(bWatchpointsAlloc) delete [] piWatchpoints;
+	if(iNTriangles > 0) {
+		for (int i=0; i<iNTriangles; ++i) {
+			delete tmMeshes[i];
+		}
+		delete [] tmMeshes;
+	}
+	if (bAudioDataAlloc) {
+		for (int i=0; i<iProjectNumTracks; ++i) {
+			delete[] ppfAudioData[i];
+		}
+		delete [] ppfAudioData;
+	}
+	if (bDeconvIRsDataAlloc) {
+		for (int i=0; i<sfinfo.channels; ++i) {
+			for (int j=0; j<iCapsules; ++j) {
+				delete[] pppfDeconvIRsData[i][j];
+			}
+			delete [] pppfDeconvIRsData[i];
+		}
+		delete [] pppfDeconvIRsData;
+	}
+	if(bWatchpointsAlloc) 
+		delete [] piWatchpoints;
 	
 	//	outputFrames->DeleteAllData();
 }
@@ -179,10 +199,11 @@ void MicArrayAnalyzer::DeleteAllData()  {
 MicArrayAnalyzer::~MicArrayAnalyzer()
 { 
 	//free some memory
+	for (int i=0; i<iProjectNumTracks; i++) {
+		delete [] ActualFrameAudioData[i] ;
+	}
 	delete [] ActualFrameAudioData;
 	//REMEMBER TO CALL DeleteAllData() instead! otherwise every thread would destroy everything shared
-	
-	
 	//	if(mProgress) delete mProgress;
 	//	mProgress = 0;
 	//	if(bXMLFileAlloc) {
@@ -218,7 +239,6 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 
 bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure unit
 {
-	
     int i,k,l;
 	double **aadLevelsMap;
 	for( int currentBand=0; currentBand<2+10; currentBand++) 
@@ -272,18 +292,39 @@ bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure
 						{
 							//Retrieving level @ each vertex inside the choosen 
 							//ch = mic# at the choosen vertex, band = wxRadioButton choice!
-							levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
-													 currentBand);
+							if (iArrayType==1) {								
+								tb.Start();
+								levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
+														 currentBand);
+								tb.Stop();
+								printf("GetResult(%d) time %.3ms",frame,tb.GetElapsedTime());
+							} else 
+								levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
+														 currentBand);
+							
 							//Scaling to the correct unit
 							levels[vert] = FromdB(levels[vert], /*MeasureUnit(outputFrames->m_iCurrentUnit)*/ MU_dB); 
 						}
 						//Setting levels will automatically compute interpolation coeffs.
-						tmCurrentTri->SetLevelsAtVertexes(levels); 
+						if (iArrayType==1) {					
+							tb.Start();
+							tmCurrentTri->SetLevelsAtVertexes(levels); 
+							tb.Stop();
+							printf("setlevelsatvertex(%d) time %.3ms",frame,tb.GetElapsedTime());
+						} else
+							tmCurrentTri->SetLevelsAtVertexes(levels); 
 					}
-					aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
+					if (iArrayType==1) {
+						tb.Start();
+						aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
+						tb.Stop();
+						printf("getinterpolation(%d) time %.3ms",frame,tb.GetElapsedTime());
+					} else
+						aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
+					
 				}
 			}
-		}    
+		}   
 		wxCriticalSectionLocker lock(*mAAcritSec);
 		outputFrames->SetFrameLevelsMap(frame, aadLevelsMap, currentBand);
 	}
@@ -422,6 +463,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		
 		//	InitProgressMeter(_("Generating mesh surface..."));
 #ifdef __AUDEBUG__
+
 		printf("MicArrayAnalyzer::Calculate(): Triangulating...");
 		fflush(stdout);
 #endif
@@ -474,7 +516,6 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		printf("Triangulating...DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
 		fflush(stdout);
 #endif
-		//afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, iAudioTrackLength, iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
 		afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
 		afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
 		afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
@@ -497,7 +538,6 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 				afmvConvolver->SetFilterMatrixItem(pppfDeconvIRsData[i][j],i,j);
 			}
 		}
-		//	mAAcritSec->Leave();
 		/* Convolution calculation!
 		 The convolution is computed in this fashion:
 		 
@@ -512,7 +552,6 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		 "Obviously" yk = ir(k,1) * x1 + ir(k,2) * x2 + ... + ir(k,j) * xj , where * stands for convolution, not a simple product :)
 		 AFMatrixvolver class does the summation too!
 		 */
-		//	mAAcritSec->Enter();
 		//	 #ifdef __AUDEBUG__
 		//	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
 		//	 fflush(stdout);
@@ -525,7 +564,6 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		
 		
 		//Retrieving Convolution Output Data
-		//	InitProgressMeter(_("Retrieving convolution results from convolver object..."));
 		CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
 		apOutputData = new AudioPool(iVirtualMikes,dFSLevel - double(fdBScalingFactor),dProjectRate); //AudioPool alloc
 		for(int i=0; i<iVirtualMikes; i++)
@@ -536,10 +574,9 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 			//#endif
 			//		UpdateProgressMeter(i,iVirtualMikes);
 			//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
-			//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
 			apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
+			//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
 		}
-		//	DestroyProgressMeter();
 		
 		
 		//Calculating Results
@@ -566,15 +603,18 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 			if(*m_bErrorOutOfMemory) return false;
 			
 			outputFrames->AddFrame(videoframe);
+						
 			if (!SetBGNDVideoBmp(frame)) //retrieve and add to videoframe respective ppm file (saved during EncodeFrames() )
 			{
 				std::cout<<"\nCalculate(): ERROR can't save background image!"<<std::endl;
 				outputFrames->DeleteFrame(frame);
 			}
+			
 			bResultsAvail = true;
 			//		PrintResult(frame);
 			mAAcritSec->Leave();
 			
+						
 			//build SPL map 
 			if (!InitLevelsMap(frame))
 				return false;
@@ -776,17 +816,7 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 	
 	m_bgndVideoFrameRate = EncodeFrames(videofilepath, standardTMPdir,start_ms,end_ms);  //TODO calculate it to a separate thread!	
 	m_bgndVideoFrameRate = m_bgndVideoFrameRate / 2 ; /// !!! is it right? it seems that the real fps value is half the value ffmpeg is finding
-	//	wxString szFilename;
-	//	wxBitmap wxbdumb;
-	//	for (int iFrame=1; ; iFrame++) {
-	//		szFilename.Printf( _("frame%d.ppm"), iFrame);
-	//		if ( !wxbdumb.LoadFile(szFilename, wxBITMAP_TYPE_PNM) ) 
-	//			break;
-	//		m_vBgndVideo.push_back(wxbdumb);
-	//	}
-	//	//set background image
-	//	wxbBgndImage = m_vBgndVideo[0];
-	//	bBgndImageAlloc = true;
+
 	return true; 
 }
 
@@ -1103,6 +1133,11 @@ wxString MicArrayAnalyzer::GetCurTime_Str()
 	return str;
 }
 
+int MicArrayAnalyzer::GetCurVideoFrameNum()
+{
+	return (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
+
+}
 
 wxBitmap MicArrayAnalyzer::GetBGNDVideoBmp() 
 {
@@ -1124,15 +1159,16 @@ bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame)
 	wxBitmap wxbdumb;
 	int actualframe = m_curFrame; //save it for later..
 	m_curFrame = frame;
-	int bgndVideoFrameNum = (double)GetCurTime_ms()/1000.0 * m_bgndVideoFrameRate; //current background video frame number
+	int bgndVideoFrameNum = GetCurVideoFrameNum();
 	szFilename.Printf( _("frame%d.ppm"), bgndVideoFrameNum);
 	szFilePath.append(szFilename);
 	
 	//#ifdef __AUDEBUG__
 	//	std::cout<<szFilePath.mb_str(wxConvUTF8);
 	//#endif
-	if ( !wxbdumb.LoadFile(szFilePath, wxBITMAP_TYPE_PNM) ) 
-		return false;
+	if ( !wxbdumb.LoadFile(szFilePath, wxBITMAP_TYPE_PNM) ) {
+		return false; //TODO if other thread ripping the video hasn't finished then wait for him
+	}
 	//Background Image Size Check (and scaling if necessary)
 	if ((wxbdumb.GetWidth() != X_RES)||(wxbdumb.GetHeight() != Y_RES))
 	{
@@ -1143,7 +1179,7 @@ bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame)
 	}
 	
 	outputFrames->SetBgndImage(wxbdumb, m_curFrame);
-	m_curFrame = actualframe; //.. set it back
+	m_curFrame = actualframe; //.. and set it back
 	return true;
 }
 

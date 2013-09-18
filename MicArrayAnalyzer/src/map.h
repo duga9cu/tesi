@@ -14,9 +14,6 @@
 
 #include "micarrayanalyzer.h"
 
-#ifdef __WXDEBUG__
-#include "benchmrk.h"
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -281,6 +278,7 @@ class MyMap : public wxControl
     // Operations
     bool CopyToClipboard();
 	void InitLevelsMap();
+	bool SaveContext() ;
 
     // Interface
     bool AreVirtMikesPosShown() const { return m_bShowVirtMikesPos; }    

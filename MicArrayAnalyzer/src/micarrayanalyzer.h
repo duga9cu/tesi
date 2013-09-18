@@ -16,6 +16,8 @@
 
 #include <wx/wx.h>
 #include <wx/filename.h>   //Needed to use wxFileName class
+#include <wx/dynlib.h>
+#include<wx/dir.h>
 #include <vector>
 #include <sndfile.h>       //Needed to read WAV files
 #include <string>
@@ -31,6 +33,7 @@
 #include "multivolver.h"   //Used to compute matrix convolution!
 #include "afaudio.h"       //Here's the definition of AFAudioTrack class.
 #include "video.h"
+#include "benchmrk.h"
 #include <wx/stdpaths.h>
 
 extern "C" { 
@@ -40,9 +43,6 @@ extern "C" {
 #include "commdefs.h"
 
 using namespace std;
-
-#define   MAP_WIDTH  960
-#define   MAP_HEIGHT 480
 
 const int WAV_FORMAT_ANDMASK = 0x0000000F; //A useful mask to read libsndfile format field
 const int X_RES              = MAP_WIDTH;  //Image panel X resolution, in pixels.
@@ -195,6 +195,7 @@ class MicArrayAnalyzer
 		bool playing;
 		bool bandAutoscale;
 		bool* m_bErrorOutOfMemory; //shared among threads
+		bool m_isBackgndVisible;
 		
 	protected:
 	//	void InitProgressMeter(const wxString& operation);
@@ -206,7 +207,8 @@ class MicArrayAnalyzer
 		wxString m_wxsSecurityBuffer; //to write on it while out of memory
 		wxString m_errorBuffer;
 		wxCriticalSection *mAAcritSec;  //protects common mAA data among  threads
-
+		TimeBenchmark tb;
+		vector<wxDynamicLibrary*> libs;
 		bool ReadXMLData();
 		bool BadXML();
 		bool BadWAV();
@@ -256,6 +258,7 @@ class MicArrayAnalyzer
 		int GetCurFrame() {return m_curFrame;}
 		wxString GetCurTime_Str();
 		int GetCurTime_ms();
+		int GetCurVideoFrameNum();
 		double GetFrameLength() {return m_frameLength;}
 		sampleCount GetFrameLengthSmpl() {return m_frameLengthSmpl;}
 		sampleCount GetFrameOverlapSmpl() {return m_frameOverlapRatio*m_frameLengthSmpl;}
@@ -264,6 +267,7 @@ class MicArrayAnalyzer
 		int GetTransparency() {return outputFrames->GetTransparency();}
 		bool IsBandAutoscale() {return bandAutoscale;}
 		bool GetErrorOutOfMemory() {return *m_bErrorOutOfMemory;}
+		bool IsBackgndVisible() {return m_isBackgndVisible;}
 		
 		// Setters
 		void SetLocalMinMax(int id,float min,float max) { if(bAudioDataAlloc) { pfLocalMin[id] = min; pfLocalMax[id] = max; } }
@@ -296,6 +300,7 @@ class MicArrayAnalyzer
 		void SetBandAutoscale(bool value) {bandAutoscale = value;}
 		void SetTransparency(int valTrans) {outputFrames->SetTransparency(valTrans);}
 		bool SetBGNDVideoBmp(int frame);
+		void SetBackgndVisible(bool value) {m_isBackgndVisible=value;}
 				
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();

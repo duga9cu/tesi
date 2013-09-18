@@ -73,7 +73,8 @@ int EncodeFrames( char *argv,char* tmpdir, millisec start_ms, millisec end_ms)
 	struct SwsContext      *sws_ctx = NULL;
 	
 	// Register all formats and codecs
-	av_register_all();
+//	av_register_all();
+	
 	
 	// Open video file
     if(av_open_input_file(&pFormatCtx, argv, NULL, 0, NULL)!=0)

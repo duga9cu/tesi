@@ -110,6 +110,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnHelp( wxCommandEvent& event );
 		//      void OnChangeRulersFormat(wxCommandEvent& event);
 		void OnSeparateBandAutoscale(wxCommandEvent& event);
+		void OnToggleBackGnd(wxCommandEvent& event);
 		//      void OnEditWatchpoints(wxCommandEvent& event);
 		void OnShowVirtMikesPos(wxCommandEvent& event);
 		void OnScaleStyle(wxCommandEvent& event);

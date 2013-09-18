@@ -251,7 +251,49 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	printf("MicArrayAnalyzer: PROMPTUSER\n");
 	fflush(stdout);
 #endif
+	//
+	wxDynamicLibrary* lib;
+	if(wxDir::Exists(wxT("/usr/local/lib/audacity"))) 
+	{
+		wxDir ffmpeg_dir(wxT("/usr/local/lib/audacity"));
+		if(ffmpeg_dir.HasFiles()) 
+		{
+			wxArrayString files;
+			wxDir::GetAllFiles(wxT("/usr/local/lib/audacity"), &files);
+			wxString label;
+			for(unsigned int i = 0; i < files.GetCount(); i++) 
+			{
+				lib = new wxDynamicLibrary();
+				if(files.Item(i).Find(wxT(".dylib")) != -1) {
+					mMAA->libs.push_back(lib);
+					mMAA->libs.back()->Load(files[i]);
+					if (mMAA->libs.back()->IsLoaded() ) {
+						label=files.Item(i);
+						std::cout<<"\n\n\nmodule: prompt()"<< label.mb_str(wxConvUTF8)<< " loaded!!"<<std::endl;
+						if (mMAA->libs.back()->HasSymbol(_("av_stream_info"))){
+							std::cout<<"and it has the symbol av_stream_info!!\n\n"<<std::endl ;
+						} else printf("\n\n");
+					}
+				}
+			}
+		}
+	}
+					
 	
+	//wxDynamicLibrary avformat(_("avformat"),wxDL_VERBATIM);
+//	
+//	if (avformat.IsLoaded() )
+//		printf("\n\n\nmodule: prompt() avformat loaded!!\n\n\n");
+//
+//	wxDynamicLibrary avutil(_("avutil"),wxDL_VERBATIM);
+//
+//	if (avutil.IsLoaded() )
+//		printf("\n\n\nmodule: prompt() avutil loaded!!\n\n\n");
+//
+//	wxDynamicLibrary avcodec(_("avcodec"),wxDL_VERBATIM);
+//
+//	if (avcodec.IsLoaded() )
+//		printf("\n\n\nmodule: prompt() avcodec loaded!!\n\n\n");
 	
 	
 	//---------------- Loading tracks data from Audacity current project ----------------
@@ -296,7 +338,7 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	printf("MicArrayAnalyzer: Copying deconv IRs from file to MicArrayAnalyzer object.\n");
 	fflush(stdout);
 #endif
-	if(!mMAA->LoadDeconvIRs()) //DEBUG : CONTROLLA QUANTO VALE numofframes
+	if(!mMAA->LoadDeconvIRs()) 
 	{
 		wxMessageBox(_("Error copying deconv IRs from WAV file!"),_("Error"),wxOK|wxICON_ERROR);
 		delete mMAA;

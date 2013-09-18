@@ -476,6 +476,7 @@
 					"$(CFLAGS)",
 				);
 				OTHER_LDFLAGS = (
+					"-L/usr/local/lib/audacity",
 					"-lbz2",
 					"-liconv",
 					"-lavutil",
@@ -484,7 +485,7 @@
 					"-lm",
 					"-lswscale",
 					"-bundle_loader",
-					"\"$(AUDACITY_BINARY)\"",
+					/Applications/Audacity/Audacity.app/Contents/MacOS/Audacity,
 					"-fPIC",
 					"-undefined",
 					dynamic_lookup,

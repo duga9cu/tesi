@@ -15,8 +15,9 @@
 
 #define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046 nel test teatro)
 #define FRAMEOVERLAP 0.1					// percentage of frame overlapping
-#define TRANSPARENCY 50					// alpha value for the colormap superposition
-
+#define TRANSPARENCY 50						// alpha value for the colormap superposition
+#define   MAP_WIDTH  960					//pixel of background image
+#define   MAP_HEIGHT 480					//pixel of background image
 
 class AudioPool;
 
@@ -24,7 +25,7 @@ class VideoFrame
 	{
 	private:
 		double** frameMatrix; 
-		int frameNum;
+		int frameNum, m_matrixChannels;
 		double overallMax, overallMin;
 		double maxInTheBand[12];		
 		double minInTheBand[12];
@@ -52,10 +53,7 @@ class VideoFrame
 		
 		// 'ctors
 		VideoFrame(double **fM, int channels, int fn, double ovrllMax, double ovrllmin);
-		~VideoFrame() {
-			delete[] frameMatrix; 
-			delete[]m_aadLevelsMap;
-		}
+		~VideoFrame();
 	};
 
 class Video
@@ -80,7 +78,7 @@ class Video
 		bool IsVideoResized() {return isVideoResized;}
 //		void CreateColorMaps();
 		//		void DeleteAllData();
-		void DeleteFrame(int frame) {resultCube.erase(frame);}
+		void DeleteFrame(int frame) {delete resultCube[frame]; resultCube.erase(frame);}
 		void CutVideo(int lastframe); //called in case of lack of memory
 
 		//getters
@@ -103,7 +101,7 @@ class Video
 		void SetFrameLevelsMap(int frame, double** levelsmap, int band) {resultCube[frame]->SetLevelsMap(levelsmap, band);}
 		void SetBgndImage(wxBitmap wxb, int frame) {resultCube[frame]->SetBgndImage(wxb);}
 		bool SetMinsAndMaxs();
-		bool SetVideoResized() {isVideoResized = true;} //it is supposed to resize only in case of Out-Of-Memory
+		void SetVideoResized() {isVideoResized = true;} //it is supposed to resize only in case of Out-Of-Memory
 
 		// 'ctors
 		Video(int width, int height):	m_width(width), 

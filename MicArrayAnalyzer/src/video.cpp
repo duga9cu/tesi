@@ -13,6 +13,7 @@
 
 bool VideoFrame::frameMatrixInit(int channels, double** fM)
 {
+	m_matrixChannels=channels;
 	
 	if (bframeMatrixAlloc) delete [] frameMatrix;
 	frameMatrix = new double* [channels];
@@ -37,7 +38,20 @@ bframeMatrixAlloc(false)
 	m_aadLevelsMap= new double** [12]; //has one matrix for each audio band
 }
 
-
+VideoFrame::~VideoFrame() {
+	for (int i=0; i<m_matrixChannels; ++i) {
+		delete [] frameMatrix[i];
+	}
+	delete[] frameMatrix; 
+	
+	for (int i=0; i<10+2; ++i) {
+		for (int j=0; j<MAP_WIDTH; ++j) {
+			delete [] m_aadLevelsMap[i][j];
+		}
+		delete [] m_aadLevelsMap[i];
+	}
+	delete[] m_aadLevelsMap;
+}
 
 //void Video::CreateColorMaps()
 //{   

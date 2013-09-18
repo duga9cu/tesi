@@ -1061,6 +1061,7 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 #ifdef __AUDEBUG__
 	mMAA->PrintResults();
 	mMAA->PrintLevels();
+	m_pMap->SaveContext();
 #endif
 	::wxMessageBox(wxT("Map successifully copied to the clipboard."),
 				   wxT("Info"),
@@ -1086,6 +1087,12 @@ void MicArrayAnalyzerDlg::OnSeparateBandAutoscale(wxCommandEvent& event)
 	
 	m_pMap->Refresh();
 }   
+
+void MicArrayAnalyzerDlg::OnToggleBackGnd(wxCommandEvent& event)
+{
+	mMAA->SetBackgndVisible(!event.IsChecked()); //if it's checked swithes background off!
+	m_pMap->Refresh();
+}
 
 void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event) 
 {
