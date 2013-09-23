@@ -92,8 +92,7 @@ wxThread::ExitCode MyThread::Entry()
 		if (!mMAA->outputFrames->IsVideoResized()) {
 			//resize video with valid frames only!
 			mMAA->outputFrames->SetVideoResized();
-		mMAA->outputFrames->CutVideo(mMAA->outputFrames->GetSize() - (*pnThreadCount+1));
-			
+		mMAA->outputFrames->CutVideo(mMAA->outputFrames->GetSize() - (*pnThreadCount+1)); //+1 is set to counter the effect of the -1 above
 		}
 		mMAA->mAAcritSec->Leave(); //connected to the entry() in gotbadalloc
 	}

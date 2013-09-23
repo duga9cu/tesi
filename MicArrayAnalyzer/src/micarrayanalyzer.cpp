@@ -1160,6 +1160,8 @@ bool MicArrayAnalyzer::SetBGNDVideoBmp(int frame)
 	int actualframe = m_curFrame; //save it for later..
 	m_curFrame = frame;
 	int bgndVideoFrameNum = GetCurVideoFrameNum();
+	if (bgndVideoFrameNum==0) 
+		bgndVideoFrameNum++;
 	szFilename.Printf( _("frame%d.ppm"), bgndVideoFrameNum);
 	szFilePath.append(szFilename);
 	

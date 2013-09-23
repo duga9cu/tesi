@@ -204,7 +204,7 @@
                                 <property name="permission">none</property>
                                 <object class="sizeritem" expanded="1">
                                     <property name="border">5</property>
-                                    <property name="flag">wxALIGN_RIGHT|wxLEFT|wxRIGHT|wxTOP</property>
+                                    <property name="flag">wxALIGN_RIGHT|wxEXPAND|wxLEFT|wxRIGHT|wxTOP</property>
                                     <property name="proportion">0</property>
                                     <object class="wxPanel" expanded="1">
                                         <property name="bg"></property>
@@ -318,7 +318,7 @@
                                                     <property name="font"></property>
                                                     <property name="hidden">0</property>
                                                     <property name="id">wxID_ANY</property>
-                                                    <property name="label">Copy results to clipboard!</property>
+                                                    <property name="label">Export</property>
                                                     <property name="maximum_size"></property>
                                                     <property name="minimum_size"></property>
                                                     <property name="name">m_wxbCopyResultsToClipboard</property>
@@ -2242,7 +2242,7 @@
                         <property name="pos"></property>
                         <property name="size"></property>
                         <property name="subclass"></property>
-                        <property name="tooltip"></property>
+                        <property name="tooltip">This has to be the video recorded during the audio recording. Audio and video materials have to be already in sync!</property>
                         <property name="window_extra_style"></property>
                         <property name="window_name"></property>
                         <property name="window_style">wxTAB_TRAVERSAL</property>
@@ -2465,7 +2465,7 @@
                         <property name="pos"></property>
                         <property name="size"></property>
                         <property name="subclass"></property>
-                        <property name="tooltip"></property>
+                        <property name="tooltip">Provide a configuration file containing the information about the microphone array used for the recording</property>
                         <property name="window_extra_style"></property>
                         <property name="window_name"></property>
                         <property name="window_style">wxTAB_TRAVERSAL</property>
@@ -3208,7 +3208,7 @@
                         <property name="pos"></property>
                         <property name="size"></property>
                         <property name="subclass"></property>
-                        <property name="tooltip"></property>
+                        <property name="tooltip">Transparency value of the color map printing above the background video.</property>
                         <property name="window_extra_style"></property>
                         <property name="window_name"></property>
                         <property name="window_style">wxTAB_TRAVERSAL</property>
@@ -3515,7 +3515,7 @@
                                             <property name="size"></property>
                                             <property name="style"></property>
                                             <property name="subclass"></property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip">Maximum SPL value in the analysis. Values above FS will be printed fully transparent.</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
@@ -3682,7 +3682,7 @@
                                             <property name="size"></property>
                                             <property name="style"></property>
                                             <property name="subclass"></property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip">Minimum SPL value in the analysis. Values lower this threshold will be printed fully transparent.</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
@@ -3910,7 +3910,7 @@
                                             <property name="size"></property>
                                             <property name="style"></property>
                                             <property name="subclass"></property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip">Audio frame length. This is the length in seconds of the chunks the audio material will be divided into and the final video will results in having frame of this lenght disregarding the background video frame rate.</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
@@ -4077,7 +4077,7 @@
                                             <property name="size"></property>
                                             <property name="style"></property>
                                             <property name="subclass"></property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip">Percentage of frame overlap</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
@@ -4244,7 +4244,7 @@
                                             <property name="size"></property>
                                             <property name="style"></property>
                                             <property name="subclass"></property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip">Final video number of frames. The total number of frames depends on the total audio material length, the single frames lenght and the frame overlap value selected above.</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>

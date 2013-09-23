@@ -32,6 +32,7 @@ class VideoFrame
 		bool frameMatrixInit(int channels, double** fM);
 		bool bframeMatrixAlloc;
 		double*** m_aadLevelsMap;
+		bool m_bLevelsMapAlloc;
 		wxBitmap m_wxbBgndImage;
 
 	public:
@@ -47,7 +48,7 @@ class VideoFrame
 		
 		void SetMaxInTheBand(double max , int band) {maxInTheBand[band]=max;}
 		void SetMinInTheBand(double min , int band) {minInTheBand[band]=min;}
-		void SetLevelsMap(double** levelsmap, int band) {m_aadLevelsMap[band]=levelsmap;}
+		void SetLevelsMap(double** levelsmap, int band) {m_aadLevelsMap[band]=levelsmap; m_bLevelsMapAlloc=true;}
 		void SetBgndImage(wxBitmap wxb) {m_wxbBgndImage=wxb;}
 //		void DeleteAllData() {delete frameMatrix;}
 		
