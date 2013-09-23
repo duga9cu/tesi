@@ -48,7 +48,7 @@ bResultsAvail(false),
 bWatchpointsAlloc(false),
 iWatchpoints(0),
 //mProgress(0),
-m_frameLength(FRAMELENGTH),
+m_frameLengthSmpl(FrameLengths[FRAMELENGTH_DFLT]),
 m_frameOverlapRatio(FRAMEOVERLAP),
 m_curFrame(1),
 playing(false),
@@ -62,7 +62,7 @@ bandAutoscale(false)
 	wxImage::AddHandler(new wxPNMHandler);
 	m_bErrorOutOfMemory= new bool(false);
 	
-	//	SetFrameLength(FRAMELENGTH); è una cagata perchè ancora non sai la proj rate!
+	//	SetFrameLength(frameLength[1]); è una cagata perchè ancora non sai la proj rate!
 }
 
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
@@ -121,7 +121,6 @@ bResultsAvail(false), //devo ancora calcolare i risultati
 // wxasWatchpointsLabels(mMAA.wxasWatchpointsLabels),  
 //bWatchpointsAlloc(mMAA.bWatchpointsAlloc), 
 m_curFrame(mMAA.m_curFrame),
-m_frameLength(mMAA.m_frameLength),
 m_frameLengthSmpl(mMAA.m_frameLengthSmpl),
 m_frameOverlapRatio(mMAA.m_frameOverlapRatio),
 outputFrames(mMAA.outputFrames), //* shared among threads!
@@ -331,7 +330,24 @@ bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure
 	return true;
 }
 
+bool MicArrayAnalyzer::GotBadAlloc() {
+	mAAcritSec->Enter(); //leave it at the end of thread->Entry()
+	cout << "\n\ninitLevelsMap(): Memory not allocated !!\n\n";
+	//		wxMessageBox(_("Out Of Memory ! ... go get some memory ;)"),_("Error"),wxOK|wxICON_ERROR);
+	//			if(!*m_bErrorOutOfMemory)
+	*m_bErrorOutOfMemory=true;
+	
+	return false;
+}
 
+void MicArrayAnalyzer::InitWindow() {
+
+		m_window=new float[m_frameLengthSmpl];
+		for (int i=0; i<m_frameLengthSmpl; ++i) {
+			m_window[i]=1;
+		}
+		WindowFunc(WINDOWFUNC, m_frameLengthSmpl, m_window); //.. at this point m_window contains the window itself
+	}
 
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {	
@@ -340,7 +356,14 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
 		printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
 		fflush(stdout);
-#endif
+#endif		
+		
+		//init ActualFrameAudioData
+		for (int c=0; c<iProjectNumTracks; ++c) {		
+			int ActualFrameLengthSmpl = GetFrameLengthSmpl();
+			ActualFrameAudioData[c] = new float [ActualFrameLengthSmpl];
+		}
+		
 		sampleCount startFrameSmpl = (frame-1)*(m_frameLengthSmpl - m_frameLengthSmpl*m_frameOverlapRatio); // frame is bound between 1 and numofFrames but we want the first frame to start from the first sample (0)
 		sampleCount endFrameSmpl = startFrameSmpl + m_frameLengthSmpl;
 		bool lastframe = false;
@@ -363,6 +386,17 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 					ActualFrameAudioData[i][j-startFrameSmpl] = 0;
 				}
 			}	
+		}
+		
+#ifdef __AUDEBUG__
+		printf("MicArrayAnalyzer::Calculate(%d): hanning windowing\n",frame);
+		fflush(stdout);
+#endif
+		for (int c=0; c<iProjectNumTracks; ++c) {			
+			for (int i=0; i<m_frameLengthSmpl; ++i) {
+//				ActualFrameAudioData[c][i]=0.5*(1-cos(2*M_PI*i/(m_frameLengthSmpl-1)));
+				ActualFrameAudioData[c][i] *= m_window[i];
+			}
 		}
 		
 		//#ifdef __AUDEBUG__
@@ -664,8 +698,6 @@ bool MicArrayAnalyzer::AudioTrackInit(int i, int length)
 	else
 	{
 		ppfAudioData[i] = new float [length];
-		int ActualFrameLengthSmpl = GetFrameLengthSmpl();
-		ActualFrameAudioData[i] = new float [ActualFrameLengthSmpl];
 		return true;
 	}
 }
@@ -1268,51 +1300,72 @@ bool AudioPool::FillResultsMatrix()
 	//Memory init
 	ResultsMatrixInit();
 	
-	//Results Matrix Calculation
-	//	InitProgressMeter(_("Calculating levels for each audio band..."));
-	//#ifdef __AUDEBUG__
-	//	printf("AudioPool: Filling results matrix...");
-	//	fflush(stdout);
-	//#endif
-	//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
-	for (int i = 0; i < m_nChannels; i++) //For each audio track
-	{
-		//		printf("%d\t",i);
-		for (int j = 0; j < (2+10); j++) //For each band
-		{
-			//			UpdateProgressMeter(i*(2+10) + j,(m_nChannels)*(2+10));
-			
-			if (j == 0)
-            {  //Linear Filter
-				ResetFilteredTrack(i);
-				LFilter(i); //Linear filtering track #i
-				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing squared mean level inside results matrix.
-            }
-			else if (j == 1)
-            {  //A-weighted
-				ResetFilteredTrack(i);
-				AFilter(i); //A-weighting track #i
-				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
-            }
-			else
-            {  //Octave bands
-				ResetFilteredTrack(i);
-				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
-				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
-            }
-			//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j])));
-		}
-		//		printf("\n");
-		fflush(stdout);
+	assert(!(m_smpcLen & (m_smpcLen - 1))); // is power of two!
+	
+	float *powerspectrum = new float[m_smpcLen];
+	
+	for (int c=0; c<m_nChannels; ++c) {
+		PowerSpectrum(m_smpcLen, m_apsmpTrack[c], powerspectrum);	
+		//autospettro
+		
+		//in band energy accumulation
+		
 	}
 	
-#ifdef __AUDEBUG__
-	//	printf("AudioPool: Filling results matrix...DONE\n");
-	//	fflush(stdout);
-#endif
-	//	DestroyProgressMeter();
+	delete[] powerspectrum;
 	return true;
 }
+
+//bool AudioPool::FillResultsMatrix()
+//{
+//	//Memory init
+//	ResultsMatrixInit();
+//
+//	//Results Matrix Calculation
+//	//	InitProgressMeter(_("Calculating levels for each audio band..."));
+//	//#ifdef __AUDEBUG__
+//	//	printf("AudioPool: Filling results matrix...");
+//	//	fflush(stdout);
+//	//#endif
+//	//	printf("*** RESULTS MATRIX *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n");
+//	for (int i = 0; i < m_nChannels; i++) //For each audio track
+//	{
+//		//		printf("%d\t",i);
+//		for (int j = 0; j < (2+10); j++) //For each band
+//		{
+//			//			UpdateProgressMeter(i*(2+10) + j,(m_nChannels)*(2+10));
+//			
+//			if (j == 0)
+//            {  //Linear Filter
+//				ResetFilteredTrack(i);
+//				LFilter(i); //Linear filtering track #i
+//				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing squared mean level inside results matrix.
+//            }
+//			else if (j == 1)
+//            {  //A-weighted
+//				ResetFilteredTrack(i);
+//				AFilter(i); //A-weighting track #i
+//				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
+//            }
+//			else
+//            {  //Octave bands
+//				ResetFilteredTrack(i);
+//				OctaveFilter(i,dFcOctaveBandFilters[j-2]); //Octave band filtering track #i
+//				ppdResultsMatrix[i][j] = LeqFilteredTrack(i); //Storing mean squared level inside results matrix.
+//            }
+//			//			printf("%1.4f\t",undB20(float(ppdResultsMatrix[i][j])));
+//		}
+//		//		printf("\n");
+//		fflush(stdout);
+//	}
+//	
+//#ifdef __AUDEBUG__
+//	//	printf("AudioPool: Filling results matrix...DONE\n");
+//	//	fflush(stdout);
+//#endif
+//	//	DestroyProgressMeter();
+//	return true;
+//}
 
 double AudioPool::GetMaxResultInTheMatrix()
 {

@@ -200,8 +200,8 @@ bool EffectMicArrayAnalyzer::Init()
 	mMAA->SetProjectNumTracks(ntracks);
 	mMAA->SetProjSampleFormat(trackFormat);
 	mMAA->SetProjSampleRate(mProjectRate);
-	sampleCount framelengthsmpl = mMAA->GetFrameLength() * mProjectRate ;
-	mMAA->SetFrameLengthSmpl(framelengthsmpl);
+//	sampleCount framelengthsmpl = mMAA->GetFrameLength() * mProjectRate ;
+//	mMAA->SetFrameLengthSmpl(framelengthsmpl);
 	return true;
 }
 

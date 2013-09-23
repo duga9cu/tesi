@@ -70,9 +70,10 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		void FSOnFocus(wxFocusEvent& event);
 		void FSKillFocus(wxFocusEvent& event);
 		void FSOnChar(wxKeyEvent& event);
-		void FLengthOnFocus(wxFocusEvent& event);
-		void FLengthKillFocus(wxFocusEvent& event);
-		void FLengthOnChar(wxKeyEvent& event);
+		void OnFrameLengthChoice(wxCommandEvent& event);
+		//void FLengthOnFocus(wxFocusEvent& event);
+//		void FLengthKillFocus(wxFocusEvent& event);
+//		void FLengthOnChar(wxKeyEvent& event);
 		void FOvlpOnFocus(wxFocusEvent& event);
 		void FOvlpKillFocus(wxFocusEvent& event);
 		void FOvlpOnChar(wxKeyEvent& event);
@@ -118,7 +119,7 @@ class MicArrayAnalyzerDlg : public MyModuleDlg
 		void OnBandAnalysis(wxCommandEvent& event);
 		void OnMouseOverMap(wxCommandEvent& event);
 		//ellerre
-		int SpinProcessValue(wxString str) ;
+//		int SpinProcessValue(wxString str) ;
 		void OnSpinCurFrame(wxCommandEvent& event) ;
 		void OnSpinCtrlTxt(wxCommandEvent& event) ;
 		void OnSliderScroll( wxScrollEvent& event ) ;

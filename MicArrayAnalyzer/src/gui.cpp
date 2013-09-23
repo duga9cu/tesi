@@ -124,11 +124,16 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	mMAA->SetFSLevel(d);
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameLength"));
-	m_Conf.Read(buffer, &d, FRAMELENGTH);
-	buffer.Printf(_("%.3f"),d);
-	m_wxtcFLength->SetValue(buffer);
-	mMAA->SetFrameLength(d);
-	
+	m_Conf.Read(buffer, &d, FrameLengths[FRAMELENGTH_DFLT]);
+	m_wxcFrameLength->SetSelection(d);
+	bool found = false;
+	for (int i=0; i<FrameLengths.size(); ++i) {
+		if (FrameLengths[i] == d)
+			found=true;
+	}
+	if (found)
+	mMAA->SetFrameLengthSmpl(d);
+	else mMAA->SetFrameLengthSmpl(FrameLengths[FRAMELENGTH_DFLT]);
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"));
 	m_Conf.Read(buffer, &d, FRAMEOVERLAP*100);
 	buffer.Printf(_("%.1f"),d);
@@ -535,7 +540,7 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/Transparency"), m_wxscTransparency->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/SPLthreshold"), m_wxtcMinSPL->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FSLevel"),m_wxtcFS->GetValue());
-	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxtcFLength->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxcFrameLength->GetSelection());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"),m_wxtcFOvlp->GetValue());
 	m_Conf.Flush();
 	EndModal(true);
@@ -788,38 +793,44 @@ void MicArrayAnalyzerConfDlg::FSOnChar(wxKeyEvent& event)
 	
 }
 
-void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
+void MicArrayAnalyzerConfDlg::OnFrameLengthChoice(wxCommandEvent& event)
 {
-	m_wxtcFLength->SetValue(wxEmptyString);
-	m_wxstTotFrames->SetLabel(wxEmptyString);
+	int frmlngthsmpl = FrameLengths[event.GetSelection()];
+	mMAA->SetFrameLengthSmpl(frmlngthsmpl); 
 }
 
-
-void MicArrayAnalyzerConfDlg::FLengthKillFocus(wxFocusEvent& event)
-{
-	double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
-	mMAA->SetFrameLength(d);
-	bDoubleReturnPressed=false;
-	IsAllOKCheck();
-}
-
-
-void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
-{
-	if (event.GetKeyCode() == WXK_RETURN && !bDoubleReturnPressed)
-	{
-		bDoubleReturnPressed=true;
-		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
-		mMAA->SetFrameLength(d);
-		//		m_wxtcFOvlp->SetFocusFromKbd();
-		IsAllOKCheck();
-	}
-	else {
-//		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
-			bDoubleReturnPressed=false;
-		event.Skip();
-	}
-}
+//void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
+//{
+//	m_wxtcFLength->SetValue(wxEmptyString);
+//	m_wxstTotFrames->SetLabel(wxEmptyString);
+//}
+//
+//
+//void MicArrayAnalyzerConfDlg::FLengthKillFocus(wxFocusEvent& event)
+//{
+//	double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
+//	mMAA->SetFrameLength(d);
+//	bDoubleReturnPressed=false;
+//	IsAllOKCheck();
+//}
+//
+//
+//void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
+//{
+//	if (event.GetKeyCode() == WXK_RETURN && !bDoubleReturnPressed)
+//	{
+//		bDoubleReturnPressed=true;
+//		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
+//		mMAA->SetFrameLength(d);
+//		//		m_wxtcFOvlp->SetFocusFromKbd();
+//		IsAllOKCheck();
+//	}
+//	else {
+////		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
+//			bDoubleReturnPressed=false;
+//		event.Skip();
+//	}
+//}
 
 
 void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
@@ -872,7 +883,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 }
 
 
-double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FRAMELENGTH)
+double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FrameLengths[FRAMELENGTH_DFLT])
 {
 	double d = def_val;
 //	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
@@ -889,13 +900,13 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl
 //		str.Printf(_("Frame Length value too long!\nselected audio is %1.3f seconds.\n\nvalue reset to default"),
 //				   mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate());
 //		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
-//		d= FRAMELENGTH ;
+//		d= frameLength[1] ;
 //	}
 	else if (d > maxval ) {
 		str.Printf(_("Frame Length value too long!\nselected value will results in a frame rate value of %d fps.\n\nvalue reset to default"),
 				   (int)(1.0/d));
 		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
-		d= FRAMELENGTH ;
+		d= FrameLengths[FRAMELENGTH_DFLT] ;
 	}
 	
 	str.Printf(_("%1.3f"),d);
@@ -918,7 +929,11 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
 	//	d= d/100; //translate to ratio
-	if (d < 0) d = 0;          
+	if (d < 50) { 
+		d = 50;          
+		wxMessageBox(_("Minimum frame overlap ratio is 50%.\n"),_("Error"),wxOK|wxICON_ERROR);
+
+	}
 	else if (d > 90) {
 		wxMessageBox(_("Maximum frame overlap ratio is 90%.\n"),_("Error"),wxOK|wxICON_ERROR);
 		d = 90; 
@@ -926,7 +941,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 	
 	str.Printf(_("%3.1f"),d);
 	txt->SetValue(str);
-	int totframes = mMAA->GetAudioTrackLength()/(mMAA->GetFrameLengthSmpl() * (1 - d/100) );
+	int totframes = mMAA->GetAudioTrackLength() / (mMAA->GetFrameLengthSmpl() * (1 - d/100) );
 	mMAA->SetNumOfFrames(totframes);
 	str.Printf(_("%d"),totframes);
 	m_wxstTotFrames->SetLabel(str);
@@ -1000,6 +1015,10 @@ m_timer(this, ID_MM_TIMER)
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime_Str());
 	//	m_wxcbSeparateBandAutoscale->SetValue(true);
+	
+	mMAA->InitWindow();
+	
+	
 }
 
 MicArrayAnalyzerDlg::~MicArrayAnalyzerDlg()
@@ -1070,9 +1089,11 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 
 void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
 {
+#ifdef __AUDEBUG__
 	wxString txt,caption;
-	txt.Printf( wxT("Frame Length = %1.3f sec.\nFrame Overlap Ratio = %3.2f "), mMAA->GetFrameLength(), mMAA->GetFrameOverlapRatio());
+	txt.Printf( wxT("Frame Length = %d sec.\nFrame Overlap Ratio = %3.2f "), mMAA->GetFrameLengthSmpl(), mMAA->GetFrameOverlapRatio());
 	wxMessageBox(txt,caption,wxOK|wxICON_INFORMATION);
+#endif
 }
 
 
@@ -1193,21 +1214,20 @@ void MicArrayAnalyzerDlg::OnSpinCurFrame(wxCommandEvent& event)  {
 	UpdateFrameControls();
 }
 
-int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
-	double timestamp;
-	if (!str.ToDouble(&timestamp)) {
-		::wxMessageBox(wxT("Cannot convert to double!"),
-					   wxT("Error"),
-					   wxOK | wxICON_ERROR);
-	}
-	int correspondingFrame = timestamp / mMAA->GetFrameLength() + 1;
-	return correspondingFrame;
-}
+//int MicArrayAnalyzerDlg::SpinProcessValue(wxString str)  {
+//	double timestamp;
+//	if (!str.ToDouble(&timestamp)) {
+//		::wxMessageBox(wxT("Cannot convert to double!"),
+//					   wxT("Error"),
+//					   wxOK | wxICON_ERROR);
+//	}
+//	int correspondingFrame = timestamp / mMAA->GetFrameLength() + 1;
+//	return correspondingFrame;
+//}
 
 void MicArrayAnalyzerDlg::OnSpinCtrlTxt(wxCommandEvent& event)  {
 	if (!updating) {
 		updating++; //to prevent the next call (2nd of TWO!)
-		//		unsigned int frame = SpinProcessValue( event.GetString());
 		unsigned int frame = event.GetInt();
 		if (frame < 1) mMAA->SetCurFrame(1);
 		else if (frame> mMAA->GetNumOfFrames()) mMAA->SetCurFrame(mMAA->GetNumOfFrames());
@@ -1272,7 +1292,7 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 
 void MicArrayAnalyzerDlg::RestartTimer() 
 {
-	double framelength_ms = mMAA->GetFrameLength()*1000;
+	double framelength_ms = mMAA->GetFrameLengthSmpl()/mMAA->GetProjSampleRate()*1000;
 	switch (m_wxcPlaybackSpeed->GetCurrentSelection()) { //decide how long to yeld to sync the video with the frame rate
 		case 0: // 0.1x
 			m_lastMillitimer = framelength_ms / 0.1 - (m_lastFrameElapsedTime - m_lastMillitimer); break;

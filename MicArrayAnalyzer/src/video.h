@@ -13,11 +13,17 @@
 #include "meshandinterpol.h"
 #include "commdefs.h"
 
-#define FRAMELENGTH 0.05					// seconds of audio to chunck for one video frame //IMPORTANT! non deve scendere sotto lunghezzaFiltro/SampleRate per fare la convoluzione! (0,046 nel test teatro)
+
+#define FRAMELENGTH_DFLT 1					// default choice
 #define FRAMEOVERLAP 0.1					// percentage of frame overlapping
 #define TRANSPARENCY 50						// alpha value for the colormap superposition
 #define   MAP_WIDTH  960					//pixel of background image
 #define   MAP_HEIGHT 480					//pixel of background image
+#define WINDOWFUNC	3						//hanning window
+	
+const int possibleLenghts[]={512,1024,2048,4096,8192,16384};
+const std::vector<int>FrameLengths(possibleLenghts, possibleLenghts + sizeof(possibleLenghts) / sizeof(int) ); // samples of audio to chunck for one video frame
+
 
 class AudioPool;
 

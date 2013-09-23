@@ -3954,8 +3954,9 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxALL</property>
                                         <property name="proportion">0</property>
-                                        <object class="wxTextCtrl" expanded="1">
+                                        <object class="wxChoice" expanded="1">
                                             <property name="bg"></property>
+                                            <property name="choices">&quot;512&quot; &quot;1024&quot; &quot;2048&quot; &quot;4096&quot; &quot;8192&quot; &quot;16384&quot;</property>
                                             <property name="context_help"></property>
                                             <property name="enabled">1</property>
                                             <property name="fg"></property>
@@ -3963,25 +3964,24 @@
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
                                             <property name="maximum_size"></property>
-                                            <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_wxtcFLength</property>
+                                            <property name="name">m_wxcFrameLength</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
-                                            <property name="size">45,25</property>
-                                            <property name="style">wxTE_CENTRE</property>
+                                            <property name="selection">1</property>
+                                            <property name="size"></property>
                                             <property name="subclass"></property>
                                             <property name="tooltip"></property>
-                                            <property name="value"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <event name="OnChar">FLengthOnChar</event>
+                                            <event name="OnChar"></event>
+                                            <event name="OnChoice">OnFrameLengthChoice</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>
                                             <event name="OnKeyUp"></event>
-                                            <event name="OnKillFocus">FLengthKillFocus</event>
+                                            <event name="OnKillFocus"></event>
                                             <event name="OnLeaveWindow"></event>
                                             <event name="OnLeftDClick"></event>
                                             <event name="OnLeftDown"></event>
@@ -3996,12 +3996,8 @@
                                             <event name="OnRightDClick"></event>
                                             <event name="OnRightDown"></event>
                                             <event name="OnRightUp"></event>
-                                            <event name="OnSetFocus">FLengthOnFocus</event>
+                                            <event name="OnSetFocus"></event>
                                             <event name="OnSize"></event>
-                                            <event name="OnText"></event>
-                                            <event name="OnTextEnter"></event>
-                                            <event name="OnTextMaxLen"></event>
-                                            <event name="OnTextURL"></event>
                                             <event name="OnUpdateUI"></event>
                                         </object>
                                     </object>

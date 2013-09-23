@@ -35,6 +35,8 @@
 #include "video.h"
 #include "benchmrk.h"
 #include <wx/stdpaths.h>
+#include <../lib-src/libscorealign/fft3/FFT3.h>
+#include <FFT.h>
 
 extern "C" { 
 #include "FFMPEGencodeVideoToFramesPPM.h"
@@ -152,10 +154,8 @@ class MicArrayAnalyzer
 		TriangularMesh **tmMeshes;
 		int iNTriangles;                    //# of stored triangular meshes
 		
-		float **ppfAudioData, **ActualFrameAudioData;
-		/*********************************************/
-//		map<int, double**> resultCube;
-		/*********************************************/
+		float **ppfAudioData, **ActualFrameAudioData; //all the audio material and the copy for the actual frame
+
 		bool bAudioDataAlloc;
 		float *pfLocalMin;      //Four arrays of local/absolute min/max for each audio track. Used to apply correctly FS scaling!
 		float *pfLocalMax;
@@ -178,24 +178,17 @@ class MicArrayAnalyzer
 		
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num, int arrayType);
 		bool InitLevelsMap(int frame);
-		bool GotBadAlloc() {
-			mAAcritSec->Enter(); //leave it at the end of thread->Entry()
-			cout << "\n\ninitLevelsMap(): Memory not allocated !!\n\n";
-			//		wxMessageBox(_("Out Of Memory ! ... go get some memory ;)"),_("Error"),wxOK|wxICON_ERROR);
-//			if(!*m_bErrorOutOfMemory)
-				*m_bErrorOutOfMemory=true;
+		bool GotBadAlloc() ;
 			
-			return false;
-		}
-		
 		int m_curFrame;
-		double m_frameLength; // seconds
+//		double m_frameLength; // seconds
 		sampleCount m_frameLengthSmpl; //samples
 		float m_frameOverlapRatio; // ratio [0,1]
 		bool playing;
 		bool bandAutoscale;
 		bool* m_bErrorOutOfMemory; //shared among threads
 		bool m_isBackgndVisible;
+
 		
 	protected:
 	//	void InitProgressMeter(const wxString& operation);
@@ -209,16 +202,15 @@ class MicArrayAnalyzer
 		wxCriticalSection *mAAcritSec;  //protects common mAA data among  threads
 		TimeBenchmark tb;
 		vector<wxDynamicLibrary*> libs;
+		float* m_window;
 		bool ReadXMLData();
 		bool BadXML();
 		bool BadWAV();
 		void AudioDataInit();                     //Init of the whole audio data space.
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
-		void NextFrame() {
-			SetCurFrame(++m_curFrame); 
-//							apOutputData->SetResultsMatrix(resultCube[m_curFrame]);
-		}
+		void InitWindow();
+		void NextFrame() {	SetCurFrame(++m_curFrame); }
 		void DeleteAllData();
 		void PrintResults();
 		void PrintResult(unsigned int frame);
@@ -259,7 +251,7 @@ class MicArrayAnalyzer
 		wxString GetCurTime_Str();
 		int GetCurTime_ms();
 		int GetCurVideoFrameNum();
-		double GetFrameLength() {return m_frameLength;}
+//		double GetFrameLength() {return m_frameLength;}
 		sampleCount GetFrameLengthSmpl() {return m_frameLengthSmpl;}
 		sampleCount GetFrameOverlapSmpl() {return m_frameOverlapRatio*m_frameLengthSmpl;}
 		double GetFrameOverlapRatio() {return m_frameOverlapRatio;}
@@ -293,7 +285,7 @@ class MicArrayAnalyzer
 //			PrintResult(m_curFrame);
 #endif
 		}
-		void SetFrameLength(double value) {m_frameLength = value; m_frameLengthSmpl = m_frameLength * dProjectRate;}
+//		void SetFrameLength(double value) {m_frameLength = value; m_frameLengthSmpl = m_frameLength * dProjectRate;}
 		void SetFrameLengthSmpl(sampleCount valueSmpl){ m_frameLengthSmpl = valueSmpl; }
 		void SetFrameOverlapRatio(double ratio) {m_frameOverlapRatio = ratio;}
 		void SetPlaying(bool value) {playing = value;}
