@@ -126,6 +126,7 @@ m_frameOverlapRatio(mMAA.m_frameOverlapRatio),
 outputFrames(mMAA.outputFrames), //* shared among threads!
 m_bErrorOutOfMemory(mMAA.m_bErrorOutOfMemory),
 mAAcritSec(mMAA.mAAcritSec), //* shared among threads!
+m_window(mMAA.m_window),  //* shared among threads!
 libs(mMAA.libs) //* shared among threads
 {
 	try {
@@ -404,22 +405,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		//	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
 		//	fflush(stdout);
 		//#endif
-		
-		//	InitProgressMeter(_("Checking background image size..."));
-		
-		//	//Background Image Size Check (and scaling if necessary)
-		//	if ((wxbBgndImage.GetWidth() != X_RES)||(wxbBgndImage.GetHeight() != Y_RES))
-		//	{
-		//		//We need to scale choosen image to fit image panel dimensions
-		//		wxImage tmp = wxbBgndImage.ConvertToImage();
-		//		tmp = tmp.Scale(X_RES,Y_RES,wxIMAGE_QUALITY_HIGH);
-		//		wxbBgndImage = wxBitmap(tmp);
-		//	}
-		
-		//	UpdateProgressMeter(1,1);
-		
-		//	DestroyProgressMeter();	
-		
+				
 #ifdef __AUDEBUG__
 		printf("MicArrayAnalyzer::Calculate(): Adding virtual mikes to Delaunay triangulation.\n");
 		fflush(stdout);
@@ -543,78 +529,21 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 			tmMeshes[j] = new TriangularMesh(x,y,mic);
 			++fit;
 		}
-		//	DestroyProgressMeter();
 		
-		//Setting up convolution class
 #ifdef __AUDEBUG__
-		printf("Triangulating...DONE\nMicArrayAnalyzer::Calculate(): Setting up convolution class.\n");
+		
+		printf("MicArrayAnalyzer::Calculate(): Audiopool...");
 		fflush(stdout);
 #endif
-		afmvConvolver = new AFMatrixvolver(sfinfo.channels, iCapsules, GetFrameLengthSmpl(), iDeconvIRsLength); //The class constructor wanna know, in order: # of rows, # of columns, Audacity audio data Length, IRs length.
-		afmvConvolver->SetMatrixAutorange(false); //I disabled autorange because it works on each output channel separately.
-		afmvConvolver->SetRemoveDC(true);         //Remove DC is good instead.
-		afmvConvolver->SetPreserveLength(true);   //Length preservation (truncation) enabled.
-		
-		//Copying data pointers inside the convolution class
-		for(i = 0; i < sfinfo.channels; i++)  //for each row of the IRs matrix (REMEMBER that sfinfo.channels and iVirtualMikes are the same thing...)
-		{
-#ifdef __HARDDEBUG__
-			printf("MicArrayAnalyzer::Calculate(): Copying audio track [%d] pointer.\n",i);
-			fflush(stdout);
-#endif
-			afmvConvolver->SetInputVectorItem(ActualFrameAudioData[i],i); //inside this "for" loop I load Audacity tracks too instead of using another separate "for"
-			for(j = 0; j < iCapsules; j++)
-			{
-#ifdef __HARDDEBUG__
-				printf("MicArrayAnalyzer::Calculate(): Copying IR (%d,%d) pointer.\n",i,j);
-				fflush(stdout);
-#endif
-				afmvConvolver->SetFilterMatrixItem(pppfDeconvIRsData[i][j],i,j);
-			}
-		}
-		/* Convolution calculation!
-		 The convolution is computed in this fashion:
-		 
-		 |ir(1,1) ir(1,2) .... ir(1,j)|   |x1|
-		 |ir(2,1) ir(2,2) .... ir(2,j)|   |x2|
-		 |ir(3,1) ir(3,2) .... ir(3,j)|   |x3| 
-		 | .....   .....  ....  ..... | * |..|  = |y1 y2 y3 ... yi|
-		 | .....   .....  ....  ..... |   |..|
-		 |ir(i,1)  .....  .... ir(i,j)|   |xj|
-		 
-		 where i = (# of rows) = (# of virtual microphones) and j = (# of audacity project tracks) = (# of array capsules).
-		 "Obviously" yk = ir(k,1) * x1 + ir(k,2) * x2 + ... + ir(k,j) * xj , where * stands for convolution, not a simple product :)
-		 AFMatrixvolver class does the summation too!
-		 */
-		//	 #ifdef __AUDEBUG__
-		//	 printf("MicArrayAnalyzer::Calculate(): Convolving...");
-		//	 fflush(stdout);
-		//	 #endif
-		//	 afmvConvolver->Process();
-		//	 #ifdef __AUDEBUG__
-		//	 printf("DONE\n");
-		//	 fflush(stdout);
-		//	 #endif
-		
-		
-		//Retrieving Convolution Output Data
 		CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
 		apOutputData = new AudioPool(iVirtualMikes,dFSLevel - double(fdBScalingFactor),dProjectRate); //AudioPool alloc
 		for(int i=0; i<iVirtualMikes; i++)
 		{
-			//#ifdef __AUDEBUG__
-			//		printf("MicArrayAnalyzer::Calculate(): Retrieving convolution result [%d] from convolver object.\n",i);
-			//		fflush(stdout);
-			//#endif
-			//		UpdateProgressMeter(i,iVirtualMikes);
-			//Arguments: 1st -> track #, 2nd -> data pointer, 3rd -> data vector length, 4th -> true if data output array need to be alloc before copying.
-			apOutputData->SetTrack(i,ActualFrameAudioData[i], GetFrameLengthSmpl(), true); //***DEBUG*** BYPASSING CONVOLUTION!
-			//apOutputData->SetTrack(i,(float*)afmvConvolver->GetOutputVectorItem(i),afmvConvolver->GetOutputVectorItemLength(),true);
+			apOutputData->SetTrack(i,ActualFrameAudioData[i], m_frameLengthSmpl, true); 
 		}
 		
 		
 		//Calculating Results
-		//	printf("thread #%d filling audiopool result matrix \n",frame);
 		if (apOutputData->FillResultsMatrix()) {
 			//construct video frame...
 			double** resultmatrix=apOutputData->GetResultsMatrix();
@@ -726,78 +655,6 @@ bool MicArrayAnalyzer::SetAudioTrackLength(int len)
 	return (iAudioTrackLength != len) ? false: true; //Return false if there's a length mismatch!
 }
 
-
-bool MicArrayAnalyzer::LoadDeconvIRs()
-{
-	// Deconv IRs pool allocation. This is how the pool is arranged:
-	// - the main array holds ROWS of the matrix, so with pppfDeconvIRsData[i] we gain access to the row number "i".
-	// - each row is an array of COLUMNS, so with pppfDeconvIRsData[i][j] we gain access to the cell @ row "i", column "j".
-	// - each cell is an IR, so each cell is an array of float. pppfDeconvIRsData[i][j] is a pointer to the first sample of this IR, while pppfDeconvIRsData[i][j][k] is the "k" sample value!
-	
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::LoadDeconvIRs(): IRs pool allocation...\n");
-	fflush(stdout);
-#endif
-	if (bDeconvIRsDataAlloc) delete [] pppfDeconvIRsData;
-	pppfDeconvIRsData = new float** [sfinfo.channels]; // # of rows = # of wav file channels.
-	for(int i = 0; i < sfinfo.channels ; i++) pppfDeconvIRsData[i] = new float* [iCapsules]; // # of columns = # of array capsules.
-	bDeconvIRsDataAlloc = true;
-	
-	//Cleaning up
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::LoadDeconvIRs(): Cleaning up!\n");
-	fflush(stdout);
-#endif
-	for (int i = 0; i < sfinfo.channels; i++)
-	{ 
-		for (int k = 0; i < iCapsules; i++)
-		{
-			pppfDeconvIRsData[i][k] = 0;   //cleaning each pointer.
-		}
-	}
-	
-	//Reading IRs from file and storing inside the structure!
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::LoadDeconvIRs(): Reading WAV file data.\n");
-	fflush(stdout);
-#endif
-	const int CHANNELS = sfinfo.channels;
-	const int BLOCK_SIZE = iDeconvIRsLength;
-	float *buf;
-	buf = new float [CHANNELS * BLOCK_SIZE];
-	int readcount, j = 0;
-	
-	//	InitProgressMeter(_("Loading deconv IRs from file..."));
-	
-	//NOTE that libsndfile loads data from file starting with the first sample of first channel, then going to the first sample of the second CHANNEL,
-	//and so on, so at the first time for example in buf[2] we have the first sample of the third row, first column IR !!!!
-	while ((readcount = sf_readf_float(infile, buf, BLOCK_SIZE)) > 0)
-	{
-		for (int i = 0; i < CHANNELS; i++)
-		{
-			//			UpdateProgressMeter(j*CHANNELS + i,(sfinfo.channels)*(iCapsules));
-			pppfDeconvIRsData[i][j] = new float [iDeconvIRsLength];                                //Initing [i][j] deconv IRs memory.
-#ifdef __AUDEBUG__
-            printf("MicArrayAnalyzer::LoadDeconvIRs(): Writing to cell (%d;%d), readcount=%d\n",i,j,readcount);
-            fflush(stdout);
-#endif
-			for (int k = 0; k < readcount; k++) pppfDeconvIRsData[i][j][k] = buf[k*CHANNELS + i];  //Reading a whole IR!
-		}
-		j++;
-	}
-	
-	//	DestroyProgressMeter();
-	
-	sf_close(infile); //Freeing up memory!
-	bSndFileAlloc = false;
-	
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer::LoadDeconvIRs(): All done!\n");
-	fflush(stdout);
-#endif
-	//All done!
-	return true;
-}
 
 wxString MicArrayAnalyzer::GetWAVFormatName()
 {
@@ -1239,6 +1096,19 @@ AudioPool::AudioPool(const int nTracks, double dBFullScale, double Fs) : AFAudio
 	dFcOctaveBandFilters[8] = 8000.0;
 	dFcOctaveBandFilters[9] = 16000.0;
 	
+	//Octave band filters border frequencies. They will be divided for the width of a single spectrum line as soon as we know it
+	m_dOctaveOnSpectrum[0] = 22;
+	m_dOctaveOnSpectrum[1] = 44;
+	m_dOctaveOnSpectrum[2] = 88;
+	m_dOctaveOnSpectrum[3] = 177;
+	m_dOctaveOnSpectrum[4] = 355;
+	m_dOctaveOnSpectrum[5] = 710;
+	m_dOctaveOnSpectrum[6] = 1420;
+	m_dOctaveOnSpectrum[7] = 2840;
+	m_dOctaveOnSpectrum[8] = 5680;
+	m_dOctaveOnSpectrum[9] = 11360;
+	m_dOctaveOnSpectrum[10] = 22720;
+	
 	//Setting FS level.
 	SetFullScale(dBFullScale);
 	
@@ -1301,18 +1171,93 @@ bool AudioPool::FillResultsMatrix()
 	ResultsMatrixInit();
 	
 	assert(!(m_smpcLen & (m_smpcLen - 1))); // is power of two!
-	
-	float *powerspectrum = new float[m_smpcLen];
-	
+	float deltaF = m_dbRate/2/(m_smpcLen/2);
+	int fNyquist = m_smpcLen/2+1;
+	float powerspectrum[fNyquist];
+	float singlebandacc[12]; //results for one channel
+
 	for (int c=0; c<m_nChannels; ++c) {
-		PowerSpectrum(m_smpcLen, m_apsmpTrack[c], powerspectrum);	
 		//autospettro
+		PowerSpectrum(m_smpcLen, m_apsmpTrack[c], powerspectrum);	
+
+		// band energy accumulation
+		/*
+		 * [0] accumulate linear filter with all the spectral lines but the ones from the first two bands.
+		 * [1] accumulate A filtered spectral lines.
+		 * [2-11] accumulate every band with the spectral lines inside the related interval.
+		 */
 		
-		//in band energy accumulation
+		//init structures
+		for (int i=0; i<10+2; ++i) {
+			singlebandacc[i]=0;
+		}
 		
+		for (int i=m_dOctaveOnSpectrum[0]; i<m_smpcLen/2; ++i) {
+			if(i<m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
+			{
+				singlebandacc[2] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[2]) // band (63 Hz)
+			{
+				singlebandacc[3] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[3]) // band (125 Hz)
+			{
+				singlebandacc[4] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[4]) // band (250 Hz)
+			{
+				singlebandacc[5] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[5]) // band (500 Hz)
+			{
+				singlebandacc[6] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[6]) // band (1000 Hz)
+			{
+				singlebandacc[7] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[7]) // band (2000 Hz)
+			{
+				singlebandacc[8] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[8]) // band (4000 Hz)
+			{
+				singlebandacc[9] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[9]) // band (8000 Hz)
+			{
+				singlebandacc[10] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			else if(i<m_dOctaveOnSpectrum[10]) // band (16000 Hz)
+			{
+				singlebandacc[11] += powerspectrum[i];
+				singlebandacc[0] += powerspectrum[i];
+			}
+			if(i!=0) { // db(A)
+			float f = i*deltaF;
+			float num = 3.5041384*pow(10.0, 16.0)*powf(f, 8);
+			float denA = (20.598997*20.598997 + f*f);
+			float denB = (107.65265*107.65265 + f*f);
+			float denC = (737.86223*737.86223 + f*f);
+			float denD = (12194.217*12194.217 + f*f);
+			float A = 10*log10(num / ( denA*denA * denB * denC * denD*denD ) );
+			singlebandacc[1] += powerspectrum[i] * A  ;
+			}
+		}
+		
+		for (int band=0; band<12; ++band) {
+			ppdResultsMatrix[c][band] = singlebandacc[band]; //fill result matrix !
+		}
 	}
 	
-	delete[] powerspectrum;
 	return true;
 }
 
@@ -1443,32 +1388,7 @@ double AudioPool::GetMinResultInTheBand(int col)
 	else { return 0; }
 }
 
-double AudioPool::LeqFilteredTrack(int ch)
-{
-	double acc = 0.0;
-	double dData;
-	
-	//   #ifdef __AUDEBUG__
-	//      printf("AudioPool::LeqFilteredTrack on channel [%d]\n",ch);
-	//      fflush(stdout);
-	//   #endif
-	
-	for(int i = 0; i < GetTrackLength(); i++) 
-	{ 
-		dData = double(GetFilteredTrackSquaredSample(ch,i));  //Explicit conversion to double.
-		acc = acc + dData;                            //Accumulating.
-		//      #ifdef __AUDEBUG__
-		//         printf("LEQ: (filteredsample[%d]/p0)^2 = %f ; new acc = %f\n",i,dData,acc);
-		//         fflush(stdout);
-		//      #endif
-	}
-	
-	//   #ifdef __AUDEBUG__
-	//      printf("LEQ ENDING RESULT: acc/length = %f ; Leq_dB = %f\n",acc/GetTrackLength(),dB(acc/GetTrackLength()));
-	//      fflush(stdout);
-	//   #endif
-	return (dB(acc/GetTrackLength()) + GetFullScale()); //Scaling [-inf;0] result accordingly with FS [dB] level.
-}
+
 
 bool AudioPool::ResultsMatrixInit()
 {
@@ -1487,24 +1407,22 @@ bool AudioPool::ResultsMatrixInit()
 	}
 	
 	bResultsMatrixAlloc = true;
+	
+	
+#ifdef __AUDEBUG__
+	printf("AudioPool: band frequencies INIT\n");
+	fflush(stdout);
+#endif		
+	// the power spectrum start from zero to the nyquist frequency (= half sample rate) 
+	// so we have to spread the number of spectral lines (= half the sample length) among those frequencies
+	float deltaF = m_dbRate/2/(m_smpcLen/2);
+	for (int b=0; b<11; ++b) {
+		m_dOctaveOnSpectrum[b] = m_dOctaveOnSpectrum[b] / deltaF;
+	}
 	return true;
 }
 
-void AudioPool::InitProgressMeter(const wxString& operation)
-{
-	mProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
-}
 
-bool AudioPool::UpdateProgressMeter(int step,int total)
-{
-	return bool(mProgress->Update(step, total) == eProgressSuccess); // [esseci]
-}
-
-void AudioPool::DestroyProgressMeter()
-{
-	if(mProgress) delete mProgress;
-	mProgress = 0;
-}
 
 
 

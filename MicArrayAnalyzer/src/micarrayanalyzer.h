@@ -70,15 +70,11 @@ class AudioPool : public AFAudioTrack
 		double** ppdResultsMatrix; //ROWS = various channels, COLUMN 1 = Linear Leq for each channel, COLUMN 2 = A-Filtered Leq, COLUMN 3 = ecc.ecc.
 		bool bResultsMatrixAlloc;
 		double dFcOctaveBandFilters[10];
-		
+		double m_dOctaveOnSpectrum[11]; //frequency borders of the bands on the power spectrum (measured in number of frequencies lines)
+  		
 		//Private methods
-		double LeqFilteredTrack(int ch);        //Returns Leq_dB of Filtered Channel #ch.
 		bool ResultsMatrixInit();
-		
-	protected:
-		void InitProgressMeter(const wxString& operation);
-		bool UpdateProgressMeter(int step,int total);
-		void DestroyProgressMeter();
+
 		
 	public:
 		double FindOverallMax();            //Find max abs value for the whole audio pool.
@@ -208,7 +204,6 @@ class MicArrayAnalyzer
 		bool BadWAV();
 		void AudioDataInit();                     //Init of the whole audio data space.
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
-		bool LoadDeconvIRs();                     //That guy does everything, from memory allocation to read from wav file.
 		void InitWindow();
 		void NextFrame() {	SetCurFrame(++m_curFrame); }
 		void DeleteAllData();

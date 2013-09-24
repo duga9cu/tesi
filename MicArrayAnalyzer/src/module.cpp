@@ -332,19 +332,6 @@ bool EffectMicArrayAnalyzer::PromptUser()
 	if (!DoShowConfDialog()) 
 		return false;
 	
-	//---------------- Loading deconvolution IRs from file ----------------
-#ifdef __AUDEBUG__
-	printf("MicArrayAnalyzer: Copying deconv IRs from file to MicArrayAnalyzer object.\n");
-	fflush(stdout);
-#endif
-	if(!mMAA->LoadDeconvIRs()) 
-	{
-		wxMessageBox(_("Error copying deconv IRs from WAV file!"),_("Error"),wxOK|wxICON_ERROR);
-		delete mMAA;
-		mMAA = 0;
-		return false;
-	}
-	
 	return true;
 }
 

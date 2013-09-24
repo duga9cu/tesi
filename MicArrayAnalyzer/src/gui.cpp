@@ -128,12 +128,16 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	m_wxcFrameLength->SetSelection(d);
 	bool found = false;
 	for (int i=0; i<FrameLengths.size(); ++i) {
-		if (FrameLengths[i] == d)
+		if (i == d) {
 			found=true;
+			break;
+		}
 	}
 	if (found)
-	mMAA->SetFrameLengthSmpl(d);
-	else mMAA->SetFrameLengthSmpl(FrameLengths[FRAMELENGTH_DFLT]);
+		mMAA->SetFrameLengthSmpl(FrameLengths[d]);
+	else 
+		mMAA->SetFrameLengthSmpl(FrameLengths[FRAMELENGTH_DFLT]);
+	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"));
 	m_Conf.Read(buffer, &d, FRAMEOVERLAP*100);
 	buffer.Printf(_("%.1f"),d);
@@ -142,7 +146,7 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	
 	IsAllOKCheck();
 	
-	int totframes = mMAA->GetAudioTrackLength() / (mMAA->GetFrameLengthSmpl() - mMAA->GetFrameOverlapSmpl()) ;
+	int totframes = mMAA->GetAudioTrackLength() / (mMAA->GetFrameLengthSmpl() * (1 - mMAA->GetFrameOverlapRatio())) ;
 	mMAA->SetNumOfFrames(totframes);
 	str.Printf(_("%d"), totframes);
 	m_wxstTotFrames->SetLabel(str);
@@ -795,8 +799,12 @@ void MicArrayAnalyzerConfDlg::FSOnChar(wxKeyEvent& event)
 
 void MicArrayAnalyzerConfDlg::OnFrameLengthChoice(wxCommandEvent& event)
 {
+	wxString buffer;
 	int frmlngthsmpl = FrameLengths[event.GetSelection()];
-	mMAA->SetFrameLengthSmpl(frmlngthsmpl); 
+	mMAA->SetFrameLengthSmpl(frmlngthsmpl);
+	int totframes = ( mMAA->GetAudioTrackLength() / (mMAA->GetFrameLengthSmpl()*(1-mMAA->GetFrameOverlapRatio())));
+	buffer.Printf(_("%d"),totframes);
+	m_wxstTotFrames->SetLabel(buffer);
 }
 
 //void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
