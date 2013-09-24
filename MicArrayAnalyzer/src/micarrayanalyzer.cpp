@@ -1192,7 +1192,7 @@ bool AudioPool::FillResultsMatrix()
 			singlebandacc[i]=0;
 		}
 		
-		for (int i=m_dOctaveOnSpectrum[0]; i<m_smpcLen/2; ++i) {
+		for (int i=m_dOctaveOnSpectrum[0]; i<fNyquist; ++i) {
 			if(i<m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
 			{
 				singlebandacc[2] += powerspectrum[i];

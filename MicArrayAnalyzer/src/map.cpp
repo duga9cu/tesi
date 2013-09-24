@@ -821,8 +821,9 @@ bool MyMap::SaveContext()
 		m_pMaa->SetCurFrame(i);
 		UpdateMap(dc, sz);
 		wxString txt;
-		int bgndVideoFrameNum = m_pMaa->GetCurVideoFrameNum();
-		txt.Printf(_("frame%d.jpg"),bgndVideoFrameNum);
+//		int bgndVideoFrameNum = m_pMaa->GetCurVideoFrameNum();
+		txt.Printf(_("frame%d.jpg"),i);
+		dc.SelectObject(wxNullBitmap);
 		if(!bmp.SaveFile(txt, wxBITMAP_TYPE_JPEG))
 			return false;
     }
