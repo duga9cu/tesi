@@ -507,10 +507,10 @@ void MyColorMap::Draw(wxDC& dc)
     for(int i = 0; i < (iColorBarSubdiv + 1); i++)
     {
         value = max - ((max - min)/iColorBarSubdiv)*i;
-//        if (m_iMeasureUnit == MU_dB)
+        if (m_iMeasureUnit == MU_dB)
             scale_label.Printf(wxT("%.1f"), value);  //For dB scale we DON'T use scientific notation.
-     //   else
-//            scale_label.Printf(wxT("%.1E"), value);
+		else
+			scale_label.Printf(wxT("%.1E"), value);
         
         dc.GetTextExtent(scale_label, &w, &h);
         dc.DrawText(scale_label, 
@@ -804,6 +804,7 @@ void MyMap::MarkDebugMap(wxPoint& p)
 
 bool MyMap::SaveContext() 
 {
+	for (int i=1; i<=m_pMaa->GetNumOfFrames(); ++i) {
 	wxSize sz = GetClientSize();
     
     wxBitmap bmp(sz.GetWidth(), sz.GetHeight());
@@ -817,7 +818,6 @@ bool MyMap::SaveContext()
         return false;
     }
 	
-    for (int i=1; i<=m_pMaa->GetNumOfFrames(); ++i) {
 		m_pMaa->SetCurFrame(i);
 		UpdateMap(dc, sz);
 		wxString txt;

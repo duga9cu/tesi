@@ -53,7 +53,8 @@ m_frameOverlapRatio(FRAMEOVERLAP),
 m_curFrame(1),
 playing(false),
 //bandAutoscale(true)
-bandAutoscale(false)
+bandAutoscale(false),
+m_bfdBScalingFactorAlloc(false)
 {
 	m_tmpDirPath=m_standardTMPdirPath.GetTempDir();
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
@@ -62,7 +63,7 @@ bandAutoscale(false)
 	wxImage::AddHandler(new wxPNMHandler);
 	m_bErrorOutOfMemory= new bool(false);
 	
-	//	SetFrameLength(frameLength[1]); è una cagata perchè ancora non sai la proj rate!
+	//	SetFrameLength(frameLength[1]); bad idea cause you don't know the projrate yet!
 }
 
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
@@ -99,9 +100,9 @@ m_bgndVideoFrameRate(mMAA.m_bgndVideoFrameRate),
 bBgndVideoAlloc(mMAA.bBgndVideoAlloc),
 wxfnBgndVideoFile(mMAA.wxfnBgndVideoFile),
 m_tmpDirPath(mMAA.m_tmpDirPath),
-//vmsMirroredMikes(mMAA.vmsMirroredMikes), // initialized in calculate()
-//tmMeshes(mMAA.tmMeshes), // initialized in calculate()
-iNTriangles(mMAA.iNTriangles), //la triangolazione è uguale per tutti // ANDREBBE TOLTA DALLA CALCULATE E FATTA PRIMA?
+vmsMirroredMikes(mMAA.vmsMirroredMikes), // calculate only first time
+tmMeshes(mMAA.tmMeshes), // calculate only first time
+iNTriangles(mMAA.iNTriangles), //la triangolazione è uguale per tutti
 ppfAudioData(mMAA.ppfAudioData), //* shared among threads! (read-only)
 //ActualFrameAudioData(mMAA.ActualFrameAudioData),  //* vedi sotto
 //bAudioDataAlloc(false), //* vedi sotto
@@ -109,12 +110,12 @@ pfLocalMin(mMAA.pfLocalMin), //* shared (read-only)
 pfLocalMax(mMAA.pfLocalMax), //* shared (read-only)
 pfAbsoluteMin(mMAA.pfAbsoluteMin),	//* shared (read-only)
 pfAbsoluteMax(mMAA.pfAbsoluteMax),	//* shared (read-only)
-//fdBScalingFactor(mMAA.fdBScalingFactor), // initialized in calculate()
+fdBScalingFactor(mMAA.fdBScalingFactor), // calculate it only the first time!
+m_bfdBScalingFactorAlloc(mMAA.m_bfdBScalingFactorAlloc),
 pppfDeconvIRsData(mMAA.pppfDeconvIRsData), //* shared (read-only) 
 bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
 //apOutputData(mMAA.apOutputData),	//*  - viene usato solo in calculate()
 bResultsAvail(false), //devo ancora calcolare i risultati
-//afmvConvolver //*		- viene usato solo in calculate()
 // per ora non uso i watchpoints
 //piWatchpoints(mMAA.piWatchpoints),
 //iWatchpoints(mMAA.iWatchpoints), 
@@ -260,6 +261,7 @@ bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure
 		TriangularMesh* tmCurrentTri;
 		
 		ClearInterpolCoeffs();  //Clearing A,B,C,det for each triangle.
+		
 		int j = 0; //Used to remember the previous triangle where a point was located, in order to speed-up point location!
 		for (i = 0; i < MAP_WIDTH; i++)
 		{
@@ -303,7 +305,7 @@ bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure
 														 currentBand);
 							
 							//Scaling to the correct unit
-							levels[vert] = FromdB(levels[vert], /*MeasureUnit(outputFrames->m_iCurrentUnit)*/ MU_dB); 
+							levels[vert] = FromdB(levels[vert], /*MeasureUnit(outputFrames->m_iCurrentUnit)*/ MU_dB); //what to do here?
 						}
 						//Setting levels will automatically compute interpolation coeffs.
 						if (iArrayType==1) {					
@@ -350,9 +352,138 @@ void MicArrayAnalyzer::InitWindow() {
 		WindowFunc(WINDOWFUNC, m_frameLengthSmpl, m_window); //.. at this point m_window contains the window itself
 	}
 
+
+bool MicArrayAnalyzer::Triangulate_and_mesh() 
+{
+#ifdef __AUDEBUG__
+	printf("MicArrayAnalyzer::Calculate(): Adding virtual mikes to Delaunay triangulation.\n");
+	fflush(stdout);
+#endif
+	
+	//	InitProgressMeter(_("Adding virtual mikes to the Delaunay triangulation..."));
+	
+	//Adding mikes to the Delaunay triangulation
+	Delaunay::Point tempP;
+	vector<Delaunay::Point> v;
+	
+	if (iArrayType == 0 || iArrayType == 1)
+	{
+#ifdef __AUDEBUG__
+		printf("MicArrayAnalyzer::Calculate(): Virtual mikes mirroring ENABLED (spherical or cylindrical array detected).\n");
+		fflush(stdout);
+#endif
+		vmsMirroredMikes = new VirtualMikesSet;   //For spherical arrays we need to "clone" each virtual mike properly
+		//to guarantee ColorMap boundary continuity.
+		//See "GetMirroredMikes" if you want to explore cloning rules!
+		bMirroredMikesAlloc = true;
+	}
+	int i, j;
+	for (i=0;i<iVirtualMikes;i++)
+	{
+		//		UpdateProgressMeter(i,iVirtualMikes);
+		
+		// Get current virtualmike coordinates
+		tempP[0] = MikesCoordinates[2*i]; 
+		tempP[1] = MikesCoordinates[2*i + 1];
+		//#ifdef __AUDEBUG__
+		//		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
+		//		fflush(stdout);
+		//		//         VirtualMike* pvmDebug;
+		//#endif
+		v.push_back(tempP);  //Adding mike to the triangulation
+		
+		if (iArrayType == 0) //spherical
+		{
+			for (j=0;j<3;j++)   //For each virt. mike, three mirrored mikes exists.
+			{
+				double dMirroredMike[2];
+				if (!GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,j,iArrayType)) //Retrieving mirror #j mike coords.
+				{
+					printf("problem with getmirroredmike() during calculate()..");
+					return false;
+				}
+				tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
+				//#ifdef __AUDEBUG__
+				//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
+				//				fflush(stdout);
+				//#endif
+				v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
+				vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
+			}
+		} else if(iArrayType==1) //cylindrical
+		{
+			double dMirroredMike[2];
+			if (!GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,0,iArrayType)) //Retrieving mirror #j mike coords.
+			{
+				printf("problem with getmirroredmike() during calculate()..");
+				return false;
+			}
+			tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
+			//#ifdef __AUDEBUG__
+			//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
+			//				fflush(stdout);
+			//#endif
+			v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
+			vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
+		}
+	}
+	
+	//	DestroyProgressMeter();
+	
+	//	InitProgressMeter(_("Generating mesh surface..."));
+#ifdef __AUDEBUG__
+	
+	printf("MicArrayAnalyzer::Calculate(): Triangulating...");
+	fflush(stdout);
+#endif
+	Delaunay dt(v);   //"dt" stands for (d)elaunay (t)riangulation
+	dt.Triangulate(); //The triangulation will be computed here....
+	iNTriangles = dt.ntriangles(); //Storing the number of computed triangular meshes
+	
+	//	UpdateProgressMeter(1,iNTriangles+1);
+	
+	tmMeshes = new TriangularMesh* [iNTriangles];      //The computed triangulation will be stored inside a TriangularMesh array.
+	int x[3],y[3],mic[3];                              //(x,y) = position, mic = mic #.
+	Delaunay::fIterator fit = dt.fbegin();
+	
+	int k;
+	for(j=0;j<iNTriangles;j++)
+	{
+		//		UpdateProgressMeter(j+1,iNTriangles+1);
+		x[0] = dt.point_at_vertex_id(dt.Org(fit))[0];
+		x[1] = dt.point_at_vertex_id(dt.Dest(fit))[0];
+		x[2] = dt.point_at_vertex_id(dt.Apex(fit))[0];
+		y[0] = dt.point_at_vertex_id(dt.Org(fit))[1];
+		y[1] = dt.point_at_vertex_id(dt.Dest(fit))[1];
+		y[2] = dt.point_at_vertex_id(dt.Apex(fit))[1];
+		
+		for (i = 0; i < iVirtualMikes; i++)
+			for (k = 0; k < 3; k++)
+				if ((x[k] == MikesCoordinates[2*i])&&(y[k] == MikesCoordinates[2*i + 1]))
+				{
+					mic[k] = i; //Find and save mic # for each vertex.
+				}
+		
+		VirtualMike* pvmCurrent;
+		
+		for (i = 0; i < vmsMirroredMikes->GetNumberOfMikes(); i++)
+			for (k = 0; k < 3; k++)
+			{
+				pvmCurrent = vmsMirroredMikes->GetVirtualMike(i);
+				if ((x[k] == pvmCurrent->GetX())&&(y[k] == pvmCurrent->GetY()))
+				{
+					mic[k] = pvmCurrent->GetMicID(); //Find and save original mic # for each mirrored mike too.
+				}
+			}
+		tmMeshes[j] = new TriangularMesh(x,y,mic);
+		++fit;
+	}
+	return true;
+}
+
 bool MicArrayAnalyzer::Calculate(unsigned int frame)
 {	
-	try{ //catching out of memory situations
+	try{ //catching out-of-memory situations
 #ifdef __AUDEBUG__
 		//	mAAcritSec->Enter(); //DEBUG per avere i printf coerenti tutti in serie
 		printf("MicArrayAnalyzer::Calculate(%d): copying ppfAudioData into ActualFrameAudioData\n",frame);
@@ -402,132 +533,15 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		
 		//#ifdef __AUDEBUG__
 		//	PrintActualFrame(frame);
-		//	printf("MicArrayAnalyzer::Calculate(): Background image check and resize\n");
 		//	fflush(stdout);
 		//#endif
-				
-#ifdef __AUDEBUG__
-		printf("MicArrayAnalyzer::Calculate(): Adding virtual mikes to Delaunay triangulation.\n");
-		fflush(stdout);
-#endif
-		
-		//	InitProgressMeter(_("Adding virtual mikes to the Delaunay triangulation..."));
-		
-		//Adding mikes to the Delaunay triangulation
-		Delaunay::Point tempP;
-		vector<Delaunay::Point> v;
-		
-		if (iArrayType == 0 || iArrayType == 1)
-		{
-#ifdef __AUDEBUG__
-			printf("MicArrayAnalyzer::Calculate(): Virtual mikes mirroring ENABLED (spherical or cylindrical array detected).\n");
-			fflush(stdout);
-#endif
-			vmsMirroredMikes = new VirtualMikesSet;   //For spherical arrays we need to "clone" each virtual mike properly
-			//to guarantee ColorMap boundary continuity.
-			//See "GetMirroredMikes" if you want to explore cloning rules!
-			bMirroredMikesAlloc = true;
-		}
-		int i, j;
-		for (i=0;i<iVirtualMikes;i++)
-		{
-			//		UpdateProgressMeter(i,iVirtualMikes);
-			
-			// Get current virtualmike coordinates
-			tempP[0] = MikesCoordinates[2*i]; 
-			tempP[1] = MikesCoordinates[2*i + 1];
-			//#ifdef __AUDEBUG__
-			//		printf("MicArrayAnalyzer::Calculate(): adding virtual mike [%d]\n",i);
-			//		fflush(stdout);
-			//		//         VirtualMike* pvmDebug;
-			//#endif
-			v.push_back(tempP);  //Adding mike to the triangulation
-			
-			if (iArrayType == 0) //spherical
-			{
-				for (j=0;j<3;j++)   //For each virt. mike, three mirrored mikes exists.
-				{
-					double dMirroredMike[2];
-					if (!GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,j,iArrayType)) //Retrieving mirror #j mike coords.
-					{
-						printf("problem with getmirroredmike() during calculate()..");
-						return false;
-					}
-					tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
-					//#ifdef __AUDEBUG__
-					//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
-					//				fflush(stdout);
-					//#endif
-					v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
-					vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
-				}
-			} else if(iArrayType==1) //cylindrical
-			{
-				double dMirroredMike[2];
-				if (!GetMirroredMike(MikesCoordinates[2*i],MikesCoordinates[2*i+1],dMirroredMike,0,iArrayType)) //Retrieving mirror #j mike coords.
-				{
-					printf("problem with getmirroredmike() during calculate()..");
-					return false;
-				}
-				tempP[0] = dMirroredMike[0]; tempP[1] = dMirroredMike[1];
-				//#ifdef __AUDEBUG__
-				//				printf("MicArrayAnalyzer::Calculate(): adding mirror [%d] of virtual mike [%d]\n",j,i);
-				//				fflush(stdout);
-				//#endif
-				v.push_back(tempP);                                     //Adding mirrored mike to the triangulation
-				vmsMirroredMikes->AddVirtualMike(tempP[0],tempP[1],i);    //By passing "i" to AddMike we specify that this is a clone of Mic #i.
+		if(!bMirroredMikesAlloc)
+		{		
+			if (!Triangulate_and_mesh()) {			
+				printf("MicArrayAnalyzer::Calculate(): Triangulate_and_mesh...FAILED\n");
+				fflush(stdout);
+				return false;
 			}
-		}
-		
-		//	DestroyProgressMeter();
-		
-		//	InitProgressMeter(_("Generating mesh surface..."));
-#ifdef __AUDEBUG__
-
-		printf("MicArrayAnalyzer::Calculate(): Triangulating...");
-		fflush(stdout);
-#endif
-		Delaunay dt(v);   //"dt" stands for (d)elaunay (t)riangulation
-		dt.Triangulate(); //The triangulation will be computed here....
-		iNTriangles = dt.ntriangles(); //Storing the number of computed triangular meshes
-		
-		//	UpdateProgressMeter(1,iNTriangles+1);
-		
-		tmMeshes = new TriangularMesh* [iNTriangles];      //The computed triangulation will be stored inside a TriangularMesh array.
-		int x[3],y[3],mic[3];                              //(x,y) = position, mic = mic #.
-		Delaunay::fIterator fit = dt.fbegin();
-		
-		int k;
-		for(j=0;j<iNTriangles;j++)
-		{
-			//		UpdateProgressMeter(j+1,iNTriangles+1);
-			x[0] = dt.point_at_vertex_id(dt.Org(fit))[0];
-			x[1] = dt.point_at_vertex_id(dt.Dest(fit))[0];
-			x[2] = dt.point_at_vertex_id(dt.Apex(fit))[0];
-			y[0] = dt.point_at_vertex_id(dt.Org(fit))[1];
-			y[1] = dt.point_at_vertex_id(dt.Dest(fit))[1];
-			y[2] = dt.point_at_vertex_id(dt.Apex(fit))[1];
-			
-			for (i = 0; i < iVirtualMikes; i++)
-				for (k = 0; k < 3; k++)
-					if ((x[k] == MikesCoordinates[2*i])&&(y[k] == MikesCoordinates[2*i + 1]))
-					{
-						mic[k] = i; //Find and save mic # for each vertex.
-					}
-			
-			VirtualMike* pvmCurrent;
-			
-			for (i = 0; i < vmsMirroredMikes->GetNumberOfMikes(); i++)
-				for (k = 0; k < 3; k++)
-				{
-					pvmCurrent = vmsMirroredMikes->GetVirtualMike(i);
-					if ((x[k] == pvmCurrent->GetX())&&(y[k] == pvmCurrent->GetY()))
-					{
-						mic[k] = pvmCurrent->GetMicID(); //Find and save original mic # for each mirrored mike too.
-					}
-				}
-			tmMeshes[j] = new TriangularMesh(x,y,mic);
-			++fit;
 		}
 		
 #ifdef __AUDEBUG__
@@ -535,7 +549,9 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		printf("MicArrayAnalyzer::Calculate(): Audiopool...");
 		fflush(stdout);
 #endif
-		CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
+		if(!m_bfdBScalingFactorAlloc) {
+			CalculateFSScalingFactor();   //Finding the project track with the max absolute level, and computing the ratio between this level and the local peak level of the same track. This will be used as a trick to associate dFSLevel with the absolute max without the need of convolving the entire recording!
+		}
 		apOutputData = new AudioPool(iVirtualMikes,dFSLevel - double(fdBScalingFactor),dProjectRate); //AudioPool alloc
 		for(int i=0; i<iVirtualMikes; i++)
 		{
@@ -647,6 +663,7 @@ void MicArrayAnalyzer::CalculateFSScalingFactor()
 	}
 	
 	fdBScalingFactor = dB20(fabs(pfAbsoluteMax[ch]) / fabs(pfLocalMax[ch]));  //Stored in dB!!!!
+	m_bfdBScalingFactorAlloc=true;
 }
 
 bool MicArrayAnalyzer::SetAudioTrackLength(int len)
@@ -1171,15 +1188,19 @@ bool AudioPool::FillResultsMatrix()
 	ResultsMatrixInit();
 	
 	assert(!(m_smpcLen & (m_smpcLen - 1))); // is power of two!
-	float deltaF = m_dbRate/2/(m_smpcLen/2);
+	
 	int fNyquist = m_smpcLen/2+1;
+	
+	float deltaF = (m_dbRate/2)/(fNyquist);
 	float powerspectrum[fNyquist];
+	float filterA[fNyquist];
 	float singlebandacc[12]; //results for one channel
-
-	for (int c=0; c<m_nChannels; ++c) {
+	
+	for (int c=0; c<m_nChannels; ++c) 
+	{
 		//autospettro
 		PowerSpectrum(m_smpcLen, m_apsmpTrack[c], powerspectrum);	
-
+		
 		// band energy accumulation
 		/*
 		 * [0] accumulate linear filter with all the spectral lines but the ones from the first two bands.
@@ -1241,23 +1262,28 @@ bool AudioPool::FillResultsMatrix()
 				singlebandacc[11] += powerspectrum[i];
 				singlebandacc[0] += powerspectrum[i];
 			}
-			if(i!=0) { // db(A)
-			float f = i*deltaF;
-			float num = 3.5041384*pow(10.0, 16.0)*powf(f, 8);
-			float denA = (20.598997*20.598997 + f*f);
-			float denB = (107.65265*107.65265 + f*f);
-			float denC = (737.86223*737.86223 + f*f);
-			float denD = (12194.217*12194.217 + f*f);
-			float A = 10*log10(num / ( denA*denA * denB * denC * denD*denD ) );
-			singlebandacc[1] += powerspectrum[i] * A  ;
+			if(i>m_dOctaveOnSpectrum[0] && i<m_dOctaveOnSpectrum[10]) { // db(A)
+				float f = i*deltaF;
+				double num = 3.5041384*pow(10.0, 16.0)*powf(f, 8);
+				double denA = (20.598997*20.598997 + f*f);
+				double denB = (107.65265*107.65265 + f*f);
+				double denC = (737.86223*737.86223 + f*f);
+				double denD = (12194.217*12194.217 + f*f);
+				double A = num / ( denA*denA * denB * denC * denD*denD ) ;
+				filterA[i]=A;
+				singlebandacc[1] += powerspectrum[i] * A;
+				if (i%100==0)
+					printf("controllo il valore della banda dbA");
 			}
 		}
 		
-		for (int band=0; band<12; ++band) {
-			ppdResultsMatrix[c][band] = singlebandacc[band]; //fill result matrix !
+		//fill result matrix !
+		for (int b=0; b<12; ++b) {
+			singlebandacc[b]=dB(singlebandacc[b]); //SPL
+			ppdResultsMatrix[c][b] = singlebandacc[b]; 
 		}
+		
 	}
-	
 	return true;
 }
 
@@ -1416,8 +1442,11 @@ bool AudioPool::ResultsMatrixInit()
 	// the power spectrum start from zero to the nyquist frequency (= half sample rate) 
 	// so we have to spread the number of spectral lines (= half the sample length) among those frequencies
 	float deltaF = m_dbRate/2/(m_smpcLen/2);
+	
+	assert(deltaF != 0);
+	
 	for (int b=0; b<11; ++b) {
-		m_dOctaveOnSpectrum[b] = m_dOctaveOnSpectrum[b] / deltaF;
+		m_dOctaveOnSpectrum[b] = (float)m_dOctaveOnSpectrum[b] / deltaF;
 	}
 	return true;
 }

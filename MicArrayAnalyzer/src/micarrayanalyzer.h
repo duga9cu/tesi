@@ -70,7 +70,7 @@ class AudioPool : public AFAudioTrack
 		double** ppdResultsMatrix; //ROWS = various channels, COLUMN 1 = Linear Leq for each channel, COLUMN 2 = A-Filtered Leq, COLUMN 3 = ecc.ecc.
 		bool bResultsMatrixAlloc;
 		double dFcOctaveBandFilters[10];
-		double m_dOctaveOnSpectrum[11]; //frequency borders of the bands on the power spectrum (measured in number of frequencies lines)
+		int m_dOctaveOnSpectrum[11]; //frequency borders of the bands on the power spectrum (measured in number of frequencies lines)
   		
 		//Private methods
 		bool ResultsMatrixInit();
@@ -157,7 +157,9 @@ class MicArrayAnalyzer
 		float *pfLocalMax;
 		float *pfAbsoluteMin;
 		float *pfAbsoluteMax;
+		
 		float fdBScalingFactor;
+		bool m_bfdBScalingFactorAlloc;
 		
 		float ***pppfDeconvIRsData;
 		bool bDeconvIRsDataAlloc;
@@ -291,6 +293,8 @@ class MicArrayAnalyzer
 				
 		void ClearInterpolCoeffs() { for (int i=0;i<iNTriangles;i++) { tmMeshes[i]->DeleteCoeffs(); } }
 		void CalculateFSScalingFactor();
+		bool Triangulate_and_mesh() ;
+
 		bool Calculate(unsigned int f); // This function does the hard work!
 
 		MicArrayAnalyzer();
