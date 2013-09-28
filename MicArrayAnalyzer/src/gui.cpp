@@ -1005,9 +1005,12 @@ m_timer(this, ID_MM_TIMER)
 									  m_wxrbBandSelection->GetSelection()) );
 	
 	
+	
 	m_pMap->SetTransparency(mMAA->GetTransparency());
 	
 	m_pMap->ShowVirtMikesPos(m_wxcbShowVirtMikes->IsChecked()); //Acquiring default value.
+	
+	m_pMap->Refresh();
 	
 	//Centering dialog on screen
 	this->Centre();
@@ -1023,9 +1026,7 @@ m_timer(this, ID_MM_TIMER)
 	m_spinCtrlCurFrame->SetRange(1, mMAA->GetNumOfFrames());
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime_Str());
 	//	m_wxcbSeparateBandAutoscale->SetValue(true);
-	
-	mMAA->InitWindow();
-	
+
 	
 }
 
@@ -1301,23 +1302,28 @@ void MicArrayAnalyzerDlg::OnChoiceFrameRate(wxCommandEvent& event)  {
 void MicArrayAnalyzerDlg::RestartTimer() 
 {
 	double framelength_ms = mMAA->GetFrameLengthSmpl()/mMAA->GetProjSampleRate()*1000;
-	switch (m_wxcPlaybackSpeed->GetCurrentSelection()) { //decide how long to yeld to sync the video with the frame rate
+	switch (m_wxcPlaybackSpeed->GetCurrentSelection()) { //decide how long to yeld to sync the video with the playback frame rate
 		case 0: // 0.1x
-			m_lastMillitimer = framelength_ms / 0.1 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
+			m_lastMillitimer = framelength_ms / 0.1 - (m_lastFrameElapsedTime ); break;
 			
 		case 1: // 0.2x
-			m_lastMillitimer = framelength_ms / 0.2 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
+			m_lastMillitimer = framelength_ms / 0.2 - (m_lastFrameElapsedTime ); break;
 			
 		case 2: // 0.5x
-			m_lastMillitimer = framelength_ms / 0.5 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
+			m_lastMillitimer = framelength_ms / 0.5 - (m_lastFrameElapsedTime ); break;
 			
 		case 3: // 1x
-			m_lastMillitimer = framelength_ms / 1.0 - (m_lastFrameElapsedTime - m_lastMillitimer); break;
+			m_lastMillitimer = framelength_ms / 1.0 - (m_lastFrameElapsedTime ); break;
 			
 		default:
 			m_lastMillitimer = 1; break;
 	}
-	if (m_lastMillitimer <= 0 || m_lastMillitimer >= 1000) m_lastMillitimer = 1; // timer between [0 , 1] sec.
+	if (m_lastMillitimer <= 0 ) {
+		m_lastMillitimer = 1; // timer between [0 , 3] sec.
+	}
+	else if ( m_lastMillitimer > 3000) {
+		m_lastMillitimer = 3000; // timer between [0 , 3] sec.
+	}
 	m_timer.Start(m_lastMillitimer, true);
 }
 
@@ -1325,7 +1331,7 @@ void MicArrayAnalyzerDlg::OnTimer(wxTimerEvent& evt)
 {
 #ifdef __AUDEBUG__
 	m_benchTime.Stop();
-	m_lastFrameElapsedTime = m_benchTime.GetElapsedTime();
+	m_lastFrameElapsedTime = m_benchTime.GetElapsedTime() - m_lastMillitimer;
 	printf("onTimer!!! curFrame = [%d], timing: %.1f ms\n",mMAA->GetCurFrame(), m_lastFrameElapsedTime);
 	m_benchTime.Start();
 #endif

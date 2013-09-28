@@ -54,6 +54,7 @@ wxThread::ExitCode MyThread::Entry()
 //		effectCritsect->Enter(); //thread atomicity
 //#endif
 	mMAA->m_errorBuffer.Printf(_("Frame %d Run Out Of Memory ! ... go get some more memory ;)"),m_count); //just in case ...
+	wxMessageDialog errorBox(NULL,mMAA->m_errorBuffer,_("Error"),wxOK|wxICON_ERROR);
 
     printf("Thread started (priority = %u). id #=%d\n", GetPriority(), m_count);
 
@@ -77,7 +78,7 @@ wxThread::ExitCode MyThread::Entry()
 		//		wxMessageBox(_("Something strange occourred.\nCannot calculate Acoustical Parameters."),_("Error"), wxOK | wxICON_ERROR);
 		if(!mMAA->outputFrames->IsVideoResized()){
 //		mMAA->m_wxsSecurityBuffer.Empty();
-			wxMessageBox(mMAA->m_errorBuffer,_("Error"),wxOK|wxICON_ERROR);
+			errorBox.ShowModal();
 		//mMAA->m_errorBuffer.Printf(_("Frame %d Run Out Of Memory ! ... go get some more memory ;)"),m_count);
 //		wxMessageBox(mMAA->m_errorBuffer,_("Error"),wxOK|wxICON_ERROR);
 		}
@@ -341,10 +342,10 @@ bool EffectMicArrayAnalyzer::Process()
 	printf("This is PROCESS\n");
 	fflush(stdout);
 #endif
-	
-	MicArrayAnalyzerDlg dlog_1(mParent, mMAA); //init dialog
-	
-	int numofcores= wxThread::GetCPUCount(); 	
+		
+	int numofcores= wxThread::GetCPUCount(); 
+	mMAA->InitWindow();	//for the windowing function
+
 	InitVideoProgressMeter(_("Calculating video frame for each band..."));
 	UpdateVideoProgressMeter(1 , mMAA->GetNumOfFrames());
 	
@@ -433,7 +434,7 @@ bool EffectMicArrayAnalyzer::Process()
 	mMAA->SetBgndImage( mMAA->GetBGNDVideoBmp() );
 	//	mMAA->outputFrames->CreateColorMaps();
 	
-	
+	MicArrayAnalyzerDlg dlog_1(mParent, mMAA); //init dialog
 	dlog_1.CenterOnParent();
 	if(dlog_1.ShowModal())
 	{
