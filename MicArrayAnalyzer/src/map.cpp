@@ -863,10 +863,10 @@ void MyMap::UpdateMap(wxDC& dc, wxSize size)
     dc.DrawBitmap(bgnd, 0, 0, false); //false = ignore transparency -->> fully opaque.
     }
     //Draw ColorMap (mid layer)
-//    if(!m_aadLevelsMap)
-	if (m_pMaa->Playing()) 
-		m_aadLevelsMap = m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
-	else InitLevelsMap();
+//	if (m_pMaa->Playing()) 
+//		m_aadLevelsMap = m_pMaa->outputFrames->GetFrameLevels(m_pMaa->GetCurFrame(), m_iCurrentBand);
+//	else 
+		InitLevelsMap();
 	
 //    if(!m_pwximgColorMap) 
         InitColorMap();

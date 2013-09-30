@@ -107,7 +107,7 @@ class EffectMicArrayAnalyzer: public Effect
          return result;
          }
 
-      virtual int GetEffectFlags() { return BUILTIN_EFFECT | PROCESS_EFFECT; }   
+      virtual int GetEffectFlags() { return  BUILTIN_EFFECT | ANALYZE_EFFECT; }   
 
       virtual bool Init();
       virtual bool PromptUser();

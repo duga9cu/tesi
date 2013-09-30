@@ -19,6 +19,8 @@
 #define TRANSPARENCY 50						// alpha value for the colormap superposition
 #define   MAP_WIDTH  960					//pixel of background image
 #define   MAP_HEIGHT 480					//pixel of background image
+//#define   MAP_WIDTH  640					//pixel of background image
+//#define   MAP_HEIGHT 320					//pixel of background image
 #define WINDOWFUNC	3						//hanning window
 	
 const int possibleLenghts[]={512,1024,2048,4096,8192,16384};

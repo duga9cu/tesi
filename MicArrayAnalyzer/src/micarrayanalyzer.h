@@ -85,7 +85,7 @@ class AudioPool : public AFAudioTrack
 		double GetMinResultInTheMatrix();
 		double GetMaxResultInTheBand(int col); //Returns MAX level inside the choosen ppdResultsMatrix column.
 		double GetMinResultInTheBand(int col); //Returns MIN level inside the choosen ppdResultsMatrix column.
-		bool FillResultsMatrix();  //Hard working function!
+		bool FillResultsMatrix(double fs);  //Hard working function!
 		
 		void SetResultsMatrix(double** ppd) {ppdResultsMatrix = ppd;} //errelle 
 		

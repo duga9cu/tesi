@@ -732,7 +732,7 @@ void MicArrayAnalyzerConfDlg:: UpdateTranspOverview()
 
 void MicArrayAnalyzerConfDlg::MinSPLOnFocus(wxFocusEvent& event)
 {
-	m_wxtcMinSPL->SetValue(wxEmptyString);
+//	m_wxtcMinSPL->SetValue(wxEmptyString);
 }
 
 
@@ -766,7 +766,7 @@ void MicArrayAnalyzerConfDlg::MinSPLOnChar(wxKeyEvent& event)
 
 void MicArrayAnalyzerConfDlg::FSOnFocus(wxFocusEvent& event)
 {
-	m_wxtcFS->SetValue(wxEmptyString);
+//	m_wxtcFS->SetValue(wxEmptyString);
 }
 
 
@@ -843,8 +843,8 @@ void MicArrayAnalyzerConfDlg::OnFrameLengthChoice(wxCommandEvent& event)
 
 void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
 {
-	m_wxtcFOvlp->SetValue(wxEmptyString);
-	m_wxstTotFrames->SetLabel(wxEmptyString);
+//	m_wxtcFOvlp->SetValue(wxEmptyString);
+//	m_wxstTotFrames->SetLabel(wxEmptyString);
 }
 
 

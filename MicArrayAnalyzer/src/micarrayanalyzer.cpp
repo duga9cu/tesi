@@ -205,6 +205,7 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 	}
 	delete [] ActualFrameAudioData;
 	//REMEMBER TO CALL DeleteAllData() instead! otherwise every thread would destroy everything shared
+	
 	//	if(mProgress) delete mProgress;
 	//	mProgress = 0;
 	//	if(bXMLFileAlloc) {
@@ -560,7 +561,7 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 		
 		
 		//Calculating Results
-		if (apOutputData->FillResultsMatrix()) {
+		if (apOutputData->FillResultsMatrix(dFSLevel)) {
 			//construct video frame...
 			double** resultmatrix=apOutputData->GetResultsMatrix();
 			int channelsnumber= apOutputData->GetChannelsNumber();
@@ -595,8 +596,8 @@ bool MicArrayAnalyzer::Calculate(unsigned int frame)
 			
 						
 			//build SPL map 
-			if (!InitLevelsMap(frame))
-				return false;
+//			if (!InitLevelsMap(frame))
+//				return false;
 			
 			//		mAAcritSec->Leave();
 		}
@@ -1182,7 +1183,7 @@ bool AudioPool::ApplyOverallGain(double gain)
 	return true;
 }
 
-bool AudioPool::FillResultsMatrix()
+bool AudioPool::FillResultsMatrix(double fs)
 {
 	//Memory init
 	ResultsMatrixInit();
@@ -1191,9 +1192,7 @@ bool AudioPool::FillResultsMatrix()
 	
 	int fNyquist = m_smpcLen/2+1;
 	
-	float deltaF = (m_dbRate/2)/(fNyquist);
 	float powerspectrum[fNyquist];
-	float filterA[fNyquist];
 	float dBALut[10] = {-39.4, 
 						-26.2, 
 						-16.1,
@@ -1224,87 +1223,63 @@ bool AudioPool::FillResultsMatrix()
 		}
 		
 		for (int i=m_dOctaveOnSpectrum[0]; i<fNyquist; ++i) {
-			if(i<m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
+//			powerspectrum[i] = powerspectrum[i] * m_smpcLen;
+			if(i<=m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
 			{
 				singlebandacc[2] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[2]) // band (63 Hz)
+			else if(i<=m_dOctaveOnSpectrum[2]) // band (63 Hz)
 			{
 				singlebandacc[3] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[3]) // band (125 Hz)
+			else if(i<=m_dOctaveOnSpectrum[3]) // band (125 Hz)
 			{
 				singlebandacc[4] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[4]) // band (250 Hz)
+			else if(i<=m_dOctaveOnSpectrum[4]) // band (250 Hz)
 			{
 				singlebandacc[5] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[5]) // band (500 Hz)
+			else if(i<=m_dOctaveOnSpectrum[5]) // band (500 Hz)
 			{
 				singlebandacc[6] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[6]) // band (1000 Hz)
+			else if(i<=m_dOctaveOnSpectrum[6]) // band (1000 Hz)
 			{
 				singlebandacc[7] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[7]) // band (2000 Hz)
+			else if(i<=m_dOctaveOnSpectrum[7]) // band (2000 Hz)
 			{
 				singlebandacc[8] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[8]) // band (4000 Hz)
+			else if(i<=m_dOctaveOnSpectrum[8]) // band (4000 Hz)
 			{
 				singlebandacc[9] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[9]) // band (8000 Hz)
+			else if(i<=m_dOctaveOnSpectrum[9]) // band (8000 Hz)
 			{
 				singlebandacc[10] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
 			}
-			else if(i<m_dOctaveOnSpectrum[10]) // band (16000 Hz)
+			else if(i<=m_dOctaveOnSpectrum[10]) // band (16000 Hz)
 			{
 				singlebandacc[11] += powerspectrum[i];
-//				singlebandacc[0] += powerspectrum[i];
-			}
-//			if(i>m_dOctaveOnSpectrum[0] && i<m_dOctaveOnSpectrum[10])  // db(A)
-//			{
-//				float f = i*deltaF+deltaF/2; // central frequency of the spectral line
-//				double num = 3.5041384*powf(10.0, 16.0)*powf(f, 8);
-//				double denA = (20.598997*20.598997 + f*f);
-//				double denB = (107.65265*107.65265 + f*f);
-//				double denC = (737.86223*737.86223 + f*f);
-//				double denD = (12194.217*12194.217 + f*f);
-//				double A = 10*log10(num / ( denA*denA * denB * denC * denD*denD )) ;
-//				filterA[i]=A; // save the A-filter coefficients----------------------------------------->> (is it futile?)
-//				singlebandacc[1] += pow(10, (dB(powerspectrum[i]) + A) /10); // acc + 10^(Li/10) 
-//			}
+			}		
 		} // spectral lines cycle
 		
 		//fill result matrix !
 		for (int b=2; b<12; ++b) {
-//			singlebandacc[0] += singlebandacc[b]; // acc over Lin
 			singlebandacc[b]=dB(singlebandacc[b]); //band power -> dB
-			ppdResultsMatrix[c][b] = singlebandacc[b]; //save band level result
+			ppdResultsMatrix[c][b] = singlebandacc[b] + fs; //save band level result
 			
 			if(b>3) {
-			singlebandacc[0] += powf(10, singlebandacc[b] / 10); // acc + 10^(Li/10) 
+			singlebandacc[0] += powf(10, singlebandacc[b]/10.0); // acc + 10^(Li/10) 
 			}
-			singlebandacc[1] += powf(10, (singlebandacc[b] + dBALut[b-2]) / 10)  ; // A weighting
-		}
-//		singlebandacc[0] = dB(singlebandacc[0]);
-	
-		singlebandacc[0] = 10*log10f(singlebandacc[0] / (12-2-2)); //energetic mean (Lin)
-//		singlebandacc[1] = 10*log10f(singlebandacc[1] / (fNyquist - m_dOctaveOnSpectrum[0])); //energetic mean (Lin dB(A))
-		singlebandacc[1] = 10*log10f(singlebandacc[1] / (12-2)); //energetic mean (Lin dB(A))
-		ppdResultsMatrix[c][1] = singlebandacc[1]; //save lin(dBA) level result
-		ppdResultsMatrix[c][0] = singlebandacc[0]; //save lin level result
-
+			singlebandacc[1] += powf(10, (singlebandacc[b] + dBALut[b-2])/10.0); // A weighting
+		}	
+		singlebandacc[0] = 10*log10f(singlebandacc[0]); //energetic sum (Lin)
+		singlebandacc[1] = 10*log10f(singlebandacc[1]); //energetic sum (A dB(A))
+		ppdResultsMatrix[c][1] = singlebandacc[1] + fs; //save A dB(A) level result
+		ppdResultsMatrix[c][0] = singlebandacc[0] + fs; //save Lin level result
 	}
 	return true;
 }
