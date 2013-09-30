@@ -1089,8 +1089,9 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 #ifdef __AUDEBUG__
 	mMAA->PrintResults();
 	mMAA->PrintLevels();
-	m_pMap->SaveContext(); //save frame to hard disk
 #endif
+	m_pMap->SaveContext(); //save frames to hard disk
+	
 	::wxMessageBox(wxT("Video frames successfully saved to hard disk and actual frame copied to the clipboard."),
 				   wxT("Info"),
 				   wxOK | wxICON_INFORMATION);    

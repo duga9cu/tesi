@@ -921,7 +921,7 @@ double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
 	if (bResultsAvail)
 	{
 		if (autoscale_each_band) { value = outputFrames->GetOverallBandMax(band); }
-		else { value = outputFrames->GetOverallMax(); }
+		else { /*value = outputFrames->GetOverallMax(); */ value= dFSLevel;}
 		
 		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
 	}
@@ -1288,20 +1288,22 @@ bool AudioPool::FillResultsMatrix()
 		
 		//fill result matrix !
 		for (int b=2; b<12; ++b) {
-			singlebandacc[0] += singlebandacc[b]; // acc over Lin
+//			singlebandacc[0] += singlebandacc[b]; // acc over Lin
 			singlebandacc[b]=dB(singlebandacc[b]); //band power -> dB
 			ppdResultsMatrix[c][b] = singlebandacc[b]; //save band level result
 			
+			if(b>3) {
+			singlebandacc[0] += powf(10, singlebandacc[b] / 10); // acc + 10^(Li/10) 
+			}
 			singlebandacc[1] += powf(10, (singlebandacc[b] + dBALut[b-2]) / 10)  ; // A weighting
-//			singlebandacc[0] += powf(10, singlebandacc[b] / 10); // acc + 10^(Li/10) 
 		}
-		singlebandacc[0] = dB(singlebandacc[0]);
-		ppdResultsMatrix[c][0] = singlebandacc[0]; //save lin level result
+//		singlebandacc[0] = dB(singlebandacc[0]);
 	
-//		singlebandacc[0] = 10*log10f(singlebandacc[0] / (12-2)); //energetic mean (Lin)
+		singlebandacc[0] = 10*log10f(singlebandacc[0] / (12-2-2)); //energetic mean (Lin)
 //		singlebandacc[1] = 10*log10f(singlebandacc[1] / (fNyquist - m_dOctaveOnSpectrum[0])); //energetic mean (Lin dB(A))
 		singlebandacc[1] = 10*log10f(singlebandacc[1] / (12-2)); //energetic mean (Lin dB(A))
 		ppdResultsMatrix[c][1] = singlebandacc[1]; //save lin(dBA) level result
+		ppdResultsMatrix[c][0] = singlebandacc[0]; //save lin level result
 
 	}
 	return true;

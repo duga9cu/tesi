@@ -827,6 +827,18 @@ bool MyMap::SaveContext()
 		if(!bmp.SaveFile(txt, wxBITMAP_TYPE_JPEG))
 			return false;
     }
+	
+	//encode and save the video
+	wxString command;
+	wxDateTime now = wxDateTime::Now();
+	wxString filename;
+	filename.Printf(now.Format(_("%c"), wxDateTime::CET).c_str());
+	filename.Replace(_(" "), _("_"),true);
+    command.Printf(_("ffmpeg -f image2 -i frame%%d.jpg -r 5 %s.mov"), filename.c_str());
+//    command.Printf(_("ffmpeg -f image2 -i frame%%d.jpg -r 5 output.mov"));
+	std::cout<<command<<std::endl;
+	printf("%s", command.c_str());
+	wxExecute(command);
     return true;
 }
 
