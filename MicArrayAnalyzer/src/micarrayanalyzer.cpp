@@ -922,7 +922,7 @@ double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
 	if (bResultsAvail)
 	{
 		if (autoscale_each_band) { value = outputFrames->GetOverallBandMax(band); }
-		else { /*value = outputFrames->GetOverallMax(); */ value= dFSLevel;}
+		else {value = outputFrames->GetOverallMax();}
 		
 		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
 	}
@@ -1223,7 +1223,7 @@ bool AudioPool::FillResultsMatrix(double fs)
 		}
 		
 		for (int i=m_dOctaveOnSpectrum[0]; i<fNyquist; ++i) {
-//			powerspectrum[i] = powerspectrum[i] * m_smpcLen;
+			powerspectrum[i] = powerspectrum[i] / (float)(m_smpcLen*m_smpcLen);
 			if(i<=m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
 			{
 				singlebandacc[2] += powerspectrum[i];

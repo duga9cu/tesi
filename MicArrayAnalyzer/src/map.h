@@ -118,9 +118,12 @@ class MyColorMap : public MyGrob
     enum Styles      { CMS_JET = 0, CMS_HOT, CMS_COLD };
     
   private:  
+//    enum ColorBarSizes { CBS_WIDTH  =  27, 
+//                         CBS_HEIGHT = 440, 
+//                         CBS_SMALL_RECT_HEIGHT = 5 }; 
     enum ColorBarSizes { CBS_WIDTH  =  27, 
-                         CBS_HEIGHT = 440, 
-                         CBS_SMALL_RECT_HEIGHT = 5 }; 
+						 CBS_HEIGHT = MAP_HEIGHT-40, 
+						 CBS_SMALL_RECT_HEIGHT = (int)((MAP_HEIGHT-40)/88) }; 
     // Total ColorBar height (440 px) is subdivided into small 27x5 (w x h) px 
     // rectangles (NOTE that small rectangles height should verify 
     //  ColorBarHeight % SmallRectHeight = 0)
