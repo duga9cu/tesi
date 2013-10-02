@@ -37,6 +37,7 @@ bBgndVideoAlloc(false),
 m_bgndVideoFrameRate(0),
 dFSLevel(FS_DEFAULT),
 dMinSPLThreshold(MIN_SPL_DEFAULT),
+dMaxSPLThreshold(MAX_SPL_DEFAULT),
 bAudioDataAlloc(false),
 bDeconvIRsDataAlloc(false),
 iAudioTrackLength(0),
@@ -69,6 +70,7 @@ m_bfdBScalingFactorAlloc(false)
 MicArrayAnalyzer::MicArrayAnalyzer(const MicArrayAnalyzer& mMAA) : 
 //mProgress(mMAA.mProgress),
 dMinSPLThreshold(mMAA.dMinSPLThreshold),
+dMaxSPLThreshold(mMAA.dMaxSPLThreshold),
 dFSLevel(mMAA.dFSLevel),
 dProjectRate(mMAA.dProjectRate),
 //sfProjectFormat(mMAA.sfProjectFormat), //not used in calculate()
@@ -925,6 +927,7 @@ double MicArrayAnalyzer::GetMaxSPL(bool autoscale_each_band, int band)
 		else {value = outputFrames->GetOverallMax();}
 		
 		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
+		if (value > dMaxSPLThreshold) { value = dMaxSPLThreshold; }
 	}
 	
 	return value;
@@ -940,6 +943,7 @@ double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
 		else { value = outputFrames->GetOverallMin(); }
 		
 		if (value < dMinSPLThreshold) { value = dMinSPLThreshold; }
+		if (value > dMaxSPLThreshold) { value = dMaxSPLThreshold; }
 	}
 	
 	return value;
@@ -956,7 +960,8 @@ void MicArrayAnalyzer::PrintResults() {
 			printf("%d\t",i);
 			for (int j = 0; j < (2+10); j++) //For each band
 			{
-				printf("%1.4f\t",undB20(float(matrix[i][j])));
+//				printf("%1.4f\t",undB20(float(matrix[i][j])));
+				printf("%.1f\t",(float(matrix[i][j])));
 			}
 			printf("\n");
 			fflush(stdout);
@@ -966,7 +971,7 @@ void MicArrayAnalyzer::PrintResults() {
 
 void MicArrayAnalyzer::PrintResult(unsigned int f) {
 	
-	printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
+	printf("\n\n*** RESULTS MATRIX no [%d] *** (LEVELS in dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
 	double ** matrix=outputFrames->GetFrameMatrix(f);
 	
 	for (int i = 0; i < sfinfo.channels; i++) //For each audio track
@@ -1191,6 +1196,7 @@ bool AudioPool::FillResultsMatrix(double fs)
 	assert(!(m_smpcLen & (m_smpcLen - 1))); // is power of two!
 	
 	int fNyquist = m_smpcLen/2+1;
+	int i,b; 
 	
 	float powerspectrum[fNyquist];
 	float dBALut[10] = {-39.4, 
@@ -1205,6 +1211,8 @@ bool AudioPool::FillResultsMatrix(double fs)
 						-6.6};
 	float singlebandacc[12]; //results for each band [lin, A, band0, band1, band2, ... , band9]
 	
+	wxStopWatch sw;
+	
 	for (int c=0; c<m_nChannels; ++c) 
 	{
 		//spettro di potenza
@@ -1218,56 +1226,64 @@ bool AudioPool::FillResultsMatrix(double fs)
 		 */
 		
 		//init accumulation structures
-		for (int i=0; i<10+2; ++i) {
+		for ( i=0; i<10+2; ++i) {
 			singlebandacc[i]=0;
 		}
 		
-		for (int i=m_dOctaveOnSpectrum[0]; i<fNyquist; ++i) {
-			powerspectrum[i] = powerspectrum[i] / (float)(m_smpcLen*m_smpcLen);
-			if(i<=m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
-			{
-				singlebandacc[2] += powerspectrum[i];
+//		for (int i=m_dOctaveOnSpectrum[0]; i<fNyquist; ++i) {
+//			powerspectrum[i] = powerspectrum[i] / (float)(m_smpcLen*m_smpcLen);
+//			if(i<=m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
+//			{
+//				singlebandacc[2] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[2]) // band (63 Hz)
+//			{
+//				singlebandacc[3] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[3]) // band (125 Hz)
+//			{
+//				singlebandacc[4] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[4]) // band (250 Hz)
+//			{
+//				singlebandacc[5] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[5]) // band (500 Hz)
+//			{
+//				singlebandacc[6] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[6]) // band (1000 Hz)
+//			{
+//				singlebandacc[7] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[7]) // band (2000 Hz)
+//			{
+//				singlebandacc[8] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[8]) // band (4000 Hz)
+//			{
+//				singlebandacc[9] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[9]) // band (8000 Hz)
+//			{
+//				singlebandacc[10] += powerspectrum[i];
+//			}
+//			else if(i<=m_dOctaveOnSpectrum[10]) // band (16000 Hz)
+//			{
+//				singlebandacc[11] += powerspectrum[i];
+//			}		
+//		} // spectral lines cycle
+		
+		// spectral lines accumulation
+		for ( b=0; b<10; ++b) {
+			for ( i=m_dOctaveOnSpectrum[b]; i<m_dOctaveOnSpectrum[b+1]; ++i) {
+				powerspectrum[i] = powerspectrum[i] / (float)(m_smpcLen*m_smpcLen);
+				singlebandacc[b+2] += powerspectrum[i];
 			}
-			else if(i<=m_dOctaveOnSpectrum[2]) // band (63 Hz)
-			{
-				singlebandacc[3] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[3]) // band (125 Hz)
-			{
-				singlebandacc[4] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[4]) // band (250 Hz)
-			{
-				singlebandacc[5] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[5]) // band (500 Hz)
-			{
-				singlebandacc[6] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[6]) // band (1000 Hz)
-			{
-				singlebandacc[7] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[7]) // band (2000 Hz)
-			{
-				singlebandacc[8] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[8]) // band (4000 Hz)
-			{
-				singlebandacc[9] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[9]) // band (8000 Hz)
-			{
-				singlebandacc[10] += powerspectrum[i];
-			}
-			else if(i<=m_dOctaveOnSpectrum[10]) // band (16000 Hz)
-			{
-				singlebandacc[11] += powerspectrum[i];
-			}		
-		} // spectral lines cycle
+		}
 		
 		//fill result matrix !
-		for (int b=2; b<12; ++b) {
+		for ( b=2; b<12; ++b) {
 			singlebandacc[b]=dB(singlebandacc[b]); //band power -> dB
 			ppdResultsMatrix[c][b] = singlebandacc[b] + fs; //save band level result
 			
@@ -1281,6 +1297,9 @@ bool AudioPool::FillResultsMatrix(double fs)
 		ppdResultsMatrix[c][1] = singlebandacc[1] + fs; //save A dB(A) level result
 		ppdResultsMatrix[c][0] = singlebandacc[0] + fs; //save Lin level result
 	}
+	sw.Pause();
+	printf("\nThe long running function with IF clause inside FOR LOOP took %ldms to execute\n",
+				 sw.Time());
 	return true;
 }
 

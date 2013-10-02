@@ -46,13 +46,15 @@ extern "C" {
 
 using namespace std;
 
-const int WAV_FORMAT_ANDMASK = 0x0000000F; //A useful mask to read libsndfile format field
-const int X_RES              = MAP_WIDTH;  //Image panel X resolution, in pixels.
-const int Y_RES              = MAP_HEIGHT; //Image panel Y resolution, in pixels.
-const int X_RES_DEG          = 360;
-const int Y_RES_DEG          = 180;
-const double MIN_SPL_DEFAULT = 0.0;       //dB
-const double FS_DEFAULT      = 120.0;     //dB
+const int WAV_FORMAT_ANDMASK			= 0x0000000F; //A useful mask to read libsndfile format field
+const int X_RES							= MAP_WIDTH;  //Image panel X resolution, in pixels.
+const int Y_RES							= MAP_HEIGHT; //Image panel Y resolution, in pixels.
+const int X_RES_DEG						= 360;
+const int Y_RES_DEG						= 180;
+const double MIN_SPL_DEFAULT			= 0.0;		 //dB
+const double MAX_SPL_DEFAULT			= 120.0;		 //dB
+const double FS_DEFAULT					= 120.0;     //dB
+const double ARRAY_CHARACTERIZATION		= 7.3;		 //dB
 
 /// Conversion from C-string to wxString
 #define         cs2ws(s)   (wxString(s,wxConvUTF8))
@@ -66,6 +68,7 @@ const double FS_DEFAULT      = 120.0;     //dB
 class AudioPool : public AFAudioTrack
 	{
 		ProgressDialog  *mProgress;
+		TimeBenchmark timebncmrk_;
 		
 		double** ppdResultsMatrix; //ROWS = various channels, COLUMN 1 = Linear Leq for each channel, COLUMN 2 = A-Filtered Leq, COLUMN 3 = ecc.ecc.
 		bool bResultsMatrixAlloc;
@@ -104,7 +107,7 @@ class MicArrayAnalyzer
 	private:
 //		ProgressDialog  *mProgress;
 		
-		double dMinSPLThreshold;
+		double dMinSPLThreshold, dMaxSPLThreshold;
 		double dFSLevel;
 		double dProjectRate; //  samples/sec
 		sampleFormat sfProjectFormat;
@@ -217,6 +220,7 @@ class MicArrayAnalyzer
 		// Getters
 		double GetFSLevel() { return dFSLevel; }
 		double GetMinSPLThreshold() { return dMinSPLThreshold; }
+		double GetMaxSPLThreshold() { return dMaxSPLThreshold; }
 		double GetMaxSPL(bool autoscale_each_band = false, int band = 0);  //max in the whole video if louder than minSPLthreshold
 		double GetMinSPL(bool autoscale_each_band = false, int band = 0);  //min in the whole video if louder than minSPLthreshold
 		int GetArrayType() { return iArrayType; }
@@ -272,8 +276,9 @@ class MicArrayAnalyzer
 		bool SetBgndImage(const wxString& str);
 		void SetBgndImage(const wxBitmap& wxb) {wxbBgndImage=wxb;}
 		bool SetBgndVideo(const wxString& str);
-		void SetFSLevel(double value) { dFSLevel = value; }
+		void SetFSLevel(double value) { dFSLevel = value + ARRAY_CHARACTERIZATION; }
 		void SetMinSPLThreshold(double value) { dMinSPLThreshold = value; }
+		void SetMaxSPLThreshold(double value) { dMaxSPLThreshold = value; }
 		void SetNumOfFrames(int value) {outputFrames->SetNumOfFrames(value); }
 		void SetCurFrame(int value) {
 			m_curFrame = value; 

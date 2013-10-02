@@ -714,7 +714,14 @@ void MyMap::InitColorMap()
     {
         for (int k = 0; k < m_wxrctImageBox.height; k++)
         {
-            MyColorMap::DoubleToRGB(rgb, m_aadLevelsMap[i][k], min, max, m_pColorMap->GetStyle());
+			
+			double level = m_aadLevelsMap[i][k];
+			if (level<min) 
+				level=min;
+			else if(level>max)
+				level=max;
+			
+            MyColorMap::DoubleToRGB(rgb, level, min, max, m_pColorMap->GetStyle());
             m_pwximgColorMap->SetRGB(i, k, rgb[0], rgb[1], rgb[2]);
         }
     } 

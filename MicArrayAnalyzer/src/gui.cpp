@@ -111,11 +111,17 @@ MicArrayAnalyzerConfDlg::MicArrayAnalyzerConfDlg( wxWindow* parent, MicArrayAnal
 	m_wxsldTransparency->SetValue(d);
 	mMAA->SetTransparency(d);
 	
-	buffer.Printf(_("/MicArrayAnalyzer/Conf/SPLthreshold"));
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/MinSPLthreshold"));
 	m_Conf.Read(buffer, &d, MIN_SPL_DEFAULT);
 	buffer.Printf(_("%.1f"),d);
 	m_wxtcMinSPL->SetValue(buffer);
 	mMAA->SetMinSPLThreshold(d);
+	
+	buffer.Printf(_("/MicArrayAnalyzer/Conf/MaxSPLthreshold"));
+	m_Conf.Read(buffer, &d, MAX_SPL_DEFAULT);
+	buffer.Printf(_("%.1f"),d);
+	m_wxtcMaxSPL->SetValue(buffer);
+	mMAA->SetMaxSPLThreshold(d);
 	
 	buffer.Printf(_("/MicArrayAnalyzer/Conf/FSLevel"));
 	m_Conf.Read(buffer, &d, FS_DEFAULT);
@@ -542,7 +548,8 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/XMLfile"), m_wxtcXMLConfigFilePath->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/BackgroundImage"),  m_wxtcBgndImagePath->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/Transparency"), m_wxscTransparency->GetValue());
-	m_Conf.Write(_("/MicArrayAnalyzer/Conf/SPLthreshold"), m_wxtcMinSPL->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/MaxSPLthreshold"), m_wxtcMaxSPL->GetValue());
+	m_Conf.Write(_("/MicArrayAnalyzer/Conf/MinSPLthreshold"), m_wxtcMinSPL->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FSLevel"),m_wxtcFS->GetValue());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameLength"),m_wxcFrameLength->GetSelection());
 	m_Conf.Write(_("/MicArrayAnalyzer/Conf/FrameOverlapRatio"),m_wxtcFOvlp->GetValue());
@@ -553,7 +560,7 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 
 void MicArrayAnalyzerConfDlg::OnCancel( wxCommandEvent& event )
 {
-	EndModal(false); 
+	EndModal(true); 
 	
 }
 
@@ -730,10 +737,7 @@ void MicArrayAnalyzerConfDlg:: UpdateTranspOverview()
 }
 
 
-void MicArrayAnalyzerConfDlg::MinSPLOnFocus(wxFocusEvent& event)
-{
-//	m_wxtcMinSPL->SetValue(wxEmptyString);
-}
+
 
 
 void MicArrayAnalyzerConfDlg::MinSPLKillFocus(wxFocusEvent& event)
@@ -760,14 +764,35 @@ void MicArrayAnalyzerConfDlg::MinSPLOnChar(wxKeyEvent& event)
 			bDoubleReturnPressed=false;
 		event.Skip();
 	}
-	
 }
 
 
-void MicArrayAnalyzerConfDlg::FSOnFocus(wxFocusEvent& event)
+void MicArrayAnalyzerConfDlg::MaxSPLKillFocus(wxFocusEvent& event)
 {
-//	m_wxtcFS->SetValue(wxEmptyString);
+	double d = ReadAndForceDoubleTextCtrl(m_wxtcMaxSPL, mMAA->GetMaxSPLThreshold());
+	mMAA->SetMaxSPLThreshold(d);
+	bDoubleReturnPressed=false;
+	IsAllOKCheck();
 }
+
+
+void MicArrayAnalyzerConfDlg::MaxSPLOnChar(wxKeyEvent& event)
+{
+	
+	if (event.GetKeyCode() == WXK_RETURN && !bDoubleReturnPressed)
+	{
+		bDoubleReturnPressed=true;
+		double d = ReadAndForceDoubleTextCtrl(m_wxtcMaxSPL, mMAA->GetMaxSPLThreshold());
+		mMAA->SetMaxSPLThreshold(d);
+		IsAllOKCheck();
+	}
+	else {
+		//		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
+		bDoubleReturnPressed=false;
+		event.Skip();
+	}
+}
+
 
 
 void MicArrayAnalyzerConfDlg::FSKillFocus(wxFocusEvent& event)
@@ -841,11 +866,6 @@ void MicArrayAnalyzerConfDlg::OnFrameLengthChoice(wxCommandEvent& event)
 //}
 
 
-void MicArrayAnalyzerConfDlg::FOvlpOnFocus(wxFocusEvent& event)
-{
-//	m_wxtcFOvlp->SetValue(wxEmptyString);
-//	m_wxstTotFrames->SetLabel(wxEmptyString);
-}
 
 
 void MicArrayAnalyzerConfDlg::FOvlpKillFocus(wxFocusEvent& event)
@@ -882,7 +902,7 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 	str = txt->GetValue();
 	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
 	
-	if (d < 0) d = 0;          //Avoiding SPL < 0 dB.
+	if (d < 0.0) d = 0.0;          //Avoiding SPL < 0 dB.
 	if (d > 999.9) d = 999.9;  //Avoiding SPL > 999.9 dB.
 	
 	str.Printf(_("%3.1f"),d);
@@ -1088,7 +1108,7 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 	
 #ifdef __AUDEBUG__
 	mMAA->PrintResults();
-	mMAA->PrintLevels();
+//	mMAA->PrintLevels();
 #endif
 	m_pMap->SaveContext(); //save frames to hard disk
 	
