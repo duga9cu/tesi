@@ -809,9 +809,39 @@ void MyMap::MarkDebugMap(wxPoint& p)
 }
 #endif
 
+void MyMap::InitExportProgressMeter(const wxString& operation)
+{
+	mProgress = new ProgressDialog(_("Mic Array Analyzer"),operation);
+}
+
+bool MyMap::UpdateExportProgressMeter(int step,int total)
+{
+	if (step>total) step=total;
+	wxString txt;
+	txt<<_("Saving frame ")<<step<<_(" to disk");
+	return bool(mProgress->Update(step, total, txt) == eProgressSuccess); // [esseci] 
+}
+
+void MyMap::DestroyExportProgressMeter()
+{
+	if(mProgress) delete mProgress;
+	mProgress = 0;
+}
+
+
 bool MyMap::SaveContext() 
 {
-	for (int i=1; i<=m_pMaa->GetNumOfFrames(); ++i) {
+	InitExportProgressMeter(_("Saving frmes to hard drive..."));
+	
+	wxString outputDir(m_pMaa->m_DocDirPath);
+	wxDateTime now = wxDateTime::Now();
+	wxString filename;
+	filename.Printf(now.Format(_("/%c"), wxDateTime::CET).c_str());
+	filename.Replace(_(" "), _("_"),true);
+	outputDir<<_("/MicrophoneArrayAnalyzer")<<filename;
+	wxFileName::Mkdir(outputDir, 0777, wxPATH_MKDIR_FULL);
+	
+	for (int i=1; i<m_pMaa->GetNumOfFrames(); ++i) {
 	wxSize sz = GetClientSize();
     
     wxBitmap bmp(sz.GetWidth(), sz.GetHeight());
@@ -827,25 +857,39 @@ bool MyMap::SaveContext()
 	
 		m_pMaa->SetCurFrame(i);
 		UpdateMap(dc, sz);
-		wxString txt;
-//		int bgndVideoFrameNum = m_pMaa->GetCurVideoFrameNum();
-		txt.Printf(_("frame%d.jpg"),i);
+		wxString txt(outputDir);
+		wxString frameFilename;
+		frameFilename.Printf(_("/frame%04d.jpg"),i);
+		txt<<frameFilename;
 		dc.SelectObject(wxNullBitmap);
+		
 		if(!bmp.SaveFile(txt, wxBITMAP_TYPE_JPEG))
 			return false;
+		
+		UpdateExportProgressMeter(i, m_pMaa->GetNumOfFrames()+1);
     }
 	
 	//encode and save the video
+	mProgress->Update(m_pMaa->GetNumOfFrames(), m_pMaa->GetNumOfFrames()+1, _("Encoding video..."));
+	
+	if (!wxFileName::FileExists(_("/usr/local/lib/audacity/ffmpeg"))) {
+		wxMessageBox( _("Couldn't find FFmpeg binary.\nPut the binary in /usr/local/lib/audacity/"),
+					 _("Error saving the video"),
+					 wxOK | wxICON_INFORMATION);    
+		return false;
+	}
+	
 	wxString command;
-	wxDateTime now = wxDateTime::Now();
-	wxString filename;
-	filename.Printf(now.Format(_("%c"), wxDateTime::CET).c_str());
-	filename.Replace(_(" "), _("_"),true);
-    command.Printf(_("ffmpeg -f image2 -i frame%%d.jpg -r 5 %s.mov"), filename.c_str());
-//    command.Printf(_("ffmpeg -f image2 -i frame%%d.jpg -r 5 output.mov"));
-	std::cout<<command<<std::endl;
-	printf("%s", command.c_str());
+	wxString outfilename(outputDir);
+	outfilename<<filename;
+    command.Printf(_("/usr/local/lib/audacity/ffmpeg -f image2 -i %s/frame%%04d.jpg -r 5 %s.mov"), outputDir.c_str(), outfilename.c_str());
 	wxExecute(command);
+	
+	std::cout<<command.c_str()<<std::endl<<std::endl;
+	
+	mProgress->Update(m_pMaa->GetNumOfFrames()+1, m_pMaa->GetNumOfFrames()+1, _("Encoding video..."));
+	DestroyExportProgressMeter();
+	
     return true;
 }
 

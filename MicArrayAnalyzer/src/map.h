@@ -215,6 +215,8 @@ class MyMap : public wxControl
     
   private:
     enum { ID_MM_TIMER = 2050 };
+	
+	ProgressDialog  *mProgress;
 
     double** m_aadLevelsMap;
     wxImage* m_pwximgColorMap;
@@ -264,6 +266,11 @@ class MyMap : public wxControl
   protected:
     void UpdateMap(wxDC& dc, wxSize size);
     
+	
+	void InitExportProgressMeter(const wxString& operation);
+	bool UpdateExportProgressMeter(int step,int total) ;
+	void DestroyExportProgressMeter();
+	
     // Event handlers
     void OnPaint(wxPaintEvent& evt);
     void OnMouseOverDisplay(wxMouseEvent& evt);

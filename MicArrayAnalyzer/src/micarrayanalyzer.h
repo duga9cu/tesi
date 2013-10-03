@@ -121,8 +121,8 @@ class MicArrayAnalyzer
 		wxFileName* wxfnXMLFile;
 		bool bXMLFileAlloc;
 		
-		wxFileName* wxfnWAVFile;
-		bool bWAVFileAlloc;
+//		wxFileName* wxfnWAVFile;
+//		bool bWAVFileAlloc;
 		
 		SNDFILE *infile;
 		bool bSndFileAlloc;
@@ -133,7 +133,7 @@ class MicArrayAnalyzer
 		int iMikesCoordsUnits;
 		int iCapsules;
 		int iVirtualMikes;
-		int iDeconvIRsLength;
+//		int iDeconvIRsLength;
 		
 		double *MikesCoordinates; //filled with XML data for pixel coordinates of every mic in the fashion [mic1.x,mic1.y, mic2.x,mic2.y, ... , micN.x,micN.y]
 		bool bMikesCoordsAlloc;
@@ -146,9 +146,6 @@ class MicArrayAnalyzer
 		wxFileName* wxfnBgndVideoFile;
 		int m_bgndVideoFrameRate;
 
-		wxStandardPaths m_standardTMPdirPath;
-		wxString m_tmpDirPath;
-		
 		VirtualMikesSet *vmsMirroredMikes;  //It MAY contains mirrored virtual mikes, ONLY IF the array is spherical.
 		TriangularMesh **tmMeshes;
 		int iNTriangles;                    //# of stored triangular meshes
@@ -164,8 +161,8 @@ class MicArrayAnalyzer
 		float fdBScalingFactor;
 		bool m_bfdBScalingFactorAlloc;
 		
-		float ***pppfDeconvIRsData;
-		bool bDeconvIRsDataAlloc;
+//		float ***pppfDeconvIRsData;
+//		bool bDeconvIRsDataAlloc;
 		
 		AudioPool *apOutputData;
 		bool bResultsAvail;  //This is a flag that will be set when filtering and averaging is done.
@@ -178,7 +175,7 @@ class MicArrayAnalyzer
 		bool bWatchpointsAlloc;          //false = watchpoints not yet defined.
 		
 		bool GetMirroredMike(double original_x, double original_y, double* mirror_xy, int mirror_num, int arrayType);
-		bool InitLevelsMap(int frame);
+//		bool InitLevelsMap(int frame);
 		bool GotBadAlloc() ;
 			
 		int m_curFrame;
@@ -204,9 +201,12 @@ class MicArrayAnalyzer
 		TimeBenchmark tb;
 		vector<wxDynamicLibrary*> libs;
 		float* m_window;
+		wxStandardPaths m_standardTMPdirPath;
+		wxString m_tmpDirPath;
+		wxString m_DocDirPath;
 		bool ReadXMLData();
 		bool BadXML();
-		bool BadWAV();
+//		bool BadWAV();
 		void AudioDataInit();                     //Init of the whole audio data space.
 		bool AudioTrackInit(int i, int length);   //Init of a single audio track, inside the audio data space.
 		void InitWindow();
@@ -228,7 +228,7 @@ class MicArrayAnalyzer
 		wxString GetManufacturer() { return wxsManufacturer; }
 		int GetCapsulesNumber() { return iCapsules; }
 		int GetVirtualMikes() { return iVirtualMikes; }
-		int GetDeconvIRsLength() { return iDeconvIRsLength; }
+//		int GetDeconvIRsLength() { return iDeconvIRsLength; }
 		sf_count_t GetWAVLength() { return sfinfo.frames; }
 		int GetWAVChannels() { return sfinfo.channels; }
 		int GetWAVSampleRate() { return sfinfo.samplerate; }
@@ -272,7 +272,7 @@ class MicArrayAnalyzer
 		void SetProjSampleFormat(sampleFormat value) { sfProjectFormat = value; }
 		void SetProjectNumTracks(int value) { iProjectNumTracks = value; }
 		void SetXMLFile(const wxString& str);
-		void SetWAVFile(const wxString& str);
+//		void SetWAVFile(const wxString& str);
 		bool SetBgndImage(const wxString& str);
 		void SetBgndImage(const wxBitmap& wxb) {wxbBgndImage=wxb;}
 		bool SetBgndVideo(const wxString& str);

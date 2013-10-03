@@ -436,7 +436,7 @@ bool EffectMicArrayAnalyzer::Process()
 	
 	MicArrayAnalyzerDlg dlog_1(mParent, mMAA); //init dialog
 	dlog_1.CenterOnParent();
-	if(dlog_1.ShowModal())
+	if(!dlog_1.ShowModal())
 	{
 		//m_bProcess = true;
 	}
@@ -462,7 +462,7 @@ bool EffectMicArrayAnalyzer::DoShowConfDialog() {
 	
 	if(!dlog.ShowModal())
 	{
-		wxMessageBox(_("An error occurred while showing configuration dialog."),_("Microphone Array Analyzer plug-in"),wxOK|wxICON_ERROR);
+//		wxMessageBox(_("An error occurred while showing configuration dialog."),_("Microphone Array Analyzer plug-in"),wxOK|wxICON_ERROR);
 		delete mMAA;
 		mMAA = 0;
 		return false;

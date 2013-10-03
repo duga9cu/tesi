@@ -266,114 +266,104 @@ void MicArrayAnalyzerConfDlg::ParseXML()
 		//Here we can check if XML <-> PROJECT values are matched and set icons
 		/* To do.... */
 		
-		if (mMAA->BadWAV())
-		{
-			// Handling bad wav file header error
-			m_wxstHeadersCheck->SetLabel(_("Bad deconv. IRs WAV file header or file not found"));
-			SetHeadersCheckIcon(_("cross_icon"));
-			bHeaders = true;
-			wxMessageBox(_("Bad deconv. IRs WAV file header or file not found"),_("Error"),wxOK|wxICON_ERROR);
-			
-		}
-		else
+//		if (mMAA->BadWAV())
+//		{
+//			// Handling bad wav file header error
+//			m_wxstHeadersCheck->SetLabel(_("Bad deconv. IRs WAV file header or file not found"));
+//			SetHeadersCheckIcon(_("cross_icon"));
+//			bHeaders = true;
+//			wxMessageBox(_("Bad deconv. IRs WAV file header or file not found"),_("Error"),wxOK|wxICON_ERROR);
+//			
+//		}
+//		else
 		{
 			// Everything SEEMS allright...
-			m_wxstHeadersCheck->SetLabel(_("XML Header OK, WAV Header OK"));
+//			m_wxstHeadersCheck->SetLabel(_("XML Header OK, WAV Header OK"));
+			m_wxstHeadersCheck->SetLabel(_("XML Header OK"));
 			SetHeadersCheckIcon(_("check_icon"));
 			bHeaders = true;
 			
-			//Filling data table with WAV data.
-			//buffer.Printf(_("%d"),mMAA->GetWAVLength());
-			//				m_wxstWAVLength->SetLabel(buffer);
-			//				m_wxstWAVFormat->SetLabel(mMAA->GetWAVFormatName());
-			//				buffer.Printf(_("%d"),mMAA->GetWAVSampleRate());
-			//				m_wxstWAVfsample->SetLabel(buffer);
-			//				buffer.Printf(_("%d"),mMAA->GetWAVChannels());
-			//				m_wxstWAVChannels->SetLabel(buffer);
-			//		
-			
 			
 			//Now we can set XML <-> WAV and WAV <-> PROJECT icons too!
-			bool errorFound = false;
-			if ((mMAA->GetDeconvIRsLength() * mMAA->GetCapsulesNumber()) == mMAA->GetWAVLength())
-			{
-				//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-				bLength = true;
-				//					m_wxsbLengthCheck->SetToolTip(wxEmptyString);
-			}
-			else
-			{
-				//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-				bLength = false;
-				//					m_wxsbLengthCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."));
-				wxMessageBox(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."),_("Error"),wxOK|wxICON_ERROR);
-				errorFound=true;
-			}
-			
-			if (mMAA->GetVirtualMikes() == mMAA->GetWAVChannels())
-			{
-				//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-				bVirtMikes = true;
-				//					m_wxsbWAVChannelsCheck->SetToolTip(wxEmptyString);
-			}
-			else
-			{
-				//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-				bVirtMikes = false;
-				//					m_wxsbWAVChannelsCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."));
-				wxMessageBox(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."),_("Error"),wxOK|wxICON_ERROR);
-				errorFound=true;
-			}
-			
-			if (mMAA->GetCapsulesNumber() == mMAA->GetProjNumTracks())
-			{
-				//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-				bProjChannels = true;
-				//					m_wxsbProjChannelsCheck->SetToolTip(wxEmptyString);
-			}
-			else
-			{
-				//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-				bProjChannels = false;
-				//					m_wxsbProjChannelsCheck->SetToolTip(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."));
-				wxMessageBox(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."),_("Error"),wxOK|wxICON_ERROR);
-				errorFound=true;
-			}
-			
-			if (mMAA->GetWAVSampleRate() == (int)mMAA->GetProjSampleRate())
-			{
-				//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-				bProjRate = true;
-				//					m_wxsbRateCheck->SetToolTip(wxEmptyString);
-			}
-			else
-			{
-				//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-				bProjRate = false;
-				//					m_wxsbRateCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample rates should be the same."));
-				wxMessageBox(_("WAV doesn't match Audacity project!\nSample rates should be the same."),_("Error"),wxOK|wxICON_ERROR);
-				errorFound=true;
-			}
-			
-			if (mMAA->GetWAVSampleFormat() == mMAA->GetProjSampleFormat())
-			{
-				//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-				bProjBits = true;
-				//					m_wxsbSampleFormatCheck->SetToolTip(wxEmptyString);
-			}
-			else
-			{
-				//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("warning_icon")));
-				bProjBits = false;
-				//					m_wxsbSampleFormatCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."));
-				wxMessageBox(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."),_("Error"),wxOK|wxICON_ERROR);
-				errorFound=true;
-			}
-			
-			if(errorFound) {
-				m_wxstHeadersCheck->SetLabel(_("Change XML file!"));
-				SetHeadersCheckIcon(_("cross_icon"));
-			}
+		//	bool errorFound = false;
+		//	if ((mMAA->GetDeconvIRsLength() * mMAA->GetCapsulesNumber()) == mMAA->GetWAVLength())
+//			{
+//				//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//				bLength = true;
+//				//					m_wxsbLengthCheck->SetToolTip(wxEmptyString);
+//			}
+//			else
+//			{
+//				//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//				bLength = false;
+//				wxMessageBox(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."),_("Error"),wxOK|wxICON_ERROR);
+//				errorFound=true;
+//			}
+//			
+//			if (mMAA->GetVirtualMikes() == mMAA->GetWAVChannels())
+//			{
+//				//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//				bVirtMikes = true;
+//				//					m_wxsbWAVChannelsCheck->SetToolTip(wxEmptyString);
+//			}
+//			else
+//			{
+//				//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//				bVirtMikes = false;
+//				//					m_wxsbWAVChannelsCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."));
+//				wxMessageBox(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."),_("Error"),wxOK|wxICON_ERROR);
+//				errorFound=true;
+//			}
+//			
+//			if (mMAA->GetCapsulesNumber() == mMAA->GetProjNumTracks())
+//			{
+//				//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//				bProjChannels = true;
+//				//					m_wxsbProjChannelsCheck->SetToolTip(wxEmptyString);
+//			}
+//			else
+//			{
+//				//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//				bProjChannels = false;
+//				//					m_wxsbProjChannelsCheck->SetToolTip(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."));
+//				wxMessageBox(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."),_("Error"),wxOK|wxICON_ERROR);
+//				errorFound=true;
+//			}
+//			
+//			if (mMAA->GetWAVSampleRate() == (int)mMAA->GetProjSampleRate())
+//			{
+//				//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//				bProjRate = true;
+//				//					m_wxsbRateCheck->SetToolTip(wxEmptyString);
+//			}
+//			else
+//			{
+//				//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//				bProjRate = false;
+//				//					m_wxsbRateCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample rates should be the same."));
+//				wxMessageBox(_("WAV doesn't match Audacity project!\nSample rates should be the same."),_("Error"),wxOK|wxICON_ERROR);
+//				errorFound=true;
+//			}
+//			
+//			if (mMAA->GetWAVSampleFormat() == mMAA->GetProjSampleFormat())
+//			{
+//				//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//				bProjBits = true;
+//				//					m_wxsbSampleFormatCheck->SetToolTip(wxEmptyString);
+//			}
+//			else
+//			{
+//				//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("warning_icon")));
+//				bProjBits = false;
+//				//					m_wxsbSampleFormatCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."));
+//				wxMessageBox(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."),_("Error"),wxOK|wxICON_ERROR);
+//				errorFound=true;
+//			}
+//			
+//			if(errorFound) {
+//				m_wxstHeadersCheck->SetLabel(_("Change XML file!"));
+//				SetHeadersCheckIcon(_("cross_icon"));
+//			}
 		}
 	}
 	IsAllOKCheck();
@@ -419,16 +409,16 @@ void MicArrayAnalyzerConfDlg::OnBrowseXML(wxCommandEvent& event)
 			//Here we can check if XML <-> PROJECT values are matched and set icons
 			/* To do.... */
 			
-			if (mMAA->BadWAV())
-			{
-				// Handling bad wav file header error
-				m_wxstHeadersCheck->SetLabel(_("Bad deconv. IRs WAV file header or file not found"));
-				SetHeadersCheckIcon(_("cross_icon"));
-				bHeaders = true;
-				wxMessageBox(_("Bad deconv. IRs WAV file header or file not found"),_("Error"),wxOK|wxICON_ERROR);
-				
-			}
-			else
+		//	if (mMAA->BadWAV())
+//			{
+//				// Handling bad wav file header error
+//				m_wxstHeadersCheck->SetLabel(_("Bad deconv. IRs WAV file header or file not found"));
+//				SetHeadersCheckIcon(_("cross_icon"));
+//				bHeaders = true;
+//				wxMessageBox(_("Bad deconv. IRs WAV file header or file not found"),_("Error"),wxOK|wxICON_ERROR);
+//				
+//			}
+//			else
 			{
 				// Everything SEEMS allright...
 				m_wxstHeadersCheck->SetLabel(_("XML Header OK, WAV Header OK"));
@@ -447,86 +437,86 @@ void MicArrayAnalyzerConfDlg::OnBrowseXML(wxCommandEvent& event)
 				
 				
 				//Now we can set XML <-> WAV and WAV <-> PROJECT icons too!
-				bool errorFound = false;
-				if ((mMAA->GetDeconvIRsLength() * mMAA->GetCapsulesNumber()) == mMAA->GetWAVLength())
-				{
-					//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-					bLength = true;
-					//					m_wxsbLengthCheck->SetToolTip(wxEmptyString);
-				}
-				else
-				{
-					//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-					bLength = false;
-					//					m_wxsbLengthCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."));
-					wxMessageBox(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."),_("Error"),wxOK|wxICON_ERROR);
-					errorFound=true;
-				}
-				
-				if (mMAA->GetVirtualMikes() == mMAA->GetWAVChannels())
-				{
-					//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-					bVirtMikes = true;
-					//					m_wxsbWAVChannelsCheck->SetToolTip(wxEmptyString);
-				}
-				else
-				{
-					//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-					bVirtMikes = false;
-					//					m_wxsbWAVChannelsCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."));
-					wxMessageBox(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."),_("Error"),wxOK|wxICON_ERROR);
-					errorFound=true;
-				}
-				
-				if (mMAA->GetCapsulesNumber() == mMAA->GetProjNumTracks())
-				{
-					//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-					bProjChannels = true;
-					//					m_wxsbProjChannelsCheck->SetToolTip(wxEmptyString);
-				}
-				else
-				{
-					//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-					bProjChannels = false;
-					//					m_wxsbProjChannelsCheck->SetToolTip(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."));
-					wxMessageBox(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."),_("Error"),wxOK|wxICON_ERROR);
-					errorFound=true;
-				}
-				
-				if (mMAA->GetWAVSampleRate() == (int)mMAA->GetProjSampleRate())
-				{
-					//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-					bProjRate = true;
-					//					m_wxsbRateCheck->SetToolTip(wxEmptyString);
-				}
-				else
-				{
-					//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
-					bProjRate = false;
-					//					m_wxsbRateCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample rates should be the same."));
-					wxMessageBox(_("WAV doesn't match Audacity project!\nSample rates should be the same."),_("Error"),wxOK|wxICON_ERROR);
-					errorFound=true;
-				}
-				
-				if (mMAA->GetWAVSampleFormat() == mMAA->GetProjSampleFormat())
-				{
-					//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
-					bProjBits = true;
-					//					m_wxsbSampleFormatCheck->SetToolTip(wxEmptyString);
-				}
-				else
-				{
-					//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("warning_icon")));
-					bProjBits = false;
-					//					m_wxsbSampleFormatCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."));
-					wxMessageBox(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."),_("Error"),wxOK|wxICON_ERROR);
-					errorFound=true;
-				}
-				
-				if(errorFound) {
-					m_wxstHeadersCheck->SetLabel(_("Change XML file!"));
-					SetHeadersCheckIcon(_("cross_icon"));
-				}
+			//	bool errorFound = false;
+//				if ((mMAA->GetDeconvIRsLength() * mMAA->GetCapsulesNumber()) == mMAA->GetWAVLength())
+//				{
+//					//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//					bLength = true;
+//					//					m_wxsbLengthCheck->SetToolTip(wxEmptyString);
+//				}
+//				else
+//				{
+//					//					m_wxsbLengthCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//					bLength = false;
+//					//					m_wxsbLengthCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."));
+//					wxMessageBox(_("XML and WAV files not matched!\nNote that No. of capsules multiplied by deconvolution IRs length should be equal to WAV file total length."),_("Error"),wxOK|wxICON_ERROR);
+//					errorFound=true;
+//				}
+//				
+//				if (mMAA->GetVirtualMikes() == mMAA->GetWAVChannels())
+//				{
+//					//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//					bVirtMikes = true;
+//					//					m_wxsbWAVChannelsCheck->SetToolTip(wxEmptyString);
+//				}
+//				else
+//				{
+//					//					m_wxsbWAVChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//					bVirtMikes = false;
+//					//					m_wxsbWAVChannelsCheck->SetToolTip(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."));
+//					wxMessageBox(_("XML and WAV files not matched!\nNote that No. of virtual mikes should be equal to No. of WAV file channels."),_("Error"),wxOK|wxICON_ERROR);
+//					errorFound=true;
+//				}
+//				
+//				if (mMAA->GetCapsulesNumber() == mMAA->GetProjNumTracks())
+//				{
+//					//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//					bProjChannels = true;
+//					//					m_wxsbProjChannelsCheck->SetToolTip(wxEmptyString);
+//				}
+//				else
+//				{
+//					//					m_wxsbProjChannelsCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//					bProjChannels = false;
+//					//					m_wxsbProjChannelsCheck->SetToolTip(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."));
+//					wxMessageBox(_("XML doesn't match Audacity project!\nNote that No. of array capsules should be equal to No. of project tracks."),_("Error"),wxOK|wxICON_ERROR);
+//					errorFound=true;
+//				}
+//				
+//				if (mMAA->GetWAVSampleRate() == (int)mMAA->GetProjSampleRate())
+//				{
+//					//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//					bProjRate = true;
+//					//					m_wxsbRateCheck->SetToolTip(wxEmptyString);
+//				}
+//				else
+//				{
+//					//					m_wxsbRateCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("cross_icon")));
+//					bProjRate = false;
+//					//					m_wxsbRateCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample rates should be the same."));
+//					wxMessageBox(_("WAV doesn't match Audacity project!\nSample rates should be the same."),_("Error"),wxOK|wxICON_ERROR);
+//					errorFound=true;
+//				}
+//				
+//				if (mMAA->GetWAVSampleFormat() == mMAA->GetProjSampleFormat())
+//				{
+//					//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("check_icon")));
+//					bProjBits = true;
+//					//					m_wxsbSampleFormatCheck->SetToolTip(wxEmptyString);
+//				}
+//				else
+//				{
+//					//					m_wxsbSampleFormatCheck->SetBitmap(wxArtProvider::GetBitmap(wxT("warning_icon")));
+//					bProjBits = false;
+//					//					m_wxsbSampleFormatCheck->SetToolTip(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."));
+//					wxMessageBox(_("WAV doesn't match Audacity project!\nSample formats are different. However that's just a warning, you can continue anyway."),_("Error"),wxOK|wxICON_ERROR);
+//					errorFound=true;
+//				}
+//				
+//				if(errorFound) {
+//					m_wxstHeadersCheck->SetLabel(_("Change XML file!"));
+//					SetHeadersCheckIcon(_("cross_icon"));
+//				}
 			}
 		}
 		IsAllOKCheck();
@@ -560,14 +550,14 @@ void MicArrayAnalyzerConfDlg::OnOk( wxCommandEvent& event )
 
 void MicArrayAnalyzerConfDlg::OnCancel( wxCommandEvent& event )
 {
-	EndModal(true); 
+	EndModal(false); 
 	
 }
 
 
 void MicArrayAnalyzerConfDlg::IsAllOKCheck()
 {
-	if (bBgndImage && bHeaders && bLength && bVirtMikes && bProjChannels && bProjRate && bProjBits)
+	if (bBgndImage && bHeaders /*&& bLength && bVirtMikes && bProjChannels && bProjRate && bProjBits*/)
 	{
 		m_wxbOk->Enable();
 		m_wxbOk->SetDefault();
@@ -962,9 +952,9 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtr
 		wxMessageBox(_("Minimum frame overlap ratio is 50%.\n"),_("Error"),wxOK|wxICON_ERROR);
 
 	}
-	else if (d > 90) {
-		wxMessageBox(_("Maximum frame overlap ratio is 90%.\n"),_("Error"),wxOK|wxICON_ERROR);
-		d = 90; 
+	else if (d > 99) {
+		wxMessageBox(_("Maximum frame overlap ratio is 99%.\n"),_("Error"),wxOK|wxICON_ERROR);
+		d = 99; 
 	}
 	
 	str.Printf(_("%3.1f"),d);
@@ -1110,11 +1100,17 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 	mMAA->PrintResults();
 //	mMAA->PrintLevels();
 #endif
-	m_pMap->SaveContext(); //save frames to hard disk
-	
+	if(m_pMap->SaveContext()) { 
+		//save frames to hard disk
 	::wxMessageBox(wxT("Video frames successfully saved to hard disk and actual frame copied to the clipboard."),
 				   wxT("Info"),
 				   wxOK | wxICON_INFORMATION);    
+	} 
+	else {
+		::wxMessageBox(wxT("Couldn't save all data..."),
+					   wxT("Info"),
+					   wxOK | wxICON_INFORMATION);    
+	}
 }
 
 void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
@@ -1150,11 +1146,11 @@ void MicArrayAnalyzerDlg::OnScaleUnit(wxCommandEvent& event)
 	wxString units;
 	switch(event.GetSelection())
 	{
-		case MU_dB:   units.Printf(wxT("[dB]"));	m_buttonPlay->Enable(true);			break;
-		case MU_Pa:   units.Printf(wxT("[Pa]"));	m_buttonPlay->Enable(false);		break;
-		case MU_Sqrt: units.Printf(wxT("[SQRT]"));	m_buttonPlay->Enable(false);		break;
-		case MU_Cbrt: units.Printf(wxT("[CBRT]"));	m_buttonPlay->Enable(false);		break;
-		default:      units.Printf(wxT("[dB]"));	m_buttonPlay->Enable(true);
+		case MU_dB:   units.Printf(wxT("[dB]"));	/*m_buttonPlay->Enable(true);*/			break;
+		case MU_Pa:   units.Printf(wxT("[Pa]"));	/*m_buttonPlay->Enable(false);*/		break;
+		case MU_Sqrt: units.Printf(wxT("[SQRT]"));	/*m_buttonPlay->Enable(false);*/		break;
+		case MU_Cbrt: units.Printf(wxT("[CBRT]"));	/*m_buttonPlay->Enable(false);*/		break;
+		default:      units.Printf(wxT("[dB]"));	/*m_buttonPlay->Enable(true);*/
 	}
 	//NOTE: UPDATING MOUSE POINTER DATA DISPLAY UNIT TOO!!!!    
 	m_wxstLevelUnit->SetLabel(units);

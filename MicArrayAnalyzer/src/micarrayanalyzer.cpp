@@ -29,7 +29,7 @@ MicArrayAnalyzer::MicArrayAnalyzer()
 : dProjectRate(0),
 iProjectNumTracks(0),
 bXMLFileAlloc(false),
-bWAVFileAlloc(false),
+//bWAVFileAlloc(false),
 bSndFileAlloc(false),
 bMikesCoordsAlloc(false),
 bBgndImageAlloc(false),
@@ -39,7 +39,7 @@ dFSLevel(FS_DEFAULT),
 dMinSPLThreshold(MIN_SPL_DEFAULT),
 dMaxSPLThreshold(MAX_SPL_DEFAULT),
 bAudioDataAlloc(false),
-bDeconvIRsDataAlloc(false),
+//bDeconvIRsDataAlloc(false),
 iAudioTrackLength(0),
 iAudioTrackStart(0),
 iAudioTrackEnd(0),
@@ -58,6 +58,7 @@ bandAutoscale(false),
 m_bfdBScalingFactorAlloc(false)
 {
 	m_tmpDirPath=m_standardTMPdirPath.GetTempDir();
+	m_DocDirPath=m_standardTMPdirPath.GetDocumentsDir();
 	outputFrames = new Video(MAP_WIDTH,MAP_HEIGHT);
 	outputFrames->m_iCurrentUnit=MU_dB;
 	mAAcritSec = new wxCriticalSection();
@@ -81,8 +82,8 @@ iAudioTrackEnd(mMAA.iAudioTrackEnd),
 bMirroredMikesAlloc(mMAA.bMirroredMikesAlloc),
 wxfnXMLFile(mMAA.wxfnXMLFile),
 bXMLFileAlloc(mMAA.bXMLFileAlloc),
-wxfnWAVFile(mMAA.wxfnWAVFile),
-bWAVFileAlloc(/*mMAA.bWAVFileAlloc*/ NULL),
+//wxfnWAVFile(mMAA.wxfnWAVFile),
+//bWAVFileAlloc(/*mMAA.bWAVFileAlloc*/ NULL),
 infile(mMAA.infile),
 bSndFileAlloc(mMAA.bSndFileAlloc),
 sfinfo(mMAA.sfinfo),
@@ -92,7 +93,7 @@ iArrayType(mMAA.iArrayType),
 iMikesCoordsUnits(mMAA.iMikesCoordsUnits),
 iCapsules(mMAA.iCapsules),
 iVirtualMikes(mMAA.iVirtualMikes),
-iDeconvIRsLength(mMAA.iDeconvIRsLength),
+//iDeconvIRsLength(mMAA.iDeconvIRsLength),
 MikesCoordinates(mMAA.MikesCoordinates), //* shared among threads! (read-only)
 bMikesCoordsAlloc(mMAA.bMikesCoordsAlloc),
 wxbBgndImage(mMAA.wxbBgndImage),
@@ -102,6 +103,7 @@ m_bgndVideoFrameRate(mMAA.m_bgndVideoFrameRate),
 bBgndVideoAlloc(mMAA.bBgndVideoAlloc),
 wxfnBgndVideoFile(mMAA.wxfnBgndVideoFile),
 m_tmpDirPath(mMAA.m_tmpDirPath),
+m_DocDirPath(mMAA.m_DocDirPath),
 vmsMirroredMikes(mMAA.vmsMirroredMikes), // calculate only first time
 tmMeshes(mMAA.tmMeshes), // calculate only first time
 iNTriangles(mMAA.iNTriangles), //la triangolazione è uguale per tutti
@@ -114,8 +116,8 @@ pfAbsoluteMin(mMAA.pfAbsoluteMin),	//* shared (read-only)
 pfAbsoluteMax(mMAA.pfAbsoluteMax),	//* shared (read-only)
 fdBScalingFactor(mMAA.fdBScalingFactor), // calculate it only the first time!
 m_bfdBScalingFactorAlloc(mMAA.m_bfdBScalingFactorAlloc),
-pppfDeconvIRsData(mMAA.pppfDeconvIRsData), //* shared (read-only) 
-bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
+//pppfDeconvIRsData(mMAA.pppfDeconvIRsData), //* shared (read-only) 
+//bDeconvIRsDataAlloc(mMAA.bDeconvIRsDataAlloc),
 //apOutputData(mMAA.apOutputData),	//*  - viene usato solo in calculate()
 bResultsAvail(false), //devo ancora calcolare i risultati
 // per ora non uso i watchpoints
@@ -151,10 +153,10 @@ void MicArrayAnalyzer::DeleteAllData()  {
 		delete wxfnXMLFile;
 		bXMLFileAlloc=false;
 	}
-	if(bWAVFileAlloc) {
-		delete wxfnWAVFile;
-		bWAVFileAlloc=false;
-	}
+//	if(bWAVFileAlloc) {
+//		delete wxfnWAVFile;
+//		bWAVFileAlloc=false;
+//	}
 	if(bSndFileAlloc) {
 		sf_close(infile);
 		bSndFileAlloc=false;
@@ -176,25 +178,28 @@ void MicArrayAnalyzer::DeleteAllData()  {
 			delete tmMeshes[i];
 		}
 		delete [] tmMeshes;
+		iNTriangles=0;
 	}
 	if (bAudioDataAlloc) {
 		for (int i=0; i<iProjectNumTracks; ++i) {
 			delete[] ppfAudioData[i];
 		}
 		delete [] ppfAudioData;
+		bAudioDataAlloc=false;
 	}
-	if (bDeconvIRsDataAlloc) {
-		for (int i=0; i<sfinfo.channels; ++i) {
-			for (int j=0; j<iCapsules; ++j) {
-				delete[] pppfDeconvIRsData[i][j];
-			}
-			delete [] pppfDeconvIRsData[i];
-		}
-		delete [] pppfDeconvIRsData;
-	}
-	if(bWatchpointsAlloc) 
+//	if (bDeconvIRsDataAlloc) {
+//		for (int i=0; i<sfinfo.channels; ++i) {
+//			for (int j=0; j<iCapsules; ++j) {
+//				delete[] pppfDeconvIRsData[i][j];
+//			}
+//			delete [] pppfDeconvIRsData[i];
+//		}
+//		delete [] pppfDeconvIRsData;
+//	}
+	if(bWatchpointsAlloc) {
 		delete [] piWatchpoints;
-	
+		bWatchpointsAlloc=false;
+	}
 	//	outputFrames->DeleteAllData();
 }
 
@@ -241,100 +246,100 @@ MicArrayAnalyzer::~MicArrayAnalyzer()
 }
 
 
-bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure unit
-{
-    int i,k,l;
-	double **aadLevelsMap;
-	for( int currentBand=0; currentBand<2+10; currentBand++) 
-	{
-		//Levels Map matrix init.
-		try {
-			aadLevelsMap = new double* [MAP_WIDTH];
-		} catch (bad_alloc& ex) {
-			return GotBadAlloc();
-		}
-		
-		for ( l = 0; l < MAP_WIDTH; l++) {
-			try {
-				aadLevelsMap[l] = new double [MAP_HEIGHT];
-			} catch (bad_alloc& ex) {
-				return GotBadAlloc();
-			}
-		}
-		TriangularMesh* tmCurrentTri;
-		
-		ClearInterpolCoeffs();  //Clearing A,B,C,det for each triangle.
-		
-		int j = 0; //Used to remember the previous triangle where a point was located, in order to speed-up point location!
-		for (i = 0; i < MAP_WIDTH; i++)
-		{
-			for (k = 0; k < MAP_HEIGHT; k++)
-			{
-				//Locating the position of pixel (i,k) inside the triangulation
-				for (l = 0; l <iNTriangles; l++)
-				{
-					tmCurrentTri = NULL;
-					if (InOrOutTriangle(i,k,j) >= 0) //InOrOutTriangle returns -1 if point (i,k) is outside, 0 in it's onside and +1 if it's inside triangle number j.
-					{
-						tmCurrentTri = GetTriangle(j);
-						break; //Location completed!
-					}
-					else
-					{
-						j++;
-						if (j >= iNTriangles) 
-							j = 0; //Re-init.
-					}
-				}
-				
-				if (tmCurrentTri != NULL)
-				{
-					if (!tmCurrentTri->AreCoeffsSet())  //If coeffs aren't set,
-					{                                //we should set levels at triangle vertexes before calling GetInterpolatedValue().
-						double levels[3];
-						
-						for (int vert = 0; vert < 3; vert++)
-						{
-							//Retrieving level @ each vertex inside the choosen 
-							//ch = mic# at the choosen vertex, band = wxRadioButton choice!
-							if (iArrayType==1) {								
-								tb.Start();
-								levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
-														 currentBand);
-								tb.Stop();
-								printf("GetResult(%d) time %.3ms",frame,tb.GetElapsedTime());
-							} else 
-								levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
-														 currentBand);
-							
-							//Scaling to the correct unit
-							levels[vert] = FromdB(levels[vert], /*MeasureUnit(outputFrames->m_iCurrentUnit)*/ MU_dB); //what to do here?
-						}
-						//Setting levels will automatically compute interpolation coeffs.
-						if (iArrayType==1) {					
-							tb.Start();
-							tmCurrentTri->SetLevelsAtVertexes(levels); 
-							tb.Stop();
-							printf("setlevelsatvertex(%d) time %.3ms",frame,tb.GetElapsedTime());
-						} else
-							tmCurrentTri->SetLevelsAtVertexes(levels); 
-					}
-					if (iArrayType==1) {
-						tb.Start();
-						aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
-						tb.Stop();
-						printf("getinterpolation(%d) time %.3ms",frame,tb.GetElapsedTime());
-					} else
-						aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
-					
-				}
-			}
-		}   
-		wxCriticalSectionLocker lock(*mAAcritSec);
-		outputFrames->SetFrameLevelsMap(frame, aadLevelsMap, currentBand);
-	}
-	return true;
-}
+//bool MicArrayAnalyzer::InitLevelsMap(int frame) //one frame, 12 bands, 1 measure unit
+//{
+//    int i,k,l;
+//	double **aadLevelsMap;
+//	for( int currentBand=0; currentBand<2+10; currentBand++) 
+//	{
+//		//Levels Map matrix init.
+//		try {
+//			aadLevelsMap = new double* [MAP_WIDTH];
+//		} catch (bad_alloc& ex) {
+//			return GotBadAlloc();
+//		}
+//		
+//		for ( l = 0; l < MAP_WIDTH; l++) {
+//			try {
+//				aadLevelsMap[l] = new double [MAP_HEIGHT];
+//			} catch (bad_alloc& ex) {
+//				return GotBadAlloc();
+//			}
+//		}
+//		TriangularMesh* tmCurrentTri;
+//		
+//		ClearInterpolCoeffs();  //Clearing A,B,C,det for each triangle.
+//		
+//		int j = 0; //Used to remember the previous triangle where a point was located, in order to speed-up point location!
+//		for (i = 0; i < MAP_WIDTH; i++)
+//		{
+//			for (k = 0; k < MAP_HEIGHT; k++)
+//			{
+//				//Locating the position of pixel (i,k) inside the triangulation
+//				for (l = 0; l <iNTriangles; l++)
+//				{
+//					tmCurrentTri = NULL;
+//					if (InOrOutTriangle(i,k,j) >= 0) //InOrOutTriangle returns -1 if point (i,k) is outside, 0 in it's onside and +1 if it's inside triangle number j.
+//					{
+//						tmCurrentTri = GetTriangle(j);
+//						break; //Location completed!
+//					}
+//					else
+//					{
+//						j++;
+//						if (j >= iNTriangles) 
+//							j = 0; //Re-init.
+//					}
+//				}
+//				
+//				if (tmCurrentTri != NULL)
+//				{
+//					if (!tmCurrentTri->AreCoeffsSet())  //If coeffs aren't set,
+//					{                                //we should set levels at triangle vertexes before calling GetInterpolatedValue().
+//						double levels[3];
+//						
+//						for (int vert = 0; vert < 3; vert++)
+//						{
+//							//Retrieving level @ each vertex inside the choosen 
+//							//ch = mic# at the choosen vertex, band = wxRadioButton choice!
+//							if (iArrayType==1) {								
+//								tb.Start();
+//								levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
+//														 currentBand);
+//								tb.Stop();
+//								printf("GetResult(%d) time %.3ms",frame,tb.GetElapsedTime());
+//							} else 
+//								levels[vert] = GetResult(tmCurrentTri->GetMicAtVertex(vert),
+//														 currentBand);
+//							
+//							//Scaling to the correct unit
+//							levels[vert] = FromdB(levels[vert], /*MeasureUnit(outputFrames->m_iCurrentUnit)*/ MU_dB); //what to do here?
+//						}
+//						//Setting levels will automatically compute interpolation coeffs.
+//						if (iArrayType==1) {					
+//							tb.Start();
+//							tmCurrentTri->SetLevelsAtVertexes(levels); 
+//							tb.Stop();
+//							printf("setlevelsatvertex(%d) time %.3ms",frame,tb.GetElapsedTime());
+//						} else
+//							tmCurrentTri->SetLevelsAtVertexes(levels); 
+//					}
+//					if (iArrayType==1) {
+//						tb.Start();
+//						aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
+//						tb.Stop();
+//						printf("getinterpolation(%d) time %.3ms",frame,tb.GetElapsedTime());
+//					} else
+//						aadLevelsMap[i][k] = tmCurrentTri->GetInterpolatedValue(i,k);
+//					
+//				}
+//			}
+//		}   
+//		wxCriticalSectionLocker lock(*mAAcritSec);
+//		outputFrames->SetFrameLevelsMap(frame, aadLevelsMap, currentBand);
+//	}
+//	return true;
+//}
 
 bool MicArrayAnalyzer::GotBadAlloc() {
 	mAAcritSec->Enter(); //leave it at the end of thread->Entry()
@@ -730,13 +735,13 @@ bool MicArrayAnalyzer::SetBgndVideo(const wxString& str)
 }
 
 
-void MicArrayAnalyzer::SetWAVFile(const wxString& str)
-{
-	if (bWAVFileAlloc) { delete wxfnWAVFile; }
-	else { bWAVFileAlloc = true; }
-	wxfnWAVFile = new wxFileName(str);
-	wxfnWAVFile->MakeAbsolute(wxfnXMLFile->GetPath()); //Making the WAV file path absolute!
-}
+//void MicArrayAnalyzer::SetWAVFile(const wxString& str)
+//{
+////	if (bWAVFileAlloc) { delete wxfnWAVFile; }
+//	else { bWAVFileAlloc = true; }
+//	wxfnWAVFile = new wxFileName(str);
+//	wxfnWAVFile->MakeAbsolute(wxfnXMLFile->GetPath()); //Making the WAV file path absolute!
+//}
 
 void MicArrayAnalyzer::SetXMLFile(const wxString& str)
 {
@@ -757,13 +762,13 @@ bool MicArrayAnalyzer::BadXML()
 	return false;
 }
 
-bool MicArrayAnalyzer::BadWAV()
-{
-	string sBuffer;
-	sBuffer = string((wxfnWAVFile->GetFullPath()).mb_str()); //Converting the file path from wxString to string.
-	if (!(infile = sf_open((char*)sBuffer.c_str(),SFM_READ,&sfinfo))) { bSndFileAlloc = true; return true; }
-	else { return false; }
-}
+//bool MicArrayAnalyzer::BadWAV()
+//{
+//	string sBuffer;
+//	sBuffer = string((wxfnWAVFile->GetFullPath()).mb_str()); //Converting the file path from wxString to string.
+//	if (!(infile = sf_open((char*)sBuffer.c_str(),SFM_READ,&sfinfo))) { bSndFileAlloc = true; return true; }
+//	else { return false; }
+//}
 
 bool MicArrayAnalyzer::ReadXMLData()
 {
@@ -784,9 +789,9 @@ bool MicArrayAnalyzer::ReadXMLData()
 			iArrayType = atoi(data->Attribute("ArrayType"));
 			iCapsules = atoi(data->Attribute("Capsules"));
 			iVirtualMikes = atoi(data->Attribute("VirtualMikes"));
-			wxString tmp(cs2ws(data->Attribute("DeconvIRsWAVFile")));
-			if (!tmp.IsNull()) SetWAVFile(tmp);
-			iDeconvIRsLength = atoi(data->Attribute("DeconvIRsLength"));
+//			wxString tmp(cs2ws(data->Attribute("DeconvIRsWAVFile")));
+//			if (!tmp.IsNull()) SetWAVFile(tmp);
+//			iDeconvIRsLength = atoi(data->Attribute("DeconvIRsLength"));
 			iMikesCoordsUnits = atoi(data->Attribute("MikesCoordsUnits"));
 			
 			//Alloc a new coord table of the correct size
@@ -952,10 +957,10 @@ double MicArrayAnalyzer::GetMinSPL(bool autoscale_each_band, int band)
 void MicArrayAnalyzer::PrintResults() {
 	for (int f=1; f<=GetNumOfFrames(); f++) {
 		
-		printf("\n\n*** RESULTS MATRIX no [%d] *** (PRESSURE levels, not dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
+		printf("\n\n*** RESULTS MATRIX no [%d] *** (Levels in dB)\nCH#\tLIN\tA\t31.5\t63\t125\t250\t500\t1k\t2k\t4k\t8k\t16k\n", f);
 		double ** matrix=outputFrames->GetFrameMatrix(f);
 		
-		for (int i = 0; i < sfinfo.channels; i++) //For each audio track
+		for (int i = 0; i < iVirtualMikes; i++) //For each audio track
 		{
 			printf("%d\t",i);
 			for (int j = 0; j < (2+10); j++) //For each band
@@ -979,7 +984,8 @@ void MicArrayAnalyzer::PrintResult(unsigned int f) {
 		printf("%d\t",i);
 		for (int j = 0; j < (2+10); j++) //For each band
 		{
-			printf("%1.4f\t",undB20(float(matrix[i][j])));
+//			printf("%1.4f\t",undB20(float(matrix[i][j])));
+			printf("%1.4f\t", (float(matrix[i][j])));
 		}
 		printf("\n");
 		fflush(stdout);
@@ -1196,7 +1202,7 @@ bool AudioPool::FillResultsMatrix(double fs)
 	assert(!(m_smpcLen & (m_smpcLen - 1))); // is power of two!
 	
 	int fNyquist = m_smpcLen/2+1;
-	int i,b; 
+	int i,b,max; 
 	
 	float powerspectrum[fNyquist];
 	float dBALut[10] = {-39.4, 
@@ -1230,53 +1236,10 @@ bool AudioPool::FillResultsMatrix(double fs)
 			singlebandacc[i]=0;
 		}
 		
-//		for (int i=m_dOctaveOnSpectrum[0]; i<fNyquist; ++i) {
-//			powerspectrum[i] = powerspectrum[i] / (float)(m_smpcLen*m_smpcLen);
-//			if(i<=m_dOctaveOnSpectrum[1]) // band (31,5 Hz)
-//			{
-//				singlebandacc[2] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[2]) // band (63 Hz)
-//			{
-//				singlebandacc[3] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[3]) // band (125 Hz)
-//			{
-//				singlebandacc[4] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[4]) // band (250 Hz)
-//			{
-//				singlebandacc[5] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[5]) // band (500 Hz)
-//			{
-//				singlebandacc[6] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[6]) // band (1000 Hz)
-//			{
-//				singlebandacc[7] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[7]) // band (2000 Hz)
-//			{
-//				singlebandacc[8] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[8]) // band (4000 Hz)
-//			{
-//				singlebandacc[9] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[9]) // band (8000 Hz)
-//			{
-//				singlebandacc[10] += powerspectrum[i];
-//			}
-//			else if(i<=m_dOctaveOnSpectrum[10]) // band (16000 Hz)
-//			{
-//				singlebandacc[11] += powerspectrum[i];
-//			}		
-//		} // spectral lines cycle
-		
 		// spectral lines accumulation
 		for ( b=0; b<10; ++b) {
-			for ( i=m_dOctaveOnSpectrum[b]; i<m_dOctaveOnSpectrum[b+1]; ++i) {
+			max = m_dOctaveOnSpectrum[b+1] < fNyquist ? m_dOctaveOnSpectrum[b+1] : fNyquist;
+			for ( i=m_dOctaveOnSpectrum[b]; i < max; ++i) {
 				powerspectrum[i] = powerspectrum[i] / (float)(m_smpcLen*m_smpcLen);
 				singlebandacc[b+2] += powerspectrum[i];
 			}
@@ -1288,7 +1251,7 @@ bool AudioPool::FillResultsMatrix(double fs)
 			ppdResultsMatrix[c][b] = singlebandacc[b] + fs; //save band level result
 			
 			if(b>3) {
-			singlebandacc[0] += powf(10, singlebandacc[b]/10.0); // acc + 10^(Li/10) 
+				singlebandacc[0] += powf(10, singlebandacc[b]/10.0); // acc + 10^(Li/10) 
 			}
 			singlebandacc[1] += powf(10, (singlebandacc[b] + dBALut[b-2])/10.0); // A weighting
 		}	
@@ -1297,9 +1260,8 @@ bool AudioPool::FillResultsMatrix(double fs)
 		ppdResultsMatrix[c][1] = singlebandacc[1] + fs; //save A dB(A) level result
 		ppdResultsMatrix[c][0] = singlebandacc[0] + fs; //save Lin level result
 	}
-	sw.Pause();
 	printf("\nThe long running function with IF clause inside FOR LOOP took %ldms to execute\n",
-				 sw.Time());
+		   sw.Time());
 	return true;
 }
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<MicArrayData>
+    <!--This is a Mic Array data file, created using ***Mic Array Configuration editor - v1.2***-->
+    <Data MicName="Eigenmike 32 - 4th order Cardioids" Manufacturer="mh acoustics LLC" ArrayType="0" Capsules="32" VirtualMikes="32" MikesCoordsUnits="1">
+        <Mic_1 X="350" Y="216" />
+        <Mic_2 X="412" Y="175" />
+        <Mic_3 X="350" Y="134" />
+        <Mic_4 X="288" Y="175" />
+        <Mic_5 X="350" Y="288" />
+        <Mic_6 X="438" Y="243" />
+        <Mic_7 X="484" Y="175" />
+        <Mic_8 X="438" Y="107" />
+        <Mic_9 X="350" Y="62" />
+        <Mic_10 X="263" Y="107" />
+        <Mic_11 X="216" Y="175" />
+        <Mic_12 X="263" Y="243" />
+        <Mic_13 X="527" Y="309" />
+        <Mic_14 X="525" Y="237" />
+        <Mic_15 X="525" Y="115" />
+        <Mic_16 X="523" Y="41" />
+        <Mic_17 X="700" Y="216" />
+        <Mic_18 X="62" Y="175" />
+        <Mic_19 X="700" Y="134" />
+        <Mic_20 X="638" Y="175" />
+        <Mic_21 X="700" Y="288" />
+        <Mic_22 X="88" Y="243" />
+        <Mic_23 X="134" Y="175" />
+        <Mic_24 X="88" Y="107" />
+        <Mic_25 X="700" Y="62" />
+        <Mic_26 X="613" Y="107" />
+        <Mic_27 X="566" Y="175" />
+        <Mic_28 X="613" Y="243" />
+        <Mic_29 X="173" Y="309" />
+        <Mic_30 X="175" Y="237" />
+        <Mic_31 X="175" Y="113" />
+        <Mic_32 X="177" Y="41" />
+    </Data>
+</MicArrayData>
