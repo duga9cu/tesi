@@ -875,7 +875,8 @@ bool MyMap::SaveContext()
 	if (!wxFileName::FileExists(_("/usr/local/lib/audacity/ffmpeg"))) {
 		wxMessageBox( _("Couldn't find FFmpeg binary.\nPut the binary in /usr/local/lib/audacity/"),
 					 _("Error saving the video"),
-					 wxOK | wxICON_INFORMATION);    
+					 wxOK | wxICON_INFORMATION);  
+		DestroyExportProgressMeter();
 		return false;
 	}
 	
