@@ -75,7 +75,6 @@ class MicArrayAnalyzerConfDlg : public MyModuleConfDlg
 		void FOvlpOnChar(wxKeyEvent& event);
 		double ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, const double def_val);
 		double ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtrl *txt, const double def_val);
-		double ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val);
 	public:
 		// Constructor / Destructor
 		MicArrayAnalyzerConfDlg(wxWindow* parent, MicArrayAnalyzer* maa);

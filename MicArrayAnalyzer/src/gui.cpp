@@ -822,39 +822,6 @@ void MicArrayAnalyzerConfDlg::OnFrameLengthChoice(wxCommandEvent& event)
 	m_wxstTotFrames->SetLabel(buffer);
 }
 
-//void MicArrayAnalyzerConfDlg::FLengthOnFocus(wxFocusEvent& event)
-//{
-//	m_wxtcFLength->SetValue(wxEmptyString);
-//	m_wxstTotFrames->SetLabel(wxEmptyString);
-//}
-//
-//
-//void MicArrayAnalyzerConfDlg::FLengthKillFocus(wxFocusEvent& event)
-//{
-//	double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
-//	mMAA->SetFrameLength(d);
-//	bDoubleReturnPressed=false;
-//	IsAllOKCheck();
-//}
-//
-//
-//void MicArrayAnalyzerConfDlg::FLengthOnChar(wxKeyEvent& event)
-//{
-//	if (event.GetKeyCode() == WXK_RETURN && !bDoubleReturnPressed)
-//	{
-//		bDoubleReturnPressed=true;
-//		double d = ReadAndForceDoubleTextCtrlFrameLength(m_wxtcFLength, mMAA->GetFrameLength());
-//		mMAA->SetFrameLength(d);
-//		//		m_wxtcFOvlp->SetFocusFromKbd();
-//		IsAllOKCheck();
-//	}
-//	else {
-////		if (event.GetKeyCode() == WXK_RETURN && bDoubleReturnPressed) 
-//			bDoubleReturnPressed=false;
-//		event.Skip();
-//	}
-//}
-
 
 
 
@@ -900,42 +867,6 @@ double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrl(wxTextCtrl *txt, cons
 	return d;
 }
 
-
-double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameLength(wxTextCtrl *txt, const double def_val = FrameLengths[FRAMELENGTH_DFLT])
-{
-	double d = def_val;
-//	double audiotracklengthinseconds = mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate();
-	double maxval=0.05; // seconds as it is that 1s / 0.05s = 20fps which is the minimum value permitted
-	wxString str;
-	
-	str = txt->GetValue();
-	str.Replace(_(","), _("."), true);
-	if ((str == wxEmptyString) || ((str != wxEmptyString)&&(!str.ToDouble(&d)))) d = def_val;
-	
-	if (d <= 0) 
-		d = 0.001;      
-//	else if (d > audiotracklengthinseconds ) {
-//		str.Printf(_("Frame Length value too long!\nselected audio is %1.3f seconds.\n\nvalue reset to default"),
-//				   mMAA->GetAudioTrackLength() / mMAA->GetProjSampleRate());
-//		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
-//		d= frameLength[1] ;
-//	}
-	else if (d > maxval ) {
-		str.Printf(_("Frame Length value too long!\nselected value will results in a frame rate value of %d fps.\n\nvalue reset to default"),
-				   (int)(1.0/d));
-		wxMessageBox(str,_("Error"),wxOK|wxICON_ERROR);
-		d= FrameLengths[FRAMELENGTH_DFLT] ;
-	}
-	
-	str.Printf(_("%1.3f"),d);
-	txt->SetValue(str);
-	int totframes = mMAA->GetAudioTrackLength() / ( d * mMAA->GetProjSampleRate() * ( 1 - mMAA->GetFrameOverlapRatio()));
-	mMAA->SetNumOfFrames(totframes);
-	str.Printf(_("%d"), totframes);
-	m_wxstTotFrames->SetLabel(str);
-	
-	return d;
-}
 
 double MicArrayAnalyzerConfDlg::ReadAndForceDoubleTextCtrlFrameOverlap(wxTextCtrl *txt, const double def_val = 0.1)
 {
@@ -1052,34 +983,6 @@ void MicArrayAnalyzerDlg::OnOk(wxCommandEvent& event)
 	EndModal(true);
 }
 
-/*  -----> BUTTON REMOVED...SHOULD BE REUSED IN SOME WAY <-----
- void MicArrayAnalyzerDlg::OnChangeRulersFormat(wxCommandEvent& event) 
- {
- m_iCurrRulersFormat = (m_iCurrRulersFormat == MyRuler::RF_DEGREES) ? MyRuler::RF_PIXELS 
- : MyRuler::RF_DEGREES;  //Toggling.
- 
- switch(m_iCurrRulersFormat)    
- {
- case MyRuler::RF_DEGREES:
- m_wxtcXPosLabel->SetValue(_("Azimuth:")); 
- m_wxtcYPosLabel->SetValue(_("Elevation:"));
- m_wxtcXPosUnit->SetValue(_("[deg]"));
- m_wxtcYPosUnit->SetValue(_("[deg]")); 
- break;
- 
- case MyRuler::RF_PIXELS: 
- m_wxtcXPosLabel->SetValue(_("X Pos:"));
- m_wxtcYPosLabel->SetValue(_("Y Pos:"));
- m_wxtcXPosUnit->SetValue(_("[px]"));
- m_wxtcYPosUnit->SetValue(_("[px]")); 
- break;
- }
- m_pMap->GetRuler(MyMap::HORIZONTAL)->SetFormat(m_iCurrRulersFormat);
- m_pMap->GetRuler(MyMap::VERTICAL)->SetFormat(m_iCurrRulersFormat);
- 
- m_pMap->Refresh();
- }
- */
 void MicArrayAnalyzerDlg::OnShowVirtMikesPos(wxCommandEvent& event)
 {
 	m_pMap->ShowVirtMikesPos(event.IsChecked());
@@ -1102,24 +1005,15 @@ void MicArrayAnalyzerDlg::OnCopyResultsToClipboard(wxCommandEvent& event) // SC 
 #endif
 	if(m_pMap->SaveContext()) { 
 		//save frames to hard disk
-	::wxMessageBox(wxT("Video frames successfully saved to hard disk and actual frame copied to the clipboard."),
-				   wxT("Info"),
-				   wxOK | wxICON_INFORMATION);    
+		::wxMessageBox(wxT("Video frames successfully saved to hard disk and actual frame copied to the clipboard."),
+					   wxT("Info"),
+					   wxOK | wxICON_INFORMATION);    
 	} 
 	else {
 		::wxMessageBox(wxT("Couldn't save all data..."),
 					   wxT("Info"),
 					   wxOK | wxICON_INFORMATION);    
 	}
-}
-
-void MicArrayAnalyzerDlg::OnHelp( wxCommandEvent& event )
-{
-#ifdef __AUDEBUG__
-	wxString txt,caption;
-	txt.Printf( wxT("Frame Length = %d sec.\nFrame Overlap Ratio = %3.2f "), mMAA->GetFrameLengthSmpl(), mMAA->GetFrameOverlapRatio());
-	wxMessageBox(txt,caption,wxOK|wxICON_INFORMATION);
-#endif
 }
 
 
@@ -1216,12 +1110,6 @@ void MicArrayAnalyzerDlg::OnMouseOverMap(wxCommandEvent& event)
 //--------------------
 
 void MicArrayAnalyzerDlg::UpdateFrameControls(){
-	//	
-	//	m_pMap->SetMaxMin( mMAA->GetMaxSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//										   m_wxrbBandSelection->GetSelection()),
-	//					   mMAA->GetMinSPL(m_wxcbSeparateBandAutoscale->IsChecked(),
-	//						     			  m_wxrbBandSelection->GetSelection()) );
-	
 	
 	m_textCtrlCurTime->SetValue(mMAA->GetCurTime_Str());
 #ifdef __AUDEBUG__

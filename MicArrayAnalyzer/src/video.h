@@ -58,7 +58,6 @@ class VideoFrame
 		void SetMinInTheBand(double min , int band) {minInTheBand[band]=min;}
 		void SetLevelsMap(double** levelsmap, int band) {m_aadLevelsMap[band]=levelsmap; m_bLevelsMapAlloc=true;}
 		void SetBgndImage(wxBitmap wxb) {m_wxbBgndImage=wxb;}
-//		void DeleteAllData() {delete frameMatrix;}
 		
 		// 'ctors
 		VideoFrame(double **fM, int channels, int fn, double ovrllMax, double ovrllmin);
@@ -85,8 +84,6 @@ class Video
 		void AddFrame(VideoFrame* f) ;
 		bool IsVideoComplete(bool oomerror) { isVideoComplete = (resultCube.size()==numOfFrames || oomerror) ? true: false; return isVideoComplete;}
 		bool IsVideoResized() {return isVideoResized;}
-//		void CreateColorMaps();
-		//		void DeleteAllData();
 		void DeleteFrame(int frame) {delete resultCube[frame]; resultCube.erase(frame);}
 		void CutVideo(int lastframe); //called in case of lack of memory
 

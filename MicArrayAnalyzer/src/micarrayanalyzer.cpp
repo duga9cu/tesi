@@ -55,6 +55,7 @@ m_curFrame(1),
 playing(false),
 //bandAutoscale(true)
 bandAutoscale(false),
+m_isBackgndVisible(true),
 m_bfdBScalingFactorAlloc(false)
 {
 	m_tmpDirPath=m_standardTMPdirPath.GetTempDir();
@@ -132,6 +133,7 @@ outputFrames(mMAA.outputFrames), //* shared among threads!
 m_bErrorOutOfMemory(mMAA.m_bErrorOutOfMemory),
 mAAcritSec(mMAA.mAAcritSec), //* shared among threads!
 m_window(mMAA.m_window),  //* shared among threads!
+m_isBackgndVisible(mMAA.m_isBackgndVisible),
 libs(mMAA.libs) //* shared among threads
 {
 	try {
@@ -153,10 +155,6 @@ void MicArrayAnalyzer::DeleteAllData()  {
 		delete wxfnXMLFile;
 		bXMLFileAlloc=false;
 	}
-//	if(bWAVFileAlloc) {
-//		delete wxfnWAVFile;
-//		bWAVFileAlloc=false;
-//	}
 	if(bSndFileAlloc) {
 		sf_close(infile);
 		bSndFileAlloc=false;
@@ -187,20 +185,14 @@ void MicArrayAnalyzer::DeleteAllData()  {
 		delete [] ppfAudioData;
 		bAudioDataAlloc=false;
 	}
-//	if (bDeconvIRsDataAlloc) {
-//		for (int i=0; i<sfinfo.channels; ++i) {
-//			for (int j=0; j<iCapsules; ++j) {
-//				delete[] pppfDeconvIRsData[i][j];
-//			}
-//			delete [] pppfDeconvIRsData[i];
-//		}
-//		delete [] pppfDeconvIRsData;
-//	}
 	if(bWatchpointsAlloc) {
 		delete [] piWatchpoints;
 		bWatchpointsAlloc=false;
 	}
-	//	outputFrames->DeleteAllData();
+	while(outputFrames->GetSize()>0) {
+		outputFrames->CutVideo(10); //delete every frame
+	}
+	
 }
 
 
