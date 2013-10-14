@@ -92,7 +92,7 @@ wxsMicName(mMAA.wxsMicName),
 wxsManufacturer(mMAA.wxsManufacturer),
 iArrayType(mMAA.iArrayType),
 iMikesCoordsUnits(mMAA.iMikesCoordsUnits),
-iCapsules(mMAA.iCapsules),
+//iCapsules(mMAA.iCapsules),
 iVirtualMikes(mMAA.iVirtualMikes),
 //iDeconvIRsLength(mMAA.iDeconvIRsLength),
 MikesCoordinates(mMAA.MikesCoordinates), //* shared among threads! (read-only)
@@ -779,7 +779,7 @@ bool MicArrayAnalyzer::ReadXMLData()
 			wxsMicName = cs2ws(data->Attribute("MicName"));
 			wxsManufacturer = cs2ws(data->Attribute("Manufacturer"));
 			iArrayType = atoi(data->Attribute("ArrayType"));
-			iCapsules = atoi(data->Attribute("Capsules"));
+//			iCapsules = atoi(data->Attribute("Capsules"));
 			iVirtualMikes = atoi(data->Attribute("VirtualMikes"));
 //			wxString tmp(cs2ws(data->Attribute("DeconvIRsWAVFile")));
 //			if (!tmp.IsNull()) SetWAVFile(tmp);

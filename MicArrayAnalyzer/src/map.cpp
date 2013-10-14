@@ -558,9 +558,11 @@ void MyMap::SetImageAlpha(int image, const int alpha_perc, const bool is_colorma
 		case 2:
 			img = m_pwximgVirtMikesMap;
 			break;
+#ifdef __WXDEBUG__        
 		case 3:
 			img = m_pwximgDebugMap;
 			break;
+#endif
 		default:
 			break;
 	}

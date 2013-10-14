@@ -917,7 +917,8 @@ m_timer(this, ID_MM_TIMER)
 	fflush(stdout);
 #endif
 	//Loading icons
-	//	   m_buttonPlay->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("play_icon")));
+//	delete m_wxbbuttonStop;
+//	m_wxbbuttonStop->Create(this, wxID_ANY, wxArtProvider::GetBitmap(wxT("stop_icon")), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW, wxDefaultValidator);
 	//	   m_buttonStop->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("stop_icon")));
 	//	   m_buttonPause->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("pause_icon")));   
 	//   m_wxbbSpeedUp->SetBitmapLabel(wxArtProvider::GetBitmap(wxT("speedup_icon")));   

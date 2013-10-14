@@ -131,7 +131,7 @@ class MicArrayAnalyzer
 		wxString wxsManufacturer;
 		int iArrayType;
 		int iMikesCoordsUnits;
-		int iCapsules;
+//		int iCapsules;
 		int iVirtualMikes;
 //		int iDeconvIRsLength;
 		
@@ -146,7 +146,7 @@ class MicArrayAnalyzer
 		wxFileName* wxfnBgndVideoFile;
 		int m_bgndVideoFrameRate;
 
-		VirtualMikesSet *vmsMirroredMikes;  //It MAY contains mirrored virtual mikes, ONLY IF the array is spherical.
+		VirtualMikesSet *vmsMirroredMikes;  //It MAY contains mirrored virtual mikes, ONLY IF the array is not planar.
 		TriangularMesh **tmMeshes;
 		int iNTriangles;                    //# of stored triangular meshes
 		
@@ -226,7 +226,7 @@ class MicArrayAnalyzer
 		int GetArrayType() { return iArrayType; }
 		wxString GetMicName() { return wxsMicName; }
 		wxString GetManufacturer() { return wxsManufacturer; }
-		int GetCapsulesNumber() { return iCapsules; }
+//		int GetCapsulesNumber() { return iCapsules; }
 		int GetVirtualMikes() { return iVirtualMikes; }
 //		int GetDeconvIRsLength() { return iDeconvIRsLength; }
 		sf_count_t GetWAVLength() { return sfinfo.frames; }
